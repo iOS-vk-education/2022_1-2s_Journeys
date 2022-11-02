@@ -24,3 +24,19 @@
 ### Макеты: 
     https://www.figma.com/file/10xxDoguelTT6IE94IaP8x/Journeys?node-id=0%3A1
 
+# Сборка
+
+## Создание нового модуля
+- Установаить [Generamba](https://github.com/strongself/Generamba.git)
+    - `gem install generamba`
+- Открыть в консоли проект 
+- `generamba template install`
+- `generamba gen MODULE_NAME TEMPLATE_NAME`
+
+MODULE_NAME - название модуля, который вы хотите создать.
+
+TEMPLATE_NAME - название шаблона, который будет использован.
+
+В проект интегрированs шаблоны:
+`journeys_VIPER` - VIPER
+`journeys_MVP` - MVP
