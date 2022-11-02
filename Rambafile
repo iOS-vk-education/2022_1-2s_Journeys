@@ -1,0 +1,23 @@
+### Headers settings
+company: Journeys
+
+### Xcode project settings
+project_name: Journeys
+xcodeproj_path: Journeys.xcodeproj
+
+### Code generation settings section
+# The main project target name
+project_target: Journeys
+
+
+# The file path for new modules
+project_file_path: Journeys/Modules
+
+
+### Dependencies settings section
+podfile_path: Podfile
+
+### Templates
+templates:
+- {name: journeys_VIPER, git: 'https://github.com/v0blaa/Generamba_Journeys_VIPER.git'}
+- {name: journeys_MVP, git: 'https://github.com/v0blaa/Generamba_Journeys_MVP.git'}
