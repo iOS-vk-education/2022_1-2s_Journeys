@@ -6,5 +6,7 @@ target 'Journeys' do
   use_frameworks!
 
   # Pods for Journeys
+  pod 'SnapKit', '5.6.0'
+  pod 'SwiftLint'
 
 end
