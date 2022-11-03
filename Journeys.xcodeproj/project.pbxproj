@@ -12,6 +12,7 @@
 		509D553489AB5EE3C1BA274C /* NewTripModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1892EE1075B446A5FEEE98A /* NewTripModel.swift */; };
 		71EF7FB558F57987EEF0E8C1 /* NewTripViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4AB6B0FC6FB796BD3AA060 /* NewTripViewIO.swift */; };
 		8C3E547321A8145172E638B7 /* Pods_Journeys.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C29DB9F31881DC25A3BE5CC4 /* Pods_Journeys.framework */; };
+		CE0C736729144428009A600C /* NewTripCityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0C736629144428009A600C /* NewTripCityCell.swift */; };
 		D5F5CBE8BFCA338ECBBF3337 /* NewTripModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91B8226283BA7CE47D02356 /* NewTripModuleIO.swift */; };
 		E794B3FA65BB952774064495 /* NewTripBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8098E9A7C7CB7A5920D98F /* NewTripBuilder.swift */; };
 		EE0AF93E2913010D00EC52D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0AF93D2913010D00EC52D3 /* AppDelegate.swift */; };
@@ -31,6 +32,7 @@
 		B91B8226283BA7CE47D02356 /* NewTripModuleIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NewTripModuleIO.swift; sourceTree = "<group>"; };
 		BA8098E9A7C7CB7A5920D98F /* NewTripBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NewTripBuilder.swift; sourceTree = "<group>"; };
 		C29DB9F31881DC25A3BE5CC4 /* Pods_Journeys.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Journeys.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE0C736629144428009A600C /* NewTripCityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTripCityCell.swift; sourceTree = "<group>"; };
 		DC4AB6B0FC6FB796BD3AA060 /* NewTripViewIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NewTripViewIO.swift; sourceTree = "<group>"; };
 		EE0AF93A2913010D00EC52D3 /* Journeys.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journeys.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE0AF93D2913010D00EC52D3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -68,7 +70,6 @@
 				7454357CD73FC1AAB180D862 /* Pods-Journeys.debug.xcconfig */,
 				47620DF94FEFF7B85CF9E151 /* Pods-Journeys.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -77,8 +78,8 @@
 			children = (
 				DC4AB6B0FC6FB796BD3AA060 /* NewTripViewIO.swift */,
 				5B42B14C07D7736B7420A9BE /* NewTripViewController.swift */,
+				CE0C736629144428009A600C /* NewTripCityCell.swift */,
 			);
-			name = View;
 			path = View;
 			sourceTree = "<group>";
 		};
@@ -90,7 +91,6 @@
 				B4284781315143B6A79D2385 /* Model */,
 				BA8098E9A7C7CB7A5920D98F /* NewTripBuilder.swift */,
 			);
-			name = NewTrip;
 			path = NewTrip;
 			sourceTree = "<group>";
 		};
@@ -99,7 +99,6 @@
 			children = (
 				B1892EE1075B446A5FEEE98A /* NewTripModel.swift */,
 			);
-			name = Model;
 			path = Model;
 			sourceTree = "<group>";
 		};
@@ -109,7 +108,6 @@
 				B91B8226283BA7CE47D02356 /* NewTripModuleIO.swift */,
 				792BDE3B5462D01CA6808525 /* NewTripPresenter.swift */,
 			);
-			name = Presenter;
 			path = Presenter;
 			sourceTree = "<group>";
 		};
@@ -277,6 +275,7 @@
 				D5F5CBE8BFCA338ECBBF3337 /* NewTripModuleIO.swift in Sources */,
 				46C5E46F5DDDF92A7BCBBB95 /* NewTripPresenter.swift in Sources */,
 				509D553489AB5EE3C1BA274C /* NewTripModel.swift in Sources */,
+				CE0C736729144428009A600C /* NewTripCityCell.swift in Sources */,
 				E794B3FA65BB952774064495 /* NewTripBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -432,7 +431,6 @@
 				INFOPLIST_FILE = Journeys/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -461,7 +459,6 @@
 				INFOPLIST_FILE = Journeys/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
