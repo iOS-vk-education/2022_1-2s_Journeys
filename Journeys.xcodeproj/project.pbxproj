@@ -22,6 +22,7 @@
 		EE0AF9452913010D00EC52D3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE0AF9432913010D00EC52D3 /* Main.storyboard */; };
 		EE0AF9472913010F00EC52D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE0AF9462913010F00EC52D3 /* Assets.xcassets */; };
 		EE0AF94A2913010F00EC52D3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE0AF9482913010F00EC52D3 /* LaunchScreen.storyboard */; };
+		EE2B4126291413EC0067BE4F /* TripCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2B4125291413EB0067BE4F /* TripCell.swift */; };
 		F92CACD193BE48A33A52A5DC /* TripsRouterInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABAFF6132B4BF34FF1262AA /* TripsRouterInput.swift */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +44,7 @@
 		EE0AF9462913010F00EC52D3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EE0AF9492913010F00EC52D3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EE0AF94B2913010F00EC52D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EE2B4125291413EB0067BE4F /* TripCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCell.swift; sourceTree = "<group>"; };
 		FABAFF6132B4BF34FF1262AA /* TripsRouterInput.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsRouterInput.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -63,7 +65,6 @@
 				B6A73637212D312DF808EE9D /* TripsModuleIO.swift */,
 				842916911296584B6D97761A /* TripsPresenter.swift */,
 			);
-			name = Presenter;
 			path = Presenter;
 			sourceTree = "<group>";
 		};
@@ -72,7 +73,6 @@
 			children = (
 				0AF490FDC4B357AFC27B31C9 /* TripsModel.swift */,
 			);
-			name = Model;
 			path = Model;
 			sourceTree = "<group>";
 		};
@@ -82,7 +82,6 @@
 				196CCEF28890034F45E73055 /* TripsViewIO.swift */,
 				551FBB3C3A6EBAA3F5825F1E /* TripsViewController.swift */,
 			);
-			name = View;
 			path = View;
 			sourceTree = "<group>";
 		};
@@ -92,7 +91,6 @@
 				FABAFF6132B4BF34FF1262AA /* TripsRouterInput.swift */,
 				8EBDC0F10F5CD5FD772D3371 /* TripsRouter.swift */,
 			);
-			name = Router;
 			path = Router;
 			sourceTree = "<group>";
 		};
@@ -102,7 +100,6 @@
 				C624D7B25F42404829AF20C9 /* TripsInteractorIO.swift */,
 				EC8D65328FD3C306119E7802 /* TripsInteractor.swift */,
 			);
-			name = Interactor;
 			path = Interactor;
 			sourceTree = "<group>";
 		};
@@ -116,7 +113,6 @@
 				9ABFCE79C7B59590A10F8899 /* Router */,
 				E483DF62B28C4DBC30739F6A /* TripsBuilder.swift */,
 			);
-			name = Trips;
 			path = Trips;
 			sourceTree = "<group>";
 		};
@@ -154,9 +150,18 @@
 		EE0AF951291301C500EC52D3 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				EE2B4124291413C80067BE4F /* TripsCell */,
 				E7C7F8885C59BF0183002C79 /* Trips */,
 			);
 			path = Modules;
+			sourceTree = "<group>";
+		};
+		EE2B4124291413C80067BE4F /* TripsCell */ = {
+			isa = PBXGroup;
+			children = (
+				EE2B4125291413EB0067BE4F /* TripCell.swift */,
+			);
+			path = TripsCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,6 +241,7 @@
 				91819FAFB33A7ABB47EAB8B0 /* TripsViewIO.swift in Sources */,
 				093861F1C840A5A7EA2ABBB0 /* TripsViewController.swift in Sources */,
 				C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */,
+				EE2B4126291413EC0067BE4F /* TripCell.swift in Sources */,
 				A837507D56DC8E0FFC90C522 /* TripsInteractor.swift in Sources */,
 				678EC2173D55FABDA74E2A5F /* TripsModuleIO.swift in Sources */,
 				10708D44F55C9485F789DD9B /* TripsPresenter.swift in Sources */,
