@@ -15,14 +15,22 @@
 		7BD7FBF6368C4ADCBC0B8866 /* TripsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E483DF62B28C4DBC30739F6A /* TripsBuilder.swift */; };
 		91819FAFB33A7ABB47EAB8B0 /* TripsViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196CCEF28890034F45E73055 /* TripsViewIO.swift */; };
 		A837507D56DC8E0FFC90C522 /* TripsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8D65328FD3C306119E7802 /* TripsInteractor.swift */; };
+		BF7F42F8786135E6F36A9104 /* Pods_Journeys.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E77E324C769C67635517C4A /* Pods_Journeys.framework */; };
 		C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C624D7B25F42404829AF20C9 /* TripsInteractorIO.swift */; };
 		EE0AF93E2913010D00EC52D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0AF93D2913010D00EC52D3 /* AppDelegate.swift */; };
-		EE0AF9402913010D00EC52D3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0AF93F2913010D00EC52D3 /* SceneDelegate.swift */; };
 		EE0AF9422913010D00EC52D3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0AF9412913010D00EC52D3 /* ViewController.swift */; };
 		EE0AF9452913010D00EC52D3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE0AF9432913010D00EC52D3 /* Main.storyboard */; };
 		EE0AF9472913010F00EC52D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE0AF9462913010F00EC52D3 /* Assets.xcassets */; };
 		EE0AF94A2913010F00EC52D3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE0AF9482913010F00EC52D3 /* LaunchScreen.storyboard */; };
+		EE29EBF329186D6E008ECFF8 /* JourneysColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE29EBF229186D6E008ECFF8 /* JourneysColors.swift */; };
+		EE29EBF529186E09008ECFF8 /* UIColorExtencion.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE29EBF429186E09008ECFF8 /* UIColorExtencion.swift */; };
+		EE29EBF829191534008ECFF8 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE29EBF729191534008ECFF8 /* AppCoordinator.swift */; };
+		EE29EBFA29191558008ECFF8 /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE29EBF929191558008ECFF8 /* CoordinatorProtocol.swift */; };
 		EE2B4126291413EC0067BE4F /* TripCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2B4125291413EB0067BE4F /* TripCell.swift */; };
+		EEDAF553291C05B300E6DDB9 /* JourneysCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDAF552291C05B300E6DDB9 /* JourneysCoordinator.swift */; };
+		EEDAF555291C0F2200E6DDB9 /* AddTripCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDAF554291C0F2200E6DDB9 /* AddTripCell.swift */; };
+		EEDAF557291C302500E6DDB9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDAF556291C302500E6DDB9 /* SceneDelegate.swift */; };
+		EEDAF55C291D5AF500E6DDB9 /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDAF55B291D5AF500E6DDB9 /* FloatingButton.swift */; };
 		F92CACD193BE48A33A52A5DC /* TripsRouterInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABAFF6132B4BF34FF1262AA /* TripsRouterInput.swift */; };
 /* End PBXBuildFile section */
 
@@ -30,21 +38,31 @@
 		0AF490FDC4B357AFC27B31C9 /* TripsModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsModel.swift; sourceTree = "<group>"; };
 		196CCEF28890034F45E73055 /* TripsViewIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsViewIO.swift; sourceTree = "<group>"; };
 		551FBB3C3A6EBAA3F5825F1E /* TripsViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsViewController.swift; sourceTree = "<group>"; };
+		6E77E324C769C67635517C4A /* Pods_Journeys.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Journeys.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		842916911296584B6D97761A /* TripsPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsPresenter.swift; sourceTree = "<group>"; };
 		8EBDC0F10F5CD5FD772D3371 /* TripsRouter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsRouter.swift; sourceTree = "<group>"; };
 		B6A73637212D312DF808EE9D /* TripsModuleIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsModuleIO.swift; sourceTree = "<group>"; };
 		C624D7B25F42404829AF20C9 /* TripsInteractorIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsInteractorIO.swift; sourceTree = "<group>"; };
+		DCF2F17A719CC84C3C1DBBE4 /* Pods-Journeys.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journeys.debug.xcconfig"; path = "Target Support Files/Pods-Journeys/Pods-Journeys.debug.xcconfig"; sourceTree = "<group>"; };
+		DDA6312968B1102658E7F1AD /* Pods-Journeys.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journeys.release.xcconfig"; path = "Target Support Files/Pods-Journeys/Pods-Journeys.release.xcconfig"; sourceTree = "<group>"; };
 		E483DF62B28C4DBC30739F6A /* TripsBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsBuilder.swift; sourceTree = "<group>"; };
 		EC8D65328FD3C306119E7802 /* TripsInteractor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsInteractor.swift; sourceTree = "<group>"; };
 		EE0AF93A2913010D00EC52D3 /* Journeys.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journeys.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE0AF93D2913010D00EC52D3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		EE0AF93F2913010D00EC52D3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		EE0AF9412913010D00EC52D3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		EE0AF9442913010D00EC52D3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EE0AF9462913010F00EC52D3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EE0AF9492913010F00EC52D3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EE0AF94B2913010F00EC52D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EE29EBF229186D6E008ECFF8 /* JourneysColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneysColors.swift; sourceTree = "<group>"; };
+		EE29EBF429186E09008ECFF8 /* UIColorExtencion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtencion.swift; sourceTree = "<group>"; };
+		EE29EBF729191534008ECFF8 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		EE29EBF929191558008ECFF8 /* CoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocol.swift; sourceTree = "<group>"; };
 		EE2B4125291413EB0067BE4F /* TripCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCell.swift; sourceTree = "<group>"; };
+		EEDAF552291C05B300E6DDB9 /* JourneysCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneysCoordinator.swift; sourceTree = "<group>"; };
+		EEDAF554291C0F2200E6DDB9 /* AddTripCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTripCell.swift; sourceTree = "<group>"; };
+		EEDAF556291C302500E6DDB9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		EEDAF55B291D5AF500E6DDB9 /* FloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButton.swift; sourceTree = "<group>"; };
 		FABAFF6132B4BF34FF1262AA /* TripsRouterInput.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsRouterInput.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -53,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF7F42F8786135E6F36A9104 /* Pods_Journeys.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +93,14 @@
 				0AF490FDC4B357AFC27B31C9 /* TripsModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		7B0C9584A25A9EFB720395D2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6E77E324C769C67635517C4A /* Pods_Journeys.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		7CB85C2A924F631A5E5F14EA /* View */ = {
@@ -103,6 +130,15 @@
 			path = Interactor;
 			sourceTree = "<group>";
 		};
+		E28BB0326D852B2FE981AF93 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DCF2F17A719CC84C3C1DBBE4 /* Pods-Journeys.debug.xcconfig */,
+				DDA6312968B1102658E7F1AD /* Pods-Journeys.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		E7C7F8885C59BF0183002C79 /* Trips */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,6 +157,8 @@
 			children = (
 				EE0AF93C2913010D00EC52D3 /* Journeys */,
 				EE0AF93B2913010D00EC52D3 /* Products */,
+				E28BB0326D852B2FE981AF93 /* Pods */,
+				7B0C9584A25A9EFB720395D2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -135,9 +173,11 @@
 		EE0AF93C2913010D00EC52D3 /* Journeys */ = {
 			isa = PBXGroup;
 			children = (
+				EE29EBF029186D4B008ECFF8 /* Extencions */,
 				EE0AF951291301C500EC52D3 /* Modules */,
+				EE29EBF62919151A008ECFF8 /* Coordinators */,
 				EE0AF93D2913010D00EC52D3 /* AppDelegate.swift */,
-				EE0AF93F2913010D00EC52D3 /* SceneDelegate.swift */,
+				EEDAF556291C302500E6DDB9 /* SceneDelegate.swift */,
 				EE0AF9412913010D00EC52D3 /* ViewController.swift */,
 				EE0AF9432913010D00EC52D3 /* Main.storyboard */,
 				EE0AF9462913010F00EC52D3 /* Assets.xcassets */,
@@ -150,18 +190,55 @@
 		EE0AF951291301C500EC52D3 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				EE2B4124291413C80067BE4F /* TripsCell */,
+				EEDAF55D291D65C300E6DDB9 /* FloatingButton */,
+				EE2B4124291413C80067BE4F /* TripsCells */,
 				E7C7F8885C59BF0183002C79 /* Trips */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
 		};
-		EE2B4124291413C80067BE4F /* TripsCell */ = {
+		EE29EBF029186D4B008ECFF8 /* Extencions */ = {
 			isa = PBXGroup;
 			children = (
+				EE29EBF129186D57008ECFF8 /* Colors */,
+			);
+			path = Extencions;
+			sourceTree = "<group>";
+		};
+		EE29EBF129186D57008ECFF8 /* Colors */ = {
+			isa = PBXGroup;
+			children = (
+				EE29EBF229186D6E008ECFF8 /* JourneysColors.swift */,
+				EE29EBF429186E09008ECFF8 /* UIColorExtencion.swift */,
+			);
+			path = Colors;
+			sourceTree = "<group>";
+		};
+		EE29EBF62919151A008ECFF8 /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				EE29EBF929191558008ECFF8 /* CoordinatorProtocol.swift */,
+				EE29EBF729191534008ECFF8 /* AppCoordinator.swift */,
+				EEDAF552291C05B300E6DDB9 /* JourneysCoordinator.swift */,
+			);
+			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		EE2B4124291413C80067BE4F /* TripsCells */ = {
+			isa = PBXGroup;
+			children = (
+				EEDAF554291C0F2200E6DDB9 /* AddTripCell.swift */,
 				EE2B4125291413EB0067BE4F /* TripCell.swift */,
 			);
-			path = TripsCell;
+			path = TripsCells;
+			sourceTree = "<group>";
+		};
+		EEDAF55D291D65C300E6DDB9 /* FloatingButton */ = {
+			isa = PBXGroup;
+			children = (
+				EEDAF55B291D5AF500E6DDB9 /* FloatingButton.swift */,
+			);
+			path = FloatingButton;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -171,9 +248,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EE0AF94E2913010F00EC52D3 /* Build configuration list for PBXNativeTarget "Journeys" */;
 			buildPhases = (
+				D555645FCE2A79E138FC9C63 /* [CP] Check Pods Manifest.lock */,
 				EE0AF9362913010D00EC52D3 /* Sources */,
 				EE0AF9372913010D00EC52D3 /* Frameworks */,
 				EE0AF9382913010D00EC52D3 /* Resources */,
+				5B96560897EF598B6A3EA355 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -230,25 +309,74 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		5B96560897EF598B6A3EA355 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Journeys/Pods-Journeys-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Journeys/Pods-Journeys-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Journeys/Pods-Journeys-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D555645FCE2A79E138FC9C63 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Journeys-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		EE0AF9362913010D00EC52D3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EEDAF557291C302500E6DDB9 /* SceneDelegate.swift in Sources */,
 				EE0AF9422913010D00EC52D3 /* ViewController.swift in Sources */,
+				EEDAF553291C05B300E6DDB9 /* JourneysCoordinator.swift in Sources */,
 				EE0AF93E2913010D00EC52D3 /* AppDelegate.swift in Sources */,
-				EE0AF9402913010D00EC52D3 /* SceneDelegate.swift in Sources */,
+				EE29EBF829191534008ECFF8 /* AppCoordinator.swift in Sources */,
 				91819FAFB33A7ABB47EAB8B0 /* TripsViewIO.swift in Sources */,
 				093861F1C840A5A7EA2ABBB0 /* TripsViewController.swift in Sources */,
 				C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */,
 				EE2B4126291413EC0067BE4F /* TripCell.swift in Sources */,
 				A837507D56DC8E0FFC90C522 /* TripsInteractor.swift in Sources */,
+				EEDAF555291C0F2200E6DDB9 /* AddTripCell.swift in Sources */,
 				678EC2173D55FABDA74E2A5F /* TripsModuleIO.swift in Sources */,
 				10708D44F55C9485F789DD9B /* TripsPresenter.swift in Sources */,
 				668AB39849F8F5E0DBE3C8F4 /* TripsModel.swift in Sources */,
+				EE29EBF529186E09008ECFF8 /* UIColorExtencion.swift in Sources */,
 				F92CACD193BE48A33A52A5DC /* TripsRouterInput.swift in Sources */,
+				EE29EBFA29191558008ECFF8 /* CoordinatorProtocol.swift in Sources */,
 				0F6FD83F50CCD8533C888533 /* TripsRouter.swift in Sources */,
+				EE29EBF329186D6E008ECFF8 /* JourneysColors.swift in Sources */,
 				7BD7FBF6368C4ADCBC0B8866 /* TripsBuilder.swift in Sources */,
+				EEDAF55C291D5AF500E6DDB9 /* FloatingButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,6 +520,7 @@
 		};
 		EE0AF94F2913010F00EC52D3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DCF2F17A719CC84C3C1DBBE4 /* Pods-Journeys.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -420,6 +549,7 @@
 		};
 		EE0AF9502913010F00EC52D3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA6312968B1102658E7F1AD /* Pods-Journeys.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
