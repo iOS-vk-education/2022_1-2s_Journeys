@@ -84,6 +84,8 @@ final class TripCell: UICollectionViewCell {
         setupColors()
         setupFonts()
         bookmarkIcon.image = bookmarkIconImage()
+        bookmarkIcon.contentMode = .scaleAspectFill
+        picture.layer.cornerRadius = Constants.Picture.cornerRadius
         makeConstraints()
     }
 
@@ -153,6 +155,8 @@ private extension TripCell {
         struct Picture {
             static let horisontalIndent: CGFloat = horisontalIndent
             static let verticalIndent: CGFloat = 46.0
+            
+            static let cornerRadius: CGFloat = 20.0
         }
         struct DatesLabel {
             static let leadingIndent: CGFloat = horisontalIndentForAllSubviews

@@ -21,8 +21,8 @@ final class TripsViewController: UIViewController {
     
     //MARK: Public properties
     var output: TripsViewOutput!
+    
     // MARK: Lifecycle
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = JourneysColors.Dynamic.Background.lightColor
@@ -126,12 +126,12 @@ extension TripsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 8
+        return 17
     }
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+        return UIEdgeInsets(top: 30, left: 0, bottom: -5, right: 0)
     }
 }
 
@@ -166,7 +166,8 @@ extension TripsViewController: UICollectionViewDataSource {
             ) as? TripCell else {
                 return cell
             }
-            tripCell.configure(data: TripCellDisplayData(picture: UIImage(), dates: "22.01.22-22.02.22", route: "hahaha", isInFavourites: true))
+            //TODO: use output
+            tripCell.configure(data: TripCellDisplayData(picture: UIImage(), dates: "22.01.22-22.02.22", route: "hahaha", isInFavourites: false))
             cell = tripCell
         }
         return cell
