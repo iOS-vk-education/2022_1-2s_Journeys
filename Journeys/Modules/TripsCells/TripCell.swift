@@ -22,10 +22,11 @@ final class TripCell: UICollectionViewCell {
     //MARK: Private properties
     
     private let picture = UIImageView()
-    private let bookmarkIcon = UIImageView()
+    private let bookmarkButton = UIButton()
     private let datesLabel = UILabel()
     private let townsRouteLabel = UILabel()
-    private var isInFavourites: Bool? = nil
+    private var isInFavourites = Bool()
+    private var delegate: TripCellDeledate!
 
     
     //MARK: Lifecycle
@@ -43,24 +44,9 @@ final class TripCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         picture.image = nil
-        bookmarkIcon.image = nil
+        bookmarkButton.setImage(nil, for: .normal)
         datesLabel.text = nil
         townsRouteLabel.text = nil
-    }
-
-    override func systemLayoutSizeFitting(
-        _ targetSize: CGSize,
-        withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority,
-        verticalFittingPriority: UILayoutPriority
-    ) -> CGSize {
-        var targetSize = targetSize
-        targetSize.height = CGFloat.greatestFiniteMagnitude
-        let size = super.systemLayoutSizeFitting(
-            targetSize,
-            withHorizontalFittingPriority: .required,
-            verticalFittingPriority: .fittingSizeLevel
-        )
-        return size
     }
     
     // MARK: Private properties
@@ -77,16 +63,19 @@ final class TripCell: UICollectionViewCell {
     
     private func setupSubiews() {
         contentView.addSubview(picture)
-        contentView.addSubview(bookmarkIcon)
+        contentView.addSubview(bookmarkButton)
         contentView.addSubview(datesLabel)
         contentView.addSubview(townsRouteLabel)
         
         setupColors()
         setupFonts()
-        bookmarkIcon.image = bookmarkIconImage()
-        bookmarkIcon.contentMode = .scaleAspectFill
-        picture.layer.cornerRadius = Constants.Picture.cornerRadius
         makeConstraints()
+        bookmarkButtonImageSetter()
+        
+        bookmarkButton.imageView?.contentMode = .scaleAspectFill
+        bookmarkButton.addTarget(self, action: #selector(didTapBookmarkButton), for: .touchUpInside)
+        
+        picture.layer.cornerRadius = Constants.Picture.cornerRadius
     }
 
     private func setupFonts() {
@@ -98,17 +87,14 @@ final class TripCell: UICollectionViewCell {
         backgroundColor = JourneysColors.Dynamic.Background.lightColor
         datesLabel.textColor = JourneysColors.Dynamic.Text.mainTextColor
         townsRouteLabel.textColor = JourneysColors.Dynamic.Text.mainTextColor
-        bookmarkIcon.tintColor = JourneysColors.Dynamic.Icons.iconsColor
+        bookmarkButton.tintColor = JourneysColors.Dynamic.Icons.iconsColor
     }
     
-    private func bookmarkIconImage() -> UIImage {
-        guard let isInFavouritesUnwrapped = isInFavourites else {
-            return UIImage()
-        }
-        if isInFavouritesUnwrapped {
-            return UIImage(systemName: "bookmark.fill") ?? UIImage()
+    private func bookmarkButtonImageSetter() {
+        if isInFavourites {
+            bookmarkButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
         } else {
-            return UIImage(systemName: "bookmark") ?? UIImage()
+            bookmarkButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
         }
     }
     
@@ -122,15 +108,15 @@ final class TripCell: UICollectionViewCell {
         
         datesLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(Constants.DatesLabel.leadingIndent)
-            make.trailing.lessThanOrEqualTo(bookmarkIcon.snp.leading).offset(-Constants.DatesLabel.minIndentFromBookmarkIcon)
+            make.trailing.lessThanOrEqualTo(bookmarkButton.snp.leading).offset(-Constants.DatesLabel.minIndentFromBookmarkIcon)
             make.top.equalToSuperview().inset(Constants.DatesLabel.topIndent)
         }
         
-        bookmarkIcon.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(Constants.BookmarkIcon.trailingIndent)
-            make.top.equalToSuperview().inset(Constants.BookmarkIcon.topIndent)
-            make.width.equalTo(Constants.BookmarkIcon.wigth)
-            make.height.equalTo(Constants.BookmarkIcon.height)
+        bookmarkButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(Constants.BookmarkButton.trailingIndent)
+            make.top.equalToSuperview().inset(Constants.BookmarkButton.topIndent)
+            make.width.equalTo(Constants.BookmarkButton.wigth)
+            make.height.equalTo(Constants.BookmarkButton.height)
         }
         
         townsRouteLabel.snp.makeConstraints { make in
@@ -140,11 +126,19 @@ final class TripCell: UICollectionViewCell {
         }
     }
     
-    func configure(data: TripCellDisplayData) {
+    //TODO: send data to view
+    @objc
+    private func didTapBookmarkButton() {
+        isInFavourites = !isInFavourites
+        bookmarkButtonImageSetter()
+    }
+    
+    func configure(data: TripCellDisplayData, delegate: TripCellDeledate) {
         picture.image = data.picture ?? UIImage(named: "")
         datesLabel.text = data.dates
         townsRouteLabel.text = data.route
         isInFavourites = data.isInFavourites
+        self.delegate = delegate
         setupSubiews()
     }
 }
@@ -164,12 +158,12 @@ private extension TripCell {
             
             static let minIndentFromBookmarkIcon: CGFloat = 16
         }
-        struct BookmarkIcon {
+        struct BookmarkButton {
             static let trailingIndent: CGFloat = horisontalIndentForAllSubviews
             static let topIndent: CGFloat = DatesLabel.topIndent
             
-            static let wigth: CGFloat = 12.0
-            static let height: CGFloat = 20.0
+            static let wigth: CGFloat = 14.0
+            static let height: CGFloat = 23.0
         }
         struct TownsRouteLabel {
             static let horisontalIndent: CGFloat = horisontalIndentForAllSubviews
@@ -179,4 +173,8 @@ private extension TripCell {
             static let borderRadius: CGFloat = 10.0
         }
     }
+}
+
+protocol TripCellDeledate: AnyObject {
+    func didTapBookmarkButton()
 }

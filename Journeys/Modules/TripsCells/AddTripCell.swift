@@ -21,13 +21,11 @@ final class AddTripCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupCell()
-        setupSubiews()
     }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupCell()
-        setupSubiews()
     }
 
     override func prepareForReuse() {
@@ -35,25 +33,7 @@ final class AddTripCell: UICollectionViewCell {
         plusIcon.image = nil
         addLabel.text = nil
     }
-
-//    override func systemLayoutSizeFitting(
-//        _ targetSize: CGSize,
-//        withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority,
-//        verticalFittingPriority: UILayoutPriority
-//    ) -> CGSize {
-//        var targetSize = targetSize
-//        targetSize.height = CGFloat.greatestFiniteMagnitude
-//        let size = super.systemLayoutSizeFitting(
-//            targetSize,
-//            withHorizontalFittingPriority: .required,
-//            verticalFittingPriority: .fittingSizeLevel
-//        )
-//        return size
-//    }
     
-    override func layoutSubviews() {
-        makeConstraints()
-    }
     
     // MARK: Private properties
     
@@ -75,6 +55,7 @@ final class AddTripCell: UICollectionViewCell {
         setupFonts()
         plusIcon.image = UIImage(systemName: "plus.circle.fill")
         addLabel.text = "Добавить"
+        makeConstraints()
     }
 
     private func setupFonts() {
@@ -99,6 +80,10 @@ final class AddTripCell: UICollectionViewCell {
             make.leading.equalTo(plusIcon.snp.trailing).offset(Constants.AddLabel.leadingIndentFromPlusIcon)
             make.centerY.equalTo(plusIcon.snp.centerY)
         }
+    }
+    
+    func configure() {
+        setupSubiews()
     }
 }
 

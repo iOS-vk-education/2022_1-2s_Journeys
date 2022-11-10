@@ -26,9 +26,9 @@ final class TripsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = JourneysColors.Dynamic.Background.lightColor
-        setupFloatingAddButton()
         setupNavBar()
         setupCollectionView()
+        setupFloatingAddButton()
         makeConstraints()
     }
     
@@ -61,6 +61,7 @@ final class TripsViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = JourneysColors.Dynamic.Background.grayColor
+        collectionView.contentInset = Constants.collectionInset
         
         collectionView.register(AddTripCell.self,
                                 forCellWithReuseIdentifier: "AddTripCell")
@@ -96,18 +97,6 @@ final class TripsViewController: UIViewController {
     }
 }
 
-private extension TripsViewController {
-    struct Constants {
-        static let addCellSize = CGSize(width: 343, height: 72)
-        static let tripCellSize = CGSize(width: 343, height: 272)
-        struct FloationgChangeButton {
-            static let bottomIndent: CGFloat = 8.0
-            static let width: CGFloat = 220.0
-            static let height: CGFloat = 40.0
-            static let borderRarius: CGFloat = 10.0
-        }
-    }
-}
 
 // MARK: UICollectionViewDelegateFlowLayout
 extension TripsViewController: UICollectionViewDelegateFlowLayout {
@@ -126,18 +115,22 @@ extension TripsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 17
+        return 15
     }
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 30, left: 0, bottom: -5, right: 0)
+        if section == 0 {
+            return UIEdgeInsets(top: 30, left: 0, bottom: 8, right: 0)
+        } else {
+            return UIEdgeInsets(top: 15, left: 0, bottom: 0, right: 0)
+        }
     }
 }
 
 extension TripsViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -145,7 +138,7 @@ extension TripsViewController: UICollectionViewDataSource {
             return 1
         //TODO: use output
         } else {
-            return 2
+            return 1
         }
     }
     
@@ -158,6 +151,7 @@ extension TripsViewController: UICollectionViewDataSource {
             ) as? AddTripCell else {
                 return cell
             }
+            addCell.configure()
             cell = addCell
         } else {
             guard let tripCell = collectionView.dequeueReusableCell(
@@ -167,7 +161,7 @@ extension TripsViewController: UICollectionViewDataSource {
                 return cell
             }
             //TODO: use output
-            tripCell.configure(data: TripCellDisplayData(picture: UIImage(), dates: "22.01.22-22.02.22", route: "hahaha", isInFavourites: false))
+            tripCell.configure(data: TripCellDisplayData(picture: UIImage(), dates: "22.01.22-22.02.22", route: "hahaha", isInFavourites: false), delegate: self)
             cell = tripCell
         }
         return cell
@@ -186,3 +180,25 @@ extension UIApplication {
 
 }
 
+extension TripsViewController: TripCellDeledate {
+    //TODO: send data to presenter
+    func didTapBookmarkButton() {
+        return
+    }
+}
+
+// MARK: Constants
+private extension TripsViewController {
+    struct Constants {
+        static let addCellSize = CGSize(width: 343, height: 72)
+        static let tripCellSize = CGSize(width: 343, height: 272)
+        
+        static let collectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
+        struct FloationgChangeButton {
+            static let bottomIndent: CGFloat = 8.0
+            static let width: CGFloat = 220.0
+            static let height: CGFloat = 40.0
+            static let borderRarius: CGFloat = 10.0
+        }
+    }
+}
