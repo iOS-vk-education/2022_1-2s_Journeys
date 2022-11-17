@@ -11,17 +11,17 @@ import UIKit
 
 final class TripsViewController: UIViewController {
 
-    //MARK: Private properties
+    // MARK: Private properties
     private var floatingChangeButton = FloatingButton()
-    
+
     private lazy var collectionView: UICollectionView = {
        let layout = UICollectionViewFlowLayout()
        return UICollectionView(frame: .zero, collectionViewLayout: layout)
    }()
-    
-    //MARK: Public properties
+
+    // MARK: Public properties
     var output: TripsViewOutput!
-    
+
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,53 +31,52 @@ final class TripsViewController: UIViewController {
         setupFloatingAddButton()
         makeConstraints()
     }
-    
+
     private func setupNavBar() {
         navigationController?.navigationBar.tintColor = JourneysColors.Dynamic.Text.mainTextColor
-        
+
         let settingsButtonItem = UIBarButtonItem(image: UIImage(systemName: "gearshape.fill"),
                                                  style: .plain,
                                                  target: self,
                                                  action: #selector(didTapSettingsButton))
-        
+
         let favouritesButtonItem = UIBarButtonItem(image: UIImage(systemName: "bookmark.fill"),
                                                    style: .plain,
                                                    target: self,
                                                    action: #selector(didTapFavouritesButton))
-        
+
         navigationItem.leftBarButtonItem = settingsButtonItem
         navigationItem.rightBarButtonItem = favouritesButtonItem
         title = "Поездки"
     }
-    
+
     private func setupFloatingAddButton() {
         view.addSubview(floatingChangeButton)
         view.bringSubviewToFront(floatingChangeButton)
         floatingChangeButton.configure(title: "Редактировать")
     }
-    
+
     private func setupCollectionView() {
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = JourneysColors.Dynamic.Background.grayColor
         collectionView.contentInset = TripsConstants.collectionInset
-        
+
         collectionView.register(AddTripCell.self,
                                 forCellWithReuseIdentifier: "AddTripCell")
         collectionView.register(TripCell.self,
                                 forCellWithReuseIdentifier: "TripCell")
     }
-    
+
     private func makeConstraints() {
         floatingChangeButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-                .inset(TripsConstants.FloationgChangeButton.bottomIndent)
             make.width.equalTo(TripsConstants.FloationgChangeButton.width)
             make.height.equalTo(TripsConstants.FloationgChangeButton.height)
         }
-        
+
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.bottom.equalToSuperview()
@@ -85,18 +84,17 @@ final class TripsViewController: UIViewController {
             make.trailing.equalToSuperview()
         }
     }
-    
+
     @objc
     private func didTapSettingsButton() {
         print("Settings button was tapped")
     }
-    
+
     @objc
     private func didTapFavouritesButton() {
         print("Favourites button was tapped")
     }
 }
-
 
 // MARK: UICollectionViewDelegateFlowLayout
 extension TripsViewController: UICollectionViewDelegateFlowLayout {
@@ -132,16 +130,16 @@ extension TripsViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 5
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
             return 1
-        //TODO: use output
+        // TODO: use output
         } else {
             return 1
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var cell = UICollectionViewCell()
         if indexPath.section == 0 {
@@ -159,13 +157,16 @@ extension TripsViewController: UICollectionViewDataSource {
             ) as? TripCell else {
                 return cell
             }
-            //TODO: use output
-            tripCell.configure(data: TripCellDisplayData(picture: UIImage(named: "TripCellImage"), dates: "22.01.22-22.02.22", route: "hahaha", isInFavourites: false), delegate: self)
+            // TODO: use output
+            tripCell.configure(data: TripCellDisplayData(picture: UIImage(named: "TripCellImage"),
+                                                         dates: "22.01.22-22.02.22",
+                                                         route: "hahaha",
+                                                         isInFavourites: false),
+                               delegate: self)
             cell = tripCell
         }
         return cell
     }
-    
 }
 
 extension TripsViewController: TripsViewInput {
@@ -180,7 +181,7 @@ extension UIApplication {
 }
 
 extension TripsViewController: TripCellDelegate {
-    //TODO: send data to presenter
+    // TODO: send data to presenter
     func didTapBookmarkButton() {
         return
     }
@@ -188,15 +189,13 @@ extension TripsViewController: TripCellDelegate {
 
 // MARK: Constants
 private extension TripsViewController {
-    
+
     struct TripsConstants {
         static let addCellSize = CGSize(width: 343, height: 72)
         static let tripCellSize = CGSize(width: 343, height: 272)
-        
-        static let collectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
-        
+
+        static let collectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 60, right: 0)
         struct FloationgChangeButton {
-            static let bottomIndent: CGFloat = 8.0
             static let width: CGFloat = 220.0
             static let height: CGFloat = 40.0
             static let borderRarius: CGFloat = 10.0

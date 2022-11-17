@@ -17,7 +17,7 @@ final class FloatingButton: UIButton {
         static let width: CGFloat = 220.0
         static let height: CGFloat = 40.0
 
-        static let borderRarius: CGFloat = 10.0
+        static let borderRadius: CGFloat = 10.0
     }
 
     // MARK: Lifecycle
@@ -35,8 +35,8 @@ final class FloatingButton: UIButton {
     // MARK: Private Methods
 
     private func setupViews() {
-        backgroundColor = JourneysColors.Dynamic.BaseColors.contrsstToTheme
-        layer.cornerRadius = Constants.borderRarius
+        backgroundColor = JourneysColors.Dynamic.BaseColors.contrastToTheme
+        layer.cornerRadius = Constants.borderRadius
         setTitleColor(JourneysColors.Dynamic.BaseColors.similarToTheme, for: .normal)
         titleLabel?.font = .systemFont(ofSize: 17, weight: .semibold)
     }

@@ -5,7 +5,6 @@
 //  Created by Nastya Ischenko on 03/11/2022.
 //
 
-
 // MARK: - Trips ViewInput
 
 protocol TripsViewInput: AnyObject {
@@ -15,3 +14,4 @@ protocol TripsViewInput: AnyObject {
 
 protocol TripsViewOutput: AnyObject {
 }
+

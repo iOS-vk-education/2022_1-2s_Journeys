@@ -32,7 +32,7 @@ extension JourneysColors {
                 UIColor.journeys.dynamicColor(light: UIColor.journeys.n2, dark: UIColor.journeys.n1)
             }
             /** Черный на всетлой теме, белый на темной(n1/n2)  */
-            public static var contrsstToTheme: UIColor {
+            public static var contrastToTheme: UIColor {
                 UIColor.journeys.dynamicColor(light: UIColor.journeys.n1, dark: UIColor.journeys.n2)
             }
         }

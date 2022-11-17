@@ -12,14 +12,14 @@ import SnapKit
 final class AddTripCell: UICollectionViewCell {
     
     static let identifier = "AddTripCell"
-    
+
     //MARK: Private properties
-    
+
     private let plusIcon = UIImageView()
     private let addLabel = UILabel()
-    
+
     //MARK: Lifecycle
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupCell()
@@ -36,13 +36,13 @@ final class AddTripCell: UICollectionViewCell {
         super.prepareForReuse()
         plusIcon.image = nil
         addLabel.text = nil
-        
+
         setupSubviews()
     }
-    
-    
-    // MARK: Private properties
-    
+
+
+    // MARK: Private functions
+
     private func setupCell() {
        layer.cornerRadius = AddTripCellConstants.Cell.borderRadius
        layer.masksToBounds = false
@@ -52,14 +52,14 @@ final class AddTripCell: UICollectionViewCell {
        layer.shadowOpacity = 0.1
        layer.shadowOffset = CGSize(width: 0, height: 2)
    }
-    
+
     private func setupSubviews() {
         contentView.addSubview(addLabel)
         contentView.addSubview(plusIcon)
-        
+
         plusIcon.image = UIImage(systemName: "plus.circle.fill")
         addLabel.text = "Добавить"
-        
+
         setupColors()
         setupFonts()
         makeConstraints()
@@ -68,13 +68,13 @@ final class AddTripCell: UICollectionViewCell {
     private func setupFonts() {
         addLabel.font = UIFont.systemFont(ofSize: 17.0, weight: .medium)
     }
-    
+
     private func setupColors() {
         backgroundColor = JourneysColors.Dynamic.Background.lightColor
         addLabel.textColor = JourneysColors.Dynamic.Text.mainTextColor
         plusIcon.tintColor = JourneysColors.Dynamic.Icons.iconsColor
     }
-    
+
     private func makeConstraints() {
         plusIcon.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(AddTripCellConstants.PlusIcon.leadingIndent)
@@ -82,7 +82,7 @@ final class AddTripCell: UICollectionViewCell {
             make.height.equalTo(AddTripCellConstants.PlusIcon.height)
             make.width.equalTo(AddTripCellConstants.PlusIcon.width)
         }
-        
+
         addLabel.snp.makeConstraints { make in
             make.leading.equalTo(plusIcon.snp.trailing).offset(AddTripCellConstants.AddLabel.leadingIndentFromPlusIcon)
             make.centerY.equalTo(plusIcon.snp.centerY)
@@ -91,7 +91,7 @@ final class AddTripCell: UICollectionViewCell {
 }
 
 private extension AddTripCell {
-    
+
     struct AddTripCellConstants {
         struct PlusIcon {
             static let leadingIndent: CGFloat = 26.0
