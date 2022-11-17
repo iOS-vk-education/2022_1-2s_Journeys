@@ -63,7 +63,6 @@
 				B6A73637212D312DF808EE9D /* TripsModuleIO.swift */,
 				842916911296584B6D97761A /* TripsPresenter.swift */,
 			);
-			name = Presenter;
 			path = Presenter;
 			sourceTree = "<group>";
 		};
@@ -72,7 +71,6 @@
 			children = (
 				0AF490FDC4B357AFC27B31C9 /* TripsModel.swift */,
 			);
-			name = Model;
 			path = Model;
 			sourceTree = "<group>";
 		};
@@ -82,7 +80,6 @@
 				196CCEF28890034F45E73055 /* TripsViewIO.swift */,
 				551FBB3C3A6EBAA3F5825F1E /* TripsViewController.swift */,
 			);
-			name = View;
 			path = View;
 			sourceTree = "<group>";
 		};
@@ -92,7 +89,6 @@
 				FABAFF6132B4BF34FF1262AA /* TripsRouterInput.swift */,
 				8EBDC0F10F5CD5FD772D3371 /* TripsRouter.swift */,
 			);
-			name = Router;
 			path = Router;
 			sourceTree = "<group>";
 		};
@@ -102,7 +98,6 @@
 				C624D7B25F42404829AF20C9 /* TripsInteractorIO.swift */,
 				EC8D65328FD3C306119E7802 /* TripsInteractor.swift */,
 			);
-			name = Interactor;
 			path = Interactor;
 			sourceTree = "<group>";
 		};
@@ -116,7 +111,6 @@
 				9ABFCE79C7B59590A10F8899 /* Router */,
 				E483DF62B28C4DBC30739F6A /* TripsBuilder.swift */,
 			);
-			name = Trips;
 			path = Trips;
 			sourceTree = "<group>";
 		};
@@ -139,6 +133,7 @@
 		EE0AF93C2913010D00EC52D3 /* Journeys */ = {
 			isa = PBXGroup;
 			children = (
+				EE157E0F29266A0F00A56157 /* Models */,
 				EE0AF951291301C500EC52D3 /* Modules */,
 				EE0AF93D2913010D00EC52D3 /* AppDelegate.swift */,
 				EE0AF93F2913010D00EC52D3 /* SceneDelegate.swift */,
@@ -157,6 +152,13 @@
 				E7C7F8885C59BF0183002C79 /* Trips */,
 			);
 			path = Modules;
+			sourceTree = "<group>";
+		};
+		EE157E0F29266A0F00A56157 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
