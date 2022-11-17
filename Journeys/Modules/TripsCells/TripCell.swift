@@ -21,12 +21,21 @@ final class TripCell: UICollectionViewCell {
     
     //MARK: Private properties
     
-    private let picture = UIImageView()
-    private let bookmarkButton = UIButton()
+    private let picture: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.cornerRadius = TripCellConstants.Picture.cornerRadius
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+    private let bookmarkButton: UIButton = {
+        let button = UIButton()
+        button.imageView?.contentMode = .scaleAspectFill
+        return button
+    }()
     private let datesLabel = UILabel()
     private let townsRouteLabel = UILabel()
     private var isInFavourites = Bool()
-    private var delegate: TripCellDeledate!
+    private var delegate: TripCellDelegate!
 
     
     //MARK: Lifecycle
@@ -34,11 +43,13 @@ final class TripCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupCell()
+        setupSubviews()
     }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupCell()
+        setupSubviews()
     }
 
     override func prepareForReuse() {
@@ -47,12 +58,14 @@ final class TripCell: UICollectionViewCell {
         bookmarkButton.setImage(nil, for: .normal)
         datesLabel.text = nil
         townsRouteLabel.text = nil
+        
+        setupSubviews()
     }
     
-    // MARK: Private properties
+    // MARK: Private functions
     
     private func setupCell() {
-       layer.cornerRadius = Constants.Cell.borderRadius
+       layer.cornerRadius = TripCellConstants.Cell.borderRadius
        layer.masksToBounds = false
 
        layer.shadowRadius = 3.0
@@ -61,7 +74,7 @@ final class TripCell: UICollectionViewCell {
        layer.shadowOffset = CGSize(width: 0, height: 2)
    }
     
-    private func setupSubiews() {
+    private func setupSubviews() {
         contentView.addSubview(picture)
         contentView.addSubview(bookmarkButton)
         contentView.addSubview(datesLabel)
@@ -71,11 +84,7 @@ final class TripCell: UICollectionViewCell {
         setupFonts()
         makeConstraints()
         bookmarkButtonImageSetter()
-        
-        bookmarkButton.imageView?.contentMode = .scaleAspectFill
         bookmarkButton.addTarget(self, action: #selector(didTapBookmarkButton), for: .touchUpInside)
-        
-        picture.layer.cornerRadius = Constants.Picture.cornerRadius
     }
 
     private func setupFonts() {
@@ -100,57 +109,57 @@ final class TripCell: UICollectionViewCell {
     
     private func makeConstraints() {
         picture.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(Constants.Picture.horisontalIndent)
-            make.trailing.equalToSuperview().inset(Constants.Picture.horisontalIndent)
-            make.top.equalToSuperview().inset(Constants.Picture.verticalIndent)
-            make.bottom.equalToSuperview().inset(Constants.Picture.verticalIndent)
+            make.leading.equalToSuperview().inset(TripCellConstants.Picture.horisontalIndent)
+            make.trailing.equalToSuperview().inset(TripCellConstants.Picture.horisontalIndent)
+            make.top.equalToSuperview().inset(TripCellConstants.Picture.verticalIndent)
+            make.bottom.equalToSuperview().inset(TripCellConstants.Picture.verticalIndent)
         }
         
         datesLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(Constants.DatesLabel.leadingIndent)
-            make.trailing.lessThanOrEqualTo(bookmarkButton.snp.leading).offset(-Constants.DatesLabel.minIndentFromBookmarkIcon)
-            make.top.equalToSuperview().inset(Constants.DatesLabel.topIndent)
+            make.leading.equalToSuperview().inset(TripCellConstants.DatesLabel.leadingIndent)
+            make.trailing.lessThanOrEqualTo(bookmarkButton.snp.leading).offset(-TripCellConstants.DatesLabel.minIndentFromBookmarkIcon)
+            make.top.equalToSuperview().inset(TripCellConstants.DatesLabel.topIndent)
         }
         
         bookmarkButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(Constants.BookmarkButton.trailingIndent)
-            make.top.equalToSuperview().inset(Constants.BookmarkButton.topIndent)
-            make.width.equalTo(Constants.BookmarkButton.wigth)
-            make.height.equalTo(Constants.BookmarkButton.height)
+            make.trailing.equalToSuperview().inset(TripCellConstants.BookmarkButton.trailingIndent)
+            make.top.equalToSuperview().inset(TripCellConstants.BookmarkButton.topIndent)
+            make.width.equalTo(TripCellConstants.BookmarkButton.width)
+            make.height.equalTo(TripCellConstants.BookmarkButton.height)
         }
         
         townsRouteLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(Constants.TownsRouteLabel.horisontalIndent)
-            make.trailing.equalToSuperview().inset(Constants.TownsRouteLabel.horisontalIndent)
-            make.bottom.equalToSuperview().inset(Constants.TownsRouteLabel.bottomIndent)
+            make.leading.equalToSuperview().inset(TripCellConstants.TownsRouteLabel.horisontalIndent)
+            make.trailing.equalToSuperview().inset(TripCellConstants.TownsRouteLabel.horisontalIndent)
+            make.bottom.equalToSuperview().inset(TripCellConstants.TownsRouteLabel.bottomIndent)
         }
     }
     
     //TODO: send data to view
     @objc
     private func didTapBookmarkButton() {
-        isInFavourites = !isInFavourites
+        isInFavourites.toggle()
         bookmarkButtonImageSetter()
     }
     
-    func configure(data: TripCellDisplayData, delegate: TripCellDeledate) {
+    func configure(data: TripCellDisplayData, delegate: TripCellDelegate) {
         picture.image = data.picture ?? UIImage(named: "")
         datesLabel.text = data.dates
         townsRouteLabel.text = data.route
         isInFavourites = data.isInFavourites
         self.delegate = delegate
-        setupSubiews()
     }
 }
 
 private extension TripCell {
-    struct Constants {
+    
+    struct TripCellConstants {
         static let horisontalIndentForAllSubviews: CGFloat = 16.0
         struct Picture {
-            static let horisontalIndent: CGFloat = horisontalIndent
+            static let horisontalIndent: CGFloat = horisontalIndentForAllSubviews
             static let verticalIndent: CGFloat = 46.0
             
-            static let cornerRadius: CGFloat = 20.0
+            static let cornerRadius: CGFloat = 15.0
         }
         struct DatesLabel {
             static let leadingIndent: CGFloat = horisontalIndentForAllSubviews
@@ -162,7 +171,7 @@ private extension TripCell {
             static let trailingIndent: CGFloat = horisontalIndentForAllSubviews
             static let topIndent: CGFloat = DatesLabel.topIndent
             
-            static let wigth: CGFloat = 14.0
+            static let width: CGFloat = 14.0
             static let height: CGFloat = 23.0
         }
         struct TownsRouteLabel {
@@ -175,6 +184,6 @@ private extension TripCell {
     }
 }
 
-protocol TripCellDeledate: AnyObject {
+protocol TripCellDelegate: AnyObject {
     func didTapBookmarkButton()
 }

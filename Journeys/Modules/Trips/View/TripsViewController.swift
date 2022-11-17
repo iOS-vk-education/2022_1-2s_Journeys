@@ -61,7 +61,7 @@ final class TripsViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = JourneysColors.Dynamic.Background.grayColor
-        collectionView.contentInset = Constants.collectionInset
+        collectionView.contentInset = TripsConstants.collectionInset
         
         collectionView.register(AddTripCell.self,
                                 forCellWithReuseIdentifier: "AddTripCell")
@@ -73,9 +73,9 @@ final class TripsViewController: UIViewController {
         floatingChangeButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-                .inset(Constants.FloationgChangeButton.bottomIndent)
-            make.width.equalTo(Constants.FloationgChangeButton.width)
-            make.height.equalTo(Constants.FloationgChangeButton.height)
+                .inset(TripsConstants.FloationgChangeButton.bottomIndent)
+            make.width.equalTo(TripsConstants.FloationgChangeButton.width)
+            make.height.equalTo(TripsConstants.FloationgChangeButton.height)
         }
         
         collectionView.snp.makeConstraints { make in
@@ -104,9 +104,9 @@ extension TripsViewController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         if indexPath.section == 0 {
-            return Constants.addCellSize
+            return TripsConstants.addCellSize
         } else {
-            return Constants.tripCellSize
+            return TripsConstants.tripCellSize
         }
     }
 }
@@ -151,7 +151,6 @@ extension TripsViewController: UICollectionViewDataSource {
             ) as? AddTripCell else {
                 return cell
             }
-            addCell.configure()
             cell = addCell
         } else {
             guard let tripCell = collectionView.dequeueReusableCell(
@@ -161,7 +160,7 @@ extension TripsViewController: UICollectionViewDataSource {
                 return cell
             }
             //TODO: use output
-            tripCell.configure(data: TripCellDisplayData(picture: UIImage(), dates: "22.01.22-22.02.22", route: "hahaha", isInFavourites: false), delegate: self)
+            tripCell.configure(data: TripCellDisplayData(picture: UIImage(named: "TripCellImage"), dates: "22.01.22-22.02.22", route: "hahaha", isInFavourites: false), delegate: self)
             cell = tripCell
         }
         return cell
@@ -180,7 +179,7 @@ extension UIApplication {
 
 }
 
-extension TripsViewController: TripCellDeledate {
+extension TripsViewController: TripCellDelegate {
     //TODO: send data to presenter
     func didTapBookmarkButton() {
         return
@@ -189,11 +188,13 @@ extension TripsViewController: TripCellDeledate {
 
 // MARK: Constants
 private extension TripsViewController {
-    struct Constants {
+    
+    struct TripsConstants {
         static let addCellSize = CGSize(width: 343, height: 72)
         static let tripCellSize = CGSize(width: 343, height: 272)
         
         static let collectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
+        
         struct FloationgChangeButton {
             static let bottomIndent: CGFloat = 8.0
             static let width: CGFloat = 220.0
