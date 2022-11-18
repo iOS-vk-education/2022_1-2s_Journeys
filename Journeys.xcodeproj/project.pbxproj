@@ -22,11 +22,14 @@
 		EE0AF9452913010D00EC52D3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE0AF9432913010D00EC52D3 /* Main.storyboard */; };
 		EE0AF9472913010F00EC52D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE0AF9462913010F00EC52D3 /* Assets.xcassets */; };
 		EE0AF94A2913010F00EC52D3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE0AF9482913010F00EC52D3 /* LaunchScreen.storyboard */; };
-		EE29EBF329186D6E008ECFF8 /* JourneysColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE29EBF229186D6E008ECFF8 /* JourneysColors.swift */; };
-		EE29EBF529186E09008ECFF8 /* UIColorExtencion.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE29EBF429186E09008ECFF8 /* UIColorExtencion.swift */; };
+		EE157F402926AEB300A56157 /* swiftgen.yml in Resources */ = {isa = PBXBuildFile; fileRef = EE157F3F2926AEB300A56157 /* swiftgen.yml */; };
+		EE157F432926B2F200A56157 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE157F422926B2F200A56157 /* Colors.xcassets */; };
+		EE157F482926B39A00A56157 /* XCAssets+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE157F472926B39A00A56157 /* XCAssets+Generated.swift */; };
 		EE29EBF829191534008ECFF8 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE29EBF729191534008ECFF8 /* AppCoordinator.swift */; };
 		EE29EBFA29191558008ECFF8 /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE29EBF929191558008ECFF8 /* CoordinatorProtocol.swift */; };
 		EE2B4126291413EC0067BE4F /* TripCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2B4125291413EB0067BE4F /* TripCell.swift */; };
+		EE57FF3D2927E7E100212DC2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE57FF3B2927E7E100212DC2 /* Localizable.strings */; };
+		EE57FF3F2927E8B000212DC2 /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */; };
 		EEDAF553291C05B300E6DDB9 /* JourneysCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDAF552291C05B300E6DDB9 /* JourneysCoordinator.swift */; };
 		EEDAF555291C0F2200E6DDB9 /* AddTripCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDAF554291C0F2200E6DDB9 /* AddTripCell.swift */; };
 		EEDAF557291C302500E6DDB9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDAF556291C302500E6DDB9 /* SceneDelegate.swift */; };
@@ -54,11 +57,14 @@
 		EE0AF9462913010F00EC52D3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EE0AF9492913010F00EC52D3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EE0AF94B2913010F00EC52D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EE29EBF229186D6E008ECFF8 /* JourneysColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneysColors.swift; sourceTree = "<group>"; };
-		EE29EBF429186E09008ECFF8 /* UIColorExtencion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtencion.swift; sourceTree = "<group>"; };
+		EE157F3F2926AEB300A56157 /* swiftgen.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = swiftgen.yml; sourceTree = "<group>"; };
+		EE157F422926B2F200A56157 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		EE157F472926B39A00A56157 /* XCAssets+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCAssets+Generated.swift"; sourceTree = "<group>"; };
 		EE29EBF729191534008ECFF8 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		EE29EBF929191558008ECFF8 /* CoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocol.swift; sourceTree = "<group>"; };
 		EE2B4125291413EB0067BE4F /* TripCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCell.swift; sourceTree = "<group>"; };
+		EE57FF3C2927E7E100212DC2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Localizable.strings; sourceTree = "<group>"; };
+		EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Strings+Generated.swift"; sourceTree = "<group>"; };
 		EEDAF552291C05B300E6DDB9 /* JourneysCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneysCoordinator.swift; sourceTree = "<group>"; };
 		EEDAF554291C0F2200E6DDB9 /* AddTripCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTripCell.swift; sourceTree = "<group>"; };
 		EEDAF556291C302500E6DDB9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -156,6 +162,7 @@
 		EE0AF9312913010D00EC52D3 = {
 			isa = PBXGroup;
 			children = (
+				EE157F3F2926AEB300A56157 /* swiftgen.yml */,
 				EE0AF93C2913010D00EC52D3 /* Journeys */,
 				EE0AF93B2913010D00EC52D3 /* Products */,
 				E28BB0326D852B2FE981AF93 /* Pods */,
@@ -174,6 +181,8 @@
 		EE0AF93C2913010D00EC52D3 /* Journeys */ = {
 			isa = PBXGroup;
 			children = (
+				EE57FF372927E6E400212DC2 /* ru.lproj */,
+				EE157F442926B31100A56157 /* Generated */,
 				EE29EBF029186D4B008ECFF8 /* Extencions */,
 				EE0AF951291301C500EC52D3 /* Modules */,
 				EE29EBF62919151A008ECFF8 /* Coordinators */,
@@ -182,6 +191,7 @@
 				EE0AF9412913010D00EC52D3 /* ViewController.swift */,
 				EE0AF9432913010D00EC52D3 /* Main.storyboard */,
 				EE0AF9462913010F00EC52D3 /* Assets.xcassets */,
+				EE157F422926B2F200A56157 /* Colors.xcassets */,
 				EE0AF9482913010F00EC52D3 /* LaunchScreen.storyboard */,
 				EE0AF94B2913010F00EC52D3 /* Info.plist */,
 			);
@@ -197,21 +207,20 @@
 			path = Modules;
 			sourceTree = "<group>";
 		};
+		EE157F442926B31100A56157 /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */,
+				EE157F472926B39A00A56157 /* XCAssets+Generated.swift */,
+			);
+			path = Generated;
+			sourceTree = "<group>";
+		};
 		EE29EBF029186D4B008ECFF8 /* Extencions */ = {
 			isa = PBXGroup;
 			children = (
-				EE29EBF129186D57008ECFF8 /* Colors */,
 			);
 			path = Extencions;
-			sourceTree = "<group>";
-		};
-		EE29EBF129186D57008ECFF8 /* Colors */ = {
-			isa = PBXGroup;
-			children = (
-				EE29EBF229186D6E008ECFF8 /* JourneysColors.swift */,
-				EE29EBF429186E09008ECFF8 /* UIColorExtencion.swift */,
-			);
-			path = Colors;
 			sourceTree = "<group>";
 		};
 		EE29EBF62919151A008ECFF8 /* Coordinators */ = {
@@ -231,6 +240,14 @@
 				EE2B4125291413EB0067BE4F /* TripCell.swift */,
 			);
 			path = TripsCells;
+			sourceTree = "<group>";
+		};
+		EE57FF372927E6E400212DC2 /* ru.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				EE57FF3B2927E7E100212DC2 /* Localizable.strings */,
+			);
+			path = ru.lproj;
 			sourceTree = "<group>";
 		};
 		EEDAF55D291D65C300E6DDB9 /* FloatingButton */ = {
@@ -253,7 +270,8 @@
 				EE0AF9372913010D00EC52D3 /* Frameworks */,
 				EE0AF9382913010D00EC52D3 /* Resources */,
 				5B96560897EF598B6A3EA355 /* [CP] Embed Pods Frameworks */,
-				EE157E0E2926651E00A56157 /* ShellScript */,
+				EE157E0E2926651E00A56157 /* SwiftLint */,
+				EE157F412926AFA700A56157 /* SwiftGen */,
 			);
 			buildRules = (
 			);
@@ -286,6 +304,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = EE0AF9312913010D00EC52D3;
 			productRefGroup = EE0AF93B2913010D00EC52D3 /* Products */;
@@ -302,9 +321,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE157F432926B2F200A56157 /* Colors.xcassets in Resources */,
+				EE57FF3D2927E7E100212DC2 /* Localizable.strings in Resources */,
 				EE0AF94A2913010F00EC52D3 /* LaunchScreen.storyboard in Resources */,
 				EE0AF9472913010F00EC52D3 /* Assets.xcassets in Resources */,
 				EE0AF9452913010D00EC52D3 /* Main.storyboard in Resources */,
+				EE157F402926AEB300A56157 /* swiftgen.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,7 +372,25 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EE157E0E2926651E00A56157 /* ShellScript */ = {
+		EE157E0E2926651E00A56157 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which ${PODS_ROOT}/SwiftLint/swiftlint > /dev/null; then\n  ${PODS_ROOT}/SwiftLint/swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		EE157F412926AFA700A56157 /* SwiftGen */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -360,13 +400,14 @@
 			);
 			inputPaths = (
 			);
+			name = SwiftGen;
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which ${PODS_ROOT}/SwiftLint/swiftlint > /dev/null; then\n  ${PODS_ROOT}/SwiftLint/swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\nif [[ -f \"${PODS_ROOT}/SwiftGen/bin/swiftgen\" ]]; then\n  \"${PODS_ROOT}/SwiftGen/bin/swiftgen\"\nelse\n  echo \"warning: SwiftGen is not installed. Run 'pod install --repo-update' to install it.\"\nfi\n";
+			shellScript = "\nif [[ -f \"${PODS_ROOT}/SwiftGen/bin/swiftgen\" ]]; then\n  \"${PODS_ROOT}/SwiftGen/bin/swiftgen\"\nelse\n  echo \"warning: SwiftGen is not installed. Run 'pod install --repo-update' to install it.\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -378,6 +419,7 @@
 				EEDAF557291C302500E6DDB9 /* SceneDelegate.swift in Sources */,
 				EE0AF9422913010D00EC52D3 /* ViewController.swift in Sources */,
 				EEDAF553291C05B300E6DDB9 /* JourneysCoordinator.swift in Sources */,
+				EE57FF3F2927E8B000212DC2 /* Strings+Generated.swift in Sources */,
 				EE0AF93E2913010D00EC52D3 /* AppDelegate.swift in Sources */,
 				EE29EBF829191534008ECFF8 /* AppCoordinator.swift in Sources */,
 				91819FAFB33A7ABB47EAB8B0 /* TripsViewIO.swift in Sources */,
@@ -389,13 +431,12 @@
 				678EC2173D55FABDA74E2A5F /* TripsModuleIO.swift in Sources */,
 				10708D44F55C9485F789DD9B /* TripsPresenter.swift in Sources */,
 				668AB39849F8F5E0DBE3C8F4 /* TripsModel.swift in Sources */,
-				EE29EBF529186E09008ECFF8 /* UIColorExtencion.swift in Sources */,
 				F92CACD193BE48A33A52A5DC /* TripsRouterInput.swift in Sources */,
 				EE29EBFA29191558008ECFF8 /* CoordinatorProtocol.swift in Sources */,
 				0F6FD83F50CCD8533C888533 /* TripsRouter.swift in Sources */,
-				EE29EBF329186D6E008ECFF8 /* JourneysColors.swift in Sources */,
 				7BD7FBF6368C4ADCBC0B8866 /* TripsBuilder.swift in Sources */,
 				EEDAF55C291D5AF500E6DDB9 /* FloatingButton.swift in Sources */,
+				EE157F482926B39A00A56157 /* XCAssets+Generated.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,6 +457,14 @@
 				EE0AF9492913010F00EC52D3 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		EE57FF3B2927E7E100212DC2 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EE57FF3C2927E7E100212DC2 /* ru */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

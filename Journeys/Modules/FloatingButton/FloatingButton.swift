@@ -35,9 +35,9 @@ final class FloatingButton: UIButton {
     // MARK: Private Methods
 
     private func setupViews() {
-        backgroundColor = JourneysColors.Dynamic.BaseColors.contrastToTheme
+        backgroundColor = UIColor(asset: Asset.Colors.BaseColors.contrastToThemeColor)
         layer.cornerRadius = Constants.borderRadius
-        setTitleColor(JourneysColors.Dynamic.BaseColors.similarToTheme, for: .normal)
+        setTitleColor(UIColor(asset: Asset.Colors.BaseColors.similarToThemeColor), for: .normal)
         titleLabel?.font = .systemFont(ofSize: 17, weight: .semibold)
     }
 

@@ -10,15 +10,15 @@ import UIKit
 import SnapKit
 
 final class AddTripCell: UICollectionViewCell {
-    
+
     static let identifier = "AddTripCell"
 
-    //MARK: Private properties
+    // MARK: Private properties
 
     private let plusIcon = UIImageView()
     private let addLabel = UILabel()
 
-    //MARK: Lifecycle
+    // MARK: Lifecycle
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -40,7 +40,6 @@ final class AddTripCell: UICollectionViewCell {
         setupSubviews()
     }
 
-
     // MARK: Private functions
 
     private func setupCell() {
@@ -58,7 +57,7 @@ final class AddTripCell: UICollectionViewCell {
         contentView.addSubview(plusIcon)
 
         plusIcon.image = UIImage(systemName: "plus.circle.fill")
-        addLabel.text = "Добавить"
+        addLabel.text = L10n.add
 
         setupColors()
         setupFonts()
@@ -70,9 +69,9 @@ final class AddTripCell: UICollectionViewCell {
     }
 
     private func setupColors() {
-        backgroundColor = JourneysColors.Dynamic.Background.lightColor
-        addLabel.textColor = JourneysColors.Dynamic.Text.mainTextColor
-        plusIcon.tintColor = JourneysColors.Dynamic.Icons.iconsColor
+        backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
+        addLabel.textColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
+        plusIcon.tintColor = UIColor(asset: Asset.Colors.Icons.iconsColor)
     }
 
     private func makeConstraints() {

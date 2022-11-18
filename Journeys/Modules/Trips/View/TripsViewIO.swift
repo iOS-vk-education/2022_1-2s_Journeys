@@ -14,4 +14,3 @@ protocol TripsViewInput: AnyObject {
 
 protocol TripsViewOutput: AnyObject {
 }
-

@@ -8,7 +8,7 @@ import Foundation
 import UIKit
 
 class AppCoordinator: CoordinatorProtocol {
-    
+
     var childCoordinators = [CoordinatorProtocol]()
     var navigationController: UINavigationController
     weak var journeysCoordinatorInput: CoordinatorProtocol?
@@ -23,9 +23,9 @@ class AppCoordinator: CoordinatorProtocol {
         childCoordinators.append(journeysCoordinator)
         journeysCoordinatorInput = journeysCoordinator
     }
-    
+
     // TODO: finish
     func finish() {
-        
+
     }
 }

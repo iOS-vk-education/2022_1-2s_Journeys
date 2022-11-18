@@ -25,7 +25,7 @@ final class TripsViewController: UIViewController {
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = JourneysColors.Dynamic.Background.lightColor
+        view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         setupNavBar()
         setupCollectionView()
         setupFloatingAddButton()
@@ -33,7 +33,7 @@ final class TripsViewController: UIViewController {
     }
 
     private func setupNavBar() {
-        navigationController?.navigationBar.tintColor = JourneysColors.Dynamic.Text.mainTextColor
+        navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
 
         let settingsButtonItem = UIBarButtonItem(image: UIImage(systemName: "gearshape.fill"),
                                                  style: .plain,
@@ -47,20 +47,20 @@ final class TripsViewController: UIViewController {
 
         navigationItem.leftBarButtonItem = settingsButtonItem
         navigationItem.rightBarButtonItem = favouritesButtonItem
-        title = "Поездки"
+        title = L10n.trips
     }
 
     private func setupFloatingAddButton() {
         view.addSubview(floatingChangeButton)
         view.bringSubviewToFront(floatingChangeButton)
-        floatingChangeButton.configure(title: "Редактировать")
+        floatingChangeButton.configure(title: L10n.edit)
     }
 
     private func setupCollectionView() {
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.backgroundColor = JourneysColors.Dynamic.Background.grayColor
+        collectionView.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
         collectionView.contentInset = TripsConstants.collectionInset
 
         collectionView.register(AddTripCell.self,
@@ -140,7 +140,8 @@ extension TripsViewController: UICollectionViewDataSource {
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var cell = UICollectionViewCell()
         if indexPath.section == 0 {
             guard let addCell = collectionView.dequeueReusableCell(
@@ -158,7 +159,7 @@ extension TripsViewController: UICollectionViewDataSource {
                 return cell
             }
             // TODO: use output
-            tripCell.configure(data: TripCellDisplayData(picture: UIImage(named: "TripCellImage"),
+            tripCell.configure(data: TripCellDisplayData(picture: UIImage(asset: Asset.Assets.tripCellImage),
                                                          dates: "22.01.22-22.02.22",
                                                          route: "hahaha",
                                                          isInFavourites: false),
@@ -170,14 +171,6 @@ extension TripsViewController: UICollectionViewDataSource {
 }
 
 extension TripsViewController: TripsViewInput {
-}
-
-extension UIApplication {
-
-    var statusBarView: UIView? {
-        return value(forKey: "statusBar") as? UIView
-    }
-
 }
 
 extension TripsViewController: TripCellDelegate {

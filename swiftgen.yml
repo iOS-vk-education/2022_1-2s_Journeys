@@ -1,0 +1,21 @@
+
+xcassets:
+  inputs:
+    - Journeys/Assets.xcassets
+    - Journeys/Colors.xcassets
+  outputs:
+    templateName: swift5
+    params:
+       forceProvidesNamespaces: true
+       forceFileNameEnum: true
+    output: Journeys/Generated/XCAssets+Generated.swift
+
+## Strings
+strings:
+  inputs:
+    - Journeys/ru.lproj
+  outputs:
+    - templateName: structured-swift5
+      params:
+        publicAccess: true
+      output: Journeys/Generated/Strings+Generated.swift

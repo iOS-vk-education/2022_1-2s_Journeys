@@ -11,7 +11,7 @@ import UIKit
 // MARK: - JourneysCoordinator
 
 final class JourneysCoordinator: CoordinatorProtocol {
-    
+
     // MARK: Private Properties
     private var navigationController: UINavigationController
     // MARK: Lifecycle
