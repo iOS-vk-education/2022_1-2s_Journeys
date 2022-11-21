@@ -9,5 +9,5 @@ import Foundation
 
 struct Trip {
     var route: Route
-    var stuff: Stuff
+    var stuff: [Stuff]
 }
