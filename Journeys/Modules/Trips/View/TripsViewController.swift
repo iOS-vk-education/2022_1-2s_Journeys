@@ -111,6 +111,15 @@ extension TripsViewController: UICollectionViewDelegateFlowLayout {
 
 extension TripsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            output.didSelectCell(at: indexPath)
+        } else {
+            // TODO: another action
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 15
@@ -189,9 +198,8 @@ private extension TripsViewController {
 
         static let collectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 60, right: 0)
         struct FloationgChangeButton {
-            static let width: CGFloat = 220.0
+            static let width: CGFloat = 257.0
             static let height: CGFloat = 40.0
-            static let borderRarius: CGFloat = 10.0
         }
     }
 }

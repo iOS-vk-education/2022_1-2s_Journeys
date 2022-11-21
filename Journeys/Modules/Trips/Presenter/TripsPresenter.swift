@@ -5,6 +5,8 @@
 //  Created by Nastya Ischenko on 03/11/2022.
 //
 
+import Foundation
+
 // MARK: - TripsPresenter
 
 final class TripsPresenter {
@@ -31,6 +33,10 @@ extension TripsPresenter: TripsModuleInput {
 }
 
 extension TripsPresenter: TripsViewOutput {
+    func didSelectCell(at indexpath: IndexPath) {
+        moduleOutput.tripsCollectionWantsToOpenNewRouteCreating()
+    }
+    
 }
 
 extension TripsPresenter: TripsInteractorOutput {

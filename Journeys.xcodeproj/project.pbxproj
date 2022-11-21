@@ -34,6 +34,15 @@
 		EEDAF555291C0F2200E6DDB9 /* AddTripCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDAF554291C0F2200E6DDB9 /* AddTripCell.swift */; };
 		EEDAF557291C302500E6DDB9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDAF556291C302500E6DDB9 /* SceneDelegate.swift */; };
 		EEDAF55C291D5AF500E6DDB9 /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDAF55B291D5AF500E6DDB9 /* FloatingButton.swift */; };
+		EEFA76C7292BE88F00A0B8CA /* NewRouteCreatingModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76BF292BE88F00A0B8CA /* NewRouteCreatingModuleIO.swift */; };
+		EEFA76C8292BE88F00A0B8CA /* NewRouteCreatingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76C0292BE88F00A0B8CA /* NewRouteCreatingPresenter.swift */; };
+		EEFA76C9292BE88F00A0B8CA /* NewRouteCreatingBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76C1292BE88F00A0B8CA /* NewRouteCreatingBuilder.swift */; };
+		EEFA76CA292BE88F00A0B8CA /* NewRouteCreatingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76C3292BE88F00A0B8CA /* NewRouteCreatingModel.swift */; };
+		EEFA76CB292BE88F00A0B8CA /* NewRouteCreatingViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76C5292BE88F00A0B8CA /* NewRouteCreatingViewIO.swift */; };
+		EEFA76CC292BE88F00A0B8CA /* NewRouteCreatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76C6292BE88F00A0B8CA /* NewRouteCreatingViewController.swift */; };
+		EEFA76CF292BE93500A0B8CA /* NewRouteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76CE292BE93500A0B8CA /* NewRouteCell.swift */; };
+		EEFA76D1292BEAAC00A0B8CA /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76D0292BEAAC00A0B8CA /* UITextField.swift */; };
+		EEFA76D3292BED6000A0B8CA /* NewRouteCellDisplayDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76D2292BED6000A0B8CA /* NewRouteCellDisplayDataFactory.swift */; };
 		F92CACD193BE48A33A52A5DC /* TripsRouterInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABAFF6132B4BF34FF1262AA /* TripsRouterInput.swift */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +78,15 @@
 		EEDAF554291C0F2200E6DDB9 /* AddTripCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTripCell.swift; sourceTree = "<group>"; };
 		EEDAF556291C302500E6DDB9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		EEDAF55B291D5AF500E6DDB9 /* FloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButton.swift; sourceTree = "<group>"; };
+		EEFA76BF292BE88F00A0B8CA /* NewRouteCreatingModuleIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRouteCreatingModuleIO.swift; sourceTree = "<group>"; };
+		EEFA76C0292BE88F00A0B8CA /* NewRouteCreatingPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRouteCreatingPresenter.swift; sourceTree = "<group>"; };
+		EEFA76C1292BE88F00A0B8CA /* NewRouteCreatingBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRouteCreatingBuilder.swift; sourceTree = "<group>"; };
+		EEFA76C3292BE88F00A0B8CA /* NewRouteCreatingModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRouteCreatingModel.swift; sourceTree = "<group>"; };
+		EEFA76C5292BE88F00A0B8CA /* NewRouteCreatingViewIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRouteCreatingViewIO.swift; sourceTree = "<group>"; };
+		EEFA76C6292BE88F00A0B8CA /* NewRouteCreatingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRouteCreatingViewController.swift; sourceTree = "<group>"; };
+		EEFA76CE292BE93500A0B8CA /* NewRouteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRouteCell.swift; sourceTree = "<group>"; };
+		EEFA76D0292BEAAC00A0B8CA /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
+		EEFA76D2292BED6000A0B8CA /* NewRouteCellDisplayDataFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRouteCellDisplayDataFactory.swift; sourceTree = "<group>"; };
 		FABAFF6132B4BF34FF1262AA /* TripsRouterInput.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsRouterInput.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -181,11 +199,11 @@
 		EE0AF93C2913010D00EC52D3 /* Journeys */ = {
 			isa = PBXGroup;
 			children = (
-				EE57FF372927E6E400212DC2 /* ru.lproj */,
-				EE157F442926B31100A56157 /* Generated */,
 				EE29EBF029186D4B008ECFF8 /* Extencions */,
 				EE0AF951291301C500EC52D3 /* Modules */,
 				EE29EBF62919151A008ECFF8 /* Coordinators */,
+				EE157F442926B31100A56157 /* Generated */,
+				EE57FF372927E6E400212DC2 /* ru.lproj */,
 				EE0AF93D2913010D00EC52D3 /* AppDelegate.swift */,
 				EEDAF556291C302500E6DDB9 /* SceneDelegate.swift */,
 				EE0AF9412913010D00EC52D3 /* ViewController.swift */,
@@ -201,6 +219,7 @@
 		EE0AF951291301C500EC52D3 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				EEFA76BD292BE88F00A0B8CA /* NewRouteCreating */,
 				EEDAF55D291D65C300E6DDB9 /* FloatingButton */,
 				E7C7F8885C59BF0183002C79 /* Trips */,
 			);
@@ -219,6 +238,7 @@
 		EE29EBF029186D4B008ECFF8 /* Extencions */ = {
 			isa = PBXGroup;
 			children = (
+				EEFA76D0292BEAAC00A0B8CA /* UITextField.swift */,
 			);
 			path = Extencions;
 			sourceTree = "<group>";
@@ -256,6 +276,61 @@
 				EEDAF55B291D5AF500E6DDB9 /* FloatingButton.swift */,
 			);
 			path = FloatingButton;
+			sourceTree = "<group>";
+		};
+		EEFA76BD292BE88F00A0B8CA /* NewRouteCreating */ = {
+			isa = PBXGroup;
+			children = (
+				EEFA76CD292BE91000A0B8CA /* NewRouteCell */,
+				EEFA76C4292BE88F00A0B8CA /* View */,
+				EEFA76BE292BE88F00A0B8CA /* Presenter */,
+				EEFA76C2292BE88F00A0B8CA /* Model */,
+				EEFA76C1292BE88F00A0B8CA /* NewRouteCreatingBuilder.swift */,
+			);
+			path = NewRouteCreating;
+			sourceTree = "<group>";
+		};
+		EEFA76BE292BE88F00A0B8CA /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				EEFA76BF292BE88F00A0B8CA /* NewRouteCreatingModuleIO.swift */,
+				EEFA76C0292BE88F00A0B8CA /* NewRouteCreatingPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		EEFA76C2292BE88F00A0B8CA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EEFA76C3292BE88F00A0B8CA /* NewRouteCreatingModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		EEFA76C4292BE88F00A0B8CA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				EEFA76C5292BE88F00A0B8CA /* NewRouteCreatingViewIO.swift */,
+				EEFA76C6292BE88F00A0B8CA /* NewRouteCreatingViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		EEFA76CD292BE91000A0B8CA /* NewRouteCell */ = {
+			isa = PBXGroup;
+			children = (
+				EEFA76D4292C177800A0B8CA /* DataFactory */,
+				EEFA76CE292BE93500A0B8CA /* NewRouteCell.swift */,
+			);
+			path = NewRouteCell;
+			sourceTree = "<group>";
+		};
+		EEFA76D4292C177800A0B8CA /* DataFactory */ = {
+			isa = PBXGroup;
+			children = (
+				EEFA76D2292BED6000A0B8CA /* NewRouteCellDisplayDataFactory.swift */,
+			);
+			path = DataFactory;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -417,17 +492,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				EEDAF557291C302500E6DDB9 /* SceneDelegate.swift in Sources */,
+				EEFA76C7292BE88F00A0B8CA /* NewRouteCreatingModuleIO.swift in Sources */,
 				EE0AF9422913010D00EC52D3 /* ViewController.swift in Sources */,
 				EEDAF553291C05B300E6DDB9 /* JourneysCoordinator.swift in Sources */,
 				EE57FF3F2927E8B000212DC2 /* Strings+Generated.swift in Sources */,
 				EE0AF93E2913010D00EC52D3 /* AppDelegate.swift in Sources */,
 				EE29EBF829191534008ECFF8 /* AppCoordinator.swift in Sources */,
+				EEFA76D1292BEAAC00A0B8CA /* UITextField.swift in Sources */,
 				91819FAFB33A7ABB47EAB8B0 /* TripsViewIO.swift in Sources */,
+				EEFA76CB292BE88F00A0B8CA /* NewRouteCreatingViewIO.swift in Sources */,
 				093861F1C840A5A7EA2ABBB0 /* TripsViewController.swift in Sources */,
+				EEFA76CF292BE93500A0B8CA /* NewRouteCell.swift in Sources */,
 				C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */,
 				EE2B4126291413EC0067BE4F /* TripCell.swift in Sources */,
 				A837507D56DC8E0FFC90C522 /* TripsInteractor.swift in Sources */,
 				EEDAF555291C0F2200E6DDB9 /* AddTripCell.swift in Sources */,
+				EEFA76D3292BED6000A0B8CA /* NewRouteCellDisplayDataFactory.swift in Sources */,
 				678EC2173D55FABDA74E2A5F /* TripsModuleIO.swift in Sources */,
 				10708D44F55C9485F789DD9B /* TripsPresenter.swift in Sources */,
 				668AB39849F8F5E0DBE3C8F4 /* TripsModel.swift in Sources */,
@@ -436,7 +516,11 @@
 				0F6FD83F50CCD8533C888533 /* TripsRouter.swift in Sources */,
 				7BD7FBF6368C4ADCBC0B8866 /* TripsBuilder.swift in Sources */,
 				EEDAF55C291D5AF500E6DDB9 /* FloatingButton.swift in Sources */,
+				EEFA76C9292BE88F00A0B8CA /* NewRouteCreatingBuilder.swift in Sources */,
+				EEFA76CC292BE88F00A0B8CA /* NewRouteCreatingViewController.swift in Sources */,
+				EEFA76C8292BE88F00A0B8CA /* NewRouteCreatingPresenter.swift in Sources */,
 				EE157F482926B39A00A56157 /* XCAssets+Generated.swift in Sources */,
+				EEFA76CA292BE88F00A0B8CA /* NewRouteCreatingModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
