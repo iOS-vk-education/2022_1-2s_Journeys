@@ -22,6 +22,12 @@
 		EE0AF9452913010D00EC52D3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE0AF9432913010D00EC52D3 /* Main.storyboard */; };
 		EE0AF9472913010F00EC52D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE0AF9462913010F00EC52D3 /* Assets.xcassets */; };
 		EE0AF94A2913010F00EC52D3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE0AF9482913010F00EC52D3 /* LaunchScreen.storyboard */; };
+		EEFA76AF292BCC7A00A0B8CA /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76AE292BCC7A00A0B8CA /* Place.swift */; };
+		EEFA76B1292BCCB500A0B8CA /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76B0292BCCB500A0B8CA /* Route.swift */; };
+		EEFA76B3292BCE0000A0B8CA /* StuffStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76B2292BCE0000A0B8CA /* StuffStatus.swift */; };
+		EEFA76B5292BCE6300A0B8CA /* Stuff.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76B4292BCE6300A0B8CA /* Stuff.swift */; };
+		EEFA76B7292BD1E400A0B8CA /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76B6292BD1E400A0B8CA /* Weather.swift */; };
+		EEFA76B9292BDD6100A0B8CA /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76B8292BDD6100A0B8CA /* Trip.swift */; };
 		F92CACD193BE48A33A52A5DC /* TripsRouterInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABAFF6132B4BF34FF1262AA /* TripsRouterInput.swift */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +49,12 @@
 		EE0AF9462913010F00EC52D3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EE0AF9492913010F00EC52D3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EE0AF94B2913010F00EC52D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EEFA76AE292BCC7A00A0B8CA /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		EEFA76B0292BCCB500A0B8CA /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		EEFA76B2292BCE0000A0B8CA /* StuffStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffStatus.swift; sourceTree = "<group>"; };
+		EEFA76B4292BCE6300A0B8CA /* Stuff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stuff.swift; sourceTree = "<group>"; };
+		EEFA76B6292BD1E400A0B8CA /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		EEFA76B8292BDD6100A0B8CA /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		FABAFF6132B4BF34FF1262AA /* TripsRouterInput.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsRouterInput.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -157,6 +169,12 @@
 		EE157E0F29266A0F00A56157 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				EEFA76AE292BCC7A00A0B8CA /* Place.swift */,
+				EEFA76B0292BCCB500A0B8CA /* Route.swift */,
+				EEFA76B2292BCE0000A0B8CA /* StuffStatus.swift */,
+				EEFA76B4292BCE6300A0B8CA /* Stuff.swift */,
+				EEFA76B6292BD1E400A0B8CA /* Weather.swift */,
+				EEFA76B8292BDD6100A0B8CA /* Trip.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -232,15 +250,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EEFA76B5292BCE6300A0B8CA /* Stuff.swift in Sources */,
 				EE0AF9422913010D00EC52D3 /* ViewController.swift in Sources */,
 				EE0AF93E2913010D00EC52D3 /* AppDelegate.swift in Sources */,
 				EE0AF9402913010D00EC52D3 /* SceneDelegate.swift in Sources */,
+				EEFA76B7292BD1E400A0B8CA /* Weather.swift in Sources */,
+				EEFA76B1292BCCB500A0B8CA /* Route.swift in Sources */,
 				91819FAFB33A7ABB47EAB8B0 /* TripsViewIO.swift in Sources */,
 				093861F1C840A5A7EA2ABBB0 /* TripsViewController.swift in Sources */,
+				EEFA76AF292BCC7A00A0B8CA /* Place.swift in Sources */,
 				C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */,
+				EEFA76B9292BDD6100A0B8CA /* Trip.swift in Sources */,
 				A837507D56DC8E0FFC90C522 /* TripsInteractor.swift in Sources */,
 				678EC2173D55FABDA74E2A5F /* TripsModuleIO.swift in Sources */,
 				10708D44F55C9485F789DD9B /* TripsPresenter.swift in Sources */,
+				EEFA76B3292BCE0000A0B8CA /* StuffStatus.swift in Sources */,
 				668AB39849F8F5E0DBE3C8F4 /* TripsModel.swift in Sources */,
 				F92CACD193BE48A33A52A5DC /* TripsRouterInput.swift in Sources */,
 				0F6FD83F50CCD8533C888533 /* TripsRouter.swift in Sources */,
