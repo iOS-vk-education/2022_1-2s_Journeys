@@ -89,10 +89,11 @@ final class NewRouteCreatingViewController: UIViewController {
 
 extension NewRouteCreatingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        if indexPath.section == 1 {
-            return output.userWantsToDeleteCell(indexPath: indexPath)(tableView, indexPath)
+        let closure = output.userWantsToDeleteCell(indexPath: indexPath)
+        guard let closure = closure else {
+            return nil
         }
-        return nil
+        return closure(tableView, indexPath)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

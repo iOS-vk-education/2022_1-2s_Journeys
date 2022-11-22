@@ -124,7 +124,10 @@ extension NewRouteCreatingPresenter: NewRouteCreatingViewOutput {
         return nil
     }
     
-    func userWantsToDeleteCell(indexPath: IndexPath) -> ((UITableView, IndexPath) -> [UITableViewRowAction]?) {
+    func userWantsToDeleteCell(indexPath: IndexPath) -> ((UITableView, IndexPath) -> [UITableViewRowAction]?)? {
+        if indexPath.section != 1 || indexPath.row == 0 {
+            return nil
+        }
         arrivalCellsCount -= 1
         if locations.indices.contains(indexPath.row) {
             locations.remove(at: indexPath.row)

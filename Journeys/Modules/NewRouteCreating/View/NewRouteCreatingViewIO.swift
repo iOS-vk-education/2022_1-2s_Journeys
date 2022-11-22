@@ -23,5 +23,5 @@ protocol NewRouteCreatingViewOutput: AnyObject {
     func numberOfSectins() -> Int
     
     func didSelectRow(at indexpath: IndexPath) -> ((NewRouteCreatingViewController, UITableView)->())?
-    func userWantsToDeleteCell(indexPath: IndexPath) -> ((UITableView, IndexPath) -> [UITableViewRowAction]?)
+    func userWantsToDeleteCell(indexPath: IndexPath) -> ((UITableView, IndexPath) -> [UITableViewRowAction]?)?
 }
