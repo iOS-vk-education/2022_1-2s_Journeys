@@ -137,15 +137,14 @@ extension TripsViewController: UICollectionViewDelegate {
 
 extension TripsViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 5
+        return 2
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
             return 1
-        // TODO: use output
         } else {
-            return 1
+            return output.getTripCellsCount()
         }
     }
 
@@ -168,10 +167,7 @@ extension TripsViewController: UICollectionViewDataSource {
                 return cell
             }
             // TODO: use output
-            tripCell.configure(data: TripCellDisplayData(picture: UIImage(asset: Asset.Assets.tripCellImage),
-                                                         dates: "22.01.22-22.02.22",
-                                                         route: "hahaha",
-                                                         isInFavourites: false),
+            tripCell.configure(data: output.getCellData(for: indexPath),
                                delegate: self)
             cell = tripCell
         }

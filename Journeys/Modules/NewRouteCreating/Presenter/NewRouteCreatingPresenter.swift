@@ -8,11 +8,6 @@
 import Foundation
 import UIKit
 
-struct Location {
-    var country: String
-    var city: String
-}
-
 // MARK: - NewRouteCreatingPresenter
 
 final class NewRouteCreatingPresenter {

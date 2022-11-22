@@ -9,14 +9,14 @@ import Foundation
 import UIKit
 import SnapKit
 
-struct TripCellDisplayData {
-    let picture: UIImage?
-    let dates: String
-    let route: String
-    let isInFavourites: Bool
-}
-
 final class TripCell: UICollectionViewCell {
+    
+    struct DisplayData {
+        let picture: UIImage?
+        let dates: String
+        let route: String
+        let isInFavourites: Bool
+    }
 
     // MARK: Private properties
 
@@ -141,7 +141,7 @@ final class TripCell: UICollectionViewCell {
         bookmarkButtonImageSetter()
     }
 
-    func configure(data: TripCellDisplayData, delegate: TripCellDelegate) {
+    func configure(data: DisplayData, delegate: TripCellDelegate) {
         picture.image = data.picture ?? UIImage(named: "")
         datesLabel.text = data.dates
         townsRouteLabel.text = data.route

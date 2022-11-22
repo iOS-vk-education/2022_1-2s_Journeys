@@ -10,6 +10,7 @@ import Foundation
 // MARK: - Trips InteractorInput
 
 protocol TripsInteractorInput: AnyObject {
+    func obtainDataFromSever() -> [Trip]?
 }
 
 // MARK: - TripsInteractorOutput

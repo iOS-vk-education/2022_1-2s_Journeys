@@ -12,16 +12,16 @@ import UIKit
 final class TripsModuleBuilder {
     func build(output: TripsModuleOutput) -> UIViewController {
 
-        let viewController = TripsViewController()
         let router = TripsRouter()
         let interactor = TripsInteractor()
         let presenter = TripsPresenter(interactor: interactor, router: router)
         
-        presenter.view = viewController
         presenter.moduleOutput = output
-
         interactor.output = presenter
+
+        let viewController = TripsViewController()
         viewController.output = presenter
+        presenter.view = viewController
 
         return viewController
     }
