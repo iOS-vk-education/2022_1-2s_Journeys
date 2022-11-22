@@ -59,6 +59,15 @@ final class NewRouteCreatingPresenter {
         tableView.insertRows(at: [indexPath as IndexPath], with: .automatic)
         tableView.endUpdates()
     }
+    
+    private let deleteRow: (UITableView, IndexPath) -> [UITableViewRowAction]? = { tableView, indexPath in
+        let deleteAction = UITableViewRowAction(style: .destructive, title: L10n.delete) { (action, indexPath) in
+            tableView.beginUpdates()
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.endUpdates()
+        }
+        return[deleteAction]
+    }
 }
 
 extension NewRouteCreatingPresenter: NewRouteCreatingModuleInput {
@@ -113,6 +122,14 @@ extension NewRouteCreatingPresenter: NewRouteCreatingViewOutput {
             assertionFailure("Cell selection error: too much sections")
         }
         return nil
+    }
+    
+    func userWantsToDeleteCell(indexPath: IndexPath) -> ((UITableView, IndexPath) -> [UITableViewRowAction]?) {
+        arrivalCellsCount -= 1
+        if locations.indices.contains(indexPath.row) {
+            locations.remove(at: indexPath.row)
+        }
+        return deleteRow
     }
     
     private func openTownAddingModule() {

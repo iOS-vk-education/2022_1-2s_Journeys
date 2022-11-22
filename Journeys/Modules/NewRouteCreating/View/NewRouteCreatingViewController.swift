@@ -88,6 +88,13 @@ final class NewRouteCreatingViewController: UIViewController {
 }
 
 extension NewRouteCreatingViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        if indexPath.section == 1 {
+            return output.userWantsToDeleteCell(indexPath: indexPath)(tableView, indexPath)
+        }
+        return nil
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let closure = output.didSelectRow(at: indexPath) else {
             return
@@ -120,21 +127,6 @@ extension NewRouteCreatingViewController: UITableViewDataSource {
 }
 
 extension NewRouteCreatingViewController: NewRouteCreatingViewInput {
-    
-    func addNewCellAction () {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "NewRouteCell") as? NewRouteCell
-        else {
-            assertionFailure("Error while creating cell")
-            return
-        }
-        let indexPath = NSIndexPath(row: tableView.numberOfRows(inSection: 1), section: 1)
-        cell.configure(displayData: NewRouteCellDisplayDataFactory().displayData(cellType: output.giveCellType(for: indexPath as IndexPath)))
-        
-        tableView.beginUpdates()
-        tableView.insertRows(at: [indexPath as IndexPath], with: .automatic)
-        tableView.endUpdates()
-
-    }
 }
 
 

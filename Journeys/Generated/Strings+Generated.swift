@@ -18,6 +18,8 @@ public enum L10n {
   public static let arrivalTown = L10n.tr("Localizable", "ArrivalTown")
   /// Построить маршрут
   public static let buildRoute = L10n.tr("Localizable", "BuildRoute")
+  /// Удалить
+  public static let delete = L10n.tr("Localizable", "Delete")
   /// Город отправления
   public static let departureTown = L10n.tr("Localizable", "DepartureTown")
   /// Редактировать

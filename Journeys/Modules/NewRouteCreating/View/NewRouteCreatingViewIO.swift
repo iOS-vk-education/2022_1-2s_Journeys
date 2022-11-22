@@ -12,7 +12,6 @@ import UIKit
 // MARK: - NewRouteCreating ViewInput
 
 protocol NewRouteCreatingViewInput: AnyObject {
-    func addNewCellAction ()
 }
 
 // MARK: - NewRouteCreating ViewOutput
@@ -24,4 +23,5 @@ protocol NewRouteCreatingViewOutput: AnyObject {
     func numberOfSectins() -> Int
     
     func didSelectRow(at indexpath: IndexPath) -> ((NewRouteCreatingViewController, UITableView)->())?
+    func userWantsToDeleteCell(indexPath: IndexPath) -> ((UITableView, IndexPath) -> [UITableViewRowAction]?)
 }
