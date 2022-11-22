@@ -10,9 +10,9 @@ import UIKit
 // MARK: - AddNewLocationModuleBuilder
 
 final class AddNewLocationModuleBuilder {
-    func build(output: AddNewLocationModuleOutput) -> UIViewController {
+    func build(output: AddNewLocationModuleOutput, place: Place?) -> UIViewController {
 
-        let presenter = AddNewLocationPresenter()
+        let presenter = AddNewLocationPresenter(place: place)
         let viewController = AddNewLocationViewController()
         presenter.view = viewController
         presenter.moduleOutput = output

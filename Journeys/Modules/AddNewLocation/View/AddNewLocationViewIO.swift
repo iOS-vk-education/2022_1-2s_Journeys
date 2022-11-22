@@ -16,8 +16,11 @@ protocol AddNewLocationViewInput: AnyObject {
 // MARK: - AddNewLocation ViewOutput
 
 protocol AddNewLocationViewOutput: AnyObject {
-    func getDisplayData(for indexpath: IndexPath) -> AddNewLocationCell.DisplayData
+//    func getDisplayData(for indexpath: IndexPath) -> AddNewLocationCell.DisplayData
     func didSelectCell(at indexpath: IndexPath)
     func didTapExitButton()
     func didTapDoneButton()
+    
+    func getLocationCellData() -> AddNewLocationCell.DisplayData
+    func getCalendarCellData() -> CalendarCell.DisplayData
 }

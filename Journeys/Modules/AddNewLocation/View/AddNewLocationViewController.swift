@@ -33,6 +33,8 @@ final class AddNewLocationViewController: UIViewController {
 
     private func setupNavBar() {
         navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
+        navigationController?.navigationBar.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
+        navigationController?.setStatusBar(backgroundColor: UIColor(asset: Asset.Colors.Background.brightColor) ?? .white)
 
         let exitButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"),
                                                  style: .plain,
@@ -97,6 +99,9 @@ extension AddNewLocationViewController: UITableViewDelegate {
 // MARK: UITableViewDataSource
 
 extension AddNewLocationViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        0
+    }
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         300
     }
@@ -144,7 +149,7 @@ extension AddNewLocationViewController: UITableViewDataSource {
                                                                 for: indexPath) as? AddNewLocationCell else {
                 return UITableViewCell()
             }
-            let displayData = output.getDisplayData(for: indexPath)
+            let displayData = output.getLocationCellData()
             usualCell.configure(displayData: displayData)
             cell = usualCell
         } else {
@@ -152,7 +157,8 @@ extension AddNewLocationViewController: UITableViewDataSource {
                                                                 for: indexPath) as? CalendarCell else {
                 return UITableViewCell()
             }
-            calendarCell.counfigure()
+            let displayData = output.getCalendarCellData()
+            calendarCell.counfigure(displayData: displayData)
             cell = calendarCell
         }
         return cell

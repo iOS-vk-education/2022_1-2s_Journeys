@@ -11,9 +11,9 @@ import UIKit
 
 // MARK: - AddNewLocationCell
 
-final class AddNewLocationCell: UITableViewCell {
+final class AddNewLocationCell: UITableViewCell, UITextFieldDelegate {
     struct DisplayData {
-        let location: String?
+        let locationString: String?
     }
 
     // MARK: - Private Properties
@@ -51,6 +51,8 @@ final class AddNewLocationCell: UITableViewCell {
         contentView.addSubview(locationTextField)
         contentView.addSubview(chevronButton)
         contentView.addSubview(icon)
+        
+        locationTextField.delegate = self
 
         chevronButton.addTarget(self, action: #selector(chevronButtonWasTapped), for: .touchUpInside)
         chevronButton.imageView?.tintColor = UIColor(asset: Asset.Colors.Icons.iconsColor) ?? .black
@@ -68,6 +70,8 @@ final class AddNewLocationCell: UITableViewCell {
         locationTextField.snp.makeConstraints { make in
             make.leading.equalTo(icon.snp.trailing)
                 .offset(Constants.LocationTextField.leadingIndentFromIcon)
+            make.trailing.lessThanOrEqualToSuperview()
+                .inset(Constants.LocationTextField.minTraillingIndent)
             make.centerY.equalTo(icon.snp.centerY)
         }
 
@@ -84,11 +88,16 @@ final class AddNewLocationCell: UITableViewCell {
     private func chevronButtonWasTapped() {
         
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 
     // MARK: Public methods
 
     func configure(displayData: DisplayData) {
-        if let location = displayData.location {
+        if let location = displayData.locationString {
             locationTextField.text = location
         }
     }
@@ -108,6 +117,7 @@ private extension AddNewLocationCell {
         
         enum LocationTextField {
             static let leadingIndentFromIcon: CGFloat = 12
+            static let minTraillingIndent: CGFloat = 40
         }
     }
 }

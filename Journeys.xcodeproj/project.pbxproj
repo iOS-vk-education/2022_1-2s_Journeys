@@ -56,6 +56,7 @@
 		EEFA76E7292CFEB400A0B8CA /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76E1292CFEB400A0B8CA /* Weather.swift */; };
 		EEFA76E8292CFEB400A0B8CA /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76E2292CFEB400A0B8CA /* Route.swift */; };
 		EEFA76EA292D105000A0B8CA /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76E9292D105000A0B8CA /* DateFormatter.swift */; };
+		EEFA76EE292D2A4E00A0B8CA /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76ED292D2A4E00A0B8CA /* UINavigationController.swift */; };
 		EFC46B44DC715D0AB5B01639 /* AddNewLocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F037949A48EAF01CF6644F /* AddNewLocationModel.swift */; };
 		F85D180AC31F83D70AABFF62 /* AddNewLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8185A5807AF85BC79DA25C /* AddNewLocationViewController.swift */; };
 		F92CACD193BE48A33A52A5DC /* TripsRouterInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABAFF6132B4BF34FF1262AA /* TripsRouterInput.swift */; };
@@ -116,6 +117,7 @@
 		EEFA76E1292CFEB400A0B8CA /* Weather.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		EEFA76E2292CFEB400A0B8CA /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		EEFA76E9292D105000A0B8CA /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
+		EEFA76ED292D2A4E00A0B8CA /* UINavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
 		F4A76FCB7DE71B4D0835960C /* AddNewLocationBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AddNewLocationBuilder.swift; sourceTree = "<group>"; };
 		FABAFF6132B4BF34FF1262AA /* TripsRouterInput.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsRouterInput.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -204,7 +206,7 @@
 		B05AEDF29DC28FB23E78F1E2 /* AddNewLocation */ = {
 			isa = PBXGroup;
 			children = (
-				EEFA76D7292C4ED800A0B8CA /* AddNewLocationCell */,
+				EEFA76D7292C4ED800A0B8CA /* AddNewLocationCells */,
 				D1FCDB4110F75BF664D4F972 /* View */,
 				726F8B830BB3C329A2D9076B /* Presenter */,
 				8CE902A573A8621F3BB1CBFC /* Model */,
@@ -310,6 +312,7 @@
 			children = (
 				EEFA76D0292BEAAC00A0B8CA /* UITextField.swift */,
 				EEFA76E9292D105000A0B8CA /* DateFormatter.swift */,
+				EEFA76ED292D2A4E00A0B8CA /* UINavigationController.swift */,
 			);
 			path = Extencions;
 			sourceTree = "<group>";
@@ -404,13 +407,13 @@
 			path = DataFactory;
 			sourceTree = "<group>";
 		};
-		EEFA76D7292C4ED800A0B8CA /* AddNewLocationCell */ = {
+		EEFA76D7292C4ED800A0B8CA /* AddNewLocationCells */ = {
 			isa = PBXGroup;
 			children = (
 				EEFA76D8292C4EF300A0B8CA /* AddNewLocationCell.swift */,
 				EEFA76DA292C5E7E00A0B8CA /* CalendarCell.swift */,
 			);
-			path = AddNewLocationCell;
+			path = AddNewLocationCells;
 			sourceTree = "<group>";
 		};
 		EEFA76DC292CFEB400A0B8CA /* Models */ = {
@@ -623,6 +626,7 @@
 				EE157F482926B39A00A56157 /* XCAssets+Generated.swift in Sources */,
 				EEFA76CA292BE88F00A0B8CA /* NewRouteCreatingModel.swift in Sources */,
 				877628B20E359D76C0F8AAE7 /* AddNewLocationViewIO.swift in Sources */,
+				EEFA76EE292D2A4E00A0B8CA /* UINavigationController.swift in Sources */,
 				EEFA76E3292CFEB400A0B8CA /* Trip.swift in Sources */,
 				F85D180AC31F83D70AABFF62 /* AddNewLocationViewController.swift in Sources */,
 				42F5E9147912D8D43EB79AA4 /* AddNewLocationModuleIO.swift in Sources */,

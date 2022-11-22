@@ -11,37 +11,25 @@ import UIKit
 // MARK: - NewRouteCreatingPresenter
 
 final class NewRouteCreatingPresenter {
-    
-    
+
     // MARK: - Public Properties
 
     weak var view: NewRouteCreatingViewInput!
     weak var moduleOutput: NewRouteCreatingModuleOutput!
     let model: NewRouteCreatingModel
-    
+
     let deportCellsCount: Int = 1
     let addNewCityCellsCount: Int = 1
     var arrivalCellsCount: Int = 1
     var departureLocation: Location? = nil
-    var locations: [Location?] = []
-    
+    var places: [Place] = []
+
     internal init() {
-        let countries = ["Russia"]
-        let cities = ["Moscow"]
-        locations.append(Location(country: countries[0], city: cities[0]))
-        locations.append(Location(country: countries[0], city: cities[0]))
-        locations.append(Location(country: countries[0], city: cities[0]))
-        locations.append(Location(country: countries[0], city: cities[0]))
-        locations.append(Location(country: countries[0], city: cities[0]))
-        locations.append(Location(country: countries[0], city: cities[0]))
-        locations.append(Location(country: countries[0], city: cities[0]))
-        locations.append(Location(country: countries[0], city: cities[0]))
-        locations.append(Location(country: countries[0], city: cities[0]))
-        locations.append(Location(country: countries[0], city: cities[0]))
-        arrivalCellsCount = (locations.count > 1 ? locations.count : 1)
+//        places = plases2
+        arrivalCellsCount = (places.count > 1 ? places.count : 1)
         model = NewRouteCreatingModel()
     }
-    
+
     private let addNewCellClosure: (NewRouteCreatingViewController, UITableView)->() = { view, tableView in
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "NewRouteCell") as? NewRouteCell
         else {
@@ -75,10 +63,10 @@ extension NewRouteCreatingPresenter: NewRouteCreatingViewOutput {
         if indexpath.section == 0 {
             return displayData.displayData(cellType: .departureTown(location: departureLocation))
         } else if indexpath.section == 1 {
-            guard locations.indices.contains(indexpath.row) else {
+            guard places.indices.contains(indexpath.row) else {
                 return displayData.displayData(cellType: .arrivalTown(location: nil))
             }
-            return displayData.displayData(cellType: .arrivalTown(location: locations[indexpath.row]))
+            return displayData.displayData(cellType: .arrivalTown(location: places[indexpath.row].location))
         } else {
             return displayData.displayData(cellType: .newLocation)
         }
@@ -108,7 +96,7 @@ extension NewRouteCreatingPresenter: NewRouteCreatingViewOutput {
     
     func didSelectRow(at indexpath: IndexPath) -> ((NewRouteCreatingViewController, UITableView)->())? {
         if indexpath.section < 2 {
-            newRouteCreationModuleWantsToOpenAddNewLocationModule()
+            newRouteCreationModuleWantsToOpenAddNewLocationModule(indexPath: indexpath)
         } else if indexpath.section == 2 {
             arrivalCellsCount += 1
             return addNewCellClosure
@@ -123,13 +111,17 @@ extension NewRouteCreatingPresenter: NewRouteCreatingViewOutput {
             return nil
         }
         arrivalCellsCount -= 1
-        if locations.indices.contains(indexPath.row) {
-            locations.remove(at: indexPath.row)
+        if places.indices.contains(indexPath.row) {
+            places.remove(at: indexPath.row)
         }
         return deleteRow
     }
     
-    func newRouteCreationModuleWantsToOpenAddNewLocationModule() {
-        moduleOutput.newRouteCreationModuleWantsToOpenAddNewLocationModule()
+    func newRouteCreationModuleWantsToOpenAddNewLocationModule(indexPath: IndexPath) {
+        if places.indices.contains(indexPath.row) {
+            moduleOutput.newRouteCreationModuleWantsToOpenAddNewLocationModule(place: places[indexPath.row])
+        } else {
+            moduleOutput.newRouteCreationModuleWantsToOpenAddNewLocationModule(place: nil)
+        }
     }
 }

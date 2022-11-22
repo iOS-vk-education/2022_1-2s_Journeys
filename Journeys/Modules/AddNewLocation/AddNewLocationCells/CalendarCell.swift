@@ -11,7 +11,8 @@ import FSCalendar
 
 final class CalendarCell: UITableViewCell {
     struct DisplayData {
-        let location: String?
+        let arrivalDate: Date?
+        let departureDate: Date?
     }
     
     // MARK: - Private Properties
@@ -54,7 +55,7 @@ final class CalendarCell: UITableViewCell {
 //            make.bottom.equalToSuperview().inset(20)
 //        }
     }
-    func counfigure() {
+    func counfigure(displayData: DisplayData) {
         let calendarFrame = CGRect(x: contentView.frame.minX + 10,
                                    y: contentView.frame.minY + 10,
                                    width: contentView.frame.size.width - 20,
@@ -65,7 +66,10 @@ final class CalendarCell: UITableViewCell {
         calendar.delegate = self
         
         calendar.allowsMultipleSelection = true
+        
+        selectDates(from: displayData.arrivalDate, to: displayData.departureDate)
     }
+    
 }
 
 extension CalendarCell: FSCalendarDataSource {
@@ -108,13 +112,22 @@ extension CalendarCell: FSCalendarDelegate {
 }
 
 extension CalendarCell {
+    func selectDates(from arrivalDate: Date?, to departureDate: Date?) {
+        if arrivalDate != nil && departureDate != nil {
+            firstDate = arrivalDate
+            lastDate = departureDate
+            let range = datesRange(from: arrivalDate!, to: departureDate!)
+            for day in range {
+                calendar.select(day)
+            }
+        }
+    }
+    
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         // nothing selected:
         if firstDate == nil {
             firstDate = date
             datesRange = [firstDate!]
-
-            print("datesRange contains: \(datesRange!)")
 
             return
         }
@@ -126,8 +139,6 @@ extension CalendarCell {
                 calendar.deselect(firstDate!)
                 firstDate = date
                 datesRange = [firstDate!]
-
-                print("datesRange contains: \(datesRange!)")
 
                 return
             }
@@ -142,8 +153,6 @@ extension CalendarCell {
 
             datesRange = range
 
-            print("datesRange contains: \(datesRange!)")
-
             return
         }
 
@@ -157,8 +166,6 @@ extension CalendarCell {
             firstDate = nil
 
             datesRange = []
-
-            print("datesRange contains: \(datesRange!)")
         }
     }
 
