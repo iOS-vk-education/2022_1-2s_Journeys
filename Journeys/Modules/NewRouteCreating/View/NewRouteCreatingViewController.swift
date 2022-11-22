@@ -122,7 +122,8 @@ extension NewRouteCreatingViewController: UITableViewDataSource {
             assertionFailure("Error while creating cell")
             return UITableViewCell()
         }
-        cell.configure(displayData: NewRouteCellDisplayDataFactory().displayData(cellType: output.giveCellType(for: indexPath)))
+        let displayData = output.getDisplayData(for: indexPath)
+        cell.configure(displayData: displayData)
         return cell
     }
 }

@@ -12,6 +12,8 @@ import Foundation
 public enum L10n {
   /// Добавить
   public static let add = L10n.tr("Localizable", "Add")
+  /// Добавление маршрута
+  public static let addingTown = L10n.tr("Localizable", "AddingTown")
   /// Добавить город
   public static let addTown = L10n.tr("Localizable", "AddTown")
   /// Город прибытия

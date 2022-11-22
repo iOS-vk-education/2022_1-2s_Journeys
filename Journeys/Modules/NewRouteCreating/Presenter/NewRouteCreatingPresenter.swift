@@ -23,10 +23,11 @@ final class NewRouteCreatingPresenter {
     weak var view: NewRouteCreatingViewInput!
     weak var moduleOutput: NewRouteCreatingModuleOutput!
     let model: NewRouteCreatingModel
+    
     let deportCellsCount: Int = 1
     let addNewCityCellsCount: Int = 1
     var arrivalCellsCount: Int = 1
-    var arrivalLocation: Location? = nil
+    var departureLocation: Location? = nil
     var locations: [Location?] = []
     
     internal init() {
@@ -53,7 +54,7 @@ final class NewRouteCreatingPresenter {
             return
         }
         let indexPath = NSIndexPath(row: tableView.numberOfRows(inSection: 1), section: 1)
-        cell.configure(displayData: NewRouteCellDisplayDataFactory().displayData(cellType: view.output.giveCellType(for: indexPath as IndexPath)))
+        cell.configure(displayData: view.output.getDisplayData(for: indexPath as IndexPath))
         
         tableView.beginUpdates()
         tableView.insertRows(at: [indexPath as IndexPath], with: .automatic)
@@ -74,6 +75,20 @@ extension NewRouteCreatingPresenter: NewRouteCreatingModuleInput {
 }
 
 extension NewRouteCreatingPresenter: NewRouteCreatingViewOutput {
+    func getDisplayData(for indexpath: IndexPath) -> NewRouteCellDisplayData {
+        let displayData = NewRouteCellDisplayDataFactory()
+        if indexpath.section == 0 {
+            return displayData.displayData(cellType: .departureTown(location: departureLocation))
+        } else if indexpath.section == 1 {
+            guard locations.indices.contains(indexpath.row) else {
+                return displayData.displayData(cellType: .arrivalTown(location: nil))
+            }
+            return displayData.displayData(cellType: .arrivalTown(location: locations[indexpath.row]))
+        } else {
+            return displayData.displayData(cellType: .newLocation)
+        }
+    }
+    
     
     func numberOfRowsInSection(section: Int) -> Int {
         switch section {
@@ -92,29 +107,13 @@ extension NewRouteCreatingPresenter: NewRouteCreatingViewOutput {
         moduleOutput.newRouteCreationModuleWantsToClose()
     }
     
-    func giveCellType(for indexpath: IndexPath) -> NewRouteCellType {
-        
-        var type: NewRouteCellType
-        if indexpath.section == 0 {
-            return .departureTown(location: arrivalLocation)
-        } else if indexpath.section == 1 {
-            guard locations.indices.contains(indexpath.row) else {
-                return .arrivalTown(location: nil)
-            }
-            return .arrivalTown(location: locations[indexpath.row])
-        } else {
-            type = .newLocation
-        }
-        return type
-    }
-    
     func numberOfSectins() -> Int {
         3
     }
     
     func didSelectRow(at indexpath: IndexPath) -> ((NewRouteCreatingViewController, UITableView)->())? {
         if indexpath.section < 2 {
-            openTownAddingModule()
+            newRouteCreationModuleWantsToOpenAddNewLocationModule()
         } else if indexpath.section == 2 {
             arrivalCellsCount += 1
             return addNewCellClosure
@@ -135,7 +134,7 @@ extension NewRouteCreatingPresenter: NewRouteCreatingViewOutput {
         return deleteRow
     }
     
-    private func openTownAddingModule() {
-        
+    func newRouteCreationModuleWantsToOpenAddNewLocationModule() {
+        moduleOutput.newRouteCreationModuleWantsToOpenAddNewLocationModule()
     }
 }

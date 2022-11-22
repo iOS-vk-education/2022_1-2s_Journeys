@@ -19,7 +19,7 @@ protocol NewRouteCreatingViewInput: AnyObject {
 protocol NewRouteCreatingViewOutput: AnyObject {
     func numberOfRowsInSection (section: Int) -> Int
     func didTapExitButton()
-    func giveCellType(for indexpath: IndexPath) -> NewRouteCellType
+    func getDisplayData(for indexpath: IndexPath) -> NewRouteCellDisplayData
     func numberOfSectins() -> Int
     
     func didSelectRow(at indexpath: IndexPath) -> ((NewRouteCreatingViewController, UITableView)->())?

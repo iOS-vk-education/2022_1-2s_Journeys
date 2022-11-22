@@ -8,13 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		093861F1C840A5A7EA2ABBB0 /* TripsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551FBB3C3A6EBAA3F5825F1E /* TripsViewController.swift */; };
+		0D65A2337583A24729F852B1 /* AddNewLocationBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A76FCB7DE71B4D0835960C /* AddNewLocationBuilder.swift */; };
 		0F6FD83F50CCD8533C888533 /* TripsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBDC0F10F5CD5FD772D3371 /* TripsRouter.swift */; };
 		10708D44F55C9485F789DD9B /* TripsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842916911296584B6D97761A /* TripsPresenter.swift */; };
+		42F5E9147912D8D43EB79AA4 /* AddNewLocationModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183B945F498EE426CEA7B330 /* AddNewLocationModuleIO.swift */; };
 		668AB39849F8F5E0DBE3C8F4 /* TripsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF490FDC4B357AFC27B31C9 /* TripsModel.swift */; };
 		678EC2173D55FABDA74E2A5F /* TripsModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A73637212D312DF808EE9D /* TripsModuleIO.swift */; };
 		7BD7FBF6368C4ADCBC0B8866 /* TripsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E483DF62B28C4DBC30739F6A /* TripsBuilder.swift */; };
+		877628B20E359D76C0F8AAE7 /* AddNewLocationViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A0AF946DD8212A87AFAF9D /* AddNewLocationViewIO.swift */; };
 		91819FAFB33A7ABB47EAB8B0 /* TripsViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196CCEF28890034F45E73055 /* TripsViewIO.swift */; };
 		A837507D56DC8E0FFC90C522 /* TripsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8D65328FD3C306119E7802 /* TripsInteractor.swift */; };
+		B28603937176C7F2E653EB4C /* AddNewLocationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B2710AC7E0F5D30592B22D /* AddNewLocationPresenter.swift */; };
 		BF7F42F8786135E6F36A9104 /* Pods_Journeys.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E77E324C769C67635517C4A /* Pods_Journeys.framework */; };
 		C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C624D7B25F42404829AF20C9 /* TripsInteractorIO.swift */; };
 		EE0AF93E2913010D00EC52D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0AF93D2913010D00EC52D3 /* AppDelegate.swift */; };
@@ -43,18 +47,27 @@
 		EEFA76CF292BE93500A0B8CA /* NewRouteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76CE292BE93500A0B8CA /* NewRouteCell.swift */; };
 		EEFA76D1292BEAAC00A0B8CA /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76D0292BEAAC00A0B8CA /* UITextField.swift */; };
 		EEFA76D3292BED6000A0B8CA /* NewRouteCellDisplayDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76D2292BED6000A0B8CA /* NewRouteCellDisplayDataFactory.swift */; };
+		EEFA76D9292C4EF300A0B8CA /* AddNewLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76D8292C4EF300A0B8CA /* AddNewLocationCell.swift */; };
+		EEFA76DB292C5E7E00A0B8CA /* CalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76DA292C5E7E00A0B8CA /* CalendarCell.swift */; };
+		EFC46B44DC715D0AB5B01639 /* AddNewLocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F037949A48EAF01CF6644F /* AddNewLocationModel.swift */; };
+		F85D180AC31F83D70AABFF62 /* AddNewLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8185A5807AF85BC79DA25C /* AddNewLocationViewController.swift */; };
 		F92CACD193BE48A33A52A5DC /* TripsRouterInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABAFF6132B4BF34FF1262AA /* TripsRouterInput.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0AF490FDC4B357AFC27B31C9 /* TripsModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsModel.swift; sourceTree = "<group>"; };
+		183B945F498EE426CEA7B330 /* AddNewLocationModuleIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AddNewLocationModuleIO.swift; sourceTree = "<group>"; };
 		196CCEF28890034F45E73055 /* TripsViewIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsViewIO.swift; sourceTree = "<group>"; };
+		51B2710AC7E0F5D30592B22D /* AddNewLocationPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AddNewLocationPresenter.swift; sourceTree = "<group>"; };
 		551FBB3C3A6EBAA3F5825F1E /* TripsViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsViewController.swift; sourceTree = "<group>"; };
 		6E77E324C769C67635517C4A /* Pods_Journeys.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Journeys.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		842916911296584B6D97761A /* TripsPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsPresenter.swift; sourceTree = "<group>"; };
 		8EBDC0F10F5CD5FD772D3371 /* TripsRouter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsRouter.swift; sourceTree = "<group>"; };
+		B6A0AF946DD8212A87AFAF9D /* AddNewLocationViewIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AddNewLocationViewIO.swift; sourceTree = "<group>"; };
 		B6A73637212D312DF808EE9D /* TripsModuleIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsModuleIO.swift; sourceTree = "<group>"; };
+		BE8185A5807AF85BC79DA25C /* AddNewLocationViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AddNewLocationViewController.swift; sourceTree = "<group>"; };
 		C624D7B25F42404829AF20C9 /* TripsInteractorIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsInteractorIO.swift; sourceTree = "<group>"; };
+		D5F037949A48EAF01CF6644F /* AddNewLocationModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AddNewLocationModel.swift; sourceTree = "<group>"; };
 		DCF2F17A719CC84C3C1DBBE4 /* Pods-Journeys.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journeys.debug.xcconfig"; path = "Target Support Files/Pods-Journeys/Pods-Journeys.debug.xcconfig"; sourceTree = "<group>"; };
 		DDA6312968B1102658E7F1AD /* Pods-Journeys.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journeys.release.xcconfig"; path = "Target Support Files/Pods-Journeys/Pods-Journeys.release.xcconfig"; sourceTree = "<group>"; };
 		E483DF62B28C4DBC30739F6A /* TripsBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsBuilder.swift; sourceTree = "<group>"; };
@@ -87,6 +100,9 @@
 		EEFA76CE292BE93500A0B8CA /* NewRouteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRouteCell.swift; sourceTree = "<group>"; };
 		EEFA76D0292BEAAC00A0B8CA /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
 		EEFA76D2292BED6000A0B8CA /* NewRouteCellDisplayDataFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRouteCellDisplayDataFactory.swift; sourceTree = "<group>"; };
+		EEFA76D8292C4EF300A0B8CA /* AddNewLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewLocationCell.swift; sourceTree = "<group>"; };
+		EEFA76DA292C5E7E00A0B8CA /* CalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCell.swift; sourceTree = "<group>"; };
+		F4A76FCB7DE71B4D0835960C /* AddNewLocationBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AddNewLocationBuilder.swift; sourceTree = "<group>"; };
 		FABAFF6132B4BF34FF1262AA /* TripsRouterInput.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsRouterInput.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -119,6 +135,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		726F8B830BB3C329A2D9076B /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				183B945F498EE426CEA7B330 /* AddNewLocationModuleIO.swift */,
+				51B2710AC7E0F5D30592B22D /* AddNewLocationPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
 		7B0C9584A25A9EFB720395D2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -134,6 +159,14 @@
 				551FBB3C3A6EBAA3F5825F1E /* TripsViewController.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		8CE902A573A8621F3BB1CBFC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D5F037949A48EAF01CF6644F /* AddNewLocationModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		9ABFCE79C7B59590A10F8899 /* Router */ = {
@@ -152,6 +185,27 @@
 				EC8D65328FD3C306119E7802 /* TripsInteractor.swift */,
 			);
 			path = Interactor;
+			sourceTree = "<group>";
+		};
+		B05AEDF29DC28FB23E78F1E2 /* AddNewLocation */ = {
+			isa = PBXGroup;
+			children = (
+				EEFA76D7292C4ED800A0B8CA /* AddNewLocationCell */,
+				D1FCDB4110F75BF664D4F972 /* View */,
+				726F8B830BB3C329A2D9076B /* Presenter */,
+				8CE902A573A8621F3BB1CBFC /* Model */,
+				F4A76FCB7DE71B4D0835960C /* AddNewLocationBuilder.swift */,
+			);
+			path = AddNewLocation;
+			sourceTree = "<group>";
+		};
+		D1FCDB4110F75BF664D4F972 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B6A0AF946DD8212A87AFAF9D /* AddNewLocationViewIO.swift */,
+				BE8185A5807AF85BC79DA25C /* AddNewLocationViewController.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		E28BB0326D852B2FE981AF93 /* Pods */ = {
@@ -222,6 +276,7 @@
 				EEFA76BD292BE88F00A0B8CA /* NewRouteCreating */,
 				EEDAF55D291D65C300E6DDB9 /* FloatingButton */,
 				E7C7F8885C59BF0183002C79 /* Trips */,
+				B05AEDF29DC28FB23E78F1E2 /* AddNewLocation */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -331,6 +386,15 @@
 				EEFA76D2292BED6000A0B8CA /* NewRouteCellDisplayDataFactory.swift */,
 			);
 			path = DataFactory;
+			sourceTree = "<group>";
+		};
+		EEFA76D7292C4ED800A0B8CA /* AddNewLocationCell */ = {
+			isa = PBXGroup;
+			children = (
+				EEFA76D8292C4EF300A0B8CA /* AddNewLocationCell.swift */,
+				EEFA76DA292C5E7E00A0B8CA /* CalendarCell.swift */,
+			);
+			path = AddNewLocationCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -508,6 +572,7 @@
 				A837507D56DC8E0FFC90C522 /* TripsInteractor.swift in Sources */,
 				EEDAF555291C0F2200E6DDB9 /* AddTripCell.swift in Sources */,
 				EEFA76D3292BED6000A0B8CA /* NewRouteCellDisplayDataFactory.swift in Sources */,
+				EEFA76D9292C4EF300A0B8CA /* AddNewLocationCell.swift in Sources */,
 				678EC2173D55FABDA74E2A5F /* TripsModuleIO.swift in Sources */,
 				10708D44F55C9485F789DD9B /* TripsPresenter.swift in Sources */,
 				668AB39849F8F5E0DBE3C8F4 /* TripsModel.swift in Sources */,
@@ -519,8 +584,15 @@
 				EEFA76C9292BE88F00A0B8CA /* NewRouteCreatingBuilder.swift in Sources */,
 				EEFA76CC292BE88F00A0B8CA /* NewRouteCreatingViewController.swift in Sources */,
 				EEFA76C8292BE88F00A0B8CA /* NewRouteCreatingPresenter.swift in Sources */,
+				EEFA76DB292C5E7E00A0B8CA /* CalendarCell.swift in Sources */,
 				EE157F482926B39A00A56157 /* XCAssets+Generated.swift in Sources */,
 				EEFA76CA292BE88F00A0B8CA /* NewRouteCreatingModel.swift in Sources */,
+				877628B20E359D76C0F8AAE7 /* AddNewLocationViewIO.swift in Sources */,
+				F85D180AC31F83D70AABFF62 /* AddNewLocationViewController.swift in Sources */,
+				42F5E9147912D8D43EB79AA4 /* AddNewLocationModuleIO.swift in Sources */,
+				B28603937176C7F2E653EB4C /* AddNewLocationPresenter.swift in Sources */,
+				EFC46B44DC715D0AB5B01639 /* AddNewLocationModel.swift in Sources */,
+				0D65A2337583A24729F852B1 /* AddNewLocationBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

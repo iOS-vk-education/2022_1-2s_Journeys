@@ -46,7 +46,19 @@ extension JourneysCoordinator: TripsModuleOutput {
 }
 
 extension JourneysCoordinator: NewRouteCreatingModuleOutput {
+    func newRouteCreationModuleWantsToOpenAddNewLocationModule() {
+        let builder = AddNewLocationModuleBuilder()
+        let newLocaionViewController = builder.build(output: self)
+        navigationController.pushViewController(newLocaionViewController, animated: true)
+    }
+    
     func newRouteCreationModuleWantsToClose() {
+        navigationController.popViewController(animated: true)
+    }
+}
+
+extension JourneysCoordinator: AddNewLocationModuleOutput {
+    func addNewLoctionModuleWantsToClose() {
         navigationController.popViewController(animated: true)
     }
 }
