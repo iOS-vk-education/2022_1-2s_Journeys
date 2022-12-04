@@ -167,7 +167,7 @@ extension TripsViewController: UICollectionViewDataSource {
                 return cell
             }
             // TODO: use output
-            tripCell.configure(data: output.getCellData(for: indexPath),
+            tripCell.configure(data: output.getCellData(for: indexPath.row),
                                delegate: self)
             cell = tripCell
         }

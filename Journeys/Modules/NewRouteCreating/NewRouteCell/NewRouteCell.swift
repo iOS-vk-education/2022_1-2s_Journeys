@@ -40,7 +40,7 @@ final class NewRouteCell: UITableViewCell {
         super.prepareForReuse()
         locationLabel.text = nil
         icon.image = nil
-//        setupSubiews()
+        setupSubiews()
     }
     
     override func layoutSubviews() {

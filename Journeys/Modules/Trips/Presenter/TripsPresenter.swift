@@ -20,7 +20,7 @@ final class TripsPresenter {
     private let interactor: TripsInteractorInput
     private let router: TripsRouterInput
     
-    private var tripsData: [Trip]?
+    private var tripsData: [Trip] = []
 
 
     //MARK: - Lifecycle
@@ -29,7 +29,7 @@ final class TripsPresenter {
         self.interactor = interactor
         self.router = router
         loadTripsData()
-        print(tripsData?.count)
+        print(tripsData.count)
     }
     
     private func loadTripsData() {
@@ -41,28 +41,35 @@ extension TripsPresenter: TripsModuleInput {
 }
 
 extension TripsPresenter: TripsViewOutput {
-    func getCellData(for indexPath: IndexPath) -> TripCell.DisplayData {
-        let curTripData = tripsData?[indexPath.row]
-        let dates = DateFormatter.dayAndMonth.string(from: curTripData?.route.start ?? Date()) + "-"
-        + DateFormatter.dayAndMonth.string(from: curTripData?.route.finish ?? Date())
+    
+    func getCellData(for id: Int) -> TripCell.DisplayData {
+        let curTripData = tripsData[id]
+        let dates = DateFormatter.dayAndMonth.string(from: curTripData.start ?? Date()) + "-"
+        + DateFormatter.dayAndMonth.string(from: curTripData.finish ?? Date())
         let arrow = "→"
+        
         // TODO: Errors
-        var routeString = (curTripData?.route.departureTown.city ?? "")
-        for place in curTripData?.route.places ?? [] {
+        var routeString = (curTripData.route.departureTown.city)
+        for place in curTripData.route.places {
             routeString += arrow + place.location.city
         }
-        return TripCell.DisplayData(picture: curTripData?.icon,
-                             dates: dates,
-                             route: routeString,
-                             isInFavourites: curTripData?.isInfavourites ?? false)
+        return TripCell.DisplayData(picture: curTripData.image,
+                                    dates: dates,
+                                    route: routeString,
+                                    isInFavourites: curTripData.isInfavourites ?? false)
     }
     
     func getTripCellsCount() -> Int {
-        return tripsData?.count ?? 0
+        return tripsData.count ?? 0
     }
     
     func didSelectCell(at indexpath: IndexPath) {
-        moduleOutput.tripsCollectionWantsToOpenNewRouteCreating()
+        switch indexpath.section {
+        case 0:
+            moduleOutput.tripsCollectionWantsToOpenNewRouteModule()
+        default:
+            moduleOutput.tripsCollectionWantsToOpenExistingRoute()
+        }
     }
 }
 

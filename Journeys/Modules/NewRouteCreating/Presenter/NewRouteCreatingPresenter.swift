@@ -16,18 +16,16 @@ final class NewRouteCreatingPresenter {
 
     weak var view: NewRouteCreatingViewInput!
     weak var moduleOutput: NewRouteCreatingModuleOutput!
-    let model: NewRouteCreatingModel
 
     let deportCellsCount: Int = 1
     let addNewCityCellsCount: Int = 1
     var arrivalCellsCount: Int = 1
-    var departureLocation: Location? = nil
-    var places: [Place] = []
+    var departureLocation: Location?
+    var places: [Place]
 
-    internal init() {
-//        places = plases2
-        arrivalCellsCount = (places.count > 1 ? places.count : 1)
-        model = NewRouteCreatingModel()
+    internal init(places: [Place]?) {
+        self.places = places ?? []
+        arrivalCellsCount = (self.places.count > 1 ? self.places.count : 1)
     }
 
     private let addNewCellClosure: (NewRouteCreatingViewController, UITableView)->() = { view, tableView in
@@ -71,8 +69,7 @@ extension NewRouteCreatingPresenter: NewRouteCreatingViewOutput {
             return displayData.displayData(cellType: .newLocation)
         }
     }
-    
-    
+
     func numberOfRowsInSection(section: Int) -> Int {
         switch section {
         case 0:
@@ -85,11 +82,11 @@ extension NewRouteCreatingPresenter: NewRouteCreatingViewOutput {
             return 0
         }
     }
-    
+
     func didTapExitButton() {
         moduleOutput.newRouteCreationModuleWantsToClose()
     }
-    
+
     func numberOfSectins() -> Int {
         3
     }
@@ -105,7 +102,7 @@ extension NewRouteCreatingPresenter: NewRouteCreatingViewOutput {
         }
         return nil
     }
-    
+
     func userWantsToDeleteCell(indexPath: IndexPath) -> ((UITableView, IndexPath) -> [UITableViewRowAction]?)? {
         if indexPath.section != 1 || indexPath.row == 0 {
             return nil
@@ -116,7 +113,7 @@ extension NewRouteCreatingPresenter: NewRouteCreatingViewOutput {
         }
         return deleteRow
     }
-    
+
     func newRouteCreationModuleWantsToOpenAddNewLocationModule(indexPath: IndexPath) {
         if places.indices.contains(indexPath.row) {
             moduleOutput.newRouteCreationModuleWantsToOpenAddNewLocationModule(place: places[indexPath.row])

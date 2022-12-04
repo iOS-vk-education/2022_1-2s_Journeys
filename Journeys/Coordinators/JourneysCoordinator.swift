@@ -37,7 +37,17 @@ final class JourneysCoordinator: CoordinatorProtocol {
 // MARK: TripsModuleOutput
 
 extension JourneysCoordinator: TripsModuleOutput {
-    func tripsCollectionWantsToOpenNewRouteCreating() {
+    func tripsCollectionWantsToOpenTripPlaces(places: [Place]) {
+        let builder = NewRouteCreatingModuleBuilder()
+        let newRouteViewController = builder.build(places: places, output: self)
+        navigationController.pushViewController(newRouteViewController, animated: true)
+    }
+    
+    func tripsCollectionWantsToOpenExistingRoute() {
+        return
+    }
+    
+    func tripsCollectionWantsToOpenNewRouteModule() {
         let builder = NewRouteCreatingModuleBuilder()
         let newRouteViewController = builder.build(output: self)
         navigationController.pushViewController(newRouteViewController, animated: true)

@@ -13,5 +13,7 @@ protocol TripsModuleInput: AnyObject {
 // MARK: - Trips ModuleOutput
 
 protocol TripsModuleOutput: AnyObject {
-    func tripsCollectionWantsToOpenNewRouteCreating()
+    func tripsCollectionWantsToOpenTripPlaces(places: [Place])
+    func tripsCollectionWantsToOpenExistingRoute()
+    func tripsCollectionWantsToOpenNewRouteModule()
 }

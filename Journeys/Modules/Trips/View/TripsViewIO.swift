@@ -18,5 +18,5 @@ protocol TripsViewOutput: AnyObject {
     func didSelectCell(at indexpath: IndexPath)
     
     func getTripCellsCount() -> Int
-    func getCellData(for indexPath: IndexPath) -> TripCell.DisplayData
+    func getCellData(for id: Int) -> TripCell.DisplayData
 }

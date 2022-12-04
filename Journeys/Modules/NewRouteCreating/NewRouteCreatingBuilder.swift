@@ -10,9 +10,9 @@ import UIKit
 // MARK: - NewRouteCreatingModuleBuilder
 
 final class NewRouteCreatingModuleBuilder {
-    func build(output: NewRouteCreatingModuleOutput) -> UIViewController {
+    func build(places: [Place]? = nil, output: NewRouteCreatingModuleOutput) -> UIViewController {
 
-        let presenter = NewRouteCreatingPresenter()
+        let presenter = NewRouteCreatingPresenter(places: places)
         let viewController = NewRouteCreatingViewController()
         presenter.view = viewController
         presenter.moduleOutput = output

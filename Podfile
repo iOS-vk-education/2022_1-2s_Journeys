@@ -10,5 +10,10 @@ target 'Journeys' do
   pod 'SwiftLint'
   pod 'SwiftGen', '~> 6.5.1'
   pod 'FSCalendar'
+  
+  pod 'FirebaseAuth'
+  pod 'FirebaseFirestore'
+  pod 'FirebaseAnalytics'
+  pod 'FirebaseStorage'
 
 end
