@@ -6,11 +6,16 @@
 //
 
 import Foundation
+import UIKit
 
 // MARK: - Trips InteractorInput
 
 protocol TripsInteractorInput: AnyObject {
-    func obtainDataFromSever() -> [Trip]
+    func obtainTripsDataFromSever() -> [Trip]
+    func tripDisplayData(trip: Trip) -> TripCell.DisplayData
+    func obtainRouteDataFromSever(with identifyer: String) -> Route? 
+    func obtainLocationDataFromSever(with identifyer: String) -> Location?
+    func obtainTripImageFromServer(for trip: Trip) -> UIImage?
 }
 
 // MARK: - TripsInteractorOutput

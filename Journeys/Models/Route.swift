@@ -11,24 +11,36 @@ import UIKit
 struct Route {
     
     let id: String
-    var departureTown: Location
+    var departureTownLocationId: String
     var places: [Place]
     
-    internal init(id: String, departureTown: Location, places: [Place]) {
+    internal init(id: String, departureTownLocationId: String, places: [Place]) {
         self.id = id
-        self.departureTown = departureTown
+        self.departureTownLocationId = departureTownLocationId
         self.places = places
     }
     
-    init(dictionary: [String: Any]) {
+    init(from dictionary: [String: Any]) {
         id = dictionary[CodingKeys.id.rawValue] as? String ?? ""
-        departureTown = dictionary[CodingKeys.departureTown.rawValue] as? Location ?? Location()
+        departureTownLocationId = dictionary[CodingKeys.departureTownLocationId.rawValue] as? String ?? ""
         places = dictionary[CodingKeys.places.rawValue] as? [Place] ?? []
+    }
+    
+    func toDictionary() -> [String: Any] {
+        var dictionary: [String: Any] = [:]
+        dictionary[CodingKeys.id.rawValue] = id
+        dictionary[CodingKeys.departureTownLocationId.rawValue] = departureTownLocationId
+        var placesDictList: [[String: Any]] = [[:]]
+        for place in places {
+            placesDictList.append(place.toDictionary())
+        }
+        dictionary[CodingKeys.places.rawValue] = placesDictList
+        return dictionary
     }
     
     enum CodingKeys: String {
         case id
-        case departureTown
+        case departureTownLocationId = "departure_town_location_id"
         case places
     }
 }

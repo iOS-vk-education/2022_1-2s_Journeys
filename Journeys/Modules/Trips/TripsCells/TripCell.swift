@@ -13,7 +13,7 @@ final class TripCell: UICollectionViewCell {
     
     struct DisplayData {
         let picture: UIImage?
-        let dates: String
+        let dates: String?
         let route: String
         let isInFavourites: Bool
     }

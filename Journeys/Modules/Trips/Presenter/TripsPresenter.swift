@@ -33,34 +33,56 @@ final class TripsPresenter {
     }
     
     private func loadTripsData() {
-        tripsData = interactor.obtainDataFromSever()
+        tripsData = interactor.obtainTripsDataFromSever()
+    }
+    
+    private func tripDisplayData(trip: Trip) -> TripCell.DisplayData? {
+        let arrow = "→"
+        
+        var datesString: String? = nil
+        var routeString: String = ""
+        var tripDisplayData: TripCell.DisplayData
+        
+        guard let route = interactor.obtainRouteDataFromSever(with: trip.routeId),
+              let departureLocation = interactor.obtainLocationDataFromSever(with: route.departureTownLocationId),
+              let image = interactor.obtainTripImageFromServer(for: trip)
+        else {
+            return nil
+        }
+        if let startDate = route.places.first?.arrive,
+           let endDate = route.places.last?.depart {
+            datesString = DateFormatter.dayAndMonth.string(from: startDate) + "-"
+            + DateFormatter.dayAndMonth.string(from: endDate)
+        }
+        routeString += departureLocation.city
+        
+        for place in route.places {
+            guard let location = interactor.obtainLocationDataFromSever(with: place.locationId) else {
+                return nil
+            }
+            routeString += arrow + location.city
+        }
+        
+        tripDisplayData = TripCell.DisplayData(picture: image, dates: datesString, route: routeString, isInFavourites: trip.isInfavourites)
+        
+        return tripDisplayData
     }
 }
+
+
 
 extension TripsPresenter: TripsModuleInput {
 }
 
 extension TripsPresenter: TripsViewOutput {
     
-    func getCellData(for id: Int) -> TripCell.DisplayData {
-        let curTripData = tripsData[id]
-        let dates = DateFormatter.dayAndMonth.string(from: curTripData.start ?? Date()) + "-"
-        + DateFormatter.dayAndMonth.string(from: curTripData.finish ?? Date())
-        let arrow = "→"
-        
-        // TODO: Errors
-        var routeString = (curTripData.route.departureTown.city)
-        for place in curTripData.route.places {
-            routeString += arrow + place.location.city
-        }
-        return TripCell.DisplayData(picture: curTripData.image,
-                                    dates: dates,
-                                    route: routeString,
-                                    isInFavourites: curTripData.isInfavourites ?? false)
+    func getCellData(for id: Int) -> TripCell.DisplayData? {
+        let trip = tripsData[id]
+        return tripDisplayData(trip: trip)
     }
     
     func getTripCellsCount() -> Int {
-        return tripsData.count ?? 0
+        return tripsData.count
     }
     
     func didSelectCell(at indexpath: IndexPath) {

@@ -12,41 +12,42 @@ struct Trip {
     
     let id: String
     var imageURLString: String
-    var image: UIImage?
-    var route: Route
-    var stuff: [Stuff]?
+    var routeId: String
+    var baggageId: String?
     var isInfavourites: Bool
-    var start: Date
-    var finish: Date
     
-    internal init(id: String, imageURLString: String, image: UIImage? = nil, route: Route, stuff: [Stuff]? = nil, isInfavourites: Bool = false, start: Date, finish: Date) {
+    internal init(id: String, imageURLString: String, routeId: String, baggageId: String?, isInfavourites: Bool = false) {
         self.id = id
         self.imageURLString = imageURLString
-        self.route = route
-        self.stuff = stuff
+        self.routeId = routeId
+        self.baggageId = baggageId
         self.isInfavourites = isInfavourites
-        self.start = start
-        self.finish = finish
     }
     
-    init(dictionary: [String: Any]) {
+    init(from dictionary: [String: Any]) {
         id = dictionary[CodingKeys.id.rawValue] as? String ?? ""
         imageURLString = dictionary[CodingKeys.imageURLString.rawValue] as? String ?? ""
-        route = dictionary[CodingKeys.route.rawValue] as? Route ?? Route(id: "", departureTown: Location(), places: [])
-        stuff = dictionary[CodingKeys.stuff.rawValue] as? [Stuff]
+        routeId = dictionary[CodingKeys.routeId.rawValue] as? String ?? ""
+        baggageId = dictionary[CodingKeys.baggageId.rawValue] as? String
         isInfavourites = dictionary[CodingKeys.isInfavourites.rawValue] as? Bool ?? false
-        start = dictionary[CodingKeys.start.rawValue] as? Date ?? Date()
-        finish = dictionary[CodingKeys.finish.rawValue] as? Date ?? Date()
+    }
+    
+    func toDictionary() -> [String: Any] {
+        var dictionary: [String: Any] = [:]
+        dictionary[CodingKeys.id.rawValue] = id
+        dictionary[CodingKeys.imageURLString.rawValue] = imageURLString
+        dictionary[CodingKeys.routeId.rawValue] = routeId
+        dictionary[CodingKeys.baggageId.rawValue] = baggageId
+        dictionary[CodingKeys.isInfavourites.rawValue] = isInfavourites
+        return dictionary
     }
     
     enum CodingKeys: String {
         case id
-        case imageURLString
-        case route
-        case stuff
+        case imageURLString = "image_URL"
+        case routeId = "route_id"
+        case baggageId = "baggage_id"
         case isInfavourites = "is_saved"
-        case start
-        case finish
     }
 //    
 //    init(from decoder: Decoder) throws {

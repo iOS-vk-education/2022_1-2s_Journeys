@@ -36,6 +36,7 @@ extension AddNewLocationPresenter: AddNewLocationViewOutput {
         guard let place = place else {
             return AddNewLocationCell.DisplayData(locationString: nil)
         }
+        
         return AddNewLocationCell.DisplayData(locationString: place.location.country + ", " + place.location.city)
     }
     
