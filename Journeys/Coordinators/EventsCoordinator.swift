@@ -1,15 +1,14 @@
 //
-//  JourneysCoordinator.swift
+//  EventsCoordinator.swift
 //  Journeys
 //
-//  Created by Сергей Адольевич on 09.11.2022.
+//  Created by Сергей Адольевич on 07.12.2022.
 //
 
 import Foundation
 import UIKit
 
-
-final class JourneysCoordinator: CoordinatorProtocol {
+final class EventsCoordinator: CoordinatorProtocol {
 
     // MARK: Private Properties
 
@@ -28,12 +27,11 @@ final class JourneysCoordinator: CoordinatorProtocol {
     // MARK: Public Methods
 
     func start() {
-        let builder = TripsModuleBuilder()
-        let tripsViewController = builder.build(output: self)
+        let eventsViewController = EventsViewController()
 
-        navigationController.setViewControllers([tripsViewController], animated: false)
+        navigationController.setViewControllers([eventsViewController], animated: false)
 
-        navigationController.tabBarItem = tabBarItemFactory.getTabBarItem(from: TabBarPage.journeys)
+        navigationController.tabBarItem = tabBarItemFactory.getTabBarItem(from: TabBarPage.events)
 
         var controllers = rootTabBarController.viewControllers
         if controllers == nil {
@@ -47,10 +45,4 @@ final class JourneysCoordinator: CoordinatorProtocol {
     // TODO: finish
     func finish() {
     }
-}
-
-// MARK: TripsModuleOutput
-
-extension JourneysCoordinator: TripsModuleOutput {
-
 }

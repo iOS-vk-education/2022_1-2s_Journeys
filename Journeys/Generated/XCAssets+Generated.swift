@@ -27,22 +27,22 @@ internal enum Asset {
   }
   internal enum Colors {
     internal enum Background {
-      internal static let brightColor = ColorAsset(name: "brightColor")
-      internal static let dimColor = ColorAsset(name: "dimColor")
+      internal static let brightColor = ColorAsset(name: "BrightColor")
+      internal static let dimColor = ColorAsset(name: "DimColor")
     }
     internal enum BaseColors {
-      internal static let contrastToThemeColor = ColorAsset(name: "contrastToThemeColor")
-      internal static let similarToThemeColor = ColorAsset(name: "similarToThemeColor")
+      internal static let contrastToThemeColor = ColorAsset(name: "ContrastToThemeColor")
+      internal static let similarToThemeColor = ColorAsset(name: "SimilarToThemeColor")
     }
     internal enum Icons {
-      internal static let iconsColor = ColorAsset(name: "iconsColor")
-      internal static let tappedIconsColor = ColorAsset(name: "tappedIconsColor")
+      internal static let iconsColor = ColorAsset(name: "IconsColor")
+      internal static let tappedIconsColor = ColorAsset(name: "TappedIconsColor")
     }
     internal enum Placeholder {
-      internal static let placeholderColor = ColorAsset(name: "placeholderColor")
+      internal static let placeholderColor = ColorAsset(name: "PlaceholderColor")
     }
     internal enum Text {
-      internal static let mainTextColor = ColorAsset(name: "mainTextColor")
+      internal static let mainTextColor = ColorAsset(name: "MainTextColor")
     }
     internal enum Weather {
       internal static let cloudy = ColorAsset(name: "cloudy")
