@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol DictionariableProtocol: AnyObject {
+protocol Dictionariable {
     init(from dictionary: [String: Any])
     func toDictionary() -> [String: Any]
 }

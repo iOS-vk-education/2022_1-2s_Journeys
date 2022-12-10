@@ -169,6 +169,7 @@ extension TripsViewController: UICollectionViewDataSource {
             
             guard let data = output.getCellData(for: indexPath.row) else {
                 UIAlertController(title: "Error", message: "Error while obtaining trip data", preferredStyle: .alert)
+                return UICollectionViewCell()
             }
             tripCell.configure(data: data,
                                delegate: self)

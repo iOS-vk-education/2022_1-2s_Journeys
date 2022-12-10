@@ -14,5 +14,5 @@ protocol NewRouteCreatingModuleInput: AnyObject {
 
 protocol NewRouteCreatingModuleOutput: AnyObject {
     func newRouteCreationModuleWantsToClose()
-    func newRouteCreationModuleWantsToOpenAddNewLocationModule(place: Place?)
+    func newRouteCreationModuleWantsToOpenAddNewLocationModule(place: PlaceWithLocation?)
 }

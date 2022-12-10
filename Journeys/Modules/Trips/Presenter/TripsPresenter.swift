@@ -33,7 +33,7 @@ final class TripsPresenter {
     }
     
     private func loadTripsData() {
-        tripsData = interactor.obtainTripsDataFromSever()
+        interactor.obtainTripsDataFromSever()
     }
     
     private func tripDisplayData(trip: Trip) -> TripCell.DisplayData? {
@@ -44,9 +44,10 @@ final class TripsPresenter {
         var tripDisplayData: TripCell.DisplayData
         
         guard let route = interactor.obtainRouteDataFromSever(with: trip.routeId),
-              let departureLocation = interactor.obtainLocationDataFromSever(with: route.departureTownLocationId),
+              let departureLocation = interactor.obtainLocationDataFromSever(with: route.departureLocationId),
               let image = interactor.obtainTripImageFromServer(for: trip)
         else {
+            didRecieveError(error: .obtainDataError)
             return nil
         }
         if let startDate = route.places.first?.arrive,
@@ -90,10 +91,18 @@ extension TripsPresenter: TripsViewOutput {
         case 0:
             moduleOutput.tripsCollectionWantsToOpenNewRouteModule()
         default:
-            moduleOutput.tripsCollectionWantsToOpenExistingRoute()
+            moduleOutput.tripsCollectionWantsToOpenExistingRoute(with: tripsData[indexpath.item].routeId)
         }
     }
 }
 
 extension TripsPresenter: TripsInteractorOutput {
+    func didRecieveError(error: Errors) {
+//        view.sho
+    }
+    
+    func didFetchTripsData(data: [Trip]) {
+        tripsData = data
+    }
+    
 }

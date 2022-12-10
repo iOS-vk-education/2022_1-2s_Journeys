@@ -7,31 +7,7 @@
 
 import Foundation
 
-struct Location {
-    var id: String
-    var country: String
-    var city: String
-    
-    internal init(id: String, country: String, city: String) {
-        self.id = id
-        self.country = country
-        self.city = city
-    }
-    
-    init(from dictionary: [String: Any]) {
-        id = dictionary[CodingKeys.id.rawValue] as? String ?? ""
-        country = dictionary[CodingKeys.country.rawValue] as? String ?? ""
-        city = dictionary[CodingKeys.city.rawValue] as? String ?? ""
-    }
-    
-    enum CodingKeys: String {
-        case id
-        case country
-        case city
-    }
-}
-
-struct Place {
+struct Place: Dictionariable {
     
     var locationId: String
     var arrive: Date

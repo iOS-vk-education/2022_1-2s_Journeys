@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct Baggage {
+struct Baggage: Dictionariable {
     let id: String
     var baseStuff: [Stuff]
     var userStuff: [Stuff]

@@ -32,8 +32,13 @@
 		EE29EBF829191534008ECFF8 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE29EBF729191534008ECFF8 /* AppCoordinator.swift */; };
 		EE29EBFA29191558008ECFF8 /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE29EBF929191558008ECFF8 /* CoordinatorProtocol.swift */; };
 		EE2B4126291413EC0067BE4F /* TripCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2B4125291413EB0067BE4F /* TripCell.swift */; };
+		EE30C7242943DD4A00A9DCF6 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE30C7232943DD4A00A9DCF6 /* Errors.swift */; };
+		EE30C7262943E89200A9DCF6 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE30C7252943E89200A9DCF6 /* FirebaseService.swift */; };
+		EE30C7292943ED9600A9DCF6 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE30C7282943ED9600A9DCF6 /* Location.swift */; };
+		EE30C72B2943F28E00A9DCF6 /* NewRouteCreatingModelIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE30C72A2943F28E00A9DCF6 /* NewRouteCreatingModelIO.swift */; };
+		EE30C72E2943FB5500A9DCF6 /* ErrorsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE30C72D2943FB5400A9DCF6 /* ErrorsHandler.swift */; };
 		EE4979E3293C9A9A007E8579 /* Baggage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4979E2293C9A9A007E8579 /* Baggage.swift */; };
-		EE4979E7293D1545007E8579 /* Dictionariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4979E6293D1545007E8579 /* Dictionariable.swift */; };
+		EE4979E7293D1545007E8579 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4979E6293D1545007E8579 /* Protocols.swift */; };
 		EE57FF3D2927E7E100212DC2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE57FF3B2927E7E100212DC2 /* Localizable.strings */; };
 		EE57FF3F2927E8B000212DC2 /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */; };
 		EEDAF553291C05B300E6DDB9 /* JourneysCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDAF552291C05B300E6DDB9 /* JourneysCoordinator.swift */; };
@@ -96,8 +101,13 @@
 		EE29EBF729191534008ECFF8 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		EE29EBF929191558008ECFF8 /* CoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocol.swift; sourceTree = "<group>"; };
 		EE2B4125291413EB0067BE4F /* TripCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCell.swift; sourceTree = "<group>"; };
+		EE30C7232943DD4A00A9DCF6 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		EE30C7252943E89200A9DCF6 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
+		EE30C7282943ED9600A9DCF6 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		EE30C72A2943F28E00A9DCF6 /* NewRouteCreatingModelIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRouteCreatingModelIO.swift; sourceTree = "<group>"; };
+		EE30C72D2943FB5400A9DCF6 /* ErrorsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorsHandler.swift; sourceTree = "<group>"; };
 		EE4979E2293C9A9A007E8579 /* Baggage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Baggage.swift; sourceTree = "<group>"; };
-		EE4979E6293D1545007E8579 /* Dictionariable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionariable.swift; sourceTree = "<group>"; };
+		EE4979E6293D1545007E8579 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		EE57FF3C2927E7E100212DC2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Localizable.strings; sourceTree = "<group>"; };
 		EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Strings+Generated.swift"; sourceTree = "<group>"; };
 		EEDAF552291C05B300E6DDB9 /* JourneysCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneysCoordinator.swift; sourceTree = "<group>"; };
@@ -275,6 +285,7 @@
 		EE0AF93C2913010D00EC52D3 /* Journeys */ = {
 			isa = PBXGroup;
 			children = (
+				EE30C72C2943FB4200A9DCF6 /* Errors */,
 				EEFA76F12935F52400A0B8CA /* NetworkManager */,
 				EEFA76EF2935F0C800A0B8CA /* GoogleService-Info.plist */,
 				EE29EBF029186D4B008ECFF8 /* Extencions */,
@@ -299,8 +310,8 @@
 			isa = PBXGroup;
 			children = (
 				EEDAF55D291D65C300E6DDB9 /* FloatingButton */,
-				EEFA76BD292BE88F00A0B8CA /* NewRouteCreating */,
 				E7C7F8885C59BF0183002C79 /* Trips */,
+				EEFA76BD292BE88F00A0B8CA /* NewRouteCreating */,
 				B05AEDF29DC28FB23E78F1E2 /* AddNewLocation */,
 			);
 			path = Modules;
@@ -344,6 +355,15 @@
 			path = TripsCells;
 			sourceTree = "<group>";
 		};
+		EE30C72C2943FB4200A9DCF6 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				EE30C7232943DD4A00A9DCF6 /* Errors.swift */,
+				EE30C72D2943FB5400A9DCF6 /* ErrorsHandler.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
 		EE57FF372927E6E400212DC2 /* ru.lproj */ = {
 			isa = PBXGroup;
 			children = (
@@ -385,6 +405,7 @@
 			isa = PBXGroup;
 			children = (
 				EEFA76C3292BE88F00A0B8CA /* NewRouteCreatingModel.swift */,
+				EE30C72A2943F28E00A9DCF6 /* NewRouteCreatingModelIO.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -430,10 +451,11 @@
 				EEFA76DD292CFEB400A0B8CA /* Trip.swift */,
 				EEFA76DE292CFEB400A0B8CA /* Stuff.swift */,
 				EEFA76DF292CFEB400A0B8CA /* Place.swift */,
-				EEFA76E1292CFEB400A0B8CA /* Weather.swift */,
 				EEFA76E2292CFEB400A0B8CA /* Route.swift */,
+				EE30C7282943ED9600A9DCF6 /* Location.swift */,
 				EE4979E2293C9A9A007E8579 /* Baggage.swift */,
-				EE4979E6293D1545007E8579 /* Dictionariable.swift */,
+				EEFA76E1292CFEB400A0B8CA /* Weather.swift */,
+				EE4979E6293D1545007E8579 /* Protocols.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -442,6 +464,7 @@
 			isa = PBXGroup;
 			children = (
 				EEFA76F22935F53A00A0B8CA /* FirebaseManager.swift */,
+				EE30C7252943E89200A9DCF6 /* FirebaseService.swift */,
 			);
 			path = NetworkManager;
 			sourceTree = "<group>";
@@ -621,22 +644,26 @@
 				EEFA76CF292BE93500A0B8CA /* NewRouteCell.swift in Sources */,
 				EEFA76E8292CFEB400A0B8CA /* Route.swift in Sources */,
 				EEFA76E7292CFEB400A0B8CA /* Weather.swift in Sources */,
+				EE30C7262943E89200A9DCF6 /* FirebaseService.swift in Sources */,
 				C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */,
 				EE2B4126291413EC0067BE4F /* TripCell.swift in Sources */,
+				EE30C72B2943F28E00A9DCF6 /* NewRouteCreatingModelIO.swift in Sources */,
 				A837507D56DC8E0FFC90C522 /* TripsInteractor.swift in Sources */,
 				EEDAF555291C0F2200E6DDB9 /* AddTripCell.swift in Sources */,
 				EEFA76F32935F53A00A0B8CA /* FirebaseManager.swift in Sources */,
+				EE30C7292943ED9600A9DCF6 /* Location.swift in Sources */,
 				EEFA76D3292BED6000A0B8CA /* NewRouteCellDisplayDataFactory.swift in Sources */,
 				EEFA76D9292C4EF300A0B8CA /* AddNewLocationCell.swift in Sources */,
 				678EC2173D55FABDA74E2A5F /* TripsModuleIO.swift in Sources */,
 				10708D44F55C9485F789DD9B /* TripsPresenter.swift in Sources */,
-				EE4979E7293D1545007E8579 /* Dictionariable.swift in Sources */,
+				EE4979E7293D1545007E8579 /* Protocols.swift in Sources */,
 				668AB39849F8F5E0DBE3C8F4 /* TripsEntity.swift in Sources */,
 				F92CACD193BE48A33A52A5DC /* TripsRouterInput.swift in Sources */,
 				EE29EBFA29191558008ECFF8 /* CoordinatorProtocol.swift in Sources */,
 				0F6FD83F50CCD8533C888533 /* TripsRouter.swift in Sources */,
 				7BD7FBF6368C4ADCBC0B8866 /* TripsBuilder.swift in Sources */,
 				EEDAF55C291D5AF500E6DDB9 /* FloatingButton.swift in Sources */,
+				EE30C72E2943FB5500A9DCF6 /* ErrorsHandler.swift in Sources */,
 				EEFA76C9292BE88F00A0B8CA /* NewRouteCreatingBuilder.swift in Sources */,
 				EEFA76CC292BE88F00A0B8CA /* NewRouteCreatingViewController.swift in Sources */,
 				EEFA76E5292CFEB400A0B8CA /* Place.swift in Sources */,
@@ -653,6 +680,7 @@
 				EE4979E3293C9A9A007E8579 /* Baggage.swift in Sources */,
 				EFC46B44DC715D0AB5B01639 /* AddNewLocationModel.swift in Sources */,
 				0D65A2337583A24729F852B1 /* AddNewLocationBuilder.swift in Sources */,
+				EE30C7242943DD4A00A9DCF6 /* Errors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

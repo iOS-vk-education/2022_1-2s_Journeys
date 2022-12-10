@@ -15,9 +15,9 @@ final class AddNewLocationPresenter {
 
     weak var view: AddNewLocationViewInput!
     weak var moduleOutput: AddNewLocationModuleOutput!
-    var place: Place?
+    var place: PlaceWithLocation?
     
-    internal init(place: Place? = nil) {
+    internal init(place: PlaceWithLocation? = nil) {
         self.place = place
     }
 

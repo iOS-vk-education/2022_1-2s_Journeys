@@ -44,20 +44,16 @@ extension JourneysCoordinator: TripsModuleOutput {
     }
     
     
-    func tripsCollectionWantsToOpenTripPlaces(places: [Place]) {
+    func tripsCollectionWantsToOpenExistingRoute(with routId: String) {
         let builder = NewRouteCreatingModuleBuilder()
-        let newRouteViewController = builder.build(places: places, output: self)
+        let newRouteViewController = builder.build(with: routId, output: self)
         navigationController.pushViewController(newRouteViewController, animated: true)
-    }
-    
-    func tripsCollectionWantsToOpenExistingRoute() {
-        return
     }
 
 }
 
 extension JourneysCoordinator: NewRouteCreatingModuleOutput {
-    func newRouteCreationModuleWantsToOpenAddNewLocationModule(place: Place?){
+    func newRouteCreationModuleWantsToOpenAddNewLocationModule(place: PlaceWithLocation?){
         let builder = AddNewLocationModuleBuilder()
         let newLocaionViewController = builder.build(output: self, place: place)
         navigationController.pushViewController(newLocaionViewController, animated: true)

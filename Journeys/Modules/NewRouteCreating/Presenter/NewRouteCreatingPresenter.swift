@@ -15,18 +15,25 @@ final class NewRouteCreatingPresenter {
     // MARK: - Public Properties
 
     weak var view: NewRouteCreatingViewInput!
+    var model: NewRouteCreatingModelInput!
     weak var moduleOutput: NewRouteCreatingModuleOutput!
 
     let deportCellsCount: Int = 1
     let addNewCityCellsCount: Int = 1
     var arrivalCellsCount: Int = 1
-    var departureLocation: Location?
-    var places: [Place]
+    var route: RouteWithLocation?
 
-    internal init(places: [Place]?) {
-        self.places = places ?? []
-        arrivalCellsCount = (self.places.count > 1 ? self.places.count : 1)
+    internal init(routeId: String?) {
+        if let routeId = routeId {
+            getRoute(routeId: routeId)
+        }
+        guard let route = route else {
+            arrivalCellsCount = 1
+            return
+        }
+        arrivalCellsCount = (route.places.count > 1 ? route.places.count : 1)
     }
+    
 
     private let addNewCellClosure: (NewRouteCreatingViewController, UITableView)->() = { view, tableView in
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "NewRouteCell") as? NewRouteCell
@@ -50,6 +57,54 @@ final class NewRouteCreatingPresenter {
         }
         return[deleteAction]
     }
+    
+    private func getRoute(routeId: String) {
+        model.loadRoute(with: routeId) { [weak self] result in
+            guard let strongSelf = self else { return }
+            
+            switch result {
+            case .success(let route):
+                guard let departureLocation = strongSelf.getLocation(with: route.departureLocationId) else {
+                    assertionFailure("Error while loading location")
+                    return
+                }
+                
+                var placesWithLocation: [PlaceWithLocation] = []
+                for place in route.places {
+                    guard let location = strongSelf.getLocation(with: place.locationId) else {
+                        assertionFailure("Error while loading location")
+                        return
+                    }
+                    placesWithLocation.append(PlaceWithLocation(location: location, arrive: place.arrive, depart: place.depart))
+                }
+                strongSelf.route = RouteWithLocation(id: route.id, departureTownLocation: departureLocation, places: placesWithLocation)
+            
+            case .failure(let error):
+                assertionFailure("Error while obtaining location data from server: \(error.localizedDescription)")
+                strongSelf.didRecieveError(error: .obtainDataError)
+            }
+        }
+    }
+    
+    private func getLocation(with identifier: String) -> Location? {
+        var location: Location?
+        model.loadLocation(with: identifier){ [weak self] result in
+            guard let strongSelf = self else { return }
+            
+            switch result {
+            case .success(let locationResult):
+                location = locationResult
+            case .failure(let error):
+                assertionFailure("Error while obtaining location data from server: \(error.localizedDescription)")
+                strongSelf.didRecieveError(error: .obtainDataError)
+            }
+        }
+        return location
+    }
+    
+    func didRecieveError(error: Errors) {
+        
+    }
 }
 
 extension NewRouteCreatingPresenter: NewRouteCreatingModuleInput {
@@ -59,12 +114,16 @@ extension NewRouteCreatingPresenter: NewRouteCreatingViewOutput {
     func getDisplayData(for indexpath: IndexPath) -> NewRouteCellDisplayData {
         let displayData = NewRouteCellDisplayDataFactory()
         if indexpath.section == 0 {
-            return displayData.displayData(cellType: .departureTown(location: departureLocation))
+            return displayData.displayData(cellType: .departureTown(location: route?.departureTownLocation))
         } else if indexpath.section == 1 {
-            guard places.indices.contains(indexpath.row) else {
+            guard let route = route else {
                 return displayData.displayData(cellType: .arrivalTown(location: nil))
             }
-            return displayData.displayData(cellType: .arrivalTown(location: places[indexpath.row].location))
+            guard route.places.indices.contains(indexpath.row) else {
+                assertionFailure("Invalid cell row")
+                return displayData.displayData(cellType: .arrivalTown(location: nil))
+            }
+            return displayData.displayData(cellType: .arrivalTown(location: route.places[indexpath.row].location))
         } else {
             return displayData.displayData(cellType: .newLocation)
         }
@@ -104,19 +163,27 @@ extension NewRouteCreatingPresenter: NewRouteCreatingViewOutput {
     }
 
     func userWantsToDeleteCell(indexPath: IndexPath) -> ((UITableView, IndexPath) -> [UITableViewRowAction]?)? {
-        if indexPath.section != 1 || indexPath.row == 0 {
+        if indexPath.row == 0 {
             return nil
         }
-        arrivalCellsCount -= 1
-        if places.indices.contains(indexPath.row) {
-            places.remove(at: indexPath.row)
+        guard var route = route else {
+            return nil
         }
+        if route.places.indices.contains(indexPath.row) {
+            route.places.remove(at: indexPath.row)
+            arrivalCellsCount -= 1
+        }
+        self.route = route
+        
         return deleteRow
     }
 
     func newRouteCreationModuleWantsToOpenAddNewLocationModule(indexPath: IndexPath) {
-        if places.indices.contains(indexPath.row) {
-            moduleOutput.newRouteCreationModuleWantsToOpenAddNewLocationModule(place: places[indexPath.row])
+        guard var route = route else {
+            return
+        }
+        if route.places.indices.contains(indexPath.row) {
+            moduleOutput.newRouteCreationModuleWantsToOpenAddNewLocationModule(place: route.places[indexPath.row])
         } else {
             moduleOutput.newRouteCreationModuleWantsToOpenAddNewLocationModule(place: nil)
         }

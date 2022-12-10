@@ -11,8 +11,7 @@ import UIKit
 // MARK: - Trips InteractorInput
 
 protocol TripsInteractorInput: AnyObject {
-    func obtainTripsDataFromSever() -> [Trip]
-    func tripDisplayData(trip: Trip) -> TripCell.DisplayData
+    func obtainTripsDataFromSever()
     func obtainRouteDataFromSever(with identifyer: String) -> Route? 
     func obtainLocationDataFromSever(with identifyer: String) -> Location?
     func obtainTripImageFromServer(for trip: Trip) -> UIImage?
@@ -21,4 +20,7 @@ protocol TripsInteractorInput: AnyObject {
 // MARK: - TripsInteractorOutput
 
 protocol TripsInteractorOutput: AnyObject {
+    func didRecieveError(error: Errors)
+    func didFetchTripsData(data: [Trip])
+//    func didFetchData(data: DataModel)
 }

@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-struct Stuff {
+struct Stuff: Dictionariable {
     
     let id: String
     var emoji: String

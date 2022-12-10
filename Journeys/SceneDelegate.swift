@@ -16,7 +16,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
 
         let navigationController = UINavigationController()
-
         coordinator = AppCoordinator(navigationController: navigationController)
 
         coordinator?.start()
@@ -25,5 +24,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
-
 }

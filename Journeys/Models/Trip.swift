@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-struct Trip {
+struct Trip: Dictionariable {
     
     let id: String
     var imageURLString: String
