@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 // MARK: - TripsPresenter
 
@@ -43,9 +44,8 @@ final class TripsPresenter {
         var routeString: String = ""
         var tripDisplayData: TripCell.DisplayData
         
-        guard let route = interactor.obtainRouteDataFromSever(with: trip.routeId),
-              let departureLocation = interactor.obtainLocationDataFromSever(with: route.departureLocationId),
-              let image = interactor.obtainTripImageFromServer(for: trip)
+        guard let route = loadRoute(with: trip.routeId),
+              let image = loadTripImage(for: trip.imageURLString)
         else {
             didRecieveError(error: .obtainDataError)
             return nil
@@ -55,18 +55,47 @@ final class TripsPresenter {
             datesString = DateFormatter.dayAndMonth.string(from: startDate) + "-"
             + DateFormatter.dayAndMonth.string(from: endDate)
         }
-        routeString += departureLocation.city
+        routeString += route.departureLocation.city
         
         for place in route.places {
-            guard let location = interactor.obtainLocationDataFromSever(with: place.locationId) else {
-                return nil
-            }
-            routeString += arrow + location.city
+            routeString += arrow + place.location.city
         }
         
         tripDisplayData = TripCell.DisplayData(picture: image, dates: datesString, route: routeString, isInFavourites: trip.isInfavourites)
         
         return tripDisplayData
+    }
+    
+    private func loadRoute(with identifier: String) -> Route? {
+        var route: Route?
+        interactor.obtainRouteDataFromSever(with: identifier) { [weak self] result in
+            guard let strongSelf = self else { return }
+            
+            switch result {
+            case .success(let routeResult):
+                route = routeResult
+            case .failure(let error):
+                assertionFailure("Error while obtaining route data from server: \(error.localizedDescription)")
+                strongSelf.didRecieveError(error: .obtainDataError)
+            }
+        }
+        return route
+    }
+    
+    private func loadTripImage(for imageURLString: String) -> UIImage? {
+        var resultImage: UIImage?
+        interactor.obtainTripImageFromServer(for: imageURLString) { [weak self] imageResult in
+            guard let strongSelf = self else { return }
+            
+            switch imageResult {
+            case .success(let image):
+                resultImage = image
+            case .failure(let error):
+                assertionFailure("Error while obtaining trips image from server: \(error.localizedDescription)")
+                strongSelf.didRecieveError(error: .obtainDataError)
+            }
+        }
+        return resultImage
     }
 }
 

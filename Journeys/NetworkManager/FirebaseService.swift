@@ -7,24 +7,26 @@
 
 import Foundation
 import UIKit
+import FirebaseFirestore
 
 protocol FirebaseServiceProtocol {
     func storeTripData(trip: Trip)
     func storeRouteData(route: Route)
-    func storePlaceData(place: Place)
+//    func storePlaceData(place: Place)
     func storeTripImage(tripId: String, image: UIImage, completion: @escaping (Result<URL, Error>) -> Void)
 
     func obtainTrip(with identifier: String, completion: @escaping (Result<Trip, Error>) -> Void)
     func obtainRoute(with identifier: String, completion: @escaping (Result<Route, Error>) -> Void)
-    func obtainLocation(with identifier: String,  completion: @escaping (Result<Location, Error>) -> Void)
+//    func obtainLocation(with identifier: String,  completion: @escaping (Result<Location, Error>) -> Void)
     func obtainTrips(completion: @escaping (Result<[Trip], Error>) -> Void)
-    func obtainTripImage(trip: Trip, completion: @escaping (Result<UIImage?, Error>) -> Void)
+    func obtainTripImage(for imageURLtring: String, completion: @escaping (Result<UIImage?, Error>) -> Void)
     
 }
 
 class FirebaseService: FirebaseServiceProtocol {
     
-    private let FBManager = FirebaseManager()
+    
+    private let FBManager = FirebaseManager.shared
     
     // MARK: Store data
 
@@ -91,8 +93,8 @@ class FirebaseService: FirebaseServiceProtocol {
             assertionFailure("Login first")
             return
         }
-        FBManager.firestore.collection("trips")
-            .document(userId).collection("users_trips").document(identifier).getDocument() { (document, error) in
+        FBManager.firestore.collection("trips").document(userId).collection("users_trips").document(identifier)
+            .getDocument() { (document, error) in
                 guard error == nil else {
                     completion(.failure(error!))
                     return
@@ -106,8 +108,7 @@ class FirebaseService: FirebaseServiceProtocol {
     }
     
     func obtainRoute(with identifier: String, completion: @escaping (Result<Route, Error>) -> Void) {
-        FBManager.firestore.collection("routes")
-            .document(identifier).getDocument() { (document, error) in
+        Firestore.firestore().collection("routes").document(identifier).getDocument { (document, error) in
                 guard error == nil else {
                     completion(.failure(error!))
                     return
@@ -120,20 +121,20 @@ class FirebaseService: FirebaseServiceProtocol {
             }
     }
     
-    func obtainLocation(with identifier: String, completion: @escaping (Result<Location, Error>) -> Void) {
-        FBManager.firestore.collection("locations")
-            .document(identifier).getDocument() { (document, error) in
-                guard error == nil else {
-                    completion(.failure(error!))
-                    return
-                }
-                guard let data = document?.data() else {
-                    assertionFailure("No data found")
-                    return
-                }
-                completion(.success(Location(from: data)))
-            }
-    }
+//    func obtainLocation(with identifier: String, completion: @escaping (Result<Location, Error>) -> Void) {
+//        FBManager.firestore.collection("locations")
+//            .document(identifier).getDocument() { (document, error) in
+//                guard error == nil else {
+//                    completion(.failure(error!))
+//                    return
+//                }
+//                guard let data = document?.data() else {
+//                    assertionFailure("No data found")
+//                    return
+//                }
+//                completion(.success(Location(from: data)))
+//            }
+//    }
     
     func obtainTrips(completion: @escaping (Result<[Trip], Error>) -> Void) {
         guard let userId = FBManager.auth.currentUser?.uid else {
@@ -161,8 +162,8 @@ class FirebaseService: FirebaseServiceProtocol {
         }
     
 
-    func obtainTripImage(trip: Trip, completion: @escaping (Result<UIImage?, Error>) -> Void) {
-        let ref = FBManager.storage.reference(forURL: trip.imageURLString)
+    func obtainTripImage(for imageURLString: String, completion: @escaping (Result<UIImage?, Error>) -> Void) {
+        let ref = FBManager.storage.reference(forURL: imageURLString)
         let maxSize = Int64(10 * 1024 * 1024)
         ref.getData(maxSize: maxSize) { (data, error) in
             guard error == nil else {

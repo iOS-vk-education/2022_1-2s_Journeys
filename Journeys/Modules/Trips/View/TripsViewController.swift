@@ -30,6 +30,16 @@ final class TripsViewController: UIViewController {
         setupCollectionView()
         setupFloatingAddButton()
         makeConstraints()
+
+//        func addData() {
+//            let place1 = Place(location: Location(country: "Russia", city: "Anapa"), arrive: Date(), depart: Date().addingTimeInterval(100000))
+//            let place2 = Place(location: Location(country: "Russia", city: "Kursk"), arrive: Date().addingTimeInterval(100000), depart: Date().addingTimeInterval(200000))
+//            let route = Route(id: "", departureLocation: Location(country: "Russia", city: "Moscow"), places: [place1, place2])
+//            FirebaseService().storeRouteData(route: route)
+//    //        let trip = Trip(id: "", imageURLString: "", routeId: <#T##String#>, baggageId: <#T##String?#>)
+//    //        FirebaseService().storeTripData(trip: <#T##Trip#>)
+//    //        FirebaseService().storeTripImage(tripId: <#T##String#>, image: <#T##UIImage#>, completion: <#T##(Result<URL, Error>) -> Void#>)
+//        }
     }
 
     private func setupNavBar() {

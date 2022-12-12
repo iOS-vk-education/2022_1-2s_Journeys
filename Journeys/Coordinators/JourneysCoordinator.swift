@@ -53,7 +53,7 @@ extension JourneysCoordinator: TripsModuleOutput {
 }
 
 extension JourneysCoordinator: NewRouteCreatingModuleOutput {
-    func newRouteCreationModuleWantsToOpenAddNewLocationModule(place: PlaceWithLocation?){
+    func newRouteCreationModuleWantsToOpenAddNewLocationModule(place: Place?){
         let builder = AddNewLocationModuleBuilder()
         let newLocaionViewController = builder.build(output: self, place: place)
         navigationController.pushViewController(newLocaionViewController, animated: true)

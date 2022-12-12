@@ -9,32 +9,32 @@ import Foundation
 
 struct Place: Dictionariable {
     
-    var locationId: String
+    var location: Location
     var arrive: Date
     var depart: Date
     
-    internal init(locationId: String, arrive: Date, depart: Date) {
-        self.locationId = locationId
+    internal init(location: Location, arrive: Date, depart: Date) {
+        self.location = location
         self.arrive = arrive
         self.depart = depart
     }
     
     init(from dictionary: [String: Any]) {
-        locationId = dictionary[CodingKeys.locationId.rawValue] as? String ?? ""
+        location = dictionary[CodingKeys.location.rawValue] as? Location ?? Location()
         arrive = dictionary[CodingKeys.arrive.rawValue] as? Date ?? Date()
         depart = dictionary[CodingKeys.depart.rawValue] as? Date ?? Date()
     }
     
     func toDictionary() -> [String: Any] {
         var dictionary: [String: Any] = [:]
-        dictionary[CodingKeys.locationId.rawValue] = locationId
+        dictionary[CodingKeys.location.rawValue] = location
         dictionary[CodingKeys.arrive.rawValue] = arrive
         dictionary[CodingKeys.depart.rawValue] = depart
         return dictionary
     }
     
     enum CodingKeys: String {
-        case locationId = "location_id"
+        case location
         case arrive
         case depart
     }

@@ -11,25 +11,25 @@ import UIKit
 struct Route: Dictionariable {
     
     let id: String
-    var departureLocationId: String
+    var departureLocation: Location
     var places: [Place]
     
-    internal init(id: String, departureLocationId: String, places: [Place]) {
+    internal init(id: String, departureLocation: Location, places: [Place]) {
         self.id = id
-        self.departureLocationId = departureLocationId
+        self.departureLocation = departureLocation
         self.places = places
     }
     
     init(from dictionary: [String: Any]) {
         id = dictionary[CodingKeys.id.rawValue] as? String ?? ""
-        departureLocationId = dictionary[CodingKeys.departureTownLocationId.rawValue] as? String ?? ""
+        departureLocation = dictionary[CodingKeys.departureLocation.rawValue] as? Location ?? Location()
         places = dictionary[CodingKeys.places.rawValue] as? [Place] ?? []
     }
     
     func toDictionary() -> [String: Any] {
         var dictionary: [String: Any] = [:]
         dictionary[CodingKeys.id.rawValue] = id
-        dictionary[CodingKeys.departureTownLocationId.rawValue] = departureLocationId
+        dictionary[CodingKeys.departureLocation.rawValue] = departureLocation
         var placesDictList: [[String: Any]] = [[:]]
         for place in places {
             placesDictList.append(place.toDictionary())
@@ -40,7 +40,7 @@ struct Route: Dictionariable {
     
     enum CodingKeys: String {
         case id
-        case departureTownLocationId = "departure_town_location_id"
+        case departureLocation = "departure_location"
         case places
     }
 }

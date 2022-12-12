@@ -37,45 +37,11 @@ extension TripsInteractor: TripsInteractorInput {
         }
     }
     
-    func obtainRouteDataFromSever(with identifier: String) -> Route? {
-        var route: Route?
-        FBService.obtainRoute(with: identifier) { result in
-            
-            switch result {
-            case .success(let routeResult):
-                route = routeResult
-            case .failure(let error):
-                assertionFailure("Error while obtaining route data from server: \(error.localizedDescription)")
-            }
-        }
-        return route
+    func obtainRouteDataFromSever(with identifier: String, completion: @escaping (Result<Route, Error>) -> Void) {
+        FBService.obtainRoute(with: identifier, completion: completion)
     }
     
-    
-    func obtainLocationDataFromSever(with identifier: String) -> Location? {
-        var location: Location?
-        FBService.obtainLocation(with: identifier) { result in
-            switch result {
-            case .success(let locationResult):
-                location = locationResult
-            case .failure(let error):
-                assertionFailure("Error while obtaining location data from server: \(error.localizedDescription)")
-            }
-        }
-        return location
-    }
-    
-    func obtainTripImageFromServer(for trip: Trip) -> UIImage? {
-        var resultImage: UIImage? = nil
-        
-        FBService.obtainTripImage(trip: trip) { imageResult in
-            switch imageResult {
-            case .success(let image):
-                resultImage = image
-            case .failure(let error):
-                assertionFailure("Error while obtaining trips image from server: \(error.localizedDescription)")
-            }
-        }
-        return resultImage
+    func obtainTripImageFromServer(for imageURLString: String, completion: @escaping (Result<UIImage?, Error>) -> Void) {
+        FBService.obtainTripImage(for: imageURLString, completion: completion)
     }
 }

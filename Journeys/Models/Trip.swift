@@ -11,7 +11,7 @@ import UIKit
 struct Trip: Dictionariable {
     
     let id: String
-    var imageURLString: String
+    var imageURLString: String = ""
     var routeId: String
     var baggageId: String?
     var isInfavourites: Bool

@@ -21,7 +21,7 @@ final class NewRouteCreatingPresenter {
     let deportCellsCount: Int = 1
     let addNewCityCellsCount: Int = 1
     var arrivalCellsCount: Int = 1
-    var route: RouteWithLocation?
+    var route: Route?
 
     internal init(routeId: String?) {
         if let routeId = routeId {
@@ -64,42 +64,13 @@ final class NewRouteCreatingPresenter {
             
             switch result {
             case .success(let route):
-                guard let departureLocation = strongSelf.getLocation(with: route.departureLocationId) else {
-                    assertionFailure("Error while loading location")
-                    return
-                }
-                
-                var placesWithLocation: [PlaceWithLocation] = []
-                for place in route.places {
-                    guard let location = strongSelf.getLocation(with: place.locationId) else {
-                        assertionFailure("Error while loading location")
-                        return
-                    }
-                    placesWithLocation.append(PlaceWithLocation(location: location, arrive: place.arrive, depart: place.depart))
-                }
-                strongSelf.route = RouteWithLocation(id: route.id, departureTownLocation: departureLocation, places: placesWithLocation)
+                strongSelf.route = route
             
             case .failure(let error):
                 assertionFailure("Error while obtaining location data from server: \(error.localizedDescription)")
                 strongSelf.didRecieveError(error: .obtainDataError)
             }
         }
-    }
-    
-    private func getLocation(with identifier: String) -> Location? {
-        var location: Location?
-        model.loadLocation(with: identifier){ [weak self] result in
-            guard let strongSelf = self else { return }
-            
-            switch result {
-            case .success(let locationResult):
-                location = locationResult
-            case .failure(let error):
-                assertionFailure("Error while obtaining location data from server: \(error.localizedDescription)")
-                strongSelf.didRecieveError(error: .obtainDataError)
-            }
-        }
-        return location
     }
     
     func didRecieveError(error: Errors) {
@@ -114,7 +85,7 @@ extension NewRouteCreatingPresenter: NewRouteCreatingViewOutput {
     func getDisplayData(for indexpath: IndexPath) -> NewRouteCellDisplayData {
         let displayData = NewRouteCellDisplayDataFactory()
         if indexpath.section == 0 {
-            return displayData.displayData(cellType: .departureTown(location: route?.departureTownLocation))
+            return displayData.displayData(cellType: .departureTown(location: route?.departureLocation))
         } else if indexpath.section == 1 {
             guard let route = route else {
                 return displayData.displayData(cellType: .arrivalTown(location: nil))
