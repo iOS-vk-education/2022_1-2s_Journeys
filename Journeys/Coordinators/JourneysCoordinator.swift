@@ -14,14 +14,13 @@ final class JourneysCoordinator: CoordinatorProtocol {
     // MARK: Private Properties
 
     private let rootTabBarController: UITabBarController
-    private var navigationController: UINavigationController
+    private var navigationController = UINavigationController()
     private let tabBarItemFactory: TabBarItemFactoryProtocol
     
     // MARK: Lifecycle
 
     init(rootTabBarController: UITabBarController) {
         self.rootTabBarController = rootTabBarController
-        navigationController = UINavigationController()
         tabBarItemFactory = TabBarItemFactory()
     }
 
