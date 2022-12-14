@@ -1,15 +1,14 @@
 //
-//  JourneysCoordinator.swift
+//  AccountCoordinator.swift
 //  Journeys
 //
-//  Created by Сергей Адольевич on 09.11.2022.
+//  Created by Сергей Адольевич on 07.12.2022.
 //
 
 import Foundation
 import UIKit
 
-
-final class JourneysCoordinator: CoordinatorProtocol {
+final class AccountCoordinator: CoordinatorProtocol {
 
     // MARK: Private Properties
 
@@ -26,13 +25,14 @@ final class JourneysCoordinator: CoordinatorProtocol {
 
     // MARK: Public Methods
 
+    // TODO: start
     func start() {
-        let builder = TripsModuleBuilder()
-        let tripsViewController = builder.build(output: self)
+        let builder = AccountModuleBuilder()
+        let accountViewController = builder.build(output: self)
 
-        navigationController.setViewControllers([tripsViewController], animated: false)
+        navigationController.setViewControllers([accountViewController], animated: false)
 
-        navigationController.tabBarItem = tabBarItemFactory.getTabBarItem(from: TabBarPage.journeys)
+        navigationController.tabBarItem = tabBarItemFactory.getTabBarItem(from: TabBarPage.account)
 
         var controllers = rootTabBarController.viewControllers
         if controllers == nil {
@@ -48,8 +48,6 @@ final class JourneysCoordinator: CoordinatorProtocol {
     }
 }
 
-// MARK: TripsModuleOutput
-
-extension JourneysCoordinator: TripsModuleOutput {
+extension AccountCoordinator: AccountModuleOutput {
 
 }

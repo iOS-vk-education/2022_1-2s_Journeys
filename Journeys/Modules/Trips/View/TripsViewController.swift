@@ -72,7 +72,7 @@ final class TripsViewController: UIViewController {
     private func makeConstraints() {
         floatingChangeButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(TripsConstants.FloationgChangeButton.bottomIndent)
             make.width.equalTo(TripsConstants.FloationgChangeButton.width)
             make.height.equalTo(TripsConstants.FloationgChangeButton.height)
         }
@@ -187,11 +187,12 @@ private extension TripsViewController {
         static let addCellSize = CGSize(width: 343, height: 72)
         static let tripCellSize = CGSize(width: 343, height: 272)
 
-        static let collectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 60, right: 0)
+        static let collectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 70, right: 0)
         struct FloationgChangeButton {
             static let width: CGFloat = 220.0
             static let height: CGFloat = 40.0
             static let borderRarius: CGFloat = 10.0
+            static let bottomIndent: CGFloat = 15.0
         }
     }
 }
