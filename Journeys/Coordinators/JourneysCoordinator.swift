@@ -14,17 +14,19 @@ final class JourneysCoordinator: CoordinatorProtocol {
 
     // MARK: Private Properties
     private var navigationController: UINavigationController
+    private let firebaseService: FirebaseServiceProtocol
     // MARK: Lifecycle
 
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, firebaseService: FirebaseServiceProtocol) {
         self.navigationController = navigationController
+        self.firebaseService = firebaseService
     }
 
     // MARK: Public Methods
 
     func start() {
         let builder = TripsModuleBuilder()
-        let tripsViewController = builder.build(output: self)
+        let tripsViewController = builder.build(firebaseService: firebaseService, output: self)
 
         navigationController.setViewControllers([tripsViewController], animated: false)
     }
@@ -39,14 +41,14 @@ final class JourneysCoordinator: CoordinatorProtocol {
 extension JourneysCoordinator: TripsModuleOutput {
     func tripsCollectionWantsToOpenNewRouteModule() {
         let builder = NewRouteCreatingModuleBuilder()
-        let newRouteViewController = builder.build(output: self)
+        let newRouteViewController = builder.build(firebaseService: firebaseService, output: self)
         navigationController.pushViewController(newRouteViewController, animated: true)
     }
     
     
     func tripsCollectionWantsToOpenExistingRoute(with routId: String) {
         let builder = NewRouteCreatingModuleBuilder()
-        let newRouteViewController = builder.build(with: routId, output: self)
+        let newRouteViewController = builder.build(firebaseService: firebaseService, with: routId, output: self)
         navigationController.pushViewController(newRouteViewController, animated: true)
     }
 
@@ -55,7 +57,7 @@ extension JourneysCoordinator: TripsModuleOutput {
 extension JourneysCoordinator: NewRouteCreatingModuleOutput {
     func newRouteCreationModuleWantsToOpenAddNewLocationModule(place: Place?){
         let builder = AddNewLocationModuleBuilder()
-        let newLocaionViewController = builder.build(output: self, place: place)
+        let newLocaionViewController = builder.build(firebaseService: firebaseService, output: self, place: place)
         navigationController.pushViewController(newLocaionViewController, animated: true)
     }
     

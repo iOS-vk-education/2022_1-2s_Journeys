@@ -67,35 +67,19 @@ final class TripsPresenter {
     }
     
     private func loadRoute(with identifier: String) -> Route? {
-        var route: Route?
-        interactor.obtainRouteDataFromSever(with: identifier) { [weak self] result in
-            guard let strongSelf = self else { return }
-            
-            switch result {
-            case .success(let routeResult):
-                route = routeResult
-            case .failure(let error):
-                assertionFailure("Error while obtaining route data from server: \(error.localizedDescription)")
-                strongSelf.didRecieveError(error: .obtainDataError)
-            }
+        guard let route = interactor.obtainRouteDataFromSever(with: identifier) else {
+            didRecieveError(error: .obtainDataError)
+            return nil
         }
         return route
     }
     
     private func loadTripImage(for imageURLString: String) -> UIImage? {
-        var resultImage: UIImage?
-        interactor.obtainTripImageFromServer(for: imageURLString) { [weak self] imageResult in
-            guard let strongSelf = self else { return }
-            
-            switch imageResult {
-            case .success(let image):
-                resultImage = image
-            case .failure(let error):
-                assertionFailure("Error while obtaining trips image from server: \(error.localizedDescription)")
-                strongSelf.didRecieveError(error: .obtainDataError)
-            }
+        guard let image = interactor.obtainTripImageFromServer(for: imageURLString)else {
+            didRecieveError(error: .obtainDataError)
+            return nil
         }
-        return resultImage
+        return image
     }
 }
 
@@ -126,12 +110,14 @@ extension TripsPresenter: TripsViewOutput {
 }
 
 extension TripsPresenter: TripsInteractorOutput {
-    func didRecieveError(error: Errors) {
-//        view.sho
-    }
     
     func didFetchTripsData(data: [Trip]) {
         tripsData = data
     }
     
+    func didRecieveError(error: Errors) {
+        view.showAlert(title: "Ошибка",
+                       message: "Возникла ошибка при получении данных. Проверьте корректность данных и поробуйте снова",
+                       actionTitle: "Ок")
+    }
 }

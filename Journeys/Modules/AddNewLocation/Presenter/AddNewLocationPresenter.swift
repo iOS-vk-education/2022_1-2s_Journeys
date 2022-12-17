@@ -15,10 +15,15 @@ final class AddNewLocationPresenter {
 
     weak var view: AddNewLocationViewInput!
     weak var moduleOutput: AddNewLocationModuleOutput!
-    var place: Place?
+    private var place: Place?
+    private var selectedStartDate: Date?
+    private var selectedEndDate: Date?
     
     internal init(place: Place? = nil) {
+        guard let place = place else { return }
         self.place = place
+        selectedStartDate = place.arrive
+        selectedEndDate = place.depart
     }
 
 }
@@ -46,18 +51,22 @@ extension AddNewLocationPresenter: AddNewLocationViewOutput {
     }
     
     func didTapDoneButton() {
-        print("didTapDoneButton")
+        var startDate: Date?
+        var finishDate: Date?
+        if let dates = view.getCell(at: IndexPath(row: 1, section: 0))?.datesRange {
+            let startDate = dates.first
+            let finishDate = dates.last
+        }
+        // TODO: finish save
     }
-    
-//    func getDisplayData(for indexpath: IndexPath) -> AddNewLocationCell.DisplayData {
-//        if indexpath.row == 0 {
-//            return CalendarCell.DisplayData(arrivalDate: place?.arrive, DepartureDate: place?.depart)
-//        }
-//        return AddNewLocationCell.DisplayData(locationString: "location")
-//    }
     
     func didSelectCell(at indexpath: IndexPath) {
         return
+    }
+    
+    func userSelectedDateRange(range: [Date]) {
+        selectedStartDate = range.first
+        selectedEndDate = range.last
     }
     
 }

@@ -22,7 +22,9 @@ final class CalendarCell: UITableViewCell {
     private var firstDate: Date?
     // last date in the range
     private var lastDate: Date?
-    private var datesRange: [Date]?
+    var datesRange: [Date]?
+    
+    var delegate: CalendarCellDeledate?
     
     // MARK: Lifecycle
     
@@ -42,20 +44,6 @@ final class CalendarCell: UITableViewCell {
     }
     
     func setupViews() {
-//
-//        calendar.dataSource = self
-//        calendar.delegate = self
-    }
-    
-    private func makeConstraints() {
-//        calendar.snp.makeConstraints { make in
-////            make.centerY.equalToSuperview()
-////            make.centerX.equalToSuperview()
-//            make.top.equalToSuperview().inset(20)
-//            make.bottom.equalToSuperview().inset(20)
-//        }
-    }
-    func counfigure(displayData: DisplayData) {
         let calendarFrame = CGRect(x: contentView.frame.minX + 10,
                                    y: contentView.frame.minY + 10,
                                    width: contentView.frame.size.width - 20,
@@ -67,6 +55,10 @@ final class CalendarCell: UITableViewCell {
         
         calendar.allowsMultipleSelection = true
         
+    }
+    
+    func counfigure(displayData: DisplayData, delegate: CalendarCellDeledate) {
+        self.delegate = delegate
         selectDates(from: displayData.arrivalDate, to: displayData.departureDate)
     }
     
@@ -109,9 +101,7 @@ extension CalendarCell: FSCalendarDelegate {
         }
         return array
     }
-}
 
-extension CalendarCell {
     func selectDates(from arrivalDate: Date?, to departureDate: Date?) {
         if arrivalDate != nil && departureDate != nil {
             firstDate = arrivalDate
@@ -152,7 +142,7 @@ extension CalendarCell {
             }
 
             datesRange = range
-
+            delegate?.selectedDateRange(range: range)
             return
         }
 
@@ -182,7 +172,10 @@ extension CalendarCell {
             firstDate = nil
 
             datesRange = []
-            print("datesRange contains: \(datesRange!)")
         }
     }
+}
+
+protocol CalendarCellDeledate: AnyObject {
+    func selectedDateRange(range: [Date])
 }

@@ -8,6 +8,10 @@
 import Foundation
 
 protocol NewRouteCreatingModelInput: AnyObject {
-    func loadRoute(with identifier: String, completion: @escaping (Result<Route, Error>) -> Void)
-//    func loadLocation(with identifier: String, completion: @escaping (Result<Location, Error>) -> Void)
+    func obtainRouteDataFromSever(with identifier: String)
+}
+
+protocol NewRouteCreatingModelOutput: AnyObject {
+    func didFetchRouteData(data: Route)
+    func didRecieveError(error: Errors)
 }

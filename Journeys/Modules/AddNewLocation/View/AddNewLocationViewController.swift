@@ -158,7 +158,7 @@ extension AddNewLocationViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             let displayData = output.getCalendarCellData()
-            calendarCell.counfigure(displayData: displayData)
+            calendarCell.counfigure(displayData: displayData, delegate: self)
             cell = calendarCell
         }
         return cell
@@ -171,6 +171,16 @@ extension AddNewLocationViewController: UITableViewDataSource {
 }
 
 extension AddNewLocationViewController: AddNewLocationViewInput {
+    func getCell(at indexPath: IndexPath) -> CalendarCell? {
+        tableView.cellForRow(at: indexPath) as? CalendarCell
+    }
+    
+}
+
+extension AddNewLocationViewController: CalendarCellDeledate {
+    func selectedDateRange(range: [Date]) {
+        
+    }
 }
 
 private extension AddNewLocationViewController {

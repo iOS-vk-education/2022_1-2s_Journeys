@@ -27,11 +27,6 @@ final class NewRouteCreatingPresenter {
         if let routeId = routeId {
             getRoute(routeId: routeId)
         }
-        guard let route = route else {
-            arrivalCellsCount = 1
-            return
-        }
-        arrivalCellsCount = (route.places.count > 1 ? route.places.count : 1)
     }
     
 
@@ -59,22 +54,7 @@ final class NewRouteCreatingPresenter {
     }
     
     private func getRoute(routeId: String) {
-        model.loadRoute(with: routeId) { [weak self] result in
-            guard let strongSelf = self else { return }
-            
-            switch result {
-            case .success(let route):
-                strongSelf.route = route
-            
-            case .failure(let error):
-                assertionFailure("Error while obtaining location data from server: \(error.localizedDescription)")
-                strongSelf.didRecieveError(error: .obtainDataError)
-            }
-        }
-    }
-    
-    func didRecieveError(error: Errors) {
-        
+        model.obtainRouteDataFromSever(with: routeId)
     }
 }
 
@@ -150,7 +130,8 @@ extension NewRouteCreatingPresenter: NewRouteCreatingViewOutput {
     }
 
     func newRouteCreationModuleWantsToOpenAddNewLocationModule(indexPath: IndexPath) {
-        guard var route = route else {
+        guard let route = route else {
+            moduleOutput.newRouteCreationModuleWantsToOpenAddNewLocationModule(place: nil)
             return
         }
         if route.places.indices.contains(indexPath.row) {
@@ -158,5 +139,17 @@ extension NewRouteCreatingPresenter: NewRouteCreatingViewOutput {
         } else {
             moduleOutput.newRouteCreationModuleWantsToOpenAddNewLocationModule(place: nil)
         }
+    }
+}
+
+extension NewRouteCreatingPresenter: NewRouteCreatingModelOutput {
+    func didFetchRouteData(data: Route) {
+        self.route = data
+        arrivalCellsCount = (data.places.count > 1 ? data.places.count : 1)
+    }
+    func didRecieveError(error: Errors) {
+        view.showAlert(title: "Ошибка",
+                       message: "Возникла ошибка при получении данных. Проверьте корректность данных и поробуйте снова",
+                       actionTitle: "Ок")
     }
 }

@@ -12,6 +12,7 @@ import UIKit
 // MARK: - NewRouteCreating ViewInput
 
 protocol NewRouteCreatingViewInput: AnyObject {
+    func showAlert(title: String, message: String, actionTitle: String)
 }
 
 // MARK: - NewRouteCreating ViewOutput

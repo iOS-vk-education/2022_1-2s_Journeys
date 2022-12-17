@@ -11,6 +11,7 @@ import Foundation
 // MARK: - AddNewLocation ViewInput
 
 protocol AddNewLocationViewInput: AnyObject {
+    func getCell(at indexPath: IndexPath) -> CalendarCell?
 }
 
 // MARK: - AddNewLocation ViewOutput
@@ -23,4 +24,5 @@ protocol AddNewLocationViewOutput: AnyObject {
     
     func getLocationCellData() -> AddNewLocationCell.DisplayData
     func getCalendarCellData() -> CalendarCell.DisplayData
+    func userSelectedDateRange(range: [Date])
 }

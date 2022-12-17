@@ -10,6 +10,7 @@ import Foundation
 // MARK: - Trips ViewInput
 
 protocol TripsViewInput: AnyObject {
+    func showAlert(title: String, message: String, actionTitle: String)
 }
 
 // MARK: - Trips ViewOutput

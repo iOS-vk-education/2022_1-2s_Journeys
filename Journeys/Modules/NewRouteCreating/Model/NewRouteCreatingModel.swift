@@ -9,30 +9,23 @@ import Foundation
 
 // MARK: - NewRouteCreatingModel
 
-//struct RouteWithLocation {
-//    let id: String
-//    var departureTownLocation: Location
-//    var places: [PlaceWithLocation]
-//}
-//
-//struct PlaceWithLocation {
-//    var location: Location
-//    var arrive: Date
-//    var depart: Date
-//}
-
 final class NewRouteCreatingModel {
-    private let FBService = FirebaseService()
+    weak var output: NewRouteCreatingModelOutput!
+    private let FBService: FirebaseServiceProtocol
+    
+    internal init(firebaseService: FirebaseServiceProtocol) {
+        self.FBService = firebaseService
+    }
 }
 
 extension NewRouteCreatingModel: NewRouteCreatingModelInput {
-    func loadRoute(with identifier: String, completion: @escaping (Result<Route, Error>) -> Void) {
-        FBService.obtainRoute(with: identifier, completion: completion)
+    func obtainRouteDataFromSever(with identifier: String) {
+        guard let route = FBService.obtainRoute(with: identifier) else {
+            output.didRecieveError(error: .obtainDataError)
+            return
+        }
+        output.didFetchRouteData(data: route)
     }
-    
-//    func loadLocation(with identifier: String, completion: @escaping (Result<Location, Error>) -> Void) {
-//        FBService.obtainLocation(with: identifier, completion: completion)
-//    }
 }
 
 

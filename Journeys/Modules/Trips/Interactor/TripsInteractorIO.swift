@@ -12,9 +12,8 @@ import UIKit
 
 protocol TripsInteractorInput: AnyObject {
     func obtainTripsDataFromSever()
-    func obtainRouteDataFromSever(with identifier: String, completion: @escaping (Result<Route, Error>) -> Void)
-//    func obtainLocationDataFromSever(with identifyer: String) -> Location?
-    func obtainTripImageFromServer(for imageURLString: String, completion: @escaping (Result<UIImage?, Error>) -> Void)
+    func obtainRouteDataFromSever(with identifier: String) -> Route?
+    func obtainTripImageFromServer(for imageURLString: String) -> UIImage?
 }
 
 // MARK: - TripsInteractorOutput

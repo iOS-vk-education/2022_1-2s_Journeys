@@ -12,13 +12,16 @@ class AppCoordinator: CoordinatorProtocol {
     var childCoordinators = [CoordinatorProtocol]()
     var navigationController: UINavigationController
     weak var journeysCoordinatorInput: CoordinatorProtocol?
+    private let firebaseService: FirebaseServiceProtocol
 
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, firebaseService: FirebaseServiceProtocol) {
         self.navigationController = navigationController
+        self.firebaseService = firebaseService
     }
 
     func start() {
-        let journeysCoordinator = JourneysCoordinator(navigationController: navigationController)
+        let journeysCoordinator = JourneysCoordinator(navigationController: navigationController,
+                                                      firebaseService: firebaseService)
         journeysCoordinator.start()
         childCoordinators.append(journeysCoordinator)
         journeysCoordinatorInput = journeysCoordinator
