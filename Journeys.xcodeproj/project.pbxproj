@@ -8,21 +8,27 @@
 
 /* Begin PBXBuildFile section */
 		093861F1C840A5A7EA2ABBB0 /* TripsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551FBB3C3A6EBAA3F5825F1E /* TripsViewController.swift */; };
+		0D122BF4678B9ACCF7152904 /* StuffModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74D8C9B14C64D7AAB903E4C /* StuffModel.swift */; };
 		0F6FD83F50CCD8533C888533 /* TripsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBDC0F10F5CD5FD772D3371 /* TripsRouter.swift */; };
 		10708D44F55C9485F789DD9B /* TripsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842916911296584B6D97761A /* TripsPresenter.swift */; };
 		19DF7BAC373C54E8FB115888 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977588DC3C6C73D208E91B01 /* AccountViewController.swift */; };
 		1EA5831F1D57C53497AB055D /* AccountPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEC91A92B6FC702B7FBFB11 /* AccountPresenter.swift */; };
+		23B154EFB268E2EC201FD3BE /* StuffModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EDD574EEE2EFBFE188F60FC /* StuffModuleIO.swift */; };
+		38B0C8DF2C72951C87C99D99 /* StuffBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802368B7D34D0C581E6DF0D5 /* StuffBuilder.swift */; };
 		593D2FA682B366A48F2F32CA /* AccountModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = A725453EEA31D1A13F20EF3F /* AccountModuleIO.swift */; };
 		668AB39849F8F5E0DBE3C8F4 /* TripsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF490FDC4B357AFC27B31C9 /* TripsModel.swift */; };
 		678EC2173D55FABDA74E2A5F /* TripsModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A73637212D312DF808EE9D /* TripsModuleIO.swift */; };
 		7BD7FBF6368C4ADCBC0B8866 /* TripsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E483DF62B28C4DBC30739F6A /* TripsBuilder.swift */; };
+		8DBF7730AAAF9093C8B24767 /* StuffPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8553C3C3885758E8284BD5 /* StuffPresenter.swift */; };
 		91819FAFB33A7ABB47EAB8B0 /* TripsViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196CCEF28890034F45E73055 /* TripsViewIO.swift */; };
 		9C60B5C563DCB01932E87E34 /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6EA70FEACD7EC7B403ED784 /* AccountModel.swift */; };
+		9D013B16E85192403961730F /* StuffViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53804FD41C66428E14ED39A0 /* StuffViewIO.swift */; };
 		A837507D56DC8E0FFC90C522 /* TripsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8D65328FD3C306119E7802 /* TripsInteractor.swift */; };
 		AE1A16661BC5D1E7EF15F769 /* AccountBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEECB46D3CD66B269BD0D11E /* AccountBuilder.swift */; };
 		B0CD597403B67CE15E6F43EA /* AccountViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56A833FC67AD50746E4B1DC /* AccountViewIO.swift */; };
 		BF7F42F8786135E6F36A9104 /* Pods_Journeys.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E77E324C769C67635517C4A /* Pods_Journeys.framework */; };
 		C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C624D7B25F42404829AF20C9 /* TripsInteractorIO.swift */; };
+		D2F0BC3358339956DDE22244 /* StuffViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5363B31E1ED6703B3D86E86D /* StuffViewController.swift */; };
 		EE0AF93E2913010D00EC52D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0AF93D2913010D00EC52D3 /* AppDelegate.swift */; };
 		EE0AF9422913010D00EC52D3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0AF9412913010D00EC52D3 /* ViewController.swift */; };
 		EE0AF9452913010D00EC52D3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE0AF9432913010D00EC52D3 /* Main.storyboard */; };
@@ -41,6 +47,8 @@
 		EE497A1D2940B4DE007E8579 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE497A1C2940B4DE007E8579 /* EventsViewController.swift */; };
 		EE57FF3D2927E7E100212DC2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE57FF3B2927E7E100212DC2 /* Localizable.strings */; };
 		EE57FF3F2927E8B000212DC2 /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */; };
+		EED2A75E294FB874003A9A1A /* StuffCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED2A75D294FB874003A9A1A /* StuffCell.swift */; };
+		EED2A760294FCAF9003A9A1A /* StuffTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED2A75F294FCAF9003A9A1A /* StuffTableViewHeader.swift */; };
 		EEDAF553291C05B300E6DDB9 /* JourneysCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDAF552291C05B300E6DDB9 /* JourneysCoordinator.swift */; };
 		EEDAF555291C0F2200E6DDB9 /* AddTripCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDAF554291C0F2200E6DDB9 /* AddTripCell.swift */; };
 		EEDAF557291C302500E6DDB9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDAF556291C302500E6DDB9 /* SceneDelegate.swift */; };
@@ -51,11 +59,16 @@
 /* Begin PBXFileReference section */
 		0AF490FDC4B357AFC27B31C9 /* TripsModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsModel.swift; sourceTree = "<group>"; };
 		196CCEF28890034F45E73055 /* TripsViewIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsViewIO.swift; sourceTree = "<group>"; };
+		5363B31E1ED6703B3D86E86D /* StuffViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StuffViewController.swift; sourceTree = "<group>"; };
+		53804FD41C66428E14ED39A0 /* StuffViewIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StuffViewIO.swift; sourceTree = "<group>"; };
 		551FBB3C3A6EBAA3F5825F1E /* TripsViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsViewController.swift; sourceTree = "<group>"; };
+		6C8553C3C3885758E8284BD5 /* StuffPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StuffPresenter.swift; sourceTree = "<group>"; };
 		6E77E324C769C67635517C4A /* Pods_Journeys.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Journeys.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		802368B7D34D0C581E6DF0D5 /* StuffBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StuffBuilder.swift; sourceTree = "<group>"; };
 		842916911296584B6D97761A /* TripsPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsPresenter.swift; sourceTree = "<group>"; };
 		8EBDC0F10F5CD5FD772D3371 /* TripsRouter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsRouter.swift; sourceTree = "<group>"; };
 		977588DC3C6C73D208E91B01 /* AccountViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		9EDD574EEE2EFBFE188F60FC /* StuffModuleIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StuffModuleIO.swift; sourceTree = "<group>"; };
 		A56A833FC67AD50746E4B1DC /* AccountViewIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountViewIO.swift; sourceTree = "<group>"; };
 		A725453EEA31D1A13F20EF3F /* AccountModuleIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountModuleIO.swift; sourceTree = "<group>"; };
 		B6A73637212D312DF808EE9D /* TripsModuleIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsModuleIO.swift; sourceTree = "<group>"; };
@@ -65,6 +78,7 @@
 		DCF2F17A719CC84C3C1DBBE4 /* Pods-Journeys.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journeys.debug.xcconfig"; path = "Target Support Files/Pods-Journeys/Pods-Journeys.debug.xcconfig"; sourceTree = "<group>"; };
 		DDA6312968B1102658E7F1AD /* Pods-Journeys.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journeys.release.xcconfig"; path = "Target Support Files/Pods-Journeys/Pods-Journeys.release.xcconfig"; sourceTree = "<group>"; };
 		E483DF62B28C4DBC30739F6A /* TripsBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsBuilder.swift; sourceTree = "<group>"; };
+		E74D8C9B14C64D7AAB903E4C /* StuffModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StuffModel.swift; sourceTree = "<group>"; };
 		EC8D65328FD3C306119E7802 /* TripsInteractor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsInteractor.swift; sourceTree = "<group>"; };
 		EE0AF93A2913010D00EC52D3 /* Journeys.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journeys.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE0AF93D2913010D00EC52D3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -86,6 +100,8 @@
 		EE497A1C2940B4DE007E8579 /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EventsViewController.swift; path = Journeys/Coordinators/EventsViewController.swift; sourceTree = SOURCE_ROOT; };
 		EE57FF3C2927E7E100212DC2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Localizable.strings; sourceTree = "<group>"; };
 		EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Strings+Generated.swift"; sourceTree = "<group>"; };
+		EED2A75D294FB874003A9A1A /* StuffCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffCell.swift; sourceTree = "<group>"; };
+		EED2A75F294FCAF9003A9A1A /* StuffTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffTableViewHeader.swift; sourceTree = "<group>"; };
 		EEDAF552291C05B300E6DDB9 /* JourneysCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneysCoordinator.swift; sourceTree = "<group>"; };
 		EEDAF554291C0F2200E6DDB9 /* AddTripCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTripCell.swift; sourceTree = "<group>"; };
 		EEDAF556291C302500E6DDB9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -106,6 +122,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		063D1D8FE326808F195E1017 /* Stuff */ = {
+			isa = PBXGroup;
+			children = (
+				EED2A75C294FB865003A9A1A /* StuffCell */,
+				A20F5F32455A7BFE5DF0D2C9 /* View */,
+				2D0FC3A9AE711EFFA9399F3C /* Presenter */,
+				7980974EADD02AE737987C1C /* Model */,
+				802368B7D34D0C581E6DF0D5 /* StuffBuilder.swift */,
+			);
+			path = Stuff;
+			sourceTree = "<group>";
+		};
 		07F2BE32A7DA84CF6E736B0A /* Presenter */ = {
 			isa = PBXGroup;
 			children = (
@@ -123,6 +151,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		2D0FC3A9AE711EFFA9399F3C /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				9EDD574EEE2EFBFE188F60FC /* StuffModuleIO.swift */,
+				6C8553C3C3885758E8284BD5 /* StuffPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
 		60258206F5ACBE13C8538379 /* Account */ = {
 			isa = PBXGroup;
 			children = (
@@ -131,8 +168,15 @@
 				8D17A5C7DCB6DA0372FEC535 /* Model */,
 				EEECB46D3CD66B269BD0D11E /* AccountBuilder.swift */,
 			);
-			name = Account;
 			path = Account;
+			sourceTree = "<group>";
+		};
+		7980974EADD02AE737987C1C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E74D8C9B14C64D7AAB903E4C /* StuffModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		7B0C9584A25A9EFB720395D2 /* Frameworks */ = {
@@ -157,7 +201,6 @@
 			children = (
 				B6EA70FEACD7EC7B403ED784 /* AccountModel.swift */,
 			);
-			name = Model;
 			path = Model;
 			sourceTree = "<group>";
 		};
@@ -168,6 +211,16 @@
 				8EBDC0F10F5CD5FD772D3371 /* TripsRouter.swift */,
 			);
 			path = Router;
+			sourceTree = "<group>";
+		};
+		A20F5F32455A7BFE5DF0D2C9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				53804FD41C66428E14ED39A0 /* StuffViewIO.swift */,
+				5363B31E1ED6703B3D86E86D /* StuffViewController.swift */,
+				EED2A75F294FCAF9003A9A1A /* StuffTableViewHeader.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		A6B3EA1ACA9775E2354B24AE /* Interactor */ = {
@@ -185,7 +238,6 @@
 				A56A833FC67AD50746E4B1DC /* AccountViewIO.swift */,
 				977588DC3C6C73D208E91B01 /* AccountViewController.swift */,
 			);
-			name = View;
 			path = View;
 			sourceTree = "<group>";
 		};
@@ -195,7 +247,6 @@
 				A725453EEA31D1A13F20EF3F /* AccountModuleIO.swift */,
 				CEEC91A92B6FC702B7FBFB11 /* AccountPresenter.swift */,
 			);
-			name = Presenter;
 			path = Presenter;
 			sourceTree = "<group>";
 		};
@@ -268,6 +319,7 @@
 				EEDAF55D291D65C300E6DDB9 /* FloatingButton */,
 				E7C7F8885C59BF0183002C79 /* Trips */,
 				60258206F5ACBE13C8538379 /* Account */,
+				063D1D8FE326808F195E1017 /* Stuff */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -333,6 +385,14 @@
 				EE57FF3B2927E7E100212DC2 /* Localizable.strings */,
 			);
 			path = ru.lproj;
+			sourceTree = "<group>";
+		};
+		EED2A75C294FB865003A9A1A /* StuffCell */ = {
+			isa = PBXGroup;
+			children = (
+				EED2A75D294FB874003A9A1A /* StuffCell.swift */,
+			);
+			path = StuffCell;
 			sourceTree = "<group>";
 		};
 		EEDAF55D291D65C300E6DDB9 /* FloatingButton */ = {
@@ -502,6 +562,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EEDAF557291C302500E6DDB9 /* SceneDelegate.swift in Sources */,
+				EED2A760294FCAF9003A9A1A /* StuffTableViewHeader.swift in Sources */,
 				EE0AF9422913010D00EC52D3 /* ViewController.swift in Sources */,
 				EEDAF553291C05B300E6DDB9 /* JourneysCoordinator.swift in Sources */,
 				EE57FF3F2927E8B000212DC2 /* Strings+Generated.swift in Sources */,
@@ -512,6 +573,7 @@
 				EE29EBF829191534008ECFF8 /* AppCoordinator.swift in Sources */,
 				91819FAFB33A7ABB47EAB8B0 /* TripsViewIO.swift in Sources */,
 				093861F1C840A5A7EA2ABBB0 /* TripsViewController.swift in Sources */,
+				EED2A75E294FB874003A9A1A /* StuffCell.swift in Sources */,
 				C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */,
 				EE2B4126291413EC0067BE4F /* TripCell.swift in Sources */,
 				A837507D56DC8E0FFC90C522 /* TripsInteractor.swift in Sources */,
@@ -533,6 +595,12 @@
 				1EA5831F1D57C53497AB055D /* AccountPresenter.swift in Sources */,
 				9C60B5C563DCB01932E87E34 /* AccountModel.swift in Sources */,
 				AE1A16661BC5D1E7EF15F769 /* AccountBuilder.swift in Sources */,
+				9D013B16E85192403961730F /* StuffViewIO.swift in Sources */,
+				D2F0BC3358339956DDE22244 /* StuffViewController.swift in Sources */,
+				23B154EFB268E2EC201FD3BE /* StuffModuleIO.swift in Sources */,
+				8DBF7730AAAF9093C8B24767 /* StuffPresenter.swift in Sources */,
+				0D122BF4678B9ACCF7152904 /* StuffModel.swift in Sources */,
+				38B0C8DF2C72951C87C99D99 /* StuffBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
