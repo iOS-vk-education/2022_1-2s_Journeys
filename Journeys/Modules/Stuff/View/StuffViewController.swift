@@ -47,9 +47,12 @@ final class StuffViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(StuffCell.self, forCellReuseIdentifier: "StuffCell")
-
+        tableView.register(AddStuffCell.self, forCellReuseIdentifier: "AddStuffCell")
+        tableView.register(StuffTableViewHeader.self, forHeaderFooterViewReuseIdentifier: "StuffTableViewHeader")
+        
         tableView.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         tableView.separatorStyle = .none
+        tableView.showsVerticalScrollIndicator = false
         
         tableView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
@@ -59,6 +62,14 @@ final class StuffViewController: UIViewController {
         }
     }
     
+    private func handleChange() {
+        
+    }
+    
+    private func handleMoveToTrash() {
+        
+    }
+    
     @objc
     private func didTapExitButton() {
         
@@ -66,15 +77,49 @@ final class StuffViewController: UIViewController {
 }
 
 extension StuffViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if indexPath.row != tableView.numberOfRows(inSection: indexPath.section) - 1 {
+            let change = UIContextualAction(style: .normal,
+                                            title: "Изменить") { [weak self] (action, view, completionHandler) in
+                self?.handleChange()
+                completionHandler(true)
+            }
+            change.backgroundColor = .systemGreen
+            
+            // Trash action
+            let trash = UIContextualAction(style: .destructive,
+                                           title: "Удалить") { [weak self] (action, view, completionHandler) in
+                self?.handleMoveToTrash()
+                completionHandler(true)
+            }
+            trash.backgroundColor = .systemRed
+            
+            let configuration = UISwipeActionsConfiguration(actions: [change, trash])
+            
+            return configuration
+        }
+        return nil
+    }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let closure = output.didSelectRow(at: indexPath) else {
+            return
+        }
+        closure(self, tableView)
+    }
 }
 
 extension StuffViewController: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        20
+        30
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        <#code#>
+        let headerFooter = tableView.dequeueReusableHeaderFooterView(withIdentifier: "StuffTableViewHeader")
+        let header = headerFooter as? StuffTableViewHeader
+        header?.configure(title: "lol")
+        return header
     }
     func numberOfSections(in tableView: UITableView) -> Int {
         2
@@ -87,11 +132,19 @@ extension StuffViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "StuffCell", for: indexPath) as? StuffCell else {
-            return UITableViewCell()
+        if indexPath.row == 9 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "AddStuffCell", for: indexPath) as? AddStuffCell else {
+                return UITableViewCell()
+            }
+            return cell
         }
-        cell.configure(data: StuffCell.DisplayData(emoji: "h", name: "lalala", isPacked: false))
-        return cell
+        else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "StuffCell", for: indexPath) as? StuffCell else {
+                return UITableViewCell()
+            }
+            cell.configure(data: StuffCell.DisplayData(emoji: "🧼", name: "lalala", isPacked: false))
+            return cell
+        }
     }
     
 }

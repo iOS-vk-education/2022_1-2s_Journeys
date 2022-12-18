@@ -42,6 +42,7 @@ internal enum Asset {
       internal static let placeholderColor = ColorAsset(name: "PlaceholderColor")
     }
     internal enum Stuff {
+      internal static let addCellColor = ColorAsset(name: "AddCellColor")
       internal static let cellSeparator = ColorAsset(name: "CellSeparator")
       internal enum StuffButton {
         internal static let stuffIsPacked = ColorAsset(name: "StuffIsPacked")

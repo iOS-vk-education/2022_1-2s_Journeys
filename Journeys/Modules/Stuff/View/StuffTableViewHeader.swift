@@ -8,6 +8,39 @@
 import Foundation
 import UIKit
 
-final class StuffTableViewHeader: UIView {
+final class StuffTableViewHeader: UITableViewHeaderFooterView {
+    private let title = UILabel()
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupView()
+    }
+    
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
+        setupView()
+    }
+//    override init(frame: CGRect) {
+//        super.init(frame: frame)
+//        setupView()
+//    }
+    
+    private func setupView() {
+        addSubview(title)
+        title.textAlignment = .center
+        title.font = .systemFont(ofSize: 17, weight: .medium)
+        setupConstraints()
+    }
+    
+    private func setupConstraints() {
+        title.snp.makeConstraints { make in
+            make.centerY.equalToSuperview().offset(5)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+        }
+    }
+    func configure(title: String) {
+        self.title.text = title
+    }
     
 }

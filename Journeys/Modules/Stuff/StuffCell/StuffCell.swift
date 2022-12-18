@@ -12,13 +12,13 @@ import SnapKit
 final class StuffCell: UITableViewCell {
     
     struct DisplayData {
-        let emoji: String
-        let name: String
+        let emoji: String?
+        let name: String?
         let isPacked: Bool
     }
 
-    private var nameLabel = UILabel()
-    private let emojiLabel = UILabel()
+    private var nameLabel = UITextField()
+    private let emojiLabel = UITextField()
     private let packButton: UIButton = {
         let button = UIButton()
 //        button.imageView?.contentMode = .scaleAspectFit
@@ -55,7 +55,7 @@ final class StuffCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 16, left: 0, bottom: 0, right: 0))
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 12, left: 0, bottom: 0, right: 0))
     }
 
     private func setupSubiews() {
@@ -64,7 +64,10 @@ final class StuffCell: UITableViewCell {
         contentView.addSubview(packButton)
         contentView.addSubview(separator)
         
-//        packButton.contentMode = .scaleAspectFit
+        nameLabel.delegate = self
+        emojiLabel.delegate = self
+        nameLabel.isUserInteractionEnabled = false
+        emojiLabel.isUserInteractionEnabled = false
 
         makeConstraints()
     }
@@ -99,10 +102,14 @@ final class StuffCell: UITableViewCell {
     }
 
     func configure(data: DisplayData) {
-        emojiLabel.text = data.emoji
-        nameLabel.text = data.name
+        emojiLabel.text = data.emoji ?? ""
+        nameLabel.text = data.name ?? ""
         isPacked = data.isPacked
 
+        if data.emoji == nil && data.name == nil {
+            nameLabel.isUserInteractionEnabled = true
+            emojiLabel.isUserInteractionEnabled = true
+        }
         if data.isPacked {
             packButton.setImage(UIImage(systemName: "bag.circle.fill"), for: .normal)
             packButton.tintColor = UIColor(asset: Asset.Colors.Stuff.StuffButton.stuffIsPacked)
@@ -110,5 +117,17 @@ final class StuffCell: UITableViewCell {
             packButton.setImage(UIImage(systemName: "bag.circle"), for: .normal)
             packButton.tintColor = UIColor(asset: Asset.Colors.Stuff.StuffButton.stuffIsUnpacked)
         }
+    }
+}
+
+extension StuffCell: UITextFieldDelegate {
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
+                           replacementString string: String) -> Bool
+    {
+        let maxLength = 1
+        let currentString = (textField.text ?? "") as NSString
+        let newString = currentString.replacingCharacters(in: range, with: string)
+
+        return newString.count <= maxLength
     }
 }
