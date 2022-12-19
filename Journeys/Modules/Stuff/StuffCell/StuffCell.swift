@@ -11,26 +11,24 @@ import SnapKit
 
 final class StuffCell: UITableViewCell {
     
-    enum CellType {
-        case usual
-        case new
+    enum ChangeMode {
+        case on
+        case off
     }
     
     struct DisplayData {
-        let emoji: String
+        let emoji: String?
         let name: String
         let isPacked: Bool
-        let cellType: CellType
+        let changeMode: ChangeMode
     }
 
-    private var nameLabel = UITextField()
-    private let emojiLabel = UITextField()
+    private var nameTextField = UITextField()
+    let emojiTextField = EmojiTextField()
     private let packButton: UIButton = {
         let button = UIButton()
-//        button.imageView?.contentMode = .scaleAspectFit
         button.contentVerticalAlignment = .fill
         button.contentHorizontalAlignment = .fill
-//        button.contentMode = .scaleAspectFit
         return button
     }()
     private let separator: UIView = {
@@ -55,8 +53,8 @@ final class StuffCell: UITableViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        nameLabel.text = nil
-        emojiLabel.text = nil
+        nameTextField.text = nil
+        emojiTextField.text = nil
         setupSubiews()
     }
 
@@ -67,32 +65,34 @@ final class StuffCell: UITableViewCell {
     }
 
     private func setupSubiews() {
-        contentView.addSubview(nameLabel)
-        contentView.addSubview(emojiLabel)
+        contentView.addSubview(nameTextField)
+        contentView.addSubview(emojiTextField)
         contentView.addSubview(packButton)
         contentView.addSubview(separator)
         
-        nameLabel.delegate = self
-        emojiLabel.delegate = self
-        nameLabel.isUserInteractionEnabled = false
-        emojiLabel.isUserInteractionEnabled = false
+        nameTextField.delegate = self
+        emojiTextField.delegate = self
+        nameTextField.isUserInteractionEnabled = false
+        emojiTextField.isUserInteractionEnabled = false
 
+        emojiTextField.addTarget(self, action: #selector(emojiTextFieldDidChange), for: .editingChanged)
+        nameTextField.addTarget(self, action: #selector(nameTextFieldDidChange), for: .editingChanged)
         packButton.addTarget(self, action: #selector(didTapCellButton), for: .touchUpInside)
         makeConstraints()
     }
 
     private func makeConstraints() {
-        emojiLabel.snp.makeConstraints { make in
+        emojiTextField.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(8)
             make.bottom.equalToSuperview().inset(10)
             make.height.equalTo(20)
-            make.width.equalTo(20)
+            make.width.equalTo(22)
         }
         
-        nameLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(emojiLabel.snp.bottom)
-            make.leading.equalTo(emojiLabel.snp.trailing).offset(12)
-            make.trailing.lessThanOrEqualTo(packButton).offset(-20)
+        nameTextField.snp.makeConstraints { make in
+            make.bottom.equalTo(emojiTextField.snp.bottom)
+            make.leading.equalTo(emojiTextField.snp.trailing).offset(12)
+            make.trailing.equalTo(packButton.snp.leading).offset(-20)
         }
         
         packButton.snp.makeConstraints { make in
@@ -121,39 +121,75 @@ final class StuffCell: UITableViewCell {
         }
     }
     
+    private func switchBasedNextTextField(_ textField: UITextField) {
+        switch textField {
+        case self.emojiTextField:
+            self.nameTextField.becomeFirstResponder()
+        default:
+            self.nameTextField.resignFirstResponder()
+        }
+    }
+    
+    @objc
+    private func emojiTextFieldDidChange() {
+        guard let text = emojiTextField.text else { return }
+        delegate?.emojiTextFieldDidChange(text, in: self)
+    }
+                                 
+    @objc
+    private func nameTextFieldDidChange() {
+        guard let text = nameTextField.text else { return }
+        delegate?.nameTextFieldDidChange(text, in: self)
+    }
+                                 
     @objc
     private func didTapCellButton() {
         delegate?.cellPackButtonWasTapped(self)
         isPacked.toggle()
         configureButton()
     }
+    
+    func startEditMode() {
+        nameTextField.isUserInteractionEnabled = true
+        emojiTextField.isUserInteractionEnabled = true
+        emojiTextField.becomeFirstResponder()
+    }
+    
+    func finishEditMode() {
+        nameTextField.isUserInteractionEnabled = false
+        emojiTextField.isUserInteractionEnabled = false
+    }
 
     func configure(data: DisplayData, delegate: StuffCellDelegate) {
         self.delegate = delegate
-        emojiLabel.text = data.emoji
-        nameLabel.text = data.name
+        emojiTextField.text = data.emoji
+        nameTextField.text = data.name
         isPacked = data.isPacked
 
-        if data.cellType == .new {
-            nameLabel.isUserInteractionEnabled = true
-            emojiLabel.isUserInteractionEnabled = true
+        if data.changeMode == .on {
+            startEditMode()
         }
         configureButton()
     }
 }
 
 extension StuffCell: UITextFieldDelegate {
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
-                           replacementString string: String) -> Bool
-    {
-        let maxLength = 1
-        let currentString = (textField.text ?? "") as NSString
-        let newString = currentString.replacingCharacters(in: range, with: string)
-
-        return newString.count <= maxLength
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let textField = textField as? EmojiTextField else { return true }
+        let currentText = textField.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        return updatedText.count <= 1
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.switchBasedNextTextField(textField)
+        return true
     }
 }
 
 protocol StuffCellDelegate: AnyObject {
     func cellPackButtonWasTapped(_ cell: StuffCell)
+    func emojiTextFieldDidChange(_ text: String, in cell: StuffCell)
+    func nameTextFieldDidChange(_ text: String, in cell: StuffCell)
 }

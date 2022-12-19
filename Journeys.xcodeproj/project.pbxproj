@@ -31,6 +31,8 @@
 		D2F0BC3358339956DDE22244 /* StuffViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5363B31E1ED6703B3D86E86D /* StuffViewController.swift */; };
 		EE02E53B294FFA5C002BE87E /* StuffDisplayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02E53A294FFA5C002BE87E /* StuffDisplayData.swift */; };
 		EE02E53D294FFB10002BE87E /* StuffModelIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02E53C294FFB10002BE87E /* StuffModelIO.swift */; };
+		EE02E56D2950DD79002BE87E /* Stuff.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02E56C2950DD79002BE87E /* Stuff.swift */; };
+		EE02E56F2950E732002BE87E /* EmojiTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02E56E2950E732002BE87E /* EmojiTextField.swift */; };
 		EE0AF93E2913010D00EC52D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0AF93D2913010D00EC52D3 /* AppDelegate.swift */; };
 		EE0AF9422913010D00EC52D3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0AF9412913010D00EC52D3 /* ViewController.swift */; };
 		EE0AF9452913010D00EC52D3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE0AF9432913010D00EC52D3 /* Main.storyboard */; };
@@ -85,6 +87,8 @@
 		EC8D65328FD3C306119E7802 /* TripsInteractor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsInteractor.swift; sourceTree = "<group>"; };
 		EE02E53A294FFA5C002BE87E /* StuffDisplayData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffDisplayData.swift; sourceTree = "<group>"; };
 		EE02E53C294FFB10002BE87E /* StuffModelIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffModelIO.swift; sourceTree = "<group>"; };
+		EE02E56C2950DD79002BE87E /* Stuff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stuff.swift; sourceTree = "<group>"; };
+		EE02E56E2950E732002BE87E /* EmojiTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiTextField.swift; sourceTree = "<group>"; };
 		EE0AF93A2913010D00EC52D3 /* Journeys.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journeys.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE0AF93D2913010D00EC52D3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EE0AF9412913010D00EC52D3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -288,6 +292,14 @@
 			path = StuffDisplayData;
 			sourceTree = "<group>";
 		};
+		EE02E56B2950DD79002BE87E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EE02E56C2950DD79002BE87E /* Stuff.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		EE0AF9312913010D00EC52D3 = {
 			isa = PBXGroup;
 			children = (
@@ -310,6 +322,7 @@
 		EE0AF93C2913010D00EC52D3 /* Journeys */ = {
 			isa = PBXGroup;
 			children = (
+				EE02E56B2950DD79002BE87E /* Models */,
 				EE57FF372927E6E400212DC2 /* ru.lproj */,
 				EE157F442926B31100A56157 /* Generated */,
 				EE0AF951291301C500EC52D3 /* Modules */,
@@ -400,6 +413,7 @@
 				EE02E539294FFA43002BE87E /* StuffDisplayData */,
 				EED2A75D294FB874003A9A1A /* StuffCell.swift */,
 				EED2A761294FCE4E003A9A1A /* AddStuffCell.swift */,
+				EE02E56E2950E732002BE87E /* EmojiTextField.swift */,
 			);
 			path = StuffCell;
 			sourceTree = "<group>";
@@ -576,6 +590,7 @@
 				EEDAF553291C05B300E6DDB9 /* JourneysCoordinator.swift in Sources */,
 				EE57FF3F2927E8B000212DC2 /* Strings+Generated.swift in Sources */,
 				EE497A142940AF4C007E8579 /* EventsCoordinator.swift in Sources */,
+				EE02E56D2950DD79002BE87E /* Stuff.swift in Sources */,
 				EE0AF93E2913010D00EC52D3 /* AppDelegate.swift in Sources */,
 				EE497A162940B0EB007E8579 /* Pages.swift in Sources */,
 				EE497A1D2940B4DE007E8579 /* EventsViewController.swift in Sources */,
@@ -588,6 +603,7 @@
 				C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */,
 				EE2B4126291413EC0067BE4F /* TripCell.swift in Sources */,
 				A837507D56DC8E0FFC90C522 /* TripsInteractor.swift in Sources */,
+				EE02E56F2950E732002BE87E /* EmojiTextField.swift in Sources */,
 				EEDAF555291C0F2200E6DDB9 /* AddTripCell.swift in Sources */,
 				678EC2173D55FABDA74E2A5F /* TripsModuleIO.swift in Sources */,
 				EED2A762294FCE4E003A9A1A /* AddStuffCell.swift in Sources */,

@@ -19,11 +19,14 @@ protocol StuffViewInput: AnyObject {
 
 protocol StuffViewOutput: AnyObject {
     func viewDidLoad()
-    func didSelectRow(at indexPath: IndexPath, rowsInSection: Int) -> ((StuffViewController, UITableView, Int)->())?
-//    func didSelectRow(row: Int, rowsInSection: Int)
     func getNumberOfRows(in section: Int) -> Int
     func getStuffCellDisplayData(for indexpath: IndexPath) -> StuffCell.DisplayData?
-    
-//    func didTapCellPackButton(at indexpath: IndexPath) -> ((StuffViewController) -> ())?
+
+    func didSelectRow(at indexPath: IndexPath, rowsInSection: Int) -> ((StuffViewController, UITableView, Int)->())?
+    func handeleCellDelete(at indexPath: IndexPath)
+    func handeleCellEdit(at indexPath: IndexPath, tableView: UITableView?)
+
     func didTapCellPackButton(at indexpath: IndexPath?, tableView: UITableView)
+    func emojiTextFieldDidChange(_ text: String, at indexPath: IndexPath)
+    func nameTextFieldDidChange(_ text: String, at indexPath: IndexPath)
 }

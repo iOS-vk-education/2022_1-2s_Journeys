@@ -24,13 +24,17 @@ final class StuffViewController: UIViewController {
         output.viewDidLoad()
         setupView()
     }
-    
+
     private func setupView() {
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         setupNavBar()
         setupTableView()
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
-    
+
     private func setupNavBar() {
         navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
 
@@ -58,49 +62,40 @@ final class StuffViewController: UIViewController {
         tableView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.bottom.equalToSuperview()
-            make.leading.equalToSuperview().inset(38)
-            make.trailing.equalToSuperview().inset(38)
+            make.leading.equalToSuperview().inset(30)
+            make.trailing.equalToSuperview().inset(30)
         }
     }
-    
-    private func handleChange() {
-        
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
-    
-    private func handleMoveToTrash() {
-        
-    }
-    
+
     @objc
     private func didTapExitButton() {
-        
+
     }
+    
 }
 
 extension StuffViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView,
-                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        if indexPath.row != tableView.numberOfRows(inSection: indexPath.section) - 1 {
-            let change = UIContextualAction(style: .normal,
-                                            title: "Изменить") { [weak self] (action, view, completionHandler) in
-                self?.handleChange()
-                completionHandler(true)
-            }
-            change.backgroundColor = .systemGreen
-            
-            // Trash action
-            let trash = UIContextualAction(style: .destructive,
-                                           title: "Удалить") { [weak self] (action, view, completionHandler) in
-                self?.handleMoveToTrash()
-                completionHandler(true)
-            }
-            trash.backgroundColor = .systemRed
-            
-            let configuration = UISwipeActionsConfiguration(actions: [change, trash])
-            
-            return configuration
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let deleteAction = UITableViewRowAction(style: .destructive,
+                                                title: L10n.delete) { [weak self] (action, indexPath) in
+            self?.output.handeleCellDelete(at: indexPath)
+            tableView.beginUpdates()
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.endUpdates()
         }
-        return nil
+
+        let editAction = UITableViewRowAction(style: .normal,
+                                              title: L10n.change) { [weak self] (action, indexPath) in
+            guard let strongSelf = self else { return }
+            self?.output.handeleCellEdit(at: indexPath, tableView: self?.tableView)
+        }
+        editAction.backgroundColor = .systemMint
+
+        return [deleteAction, editAction]
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -111,10 +106,6 @@ extension StuffViewController: UITableViewDelegate {
         }
         closure(self, tableView, indexPath.section)
     }
-//    
-//    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-////        output.moveRow()
-//    }
 }
 
 extension StuffViewController: UITableViewDataSource {
@@ -125,15 +116,22 @@ extension StuffViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerFooter = tableView.dequeueReusableHeaderFooterView(withIdentifier: "StuffTableViewHeader")
         let header = headerFooter as? StuffTableViewHeader
-        header?.configure(title: "lol")
+        if section == 0 {
+            header?.configure(title: L10n.unpacked)
+        } else if section == 1 {
+            header?.configure(title: L10n.packed)
+        }
         return header
     }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         2
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         44
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         output.getNumberOfRows(in: section)
     }
@@ -168,5 +166,13 @@ extension StuffViewController: StuffViewInput {
 extension StuffViewController: StuffCellDelegate {
     func cellPackButtonWasTapped(_ cell: StuffCell) {
         output.didTapCellPackButton(at: tableView.indexPath(for: cell), tableView: tableView)
+    }
+    func emojiTextFieldDidChange(_ text: String, in cell: StuffCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        output.emojiTextFieldDidChange(text, at: indexPath)
+    }
+    func nameTextFieldDidChange(_ text: String, in cell: StuffCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        output.nameTextFieldDidChange(text, at: indexPath)
     }
 }

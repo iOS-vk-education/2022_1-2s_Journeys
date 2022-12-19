@@ -34,7 +34,7 @@ final class StuffTableViewHeader: UITableViewHeaderFooterView {
     
     private func setupConstraints() {
         title.snp.makeConstraints { make in
-            make.centerY.equalToSuperview().offset(5)
+            make.centerY.equalToSuperview().offset(3)
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
         }

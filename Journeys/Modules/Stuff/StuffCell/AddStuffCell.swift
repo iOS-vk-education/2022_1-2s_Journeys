@@ -14,7 +14,7 @@ final class AddStuffCell: UITableViewCell {
 
     private var title: UILabel = {
         let label = UILabel()
-        label.text = "Добавить"
+        label.text = L10n.add
         label.tintColor = UIColor(asset: Asset.Colors.Stuff.addCellColor)
         return label
     }()
@@ -39,13 +39,6 @@ final class AddStuffCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupSubiews()
-    }
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        title.text = nil
-        icon.image = nil
         setupSubiews()
     }
 

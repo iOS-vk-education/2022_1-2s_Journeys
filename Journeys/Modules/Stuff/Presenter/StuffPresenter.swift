@@ -20,27 +20,16 @@ final class StuffPresenter {
     private var unpackedStuff: [Stuff] = []
     private var packedStuff: [Stuff] = []
     
-    private let addNewCellClosure: (StuffViewController, UITableView, Int)->() = { view, tableView, section in
+    private let addRow: (StuffViewController, UITableView, Int)->() = { view, tableView, section in
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "StuffCell") as? StuffCell
         else {
             assertionFailure("Error while creating cell")
             return
         }
         let newIndexPath = IndexPath(row: tableView.numberOfRows(inSection: section) - 1, section: section)
-        cell.configure(data: StuffCell.DisplayData(emoji: "", name: "", isPacked: true, cellType: .new), delegate: view)
-
         tableView.beginUpdates()
         tableView.insertRows(at: [newIndexPath as IndexPath], with: .automatic)
         tableView.endUpdates()
-    }
-    
-    private let deleteRow: (UITableView, IndexPath) -> [UITableViewRowAction]? = { tableView, indexPath in
-        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
-            tableView.beginUpdates()
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            tableView.endUpdates()
-        }
-        return[deleteAction]
     }
 }
 
@@ -64,7 +53,86 @@ extension StuffPresenter: StuffModuleInput {
 }
 
 extension StuffPresenter: StuffViewOutput {
-    
+    func getNumberOfRows(in section: Int) -> Int {
+        if section == 0 {
+            return unpackedStuff.count + 1
+        } else if section == 1 {
+            return packedStuff.count + 1
+        }
+        return 0
+    }
+
+    func viewDidLoad() {
+        model.obtainStuffData()
+    }
+
+    func getStuffCellDisplayData(for indexpath: IndexPath) -> StuffCell.DisplayData? {
+        if indexpath.section == 0 {
+            if !unpackedStuff.indices.contains(indexpath.row) {
+                return nil
+            }
+            let stuff = unpackedStuff[indexpath.row]
+            guard let name = stuff.name,
+                  let emoji = stuff.emoji else {
+                return StuffCell.DisplayData(emoji: "",
+                                             name: "",
+                                             isPacked: stuff.isPacked,
+                                             changeMode: .on)
+            }
+            return StuffCell.DisplayData(emoji: emoji,
+                                         name: name,
+                                         isPacked: stuff.isPacked,
+                                         changeMode: .off)
+        } else if indexpath.section == 1 {
+            if !packedStuff.indices.contains(indexpath.row) {
+                return nil
+            }
+            let stuff = packedStuff[indexpath.row]
+            guard let name = stuff.name,
+                  let emoji = stuff.emoji else {
+                return StuffCell.DisplayData(emoji: "",
+                                             name: "",
+                                             isPacked: stuff.isPacked,
+                                             changeMode: .on)
+            }
+            return StuffCell.DisplayData(emoji: emoji,
+                                         name: name,
+                                         isPacked: stuff.isPacked,
+                                         changeMode: .off)
+        }
+        return nil
+    }
+
+    func didSelectRow(at indexPath: IndexPath,
+                      rowsInSection: Int) -> ((StuffViewController, UITableView, Int)->())? {
+        if indexPath.row == rowsInSection - 1 {
+            if indexPath.section == 0 {
+                unpackedStuff.append(Stuff(isPacked: false))
+            } else if indexPath.section == 1 {
+                packedStuff.append(Stuff(isPacked: true))
+            }
+            return addRow
+        }
+        return nil
+    }
+
+    // MARK: Cells actions
+    func handeleCellDelete(at indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            guard unpackedStuff.indices.contains(indexPath.row) else { return }
+            unpackedStuff.remove(at: indexPath.row)
+        } else if indexPath.section == 1 {
+            guard packedStuff.indices.contains(indexPath.row) else { return }
+            packedStuff.remove(at: indexPath.row)
+        }
+    }
+
+    func handeleCellEdit(at indexPath: IndexPath, tableView: UITableView?) {
+        view.reloadData()
+        guard let cell = tableView?.cellForRow(at: indexPath) as? StuffCell else { return }
+        cell.startEditMode()
+    }
+
     func didTapCellPackButton(at indexpath: IndexPath?, tableView: UITableView) {
         guard let indexpath = indexpath else {
             return
@@ -82,65 +150,23 @@ extension StuffPresenter: StuffViewOutput {
         }
     }
     
-    func getNumberOfRows(in section: Int) -> Int {
-        if section == 0 {
-            return unpackedStuff.count + 1
-        } else if section == 1 {
-            return packedStuff.count + 1
+    func emojiTextFieldDidChange(_ text: String, at indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            guard unpackedStuff.indices.contains(indexPath.row) else { return }
+            unpackedStuff[indexPath.row].emoji = text
+        } else if indexPath.section == 1 {
+            guard packedStuff.indices.contains(indexPath.row) else { return }
+            packedStuff[indexPath.row].emoji = text
         }
-        return 0
     }
     
-    func viewDidLoad() {
-        model.obtainStuffData()
-    }
-    
-    func getStuffCellDisplayData(for indexpath: IndexPath) -> StuffCell.DisplayData? {
-        if indexpath.section == 0 {
-            if !unpackedStuff.indices.contains(indexpath.row) {
-                return nil
-            }
-            let stuff = unpackedStuff[indexpath.row]
-            guard let name = stuff.name,
-                  let emoji = stuff.emoji else {
-                return StuffCell.DisplayData(emoji: "",
-                                             name: "",
-                                             isPacked: stuff.isPacked,
-                                             cellType: .new)
-            }
-            return StuffCell.DisplayData(emoji: emoji,
-                                         name: name,
-                                         isPacked: stuff.isPacked,
-                                         cellType: .usual)
-        } else if indexpath.section == 1 {
-            if !packedStuff.indices.contains(indexpath.row) {
-                return nil
-            }
-            let stuff = packedStuff[indexpath.row]
-            guard let name = stuff.name,
-                  let emoji = stuff.emoji else {
-                return StuffCell.DisplayData(emoji: "",
-                                             name: "",
-                                             isPacked: stuff.isPacked,
-                                             cellType: .new)
-            }
-            return StuffCell.DisplayData(emoji: emoji,
-                                         name: name,
-                                         isPacked: stuff.isPacked,
-                                         cellType: .usual)
+    func nameTextFieldDidChange(_ text: String, at indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            guard unpackedStuff.indices.contains(indexPath.row) else { return }
+            unpackedStuff[indexPath.row].name = text
+        } else if indexPath.section == 1 {
+            guard packedStuff.indices.contains(indexPath.row) else { return }
+            packedStuff[indexPath.row].name = text
         }
-        return nil
-    }
-    
-    func didSelectRow(at indexPath: IndexPath, rowsInSection: Int) -> ((StuffViewController, UITableView, Int)->())? {
-        if indexPath.row == rowsInSection - 1 {
-            if indexPath.section == 0 {
-                unpackedStuff.append(Stuff(isPacked: false))
-            } else if indexPath.section == 1 {
-                packedStuff.append(Stuff(isPacked: true))
-            }
-            return addNewCellClosure
-        } 
-        return nil
     }
 }
