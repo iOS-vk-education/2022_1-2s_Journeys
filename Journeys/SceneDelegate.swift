@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
         
-        let initialViewController = StuffModuleBuilder().build()
+        let initialViewController = TripInfoModuleBuilder().build()
         let navigationViewController = UINavigationController(rootViewController: initialViewController)
         navigationViewController.view.backgroundColor = .systemBackground
         
