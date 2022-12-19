@@ -21,6 +21,7 @@ final class StuffViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        output.viewDidLoad()
         setupView()
     }
     
@@ -103,11 +104,17 @@ extension StuffViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let closure = output.didSelectRow(at: indexPath) else {
+        guard let closure = output.didSelectRow(at: indexPath,
+                                                rowsInSection: tableView.numberOfRows(inSection: indexPath.section))
+        else {
             return
         }
-        closure(self, tableView)
+        closure(self, tableView, indexPath.section)
     }
+//    
+//    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+////        output.moveRow()
+//    }
 }
 
 extension StuffViewController: UITableViewDataSource {
@@ -125,14 +132,14 @@ extension StuffViewController: UITableViewDataSource {
         2
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        48
+        44
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        10
+        output.getNumberOfRows(in: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 9 {
+        if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "AddStuffCell", for: indexPath) as? AddStuffCell else {
                 return UITableViewCell()
             }
@@ -142,7 +149,10 @@ extension StuffViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "StuffCell", for: indexPath) as? StuffCell else {
                 return UITableViewCell()
             }
-            cell.configure(data: StuffCell.DisplayData(emoji: "🧼", name: "lalala", isPacked: false))
+            guard let data = output.getStuffCellDisplayData(for: indexPath) else {
+                return UITableViewCell()
+            }
+            cell.configure(data: data, delegate: self)
             return cell
         }
     }
@@ -150,4 +160,13 @@ extension StuffViewController: UITableViewDataSource {
 }
 
 extension StuffViewController: StuffViewInput {
+    func reloadData() {
+        tableView.reloadData()
+    }
+}
+
+extension StuffViewController: StuffCellDelegate {
+    func cellPackButtonWasTapped(_ cell: StuffCell) {
+        output.didTapCellPackButton(at: tableView.indexPath(for: cell), tableView: tableView)
+    }
 }

@@ -14,8 +14,11 @@ final class StuffModuleBuilder {
 
         let viewController = StuffViewController()
         let presenter = StuffPresenter()
-        presenter.view = viewController
         viewController.output = presenter
+        let model = StuffModel()
+        presenter.view = viewController
+        presenter.model = model
+        model.output = presenter
 
         return viewController
     }

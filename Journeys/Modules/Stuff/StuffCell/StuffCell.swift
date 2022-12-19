@@ -11,10 +11,16 @@ import SnapKit
 
 final class StuffCell: UITableViewCell {
     
+    enum CellType {
+        case usual
+        case new
+    }
+    
     struct DisplayData {
-        let emoji: String?
-        let name: String?
+        let emoji: String
+        let name: String
         let isPacked: Bool
+        let cellType: CellType
     }
 
     private var nameLabel = UITextField()
@@ -33,7 +39,9 @@ final class StuffCell: UITableViewCell {
         return view
     }()
 
-    private var isPacked: Bool? = nil
+    private var isPacked: Bool = false
+    
+    private var delegate: StuffCellDelegate?
 
     required init?(coder: NSCoder) {
         super.init(coder: NSCoder())
@@ -69,6 +77,7 @@ final class StuffCell: UITableViewCell {
         nameLabel.isUserInteractionEnabled = false
         emojiLabel.isUserInteractionEnabled = false
 
+        packButton.addTarget(self, action: #selector(didTapCellButton), for: .touchUpInside)
         makeConstraints()
     }
 
@@ -89,9 +98,10 @@ final class StuffCell: UITableViewCell {
         packButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(8)
             make.top.equalToSuperview()
-            make.bottom.equalToSuperview().inset(4)
+            make.bottom.equalToSuperview().inset(6)
             make.width.equalTo(packButton.snp.height)
 //            make.height.equalTo(24)
+//            make.width.equalTo(24)
         }
         separator.snp.makeConstraints { make in
             make.leading.equalToSuperview()
@@ -100,23 +110,35 @@ final class StuffCell: UITableViewCell {
             make.bottom.equalToSuperview()
         }
     }
-
-    func configure(data: DisplayData) {
-        emojiLabel.text = data.emoji ?? ""
-        nameLabel.text = data.name ?? ""
-        isPacked = data.isPacked
-
-        if data.emoji == nil && data.name == nil {
-            nameLabel.isUserInteractionEnabled = true
-            emojiLabel.isUserInteractionEnabled = true
-        }
-        if data.isPacked {
+    
+    private func configureButton() {
+        if isPacked {
             packButton.setImage(UIImage(systemName: "bag.circle.fill"), for: .normal)
             packButton.tintColor = UIColor(asset: Asset.Colors.Stuff.StuffButton.stuffIsPacked)
         } else {
             packButton.setImage(UIImage(systemName: "bag.circle"), for: .normal)
             packButton.tintColor = UIColor(asset: Asset.Colors.Stuff.StuffButton.stuffIsUnpacked)
         }
+    }
+    
+    @objc
+    private func didTapCellButton() {
+        delegate?.cellPackButtonWasTapped(self)
+        isPacked.toggle()
+        configureButton()
+    }
+
+    func configure(data: DisplayData, delegate: StuffCellDelegate) {
+        self.delegate = delegate
+        emojiLabel.text = data.emoji
+        nameLabel.text = data.name
+        isPacked = data.isPacked
+
+        if data.cellType == .new {
+            nameLabel.isUserInteractionEnabled = true
+            emojiLabel.isUserInteractionEnabled = true
+        }
+        configureButton()
     }
 }
 
@@ -130,4 +152,8 @@ extension StuffCell: UITextFieldDelegate {
 
         return newString.count <= maxLength
     }
+}
+
+protocol StuffCellDelegate: AnyObject {
+    func cellPackButtonWasTapped(_ cell: StuffCell)
 }
