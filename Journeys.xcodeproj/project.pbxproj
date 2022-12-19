@@ -23,6 +23,14 @@
 		B0CD597403B67CE15E6F43EA /* AccountViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56A833FC67AD50746E4B1DC /* AccountViewIO.swift */; };
 		BF7F42F8786135E6F36A9104 /* Pods_Journeys.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E77E324C769C67635517C4A /* Pods_Journeys.framework */; };
 		C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C624D7B25F42404829AF20C9 /* TripsInteractorIO.swift */; };
+		EE02E5472950D9EA002BE87E /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02E53F2950D9EA002BE87E /* Location.swift */; };
+		EE02E5482950D9EA002BE87E /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02E5402950D9EA002BE87E /* Trip.swift */; };
+		EE02E5492950D9EA002BE87E /* Stuff.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02E5412950D9EA002BE87E /* Stuff.swift */; };
+		EE02E54A2950D9EA002BE87E /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02E5422950D9EA002BE87E /* Place.swift */; };
+		EE02E54B2950D9EA002BE87E /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02E5432950D9EA002BE87E /* Protocols.swift */; };
+		EE02E54C2950D9EA002BE87E /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02E5442950D9EA002BE87E /* Weather.swift */; };
+		EE02E54D2950D9EA002BE87E /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02E5452950D9EA002BE87E /* Route.swift */; };
+		EE02E54E2950D9EA002BE87E /* Baggage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02E5462950D9EA002BE87E /* Baggage.swift */; };
 		EE0AF93E2913010D00EC52D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0AF93D2913010D00EC52D3 /* AppDelegate.swift */; };
 		EE0AF9422913010D00EC52D3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0AF9412913010D00EC52D3 /* ViewController.swift */; };
 		EE0AF9452913010D00EC52D3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE0AF9432913010D00EC52D3 /* Main.storyboard */; };
@@ -66,6 +74,14 @@
 		DDA6312968B1102658E7F1AD /* Pods-Journeys.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journeys.release.xcconfig"; path = "Target Support Files/Pods-Journeys/Pods-Journeys.release.xcconfig"; sourceTree = "<group>"; };
 		E483DF62B28C4DBC30739F6A /* TripsBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsBuilder.swift; sourceTree = "<group>"; };
 		EC8D65328FD3C306119E7802 /* TripsInteractor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsInteractor.swift; sourceTree = "<group>"; };
+		EE02E53F2950D9EA002BE87E /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		EE02E5402950D9EA002BE87E /* Trip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
+		EE02E5412950D9EA002BE87E /* Stuff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stuff.swift; sourceTree = "<group>"; };
+		EE02E5422950D9EA002BE87E /* Place.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		EE02E5432950D9EA002BE87E /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		EE02E5442950D9EA002BE87E /* Weather.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		EE02E5452950D9EA002BE87E /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		EE02E5462950D9EA002BE87E /* Baggage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Baggage.swift; sourceTree = "<group>"; };
 		EE0AF93A2913010D00EC52D3 /* Journeys.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journeys.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE0AF93D2913010D00EC52D3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EE0AF9412913010D00EC52D3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -131,7 +147,6 @@
 				8D17A5C7DCB6DA0372FEC535 /* Model */,
 				EEECB46D3CD66B269BD0D11E /* AccountBuilder.swift */,
 			);
-			name = Account;
 			path = Account;
 			sourceTree = "<group>";
 		};
@@ -157,7 +172,6 @@
 			children = (
 				B6EA70FEACD7EC7B403ED784 /* AccountModel.swift */,
 			);
-			name = Model;
 			path = Model;
 			sourceTree = "<group>";
 		};
@@ -185,7 +199,6 @@
 				A56A833FC67AD50746E4B1DC /* AccountViewIO.swift */,
 				977588DC3C6C73D208E91B01 /* AccountViewController.swift */,
 			);
-			name = View;
 			path = View;
 			sourceTree = "<group>";
 		};
@@ -195,7 +208,6 @@
 				A725453EEA31D1A13F20EF3F /* AccountModuleIO.swift */,
 				CEEC91A92B6FC702B7FBFB11 /* AccountPresenter.swift */,
 			);
-			name = Presenter;
 			path = Presenter;
 			sourceTree = "<group>";
 		};
@@ -222,6 +234,21 @@
 			path = Trips;
 			sourceTree = "<group>";
 		};
+		EE02E53E2950D9EA002BE87E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EE02E53F2950D9EA002BE87E /* Location.swift */,
+				EE02E5402950D9EA002BE87E /* Trip.swift */,
+				EE02E5412950D9EA002BE87E /* Stuff.swift */,
+				EE02E5422950D9EA002BE87E /* Place.swift */,
+				EE02E5432950D9EA002BE87E /* Protocols.swift */,
+				EE02E5442950D9EA002BE87E /* Weather.swift */,
+				EE02E5452950D9EA002BE87E /* Route.swift */,
+				EE02E5462950D9EA002BE87E /* Baggage.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		EE0AF9312913010D00EC52D3 = {
 			isa = PBXGroup;
 			children = (
@@ -244,6 +271,7 @@
 		EE0AF93C2913010D00EC52D3 /* Journeys */ = {
 			isa = PBXGroup;
 			children = (
+				EE02E53E2950D9EA002BE87E /* Models */,
 				EE57FF372927E6E400212DC2 /* ru.lproj */,
 				EE157F442926B31100A56157 /* Generated */,
 				EE29EBF029186D4B008ECFF8 /* Extencions */,
@@ -502,6 +530,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EEDAF557291C302500E6DDB9 /* SceneDelegate.swift in Sources */,
+				EE02E5472950D9EA002BE87E /* Location.swift in Sources */,
 				EE0AF9422913010D00EC52D3 /* ViewController.swift in Sources */,
 				EEDAF553291C05B300E6DDB9 /* JourneysCoordinator.swift in Sources */,
 				EE57FF3F2927E8B000212DC2 /* Strings+Generated.swift in Sources */,
@@ -515,6 +544,7 @@
 				C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */,
 				EE2B4126291413EC0067BE4F /* TripCell.swift in Sources */,
 				A837507D56DC8E0FFC90C522 /* TripsInteractor.swift in Sources */,
+				EE02E54A2950D9EA002BE87E /* Place.swift in Sources */,
 				EEDAF555291C0F2200E6DDB9 /* AddTripCell.swift in Sources */,
 				678EC2173D55FABDA74E2A5F /* TripsModuleIO.swift in Sources */,
 				EE497A182940B183007E8579 /* TabbarItemFactory.swift in Sources */,
@@ -526,12 +556,18 @@
 				EE497A122940AF41007E8579 /* AccountCoordinator.swift in Sources */,
 				7BD7FBF6368C4ADCBC0B8866 /* TripsBuilder.swift in Sources */,
 				EEDAF55C291D5AF500E6DDB9 /* FloatingButton.swift in Sources */,
+				EE02E5492950D9EA002BE87E /* Stuff.swift in Sources */,
 				EE157F482926B39A00A56157 /* XCAssets+Generated.swift in Sources */,
 				B0CD597403B67CE15E6F43EA /* AccountViewIO.swift in Sources */,
+				EE02E54D2950D9EA002BE87E /* Route.swift in Sources */,
 				19DF7BAC373C54E8FB115888 /* AccountViewController.swift in Sources */,
 				593D2FA682B366A48F2F32CA /* AccountModuleIO.swift in Sources */,
 				1EA5831F1D57C53497AB055D /* AccountPresenter.swift in Sources */,
 				9C60B5C563DCB01932E87E34 /* AccountModel.swift in Sources */,
+				EE02E54C2950D9EA002BE87E /* Weather.swift in Sources */,
+				EE02E5482950D9EA002BE87E /* Trip.swift in Sources */,
+				EE02E54B2950D9EA002BE87E /* Protocols.swift in Sources */,
+				EE02E54E2950D9EA002BE87E /* Baggage.swift in Sources */,
 				AE1A16661BC5D1E7EF15F769 /* AccountBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
