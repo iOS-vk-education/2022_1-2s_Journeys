@@ -50,7 +50,7 @@ final class MainCollectionHeader: UICollectionReusableView {
             make.leading.equalToSuperview().inset(Constants.BackgroundView.horisontalInsets)
             make.trailing.equalToSuperview().inset(Constants.BackgroundView.horisontalInsets)
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(15)
+            make.centerY.equalToSuperview()
             make.height.equalTo(Constants.BackgroundView.height)
         }
         

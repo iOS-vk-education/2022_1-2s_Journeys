@@ -8,29 +8,29 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     var window: UIWindow?
     var coordinator: CoordinatorProtocol?
-
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
-        
+
         let initialViewController = TripInfoModuleBuilder().build()
         let navigationViewController = UINavigationController(rootViewController: initialViewController)
         navigationViewController.view.backgroundColor = .systemBackground
-        
+
         window?.rootViewController = navigationViewController
         window?.makeKeyAndVisible()
         
-//        let tabBarController = UITabBarController()
-//        tabBarController.setViewControllers([], animated: false)
-//        window?.rootViewController = tabBarController
-//        window?.makeKeyAndVisible()
-//
-//        coordinator = AppCoordinator(tabBarController: tabBarController)
-//
-//        coordinator?.start()
+        //        let tabBarController = UITabBarController()
+        //        tabBarController.setViewControllers([], animated: false)
+        //        window?.rootViewController = tabBarController
+        //        window?.makeKeyAndVisible()
+        //
+        //        coordinator = AppCoordinator(tabBarController: tabBarController)
+        //
+        //        coordinator?.start()
     }
-
+    
 }

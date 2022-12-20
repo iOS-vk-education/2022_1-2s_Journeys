@@ -16,9 +16,9 @@ protocol PlacesInfoViewInput: AnyObject {
 protocol PlacesInfoViewOutput: AnyObject {
     func getHeaderText(for indexpath: IndexPath) -> String
     func getRoutelData() -> RouteCell.DisplayData
-    func getCellsCount(for section: Int) -> Int
+    func getMainCollectionCellsCount(for section: Int) -> Int
     
-    func getWeatherCollectionDisplayData() -> WeatherCollection.DisplayData
+    func getWeatherCollectionDisplayData(_ row: Int) -> WeatherCollection.DisplayData
     func getWeatherCollectionCellsCount(for row: Int) -> Int
     func getWeatherCollectionCellDisplayData() -> WeatherCell.DisplayData
 }

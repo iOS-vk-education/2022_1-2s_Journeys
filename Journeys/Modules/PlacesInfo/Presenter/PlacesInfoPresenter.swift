@@ -21,12 +21,21 @@ extension PlacesInfoPresenter: PlacesInfoModuleInput {
 }
 
 extension PlacesInfoPresenter: PlacesInfoViewOutput {
-    func getWeatherCollectionDisplayData() -> WeatherCollection.DisplayData {
-        WeatherCollection.DisplayData(town: "Курск")
+    func getWeatherCollectionDisplayData(_ row: Int) -> WeatherCollection.DisplayData {
+        WeatherCollection.DisplayData(town: "Курск", cellsCount: getWeatherCollectionCellsCount(for: row))
     }
     
     func getWeatherCollectionCellsCount(for row: Int) -> Int {
-        
+        switch row {
+        case 0:
+            return 3
+        case 1:
+            return 4
+        case 2:
+            return 7
+        default:
+            return 0
+        }
     }
     
     func getWeatherCollectionCellDisplayData() -> WeatherCell.DisplayData {
@@ -49,7 +58,7 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
         return RouteCell.DisplayData(route: "Москва \(arrow) Курск \(arrow) Анапа")
     }
     
-    func getCellsCount(for section: Int) -> Int {
+    func getMainCollectionCellsCount(for section: Int) -> Int {
         switch section {
         case 0:
             return 1

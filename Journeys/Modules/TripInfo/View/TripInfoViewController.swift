@@ -6,40 +6,118 @@
 //
 
 import UIKit
+import SnapKit
 
 // MARK: - TripInfoViewController
 
-final class TripInfoViewController: UIPageViewController {
-
-    lazy var viewControllersList: [UIViewController] = {
+final class TripInfoViewController: UIViewController {
+    
+    private lazy var pageViewController: UIPageViewController = {
+        let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+        pageViewController.setViewControllers([viewControllersList[currentPageIndex]], direction: .forward, animated: true)
+        return pageViewController
+    }()
+    
+    private lazy var pageSegmentControll: UISegmentedControl = {
+        let segmentControll = UISegmentedControl(items: getSecmentControllItems())
+        segmentControll.selectedSegmentIndex = currentPageIndex
+        segmentControll.addTarget(self, action: #selector(pageSegmentControllValueChanged), for: .valueChanged)
+        return segmentControll
+    }()
+    
+    private lazy var viewControllersList: [UIViewController] = {
         var viewControllers: [UIViewController] = []
         let stuffVC = StuffModuleBuilder().build()
         let placesInfoVC = PlacesInfoModuleBuilder().build()
-        viewControllers.append(stuffVC)
         viewControllers.append(placesInfoVC)
+        viewControllers.append(stuffVC)
         return viewControllers
     }()
     var output: TripInfoViewOutput!
     
-    override init(transitionStyle style: UIPageViewController.TransitionStyle,
-                  navigationOrientation: UIPageViewController.NavigationOrientation,
-                  options: [UIPageViewController.OptionsKey : Any]? = nil) {
-        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
-        setViewControllers([viewControllersList[0]], direction: .forward, animated: true)
-    }
+    var currentPageIndex = 0
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    private func getSecmentControllItems() -> [String] {
+        ["Информация", "Вещи"]
     }
     
     // MARK: Lifecycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        delegate = self
-        dataSource = self
+        pageViewController.delegate = self
+        pageViewController.dataSource = self
+        view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
+        setupViews()
+    }
+    
+    private func setupViews() {
+        view.addSubview(pageSegmentControll)
+        view.addSubview(pageViewController.view)
+        setupConstraints()
+        setupNavBar()
+    }
+    private func setupNavBar () {
+        let exitButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"),
+                                                 style: .plain,
+                                                 target: self,
+                                                 action: #selector(didTapExitButton))
+        exitButtonItem.tintColor = UIColor(asset: Asset.Colors.Icons.iconsColor)
+        navigationItem.leftBarButtonItem = exitButtonItem
+        setupNavBarTitle(for: currentPageIndex)
+    }
+    
+    private func setupNavBarTitle(for index: Int) {
+        if index == 0 {
+            title = L10n.placeInfo
+        } else {
+            title = L10n.stuffList
+        }
+    }
+    
+    private func setupConstraints() {
+        pageSegmentControll.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.centerX.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+        }
+        pageViewController.view.snp.makeConstraints { make in
+            make.top.equalTo(pageSegmentControll.snp.bottom)
+            make.bottom.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+        }
+    }
+    
+    @objc
+    private func didTapExitButton() {
+        
+    }
+    
+    @objc
+    private func pageSegmentControllValueChanged() {
+        pageSegmentControll.isEnabled = false;
+        let index = pageSegmentControll.selectedSegmentIndex
+        guard let viewController = viewControllersList[index] as? UIViewController else { return }
+        if currentPageIndex < index {
+            pageViewController.setViewControllers([viewController],
+                                                  direction: .forward, animated: true,
+                                                  completion:{(isFinished: Bool) in
+                self.pageSegmentControll.isEnabled = true;
+            })
+        } else {
+            pageViewController.setViewControllers([viewController],
+                                                  direction: .reverse, animated: true,
+                                                  completion:{(isFinished: Bool) in
+                self.pageSegmentControll.isEnabled = true;
+            })
+        }
+        currentPageIndex = index
+        setupNavBarTitle(for: currentPageIndex)
     }
 }
+
 
 extension TripInfoViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
@@ -61,7 +139,6 @@ extension TripInfoViewController: UIPageViewControllerDataSource {
     }
     
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        print(viewControllersList.count)
         return 2
     }
     
@@ -71,7 +148,15 @@ extension TripInfoViewController: UIPageViewControllerDataSource {
 }
 
 extension TripInfoViewController: UIPageViewControllerDelegate {
-    
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        guard completed,
+              let currentVC = pageViewController.viewControllers?.first,
+              let index = viewControllersList.firstIndex(of: currentVC) else { return }
+        currentPageIndex = index
+        pageSegmentControll.selectedSegmentIndex = currentPageIndex
+        setupNavBarTitle(for: currentPageIndex)
+        pageSegmentControll.isEnabled = true
+    }
 }
 
 extension TripInfoViewController: TripInfoViewInput {

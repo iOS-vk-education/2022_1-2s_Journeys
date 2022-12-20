@@ -24,8 +24,9 @@ final class PlacesInfoViewController: UIViewController {
     private lazy var mainCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 20
-        
+        layout.sectionInset = UIEdgeInsets(top: 18, left: 0, bottom: 35, right: 0)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.contentInset = UIEdgeInsets(top: 18, left: 0, bottom: 0, right: 0)
         return collectionView
    }()
 
@@ -69,7 +70,7 @@ final class PlacesInfoViewController: UIViewController {
 
 extension PlacesInfoViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: mainCollectionView.frame.width, height: 70)
+        return CGSize(width: mainCollectionView.frame.width, height: 25)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -104,7 +105,7 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        output.getCellsCount(for: section)
+        output.getMainCollectionCellsCount(for: section)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -122,7 +123,7 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
                                                                        for: indexPath) as? WeatherCollection else {
                 return cell
             }
-            weatherCell.configure(data: output.getWeatherCollectionDisplayData(), delegate: self)
+            weatherCell.configure(data: output.getWeatherCollectionDisplayData(indexPath.row), delegate: self)
             cell = weatherCell
         default:
             return cell
@@ -146,8 +147,8 @@ private extension PlacesInfoViewController {
 
 extension PlacesInfoViewController: WeatherCollectionDelegate {
     func getNumberOfItemsInWeatherCollection(_ collectionCell: WeatherCollection) -> Int {
-        let row = mainCollectionView.indexPath(for: cell)?.row
-        output.getWeatherCollectionCellsCount(for row: Int)
+        let row = mainCollectionView.indexPath(for: collectionCell)?.row ?? 0
+        return output.getWeatherCollectionCellsCount(for: row)
     }
     
     func getCellDisplayData(_ cell: WeatherCollection, for indexpath: IndexPath) -> WeatherCell.DisplayData {

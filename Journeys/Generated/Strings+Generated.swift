@@ -26,6 +26,8 @@ public enum L10n {
   public static let journeys = L10n.tr("Localizable", "Journeys")
   /// Собрано
   public static let packed = L10n.tr("Localizable", "Packed")
+  /// Общая информация
+  public static let placeInfo = L10n.tr("Localizable", "PlaceInfo")
   /// Список вещей
   public static let stuffList = L10n.tr("Localizable", "StuffList")
   /// Поездки

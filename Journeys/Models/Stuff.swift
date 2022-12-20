@@ -8,19 +8,24 @@
 import Foundation
 import UIKit
 
-struct Stuff: Dictionariable {
+struct Stuff {
     
-    let id: String
-    var emoji: String
-    var name: String
-    var isbyed: Bool?
+    let id: String?
+    var emoji: String?
+    var name: String?
     var isPacked: Bool
     
-    internal init(id: String, emoji: String, name: String, isbyed: Bool? = nil, isPacked: Bool) {
+    init(isPacked: Bool) {
+        self.id = nil
+        self.emoji = nil
+        self.name = nil
+        self.isPacked = isPacked
+    }
+    
+    internal init(id: String, emoji: String, name: String, isPacked: Bool) {
         self.id = id
         self.emoji = emoji
         self.name = name
-        self.isbyed = isbyed
         self.isPacked = isPacked
     }
     
@@ -28,7 +33,6 @@ struct Stuff: Dictionariable {
         id = dictionary[CodingKeys.id.rawValue] as? String ?? ""
         emoji = dictionary[CodingKeys.emoji.rawValue] as? String ?? ""
         name = dictionary[CodingKeys.name.rawValue] as? String ?? ""
-        isbyed = dictionary[CodingKeys.isbyed.rawValue] as? Bool
         isPacked = dictionary[CodingKeys.isPacked.rawValue] as? Bool ?? false
     }
     
@@ -37,7 +41,6 @@ struct Stuff: Dictionariable {
         dictionary[CodingKeys.id.rawValue] = id
         dictionary[CodingKeys.emoji.rawValue] = emoji
         dictionary[CodingKeys.name.rawValue] = name
-        dictionary[CodingKeys.isbyed.rawValue] = isbyed
         dictionary[CodingKeys.isPacked.rawValue] = isPacked
         return dictionary
     }
@@ -46,7 +49,6 @@ struct Stuff: Dictionariable {
         case id
         case emoji
         case name
-        case isbyed = "is_packed"
-        case isPacked = "is_byed"
+        case isPacked = "is_packed"
     }
 }

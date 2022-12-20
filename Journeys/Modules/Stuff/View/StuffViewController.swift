@@ -58,6 +58,7 @@ final class StuffViewController: UIViewController {
         tableView.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
+        tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
         
         tableView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
