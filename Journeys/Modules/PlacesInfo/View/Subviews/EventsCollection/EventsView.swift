@@ -39,9 +39,9 @@ final class EventsView: UIView {
 
         collectionView.register(EventCell.self,
                                 forCellWithReuseIdentifier: "EventCell")
-        collectionView.register(CollectionHeader.self,
-                                forSupplementaryViewOfKind: "CollectionHeader",
-                                withReuseIdentifier: "CollectionHeader")
+        collectionView.register(MainCollectionHeader.self,
+                                forSupplementaryViewOfKind: "MainCollectionHeader",
+                                withReuseIdentifier: "MainCollectionHeader")
     }
 
     private func setupConstraints() {
@@ -61,8 +61,8 @@ extension EventsView: UICollectionViewDelegate {
 extension EventsView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                               withReuseIdentifier: "CollectionHeader",
-                                                                               for: indexPath) as? CollectionHeader {
+                                                                               withReuseIdentifier: "MainCollectionHeader",
+                                                                               for: indexPath) as? MainCollectionHeader {
             sectionHeader.configure(title: "Курск")
             return sectionHeader
         }

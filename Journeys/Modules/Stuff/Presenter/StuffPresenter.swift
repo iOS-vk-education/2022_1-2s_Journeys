@@ -53,6 +53,15 @@ extension StuffPresenter: StuffModuleInput {
 }
 
 extension StuffPresenter: StuffViewOutput {
+    func getSectionHeaderText(_ section: Int) -> String {
+        if section == 0 {
+            return  L10n.unpacked
+        } else if section == 1 {
+            return  L10n.packed
+        }
+        return ""
+    }
+    
     func getNumberOfRows(in section: Int) -> Int {
         if section == 0 {
             return unpackedStuff.count + 1

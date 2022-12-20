@@ -1,5 +1,5 @@
 //
-//  CollectionHeader.swift
+//  MainCollectionHeader.swift
 //  Journeys
 //
 //  Created by Сергей Адольевич on 14.12.2022.
@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import SnapKit
 
-final class CollectionHeader: UICollectionReusableView {
+final class MainCollectionHeader: UICollectionReusableView {
     
     private let backgroundView: UIView = {
         let view = UIView()
@@ -50,7 +50,7 @@ final class CollectionHeader: UICollectionReusableView {
             make.leading.equalToSuperview().inset(Constants.BackgroundView.horisontalInsets)
             make.trailing.equalToSuperview().inset(Constants.BackgroundView.horisontalInsets)
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.bottom.equalToSuperview().inset(15)
             make.height.equalTo(Constants.BackgroundView.height)
         }
         
@@ -67,7 +67,7 @@ final class CollectionHeader: UICollectionReusableView {
     }
 }
 
-private extension CollectionHeader {
+private extension MainCollectionHeader {
     enum Constants {
         enum BackgroundView {
             static let height: CGFloat = 28

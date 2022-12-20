@@ -13,6 +13,7 @@ final class PlacesInfoPresenter {
     // MARK: - Public Properties
 
     weak var view: PlacesInfoViewInput!
+    var weather = [Weather]
 
 }
 
@@ -24,8 +25,8 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
         WeatherCollection.DisplayData(town: "Курск")
     }
     
-    func getWeatherCollectionCellsCount() -> Int {
-        5
+    func getWeatherCollectionCellsCount(for row: Int) -> Int {
+        
     }
     
     func getWeatherCollectionCellDisplayData() -> WeatherCell.DisplayData {

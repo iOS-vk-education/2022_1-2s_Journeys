@@ -51,9 +51,9 @@ final class PlacesInfoViewController: UIViewController {
                                     forCellWithReuseIdentifier: "RouteCell")
         mainCollectionView.register(WeatherCollection.self,
                                     forCellWithReuseIdentifier: "WeatherCollection")
-        mainCollectionView.register(CollectionHeader.self,
+        mainCollectionView.register(MainCollectionHeader.self,
                                     forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                    withReuseIdentifier: "CollectionHeader")
+                                    withReuseIdentifier: "MainCollectionHeader")
     }
     
     
@@ -69,7 +69,7 @@ final class PlacesInfoViewController: UIViewController {
 
 extension PlacesInfoViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: mainCollectionView.frame.width, height: 30)
+        return CGSize(width: mainCollectionView.frame.width, height: 70)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -81,7 +81,7 @@ extension PlacesInfoViewController: UICollectionViewDelegate, UICollectionViewDe
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch indexPath.section {
         case 0:
-            return CGSize(width: mainCollectionView.frame.width, height: 85)
+            return CGSize(width: mainCollectionView.frame.width, height: 20)
         case 1:
             return CGSize(width: mainCollectionView.frame.width, height: 85)
         default:
@@ -95,7 +95,7 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
         2
     }
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if let sectionHeader = mainCollectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "CollectionHeader", for: indexPath) as? CollectionHeader {
+        if let sectionHeader = mainCollectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "MainCollectionHeader", for: indexPath) as? MainCollectionHeader {
             
             sectionHeader.configure(title: output.getHeaderText(for: indexPath))
             return sectionHeader
@@ -145,11 +145,12 @@ private extension PlacesInfoViewController {
 }
 
 extension PlacesInfoViewController: WeatherCollectionDelegate {
-    func getNumberOfItemsInCollectionSection() -> Int {
-        output.getWeatherCollectionCellsCount()
+    func getNumberOfItemsInWeatherCollection(_ collectionCell: WeatherCollection) -> Int {
+        let row = mainCollectionView.indexPath(for: cell)?.row
+        output.getWeatherCollectionCellsCount(for row: Int)
     }
     
-    func getCellDisplayData(for indexpath: IndexPath) -> WeatherCell.DisplayData {
+    func getCellDisplayData(_ cell: WeatherCollection, for indexpath: IndexPath) -> WeatherCell.DisplayData {
         output.getWeatherCollectionCellDisplayData()
     }
 }

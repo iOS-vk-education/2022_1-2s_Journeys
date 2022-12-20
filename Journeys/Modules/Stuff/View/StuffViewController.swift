@@ -116,11 +116,7 @@ extension StuffViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerFooter = tableView.dequeueReusableHeaderFooterView(withIdentifier: "StuffTableViewHeader")
         let header = headerFooter as? StuffTableViewHeader
-        if section == 0 {
-            header?.configure(title: L10n.unpacked)
-        } else if section == 1 {
-            header?.configure(title: L10n.packed)
-        }
+        header?.configure(title: output.getSectionHeaderText(section))
         return header
     }
     

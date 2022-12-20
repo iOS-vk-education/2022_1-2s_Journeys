@@ -19,6 +19,6 @@ protocol PlacesInfoViewOutput: AnyObject {
     func getCellsCount(for section: Int) -> Int
     
     func getWeatherCollectionDisplayData() -> WeatherCollection.DisplayData
-    func getWeatherCollectionCellsCount() -> Int
+    func getWeatherCollectionCellsCount(for row: Int) -> Int
     func getWeatherCollectionCellDisplayData() -> WeatherCell.DisplayData
 }

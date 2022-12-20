@@ -19,6 +19,7 @@ protocol StuffViewInput: AnyObject {
 
 protocol StuffViewOutput: AnyObject {
     func viewDidLoad()
+    func getSectionHeaderText(_ section: Int) -> String
     func getNumberOfRows(in section: Int) -> Int
     func getStuffCellDisplayData(for indexpath: IndexPath) -> StuffCell.DisplayData?
 
