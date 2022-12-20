@@ -57,6 +57,20 @@
 		EE497A1D2940B4DE007E8579 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE497A1C2940B4DE007E8579 /* EventsViewController.swift */; };
 		EE57FF3D2927E7E100212DC2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE57FF3B2927E7E100212DC2 /* Localizable.strings */; };
 		EE57FF3F2927E8B000212DC2 /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */; };
+		EEA76C5E2951325E00250B06 /* PlacesInfoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C482951325E00250B06 /* PlacesInfoPresenter.swift */; };
+		EEA76C5F2951325E00250B06 /* PlacesInfoModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C492951325E00250B06 /* PlacesInfoModuleIO.swift */; };
+		EEA76C602951325E00250B06 /* PlacesInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C4B2951325E00250B06 /* PlacesInfoModel.swift */; };
+		EEA76C612951325E00250B06 /* WeatherCollectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C4F2951325E00250B06 /* WeatherCollectionHeader.swift */; };
+		EEA76C622951325E00250B06 /* WeatherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C512951325E00250B06 /* WeatherCell.swift */; };
+		EEA76C632951325E00250B06 /* WeatherCellDisplayDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C522951325E00250B06 /* WeatherCellDisplayDataFactory.swift */; };
+		EEA76C642951325E00250B06 /* WeatherCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C532951325E00250B06 /* WeatherCollection.swift */; };
+		EEA76C652951325E00250B06 /* RouteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C552951325E00250B06 /* RouteCell.swift */; };
+		EEA76C662951325E00250B06 /* EventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C572951325E00250B06 /* EventsView.swift */; };
+		EEA76C672951325E00250B06 /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C592951325E00250B06 /* EventCell.swift */; };
+		EEA76C682951325E00250B06 /* CollectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C5A2951325E00250B06 /* CollectionHeader.swift */; };
+		EEA76C692951325E00250B06 /* PlacesInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C5B2951325E00250B06 /* PlacesInfoViewController.swift */; };
+		EEA76C6A2951325E00250B06 /* PlacesInfoViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C5C2951325E00250B06 /* PlacesInfoViewIO.swift */; };
+		EEA76C6B2951325E00250B06 /* PlacesInfoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C5D2951325E00250B06 /* PlacesInfoBuilder.swift */; };
 		EED2A75E294FB874003A9A1A /* StuffCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED2A75D294FB874003A9A1A /* StuffCell.swift */; };
 		EED2A760294FCAF9003A9A1A /* StuffTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED2A75F294FCAF9003A9A1A /* StuffTableViewHeader.swift */; };
 		EED2A762294FCE4E003A9A1A /* AddStuffCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED2A761294FCE4E003A9A1A /* AddStuffCell.swift */; };
@@ -121,6 +135,20 @@
 		EE497A1C2940B4DE007E8579 /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EventsViewController.swift; path = Journeys/Coordinators/EventsViewController.swift; sourceTree = SOURCE_ROOT; };
 		EE57FF3C2927E7E100212DC2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Localizable.strings; sourceTree = "<group>"; };
 		EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Strings+Generated.swift"; sourceTree = "<group>"; };
+		EEA76C482951325E00250B06 /* PlacesInfoPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesInfoPresenter.swift; sourceTree = "<group>"; };
+		EEA76C492951325E00250B06 /* PlacesInfoModuleIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesInfoModuleIO.swift; sourceTree = "<group>"; };
+		EEA76C4B2951325E00250B06 /* PlacesInfoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesInfoModel.swift; sourceTree = "<group>"; };
+		EEA76C4F2951325E00250B06 /* WeatherCollectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherCollectionHeader.swift; sourceTree = "<group>"; };
+		EEA76C512951325E00250B06 /* WeatherCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherCell.swift; sourceTree = "<group>"; };
+		EEA76C522951325E00250B06 /* WeatherCellDisplayDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherCellDisplayDataFactory.swift; sourceTree = "<group>"; };
+		EEA76C532951325E00250B06 /* WeatherCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherCollection.swift; sourceTree = "<group>"; };
+		EEA76C552951325E00250B06 /* RouteCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteCell.swift; sourceTree = "<group>"; };
+		EEA76C572951325E00250B06 /* EventsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsView.swift; sourceTree = "<group>"; };
+		EEA76C592951325E00250B06 /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
+		EEA76C5A2951325E00250B06 /* CollectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionHeader.swift; sourceTree = "<group>"; };
+		EEA76C5B2951325E00250B06 /* PlacesInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesInfoViewController.swift; sourceTree = "<group>"; };
+		EEA76C5C2951325E00250B06 /* PlacesInfoViewIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesInfoViewIO.swift; sourceTree = "<group>"; };
+		EEA76C5D2951325E00250B06 /* PlacesInfoBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesInfoBuilder.swift; sourceTree = "<group>"; };
 		EED2A75D294FB874003A9A1A /* StuffCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffCell.swift; sourceTree = "<group>"; };
 		EED2A75F294FCAF9003A9A1A /* StuffTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffTableViewHeader.swift; sourceTree = "<group>"; };
 		EED2A761294FCE4E003A9A1A /* AddStuffCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStuffCell.swift; sourceTree = "<group>"; };
@@ -171,7 +199,6 @@
 				7068D7565D18D21C17054759 /* TripInfoViewIO.swift */,
 				5DCF52A88CB7F707C1A6390B /* TripInfoViewController.swift */,
 			);
-			name = View;
 			path = View;
 			sourceTree = "<group>";
 		};
@@ -181,7 +208,6 @@
 				902CF0A08A2306F0D3CE65D9 /* TripInfoModuleIO.swift */,
 				A0A6B9F9A8913C0B784D3B01 /* TripInfoPresenter.swift */,
 			);
-			name = Presenter;
 			path = Presenter;
 			sourceTree = "<group>";
 		};
@@ -289,7 +315,6 @@
 			children = (
 				3023B48D229A1A3E8755F346 /* TripInfoModel.swift */,
 			);
-			name = Model;
 			path = Model;
 			sourceTree = "<group>";
 		};
@@ -310,7 +335,6 @@
 				C67AC20E754EF6764410141F /* Model */,
 				5126370B97200395A2C55764 /* TripInfoBuilder.swift */,
 			);
-			name = TripInfo;
 			path = TripInfo;
 			sourceTree = "<group>";
 		};
@@ -395,6 +419,7 @@
 		EE0AF951291301C500EC52D3 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				EEA76C462951325E00250B06 /* PlacesInfo */,
 				EE497A1B2940B4BE007E8579 /* Events */,
 				EEDAF55D291D65C300E6DDB9 /* FloatingButton */,
 				E7C7F8885C59BF0183002C79 /* Trips */,
@@ -459,6 +484,99 @@
 				EE57FF3B2927E7E100212DC2 /* Localizable.strings */,
 			);
 			path = ru.lproj;
+			sourceTree = "<group>";
+		};
+		EEA76C462951325E00250B06 /* PlacesInfo */ = {
+			isa = PBXGroup;
+			children = (
+				EEA76C472951325E00250B06 /* Presenter */,
+				EEA76C4A2951325E00250B06 /* Model */,
+				EEA76C4C2951325E00250B06 /* View */,
+				EEA76C5D2951325E00250B06 /* PlacesInfoBuilder.swift */,
+			);
+			path = PlacesInfo;
+			sourceTree = "<group>";
+		};
+		EEA76C472951325E00250B06 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				EEA76C482951325E00250B06 /* PlacesInfoPresenter.swift */,
+				EEA76C492951325E00250B06 /* PlacesInfoModuleIO.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		EEA76C4A2951325E00250B06 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EEA76C4B2951325E00250B06 /* PlacesInfoModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		EEA76C4C2951325E00250B06 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				EEA76C4D2951325E00250B06 /* Subviews */,
+				EEA76C5B2951325E00250B06 /* PlacesInfoViewController.swift */,
+				EEA76C5C2951325E00250B06 /* PlacesInfoViewIO.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		EEA76C4D2951325E00250B06 /* Subviews */ = {
+			isa = PBXGroup;
+			children = (
+				EEA76C4E2951325E00250B06 /* WeatherCollection */,
+				EEA76C542951325E00250B06 /* RouteCell */,
+				EEA76C562951325E00250B06 /* EventsCollection */,
+				EEA76C5A2951325E00250B06 /* CollectionHeader.swift */,
+			);
+			path = Subviews;
+			sourceTree = "<group>";
+		};
+		EEA76C4E2951325E00250B06 /* WeatherCollection */ = {
+			isa = PBXGroup;
+			children = (
+				EEA76C4F2951325E00250B06 /* WeatherCollectionHeader.swift */,
+				EEA76C502951325E00250B06 /* WeatherCell */,
+				EEA76C532951325E00250B06 /* WeatherCollection.swift */,
+			);
+			path = WeatherCollection;
+			sourceTree = "<group>";
+		};
+		EEA76C502951325E00250B06 /* WeatherCell */ = {
+			isa = PBXGroup;
+			children = (
+				EEA76C512951325E00250B06 /* WeatherCell.swift */,
+				EEA76C522951325E00250B06 /* WeatherCellDisplayDataFactory.swift */,
+			);
+			path = WeatherCell;
+			sourceTree = "<group>";
+		};
+		EEA76C542951325E00250B06 /* RouteCell */ = {
+			isa = PBXGroup;
+			children = (
+				EEA76C552951325E00250B06 /* RouteCell.swift */,
+			);
+			path = RouteCell;
+			sourceTree = "<group>";
+		};
+		EEA76C562951325E00250B06 /* EventsCollection */ = {
+			isa = PBXGroup;
+			children = (
+				EEA76C572951325E00250B06 /* EventsView.swift */,
+				EEA76C582951325E00250B06 /* EventsCell */,
+			);
+			path = EventsCollection;
+			sourceTree = "<group>";
+		};
+		EEA76C582951325E00250B06 /* EventsCell */ = {
+			isa = PBXGroup;
+			children = (
+				EEA76C592951325E00250B06 /* EventCell.swift */,
+			);
+			path = EventsCell;
 			sourceTree = "<group>";
 		};
 		EED2A75C294FB865003A9A1A /* StuffCell */ = {
@@ -640,27 +758,38 @@
 			files = (
 				EEDAF557291C302500E6DDB9 /* SceneDelegate.swift in Sources */,
 				EED2A760294FCAF9003A9A1A /* StuffTableViewHeader.swift in Sources */,
+				EEA76C682951325E00250B06 /* CollectionHeader.swift in Sources */,
 				EE0AF9422913010D00EC52D3 /* ViewController.swift in Sources */,
 				EEDAF553291C05B300E6DDB9 /* JourneysCoordinator.swift in Sources */,
 				EE57FF3F2927E8B000212DC2 /* Strings+Generated.swift in Sources */,
 				EE497A142940AF4C007E8579 /* EventsCoordinator.swift in Sources */,
 				EE02E56D2950DD79002BE87E /* Stuff.swift in Sources */,
+				EEA76C6A2951325E00250B06 /* PlacesInfoViewIO.swift in Sources */,
+				EEA76C632951325E00250B06 /* WeatherCellDisplayDataFactory.swift in Sources */,
 				EE0AF93E2913010D00EC52D3 /* AppDelegate.swift in Sources */,
 				EE497A162940B0EB007E8579 /* Pages.swift in Sources */,
 				EE497A1D2940B4DE007E8579 /* EventsViewController.swift in Sources */,
+				EEA76C662951325E00250B06 /* EventsView.swift in Sources */,
 				EE02E53D294FFB10002BE87E /* StuffModelIO.swift in Sources */,
 				EE29EBF829191534008ECFF8 /* AppCoordinator.swift in Sources */,
+				EEA76C5F2951325E00250B06 /* PlacesInfoModuleIO.swift in Sources */,
 				91819FAFB33A7ABB47EAB8B0 /* TripsViewIO.swift in Sources */,
 				EE02E53B294FFA5C002BE87E /* StuffDisplayData.swift in Sources */,
 				093861F1C840A5A7EA2ABBB0 /* TripsViewController.swift in Sources */,
 				EED2A75E294FB874003A9A1A /* StuffCell.swift in Sources */,
+				EEA76C692951325E00250B06 /* PlacesInfoViewController.swift in Sources */,
+				EEA76C612951325E00250B06 /* WeatherCollectionHeader.swift in Sources */,
+				EEA76C602951325E00250B06 /* PlacesInfoModel.swift in Sources */,
 				C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */,
+				EEA76C622951325E00250B06 /* WeatherCell.swift in Sources */,
 				EE2B4126291413EC0067BE4F /* TripCell.swift in Sources */,
 				A837507D56DC8E0FFC90C522 /* TripsInteractor.swift in Sources */,
 				EE02E56F2950E732002BE87E /* EmojiTextField.swift in Sources */,
+				EEA76C5E2951325E00250B06 /* PlacesInfoPresenter.swift in Sources */,
 				EEDAF555291C0F2200E6DDB9 /* AddTripCell.swift in Sources */,
 				678EC2173D55FABDA74E2A5F /* TripsModuleIO.swift in Sources */,
 				EED2A762294FCE4E003A9A1A /* AddStuffCell.swift in Sources */,
+				EEA76C6B2951325E00250B06 /* PlacesInfoBuilder.swift in Sources */,
 				EE497A182940B183007E8579 /* TabbarItemFactory.swift in Sources */,
 				10708D44F55C9485F789DD9B /* TripsPresenter.swift in Sources */,
 				668AB39849F8F5E0DBE3C8F4 /* TripsModel.swift in Sources */,
@@ -683,11 +812,14 @@
 				8DBF7730AAAF9093C8B24767 /* StuffPresenter.swift in Sources */,
 				0D122BF4678B9ACCF7152904 /* StuffModel.swift in Sources */,
 				38B0C8DF2C72951C87C99D99 /* StuffBuilder.swift in Sources */,
+				EEA76C652951325E00250B06 /* RouteCell.swift in Sources */,
 				50505393A370F99E10E3F864 /* TripInfoViewIO.swift in Sources */,
 				4F445FB920C9EB3384DA16BA /* TripInfoViewController.swift in Sources */,
 				D3B3547A919CA12361A3822A /* TripInfoModuleIO.swift in Sources */,
+				EEA76C672951325E00250B06 /* EventCell.swift in Sources */,
 				C039CC5FA4AA609C5479897B /* TripInfoPresenter.swift in Sources */,
 				A9DD1DEF7782DE6C939585EA /* TripInfoModel.swift in Sources */,
+				EEA76C642951325E00250B06 /* WeatherCollection.swift in Sources */,
 				A4F278F34637C60C2ED5A34D /* TripInfoBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

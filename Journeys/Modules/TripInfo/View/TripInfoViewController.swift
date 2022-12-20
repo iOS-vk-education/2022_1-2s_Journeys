@@ -14,8 +14,9 @@ final class TripInfoViewController: UIPageViewController {
     lazy var viewControllersList: [UIViewController] = {
         var viewControllers: [UIViewController] = []
         let stuffVC = StuffModuleBuilder().build()
+        let placesInfoVC = PlacesInfoModuleBuilder().build()
         viewControllers.append(stuffVC)
-        viewControllers.append(UIViewController())
+        viewControllers.append(placesInfoVC)
         return viewControllers
     }()
     var output: TripInfoViewOutput!
