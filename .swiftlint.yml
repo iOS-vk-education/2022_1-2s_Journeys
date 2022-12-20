@@ -1,0 +1,9 @@
+
+included:
+  - Journeys
+
+excluded:
+  - Pods
+
+line_length:
+  warning: 170

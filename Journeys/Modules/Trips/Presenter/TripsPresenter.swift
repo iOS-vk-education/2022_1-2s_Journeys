@@ -11,6 +11,7 @@ final class TripsPresenter {
     // MARK: - Public Properties
 
     weak var view: TripsViewInput!
+    weak var moduleOutput: TripsModuleOutput!
 
     // MARK: - Private Properties
 

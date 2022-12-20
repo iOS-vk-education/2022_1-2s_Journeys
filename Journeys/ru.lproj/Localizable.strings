@@ -1,0 +1,16 @@
+/* 
+  Localizable.strings
+  Journeys
+
+  Created by Сергей Адольевич on 18.11.2022.
+  
+*/
+
+"Add" = "Добавить";
+"Trips" = "Поездки";
+"Edit" = "Редактировать";
+
+// Tabbar
+"Journeys" = "Путешествия";
+"Events" = "Мероприятия";
+"Account" = "Аккаунт";
