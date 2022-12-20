@@ -13,7 +13,7 @@ final class PlacesInfoPresenter {
     // MARK: - Public Properties
 
     weak var view: PlacesInfoViewInput!
-    var weather = [Weather]
+//    var weather = [Weather]
 
 }
 
