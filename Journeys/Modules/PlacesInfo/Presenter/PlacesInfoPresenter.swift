@@ -36,7 +36,7 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
         switch indexpath.section {
         case 0:
             return "Маршрут"
-        case 2:
+        case 1:
             return "Погода"
         default:
             return ""

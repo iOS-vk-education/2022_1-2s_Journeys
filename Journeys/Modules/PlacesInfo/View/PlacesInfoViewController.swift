@@ -81,7 +81,7 @@ extension PlacesInfoViewController: UICollectionViewDelegate, UICollectionViewDe
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch indexPath.section {
         case 0:
-            return UICollectionViewFlowLayout.automaticSize
+            return CGSize(width: mainCollectionView.frame.width, height: 85)
         case 1:
             return CGSize(width: mainCollectionView.frame.width, height: 85)
         default:
@@ -115,7 +115,7 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
                                                                      for: indexPath) as? RouteCell else {
                 return cell
             }
-            routeCell.configure(route: output.getRoutelData())
+            routeCell.configure(data: output.getRoutelData())
             cell = routeCell
         case 1:
             guard let weatherCell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "WeatherCollection",
@@ -126,12 +126,9 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
             cell = weatherCell
         default:
             return cell
-            
         }
         return cell
     }
-    
-    
 }
 
 extension PlacesInfoViewController: PlacesInfoViewInput {
