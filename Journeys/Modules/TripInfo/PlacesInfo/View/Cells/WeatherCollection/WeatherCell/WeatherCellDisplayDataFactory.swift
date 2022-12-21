@@ -49,7 +49,6 @@ final class WeatherCellDisplayDataFactory: WeatherCellDisplayDataFactoryProtocol
             icon = UIImage(systemName: "cloud.bolt.fill")
             iconColor = UIColor(asset: Asset.Colors.Weather.thunderstorm)
         default:
-            print(weather.weatherCode)
             break
         }
         

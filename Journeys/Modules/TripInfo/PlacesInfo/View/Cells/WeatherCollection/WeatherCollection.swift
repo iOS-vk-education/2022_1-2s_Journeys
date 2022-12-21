@@ -74,6 +74,7 @@ final class WeatherCollection: UICollectionViewCell {
     func configure(data: DisplayData, delegate: WeatherCollectionDelegate) {
         townNameView.configure(title: data.town)
         self.delegate = delegate
+        print(collectionView.numberOfItems(inSection: 0))
     }
 }
 
@@ -87,6 +88,7 @@ extension WeatherCollection: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print(delegate.getNumberOfItemsInWeatherCollection(self) ?? 0)
         return delegate.getNumberOfItemsInWeatherCollection(self) ?? 0
     }
 

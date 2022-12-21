@@ -121,7 +121,6 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
             routeCell.configure(data: data)
-//            linesCount = routeCell.getLabelLinesCount()
             cell = routeCell
         case 1:
             guard let weatherCell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "WeatherCollection",
@@ -157,6 +156,8 @@ private extension PlacesInfoViewController {
 
 extension PlacesInfoViewController: WeatherCollectionDelegate {
     func getNumberOfItemsInWeatherCollection(_ collectionCell: WeatherCollection) -> Int? {
+        print(mainCollectionView.cellForItem(at: IndexPath(item: 0, section: 1)))
+        print(mainCollectionView.indexPath(for: collectionCell))
         guard let row = mainCollectionView.indexPath(for: collectionCell)?.row else { return nil }
         return output.getWeatherCollectionCellsCount(for: row)
     }

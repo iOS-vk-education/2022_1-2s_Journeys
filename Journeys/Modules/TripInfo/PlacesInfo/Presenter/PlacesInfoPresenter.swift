@@ -80,7 +80,7 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
     }
     
     func getWeatherCollectionCellsCount(for row: Int) -> Int {
-        guard weather.indices.contains(row) else { return 0}
+        guard weather.indices.contains(row) else { return 0 }
         print(weather[row].count)
         return weather[row].count
     }
