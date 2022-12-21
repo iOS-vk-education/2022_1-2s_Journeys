@@ -13,4 +13,5 @@ protocol PlacesInfoModuleInput: AnyObject {
 // MARK: - PlacesIngo ModuleOutput
 
 protocol PlacesInfoModuleOutput: AnyObject {
+    func placesModuleWantsToClose()
 }

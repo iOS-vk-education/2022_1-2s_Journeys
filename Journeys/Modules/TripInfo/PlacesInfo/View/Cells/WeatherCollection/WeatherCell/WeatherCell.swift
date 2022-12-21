@@ -14,6 +14,7 @@ final class WeatherCell: UICollectionViewCell {
     
     struct DisplayData {
         let icon: UIImage
+        let iconColor: UIColor
         let date: String
         let temperature: String
     }
@@ -44,6 +45,22 @@ final class WeatherCell: UICollectionViewCell {
         temperatureLabel.text = nil
 
         setupSubviews()
+    }
+    
+    var isHeightCalculated: Bool = false
+
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        //Exhibit A - We need to cache our calculation to prevent a crash.
+        if !isHeightCalculated {
+            setNeedsLayout()
+            layoutIfNeeded()
+            let size = contentView.systemLayoutSizeFitting(layoutAttributes.size)
+            var newFrame = layoutAttributes.frame
+            newFrame.size.width = CGFloat(ceilf(Float(size.width)))
+            layoutAttributes.frame = newFrame
+            isHeightCalculated = true
+        }
+        return layoutAttributes
     }
 
     // MARK: Private functions
@@ -82,7 +99,7 @@ final class WeatherCell: UICollectionViewCell {
         }
         
         icon.snp.makeConstraints { make in
-            make.leading.equalTo(temperatureLabel.snp.trailing)
+            make.leading.equalTo(temperatureLabel.snp.trailing).offset(2)
             make.trailing.equalToSuperview()
             make.centerY.equalTo(temperatureLabel.snp.centerY)
             make.height.equalTo(Constants.Icon.height)
@@ -92,6 +109,7 @@ final class WeatherCell: UICollectionViewCell {
 
     func configure(data: DisplayData) {
         icon.image = data.icon
+        icon.tintColor = data.iconColor
         dateLabel.text = data.date
         temperatureLabel.text = data.temperature
     }

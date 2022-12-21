@@ -71,7 +71,7 @@ private extension MainCollectionHeader {
     enum Constants {
         enum BackgroundView {
             static let height: CGFloat = 28
-            static let horisontalInsets: CGFloat = 30
+            static let horisontalInsets: CGFloat = 15
         }
     }
 }

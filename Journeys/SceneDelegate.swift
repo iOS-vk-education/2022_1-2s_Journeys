@@ -16,21 +16,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
 
-        let initialViewController = TripInfoModuleBuilder().build()
-        let navigationViewController = UINavigationController(rootViewController: initialViewController)
-        navigationViewController.view.backgroundColor = .systemBackground
-
-        window?.rootViewController = navigationViewController
+        let tabBarController = UITabBarController()
+        tabBarController.setViewControllers([], animated: false)
+        window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
-        
-        //        let tabBarController = UITabBarController()
-        //        tabBarController.setViewControllers([], animated: false)
-        //        window?.rootViewController = tabBarController
-        //        window?.makeKeyAndVisible()
-        //
-        //        coordinator = AppCoordinator(tabBarController: tabBarController)
-        //
-        //        coordinator?.start()
+
+        coordinator = AppCoordinator(tabBarController: tabBarController)
+
+        coordinator?.start()
     }
     
 }

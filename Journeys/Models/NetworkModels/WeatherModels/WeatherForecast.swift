@@ -8,16 +8,16 @@
 import Foundation
 
 struct WeatherForecast: Decodable {
-    let weatherMain: [WeatherMain]
+    let dailyWeather: WeatherMain
     
     
     enum CodingKeys: String, CodingKey {
-        case weatherMain = "list"
+        case dailyWeather = "daily"
     }
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
-        weatherMain = try values.decode([WeatherMain].self, forKey: .weatherMain)
+        dailyWeather = try values.decode(WeatherMain.self, forKey: .dailyWeather)
     }
 }

@@ -10,12 +10,13 @@ import UIKit
 // MARK: - TripInfoModuleBuilder
 
 final class TripInfoModuleBuilder {
-    func build() -> UIViewController {
+    func build(output: TripInfoModuleOutput, firstPageMode: FirstPageMode, routeId: String) -> UIViewController {
 
         let viewController = TripInfoViewController()
-        let presenter = TripInfoPresenter()
+        let presenter = TripInfoPresenter(firstPageMode: firstPageMode, routeId: routeId)
         presenter.view = viewController
         viewController.output = presenter
+        presenter.moduleOutput = output
 
         return viewController
     }

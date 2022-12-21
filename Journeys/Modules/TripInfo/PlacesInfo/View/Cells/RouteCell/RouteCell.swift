@@ -21,11 +21,11 @@ final class RouteCell: UICollectionViewCell {
         return label
     }()
     
-    lazy var width: NSLayoutConstraint = {
-        let width = contentView.widthAnchor.constraint(equalToConstant: bounds.size.width)
-        width.isActive = true
-        return width
-    }()
+//    lazy var width: NSLayoutConstraint = {
+//        let width = contentView.widthAnchor.constraint(equalToConstant: bounds.size.width)
+//        width.isActive = true
+//        return width
+//    }()
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -36,16 +36,12 @@ final class RouteCell: UICollectionViewCell {
         super.init(frame: frame)
         setupView()
     }
-    
-    override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
-        width.constant = bounds.size.width
-        return contentView.systemLayoutSizeFitting(CGSize(width: targetSize.width, height: 1))
-    }
 
     private func setupView() {
         addSubview(routeLabel)
         routeLabel.numberOfLines = 0
         routeLabel.textAlignment = .center
+        routeLabel.lineBreakMode = .byWordWrapping
         
         setupConstraints()
     }
@@ -54,9 +50,14 @@ final class RouteCell: UICollectionViewCell {
         routeLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(Constants.RouteLabel.horisontalSpacing)
             make.trailing.equalToSuperview().inset(Constants.RouteLabel.horisontalSpacing)
+            make.height.greaterThanOrEqualTo(20)
             make.top.equalToSuperview()
             make.bottom.equalToSuperview()
         }
+    }
+    
+    func getLabelLinesCount() -> Int {
+        routeLabel.calculateMaxLines()
     }
     
     func configure(data: DisplayData) {

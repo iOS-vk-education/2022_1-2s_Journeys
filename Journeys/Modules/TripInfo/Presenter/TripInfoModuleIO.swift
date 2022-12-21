@@ -13,4 +13,5 @@ protocol TripInfoModuleInput: AnyObject {
 // MARK: - TripInfo ModuleOutput
 
 protocol TripInfoModuleOutput: AnyObject {
+    func tripInfoModuleWantsToClose()
 }

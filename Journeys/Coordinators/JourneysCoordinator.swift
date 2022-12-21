@@ -27,8 +27,8 @@ final class JourneysCoordinator: CoordinatorProtocol {
     // MARK: Public Methods
 
     func start() {
-        let builder = TripsModuleBuilder()
-        let tripsViewController = builder.build(output: self)
+        let builder = TripInfoModuleBuilder()
+        let tripsViewController = builder.build(output: self, firstPageMode: .info, routeId: "")
 
         navigationController.setViewControllers([tripsViewController], animated: false)
 
@@ -52,4 +52,10 @@ final class JourneysCoordinator: CoordinatorProtocol {
 
 extension JourneysCoordinator: TripsModuleOutput {
 
+}
+
+extension JourneysCoordinator: TripInfoModuleOutput {
+    func tripInfoModuleWantsToClose() {
+        navigationController.popViewController(animated: true)
+    }
 }

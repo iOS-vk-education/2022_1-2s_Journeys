@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Location: Dictionariable {
+struct Location: Decodable {
     var country: String
     var city: String
     
@@ -34,7 +34,7 @@ struct Location: Dictionariable {
         return dictionary
     }
     
-    enum CodingKeys: String {
+    enum CodingKeys: String, CodingKey {
         case country
         case city
     }

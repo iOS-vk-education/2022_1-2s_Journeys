@@ -20,7 +20,7 @@ final class WeatherCollection: UICollectionViewCell {
     private lazy var collectionView: UICollectionView = {
         let layout = HorizontallyCenteredCollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 12
+        layout.minimumLineSpacing = 16
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
 
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -74,19 +74,10 @@ final class WeatherCollection: UICollectionViewCell {
     func configure(data: DisplayData, delegate: WeatherCollectionDelegate) {
         townNameView.configure(title: data.town)
         self.delegate = delegate
-        if  data.cellsCount > 5 {
-            collectionView.contentInset = UIEdgeInsets(top: .zero,
-                                                       left: 20,
-                                                       bottom: .zero,
-                                                       right: 30)
-        }
     }
 }
 
 extension WeatherCollection: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Tap")
-    }
 }
 
 extension WeatherCollection: UICollectionViewDataSource {
@@ -96,14 +87,17 @@ extension WeatherCollection: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        delegate.getNumberOfItemsInWeatherCollection(self)
+        delegate.getNumberOfItemsInWeatherCollection(self) ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeatherCell", for: indexPath) as? WeatherCell else {
             return UICollectionViewCell()
         }
-        cell.configure(data: delegate.getCellDisplayData(self, for: indexPath))
+        guard let data = delegate.getCellDisplayData(self, for: indexPath) else {
+            return UICollectionViewCell()
+        }
+        cell.configure(data: data)
         return cell
     }
 }
@@ -123,31 +117,29 @@ private extension WeatherCollection {
 }
 
 class HorizontallyCenteredCollectionViewFlowLayout: UICollectionViewFlowLayout {
-
+    
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         guard let attributes = super.layoutAttributesForElements(in: rect) else { return nil }
         guard let collectionView = self.collectionView,
-            let rightmostEdge = attributes.map({ $0.frame.maxX }).max() else { return attributes }
-
+              let rightmostEdge = attributes.map({ $0.frame.maxX }).max() else { return attributes }
+        
         let contentWidth = rightmostEdge + self.sectionInset.right
         let margin = (collectionView.bounds.width - contentWidth) / 2
-
         if margin > 0 {
             let newAttributes: [UICollectionViewLayoutAttributes]? = attributes
                 .compactMap {
                     let newAttribute = $0.copy() as? UICollectionViewLayoutAttributes
                     newAttribute?.frame.origin.x += margin
                     return newAttribute
-            }
-
+                }
             return newAttributes
         }
-
+        collectionView.contentInset = UIEdgeInsets(top: .zero, left: 20, bottom: .zero, right: 50)
         return attributes
     }
 }
 
 protocol WeatherCollectionDelegate: AnyObject {
-    func getNumberOfItemsInWeatherCollection(_ collectionCell: WeatherCollection) -> Int
-    func getCellDisplayData(_ collectionCell: WeatherCollection, for indexpath: IndexPath) -> WeatherCell.DisplayData
+    func getNumberOfItemsInWeatherCollection(_ collectionCell: WeatherCollection) -> Int?
+    func getCellDisplayData(_ collectionCell: WeatherCollection, for indexpath: IndexPath) -> WeatherCell.DisplayData?
 }

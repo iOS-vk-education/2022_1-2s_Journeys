@@ -15,10 +15,13 @@ final class StuffPresenter {
     
     weak var view: StuffViewInput!
     var model: StuffModelInput!
+    weak var moduleOutput: StuffModuleOutput!
     
     private var allStuff: [Stuff] = []
     private var unpackedStuff: [Stuff] = []
     private var packedStuff: [Stuff] = []
+    
+    private var lastChangedIndexPath: IndexPath?
     
     private let addRow: (StuffViewController, UITableView, Int)->() = { view, tableView, section in
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "StuffCell") as? StuffCell
@@ -30,6 +33,28 @@ final class StuffPresenter {
         tableView.beginUpdates()
         tableView.insertRows(at: [newIndexPath as IndexPath], with: .automatic)
         tableView.endUpdates()
+    }
+    
+    func saveCellData(cell: StuffCell) {
+        let data = cell.giveData()
+        if data.name.isEmpty {
+            view.showAlert(title: "Введите данные", message: "Введите название вещи")
+            return
+        }
+        guard let lastChangedIndexPath = lastChangedIndexPath else { return }
+        cell.finishEditMode()
+        if lastChangedIndexPath.section == 0 {
+            unpackedStuff[lastChangedIndexPath.row] = Stuff(id: "",
+                                                            emoji: data.emoji ?? "",
+                                                            name: data.name,
+                                                            isPacked: data.isPacked)
+        } else if lastChangedIndexPath.section == 1 {
+            packedStuff[lastChangedIndexPath.row] = Stuff(id: "",
+                                                          emoji: data.emoji ?? "",
+                                                          name: data.name,
+                                                          isPacked: data.isPacked)
+            self.lastChangedIndexPath = nil
+        }
     }
 }
 
@@ -83,14 +108,14 @@ extension StuffPresenter: StuffViewOutput {
             let stuff = unpackedStuff[indexpath.row]
             guard let name = stuff.name,
                   let emoji = stuff.emoji else {
-                return StuffCell.DisplayData(emoji: "",
+                return StuffCell.DisplayData(data: StuffCell.StuffData(emoji: "",
                                              name: "",
-                                             isPacked: stuff.isPacked,
+                                             isPacked: stuff.isPacked),
                                              changeMode: .on)
             }
-            return StuffCell.DisplayData(emoji: emoji,
+            return StuffCell.DisplayData(data: StuffCell.StuffData(emoji: emoji,
                                          name: name,
-                                         isPacked: stuff.isPacked,
+                                         isPacked: stuff.isPacked),
                                          changeMode: .off)
         } else if indexpath.section == 1 {
             if !packedStuff.indices.contains(indexpath.row) {
@@ -99,14 +124,14 @@ extension StuffPresenter: StuffViewOutput {
             let stuff = packedStuff[indexpath.row]
             guard let name = stuff.name,
                   let emoji = stuff.emoji else {
-                return StuffCell.DisplayData(emoji: "",
+                return StuffCell.DisplayData(data: StuffCell.StuffData(emoji: "",
                                              name: "",
-                                             isPacked: stuff.isPacked,
+                                             isPacked: stuff.isPacked),
                                              changeMode: .on)
             }
-            return StuffCell.DisplayData(emoji: emoji,
+            return StuffCell.DisplayData(data: StuffCell.StuffData(emoji: emoji,
                                          name: name,
-                                         isPacked: stuff.isPacked,
+                                         isPacked: stuff.isPacked),
                                          changeMode: .off)
         }
         return nil
@@ -120,6 +145,7 @@ extension StuffPresenter: StuffViewOutput {
             } else if indexPath.section == 1 {
                 packedStuff.append(Stuff(isPacked: true))
             }
+            lastChangedIndexPath = indexPath
             return addRow
         }
         return nil
@@ -139,6 +165,7 @@ extension StuffPresenter: StuffViewOutput {
     func handeleCellEdit(at indexPath: IndexPath, tableView: UITableView?) {
         view.reloadData()
         guard let cell = tableView?.cellForRow(at: indexPath) as? StuffCell else { return }
+        lastChangedIndexPath = indexPath
         cell.startEditMode()
     }
 
@@ -177,5 +204,15 @@ extension StuffPresenter: StuffViewOutput {
             guard packedStuff.indices.contains(indexPath.row) else { return }
             packedStuff[indexPath.row].name = text
         }
+    }
+    
+    func didTapScreen(tableView: UITableView) {
+        guard let lastChangedIndexPath = lastChangedIndexPath else { return }
+        guard let cell = tableView.cellForRow(at: lastChangedIndexPath) as? StuffCell else { return }
+        saveCellData(cell: cell)
+    }
+    
+    func didTapExitButton() {
+        moduleOutput.stuffModuleWantsToClose()
     }
 }

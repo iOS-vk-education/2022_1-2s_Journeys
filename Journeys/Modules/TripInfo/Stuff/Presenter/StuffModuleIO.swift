@@ -13,4 +13,5 @@ protocol StuffModuleInput: AnyObject {
 // MARK: - Stuff ModuleOutput
 
 protocol StuffModuleOutput: AnyObject {
+    func stuffModuleWantsToClose()
 }

@@ -62,7 +62,13 @@ internal enum Asset {
     }
     internal enum Weather {
       internal static let cloudy = ColorAsset(name: "cloudy")
-      internal static let rainy = ColorAsset(name: "rainy")
+      internal static let drizzle = ColorAsset(name: "drizzle")
+      internal static let fog = ColorAsset(name: "fog")
+      internal static let freezingRain = ColorAsset(name: "freezingRain")
+      internal static let grains = ColorAsset(name: "grains")
+      internal static let heawyRain = ColorAsset(name: "heawyRain")
+      internal static let rain = ColorAsset(name: "rain")
+      internal static let snowy = ColorAsset(name: "snowy")
       internal static let sunny = ColorAsset(name: "sunny")
       internal static let thunderstorm = ColorAsset(name: "thunderstorm")
     }

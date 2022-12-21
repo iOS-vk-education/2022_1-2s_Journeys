@@ -10,7 +10,7 @@ import UIKit
 // MARK: - StuffModuleBuilder
 
 final class StuffModuleBuilder {
-    func build() -> UIViewController {
+    func build(output: StuffModuleOutput) -> UIViewController {
 
         let viewController = StuffViewController()
         let presenter = StuffPresenter()
@@ -18,6 +18,7 @@ final class StuffModuleBuilder {
         let model = StuffModel()
         presenter.view = viewController
         presenter.model = model
+        presenter.moduleOutput = output
         model.output = presenter
 
         return viewController

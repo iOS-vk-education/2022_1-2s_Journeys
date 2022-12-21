@@ -9,16 +9,21 @@ import Foundation
 // MARK: - PlacesIngo ViewInput
 
 protocol PlacesInfoViewInput: AnyObject {
+    func reloadData()
 }
 
 // MARK: - PlacesIngo ViewOutput
 
 protocol PlacesInfoViewOutput: AnyObject {
+    func viewDidLoad()
+    
     func getHeaderText(for indexpath: IndexPath) -> String
-    func getRoutelData() -> RouteCell.DisplayData
+    func getRoutelData() -> RouteCell.DisplayData?
     func getMainCollectionCellsCount(for section: Int) -> Int
     
     func getWeatherCollectionDisplayData(_ row: Int) -> WeatherCollection.DisplayData
     func getWeatherCollectionCellsCount(for row: Int) -> Int
-    func getWeatherCollectionCellDisplayData() -> WeatherCell.DisplayData
+    func getWeatherCollectionCellDisplayData(collectionRow: Int, cellRow: Int) -> WeatherCell.DisplayData
+    
+    func didTapExitButton()
 }

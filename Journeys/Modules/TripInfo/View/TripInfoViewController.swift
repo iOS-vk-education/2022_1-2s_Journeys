@@ -12,6 +12,7 @@ import SnapKit
 
 final class TripInfoViewController: UIViewController {
     
+    // MARK: Properties
     private lazy var pageViewController: UIPageViewController = {
         let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         pageViewController.setViewControllers([viewControllersList[currentPageIndex]], direction: .forward, animated: true)
@@ -26,27 +27,25 @@ final class TripInfoViewController: UIViewController {
     }()
     
     private lazy var viewControllersList: [UIViewController] = {
-        var viewControllers: [UIViewController] = []
-        let stuffVC = StuffModuleBuilder().build()
-        let placesInfoVC = PlacesInfoModuleBuilder().build()
-        viewControllers.append(placesInfoVC)
-        viewControllers.append(stuffVC)
-        return viewControllers
+        output.getViewControllers()
     }()
-    var output: TripInfoViewOutput!
     
-    var currentPageIndex = 0
+    private lazy var currentPageIndex: Int = {
+        output.getCurrentPageIndex()
+    }()
     
     private func getSecmentControllItems() -> [String] {
         ["Информация", "Вещи"]
     }
     
+    var output: TripInfoViewOutput!
+    
     // MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        pageViewController.delegate = self
-        pageViewController.dataSource = self
+//        pageViewController.delegate = self
+//        pageViewController.dataSource = self
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         setupViews()
     }
@@ -54,6 +53,10 @@ final class TripInfoViewController: UIViewController {
     private func setupViews() {
         view.addSubview(pageSegmentControll)
         view.addSubview(pageViewController.view)
+        
+        pageSegmentControll.layer.cornerRadius = 10.0
+        
+        pageSegmentControll.layer.masksToBounds = true
         setupConstraints()
         setupNavBar()
     }
@@ -79,8 +82,8 @@ final class TripInfoViewController: UIViewController {
         pageSegmentControll.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.centerX.equalToSuperview()
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
+            make.leading.equalToSuperview().inset(16)
+            make.trailing.equalToSuperview().inset(16)
         }
         pageViewController.view.snp.makeConstraints { make in
             make.top.equalTo(pageSegmentControll.snp.bottom)

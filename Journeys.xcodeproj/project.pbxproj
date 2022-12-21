@@ -38,6 +38,7 @@
 		C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C624D7B25F42404829AF20C9 /* TripsInteractorIO.swift */; };
 		D2F0BC3358339956DDE22244 /* StuffViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5363B31E1ED6703B3D86E86D /* StuffViewController.swift */; };
 		D3B3547A919CA12361A3822A /* TripInfoModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902CF0A08A2306F0D3CE65D9 /* TripInfoModuleIO.swift */; };
+		EE00ABFE2953B2AE00FAFDCD /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE00ABFD2953B2AE00FAFDCD /* UILabel.swift */; };
 		EE02E53B294FFA5C002BE87E /* StuffDisplayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02E53A294FFA5C002BE87E /* StuffDisplayData.swift */; };
 		EE02E53D294FFB10002BE87E /* StuffModelIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02E53C294FFB10002BE87E /* StuffModelIO.swift */; };
 		EE02E5472950D9EA002BE87E /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02E53F2950D9EA002BE87E /* Location.swift */; };
@@ -78,6 +79,14 @@
 		EEA76C692951325E00250B06 /* PlacesInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C5B2951325E00250B06 /* PlacesInfoViewController.swift */; };
 		EEA76C6A2951325E00250B06 /* PlacesInfoViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C5C2951325E00250B06 /* PlacesInfoViewIO.swift */; };
 		EEA76C6B2951325E00250B06 /* PlacesInfoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C5D2951325E00250B06 /* PlacesInfoBuilder.swift */; };
+		EEAC1D2C295260CB00237331 /* PlacesInfoModelIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D2B295260CB00237331 /* PlacesInfoModelIO.swift */; };
+		EEAC1D312952717800237331 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D2E2952717800237331 /* NetworkService.swift */; };
+		EEAC1D322952717800237331 /* NetworkRequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D2F2952717800237331 /* NetworkRequestFactory.swift */; };
+		EEAC1D35295271E400237331 /* Coordinates.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D34295271E400237331 /* Coordinates.swift */; };
+		EEAC1D3C29527A7000237331 /* WeatherForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D3729527A7000237331 /* WeatherForecast.swift */; };
+		EEAC1D4029527A7000237331 /* WeatherMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D3B29527A7000237331 /* WeatherMain.swift */; };
+		EEAC1D452952897F00237331 /* Timezone.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D442952897F00237331 /* Timezone.swift */; };
+		EEAC1D482952914000237331 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D472952914000237331 /* DateFormatter.swift */; };
 		EED2A75E294FB874003A9A1A /* StuffCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED2A75D294FB874003A9A1A /* StuffCell.swift */; };
 		EED2A760294FCAF9003A9A1A /* StuffTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED2A75F294FCAF9003A9A1A /* StuffTableViewHeader.swift */; };
 		EED2A762294FCE4E003A9A1A /* AddStuffCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED2A761294FCE4E003A9A1A /* AddStuffCell.swift */; };
@@ -121,6 +130,7 @@
 		E483DF62B28C4DBC30739F6A /* TripsBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsBuilder.swift; sourceTree = "<group>"; };
 		E74D8C9B14C64D7AAB903E4C /* StuffModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StuffModel.swift; sourceTree = "<group>"; };
 		EC8D65328FD3C306119E7802 /* TripsInteractor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsInteractor.swift; sourceTree = "<group>"; };
+		EE00ABFD2953B2AE00FAFDCD /* UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabel.swift; sourceTree = "<group>"; };
 		EE02E53A294FFA5C002BE87E /* StuffDisplayData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffDisplayData.swift; sourceTree = "<group>"; };
 		EE02E53C294FFB10002BE87E /* StuffModelIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffModelIO.swift; sourceTree = "<group>"; };
 		EE02E53F2950D9EA002BE87E /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
@@ -163,6 +173,14 @@
 		EEA76C5B2951325E00250B06 /* PlacesInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesInfoViewController.swift; sourceTree = "<group>"; };
 		EEA76C5C2951325E00250B06 /* PlacesInfoViewIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesInfoViewIO.swift; sourceTree = "<group>"; };
 		EEA76C5D2951325E00250B06 /* PlacesInfoBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesInfoBuilder.swift; sourceTree = "<group>"; };
+		EEAC1D2B295260CB00237331 /* PlacesInfoModelIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesInfoModelIO.swift; sourceTree = "<group>"; };
+		EEAC1D2E2952717800237331 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		EEAC1D2F2952717800237331 /* NetworkRequestFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkRequestFactory.swift; sourceTree = "<group>"; };
+		EEAC1D34295271E400237331 /* Coordinates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinates.swift; sourceTree = "<group>"; };
+		EEAC1D3729527A7000237331 /* WeatherForecast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherForecast.swift; sourceTree = "<group>"; };
+		EEAC1D3B29527A7000237331 /* WeatherMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherMain.swift; sourceTree = "<group>"; };
+		EEAC1D442952897F00237331 /* Timezone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timezone.swift; sourceTree = "<group>"; };
+		EEAC1D472952914000237331 /* DateFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		EED2A75D294FB874003A9A1A /* StuffCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffCell.swift; sourceTree = "<group>"; };
 		EED2A75F294FCAF9003A9A1A /* StuffTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffTableViewHeader.swift; sourceTree = "<group>"; };
 		EED2A761294FCE4E003A9A1A /* AddStuffCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStuffCell.swift; sourceTree = "<group>"; };
@@ -344,6 +362,8 @@
 		DA86567FF7132CE45AC0B6E7 /* TripInfo */ = {
 			isa = PBXGroup;
 			children = (
+				EEA76C462951325E00250B06 /* PlacesInfo */,
+				063D1D8FE326808F195E1017 /* Stuff */,
 				084DD2856809593F775014C8 /* View */,
 				14E9B216DEC1A665FC62F7E0 /* Presenter */,
 				C67AC20E754EF6764410141F /* Model */,
@@ -375,6 +395,14 @@
 			path = Trips;
 			sourceTree = "<group>";
 		};
+		EE00ABFC2953B2A100FAFDCD /* Extencions */ = {
+			isa = PBXGroup;
+			children = (
+				EE00ABFD2953B2AE00FAFDCD /* UILabel.swift */,
+			);
+			path = Extencions;
+			sourceTree = "<group>";
+		};
 		EE02E539294FFA43002BE87E /* StuffDisplayData */ = {
 			isa = PBXGroup;
 			children = (
@@ -386,6 +414,7 @@
 		EE02E53E2950D9EA002BE87E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				EEAC1D432952896B00237331 /* NetworkModels */,
 				EE02E53F2950D9EA002BE87E /* Location.swift */,
 				EE02E5432950D9EA002BE87E /* Protocols.swift */,
 				EE02E5462950D9EA002BE87E /* Baggage.swift */,
@@ -420,6 +449,9 @@
 		EE0AF93C2913010D00EC52D3 /* Journeys */ = {
 			isa = PBXGroup;
 			children = (
+				EE00ABFC2953B2A100FAFDCD /* Extencions */,
+				EEAC1D462952914000237331 /* Formatters */,
+				EEAC1D2D2952717800237331 /* Services */,
 				EE02E53E2950D9EA002BE87E /* Models */,
 				EE57FF372927E6E400212DC2 /* ru.lproj */,
 				EE157F442926B31100A56157 /* Generated */,
@@ -441,11 +473,9 @@
 		EE0AF951291301C500EC52D3 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				EEA76C462951325E00250B06 /* PlacesInfo */,
 				EEDAF55D291D65C300E6DDB9 /* FloatingButton */,
 				E7C7F8885C59BF0183002C79 /* Trips */,
 				60258206F5ACBE13C8538379 /* Account */,
-				063D1D8FE326808F195E1017 /* Stuff */,
 				DA86567FF7132CE45AC0B6E7 /* TripInfo */,
 			);
 			path = Modules;
@@ -502,9 +532,9 @@
 		EEA76C462951325E00250B06 /* PlacesInfo */ = {
 			isa = PBXGroup;
 			children = (
+				EEA76C4C2951325E00250B06 /* View */,
 				EEA76C472951325E00250B06 /* Presenter */,
 				EEA76C4A2951325E00250B06 /* Model */,
-				EEA76C4C2951325E00250B06 /* View */,
 				EEA76C5D2951325E00250B06 /* PlacesInfoBuilder.swift */,
 			);
 			path = PlacesInfo;
@@ -523,6 +553,7 @@
 			isa = PBXGroup;
 			children = (
 				EEA76C4B2951325E00250B06 /* PlacesInfoModel.swift */,
+				EEAC1D2B295260CB00237331 /* PlacesInfoModelIO.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -530,22 +561,22 @@
 		EEA76C4C2951325E00250B06 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				EEA76C4D2951325E00250B06 /* Subviews */,
+				EEA76C4D2951325E00250B06 /* Cells */,
+				EEA76C5A2951325E00250B06 /* MainCollectionHeader.swift */,
 				EEA76C5B2951325E00250B06 /* PlacesInfoViewController.swift */,
 				EEA76C5C2951325E00250B06 /* PlacesInfoViewIO.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
 		};
-		EEA76C4D2951325E00250B06 /* Subviews */ = {
+		EEA76C4D2951325E00250B06 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
 				EEA76C4E2951325E00250B06 /* WeatherCollection */,
 				EEA76C542951325E00250B06 /* RouteCell */,
 				EEA76C562951325E00250B06 /* EventsCollection */,
-				EEA76C5A2951325E00250B06 /* MainCollectionHeader.swift */,
 			);
-			path = Subviews;
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		EEA76C4E2951325E00250B06 /* WeatherCollection */ = {
@@ -591,6 +622,43 @@
 			);
 			path = EventsCell;
 			sourceTree = "<group>";
+		};
+		EEAC1D2D2952717800237331 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				EEAC1D2E2952717800237331 /* NetworkService.swift */,
+				EEAC1D2F2952717800237331 /* NetworkRequestFactory.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		EEAC1D3629527A5B00237331 /* WeatherModels */ = {
+			isa = PBXGroup;
+			children = (
+				EEAC1D3729527A7000237331 /* WeatherForecast.swift */,
+				EEAC1D3B29527A7000237331 /* WeatherMain.swift */,
+			);
+			path = WeatherModels;
+			sourceTree = "<group>";
+		};
+		EEAC1D432952896B00237331 /* NetworkModels */ = {
+			isa = PBXGroup;
+			children = (
+				EEAC1D3629527A5B00237331 /* WeatherModels */,
+				EEAC1D34295271E400237331 /* Coordinates.swift */,
+				EEAC1D442952897F00237331 /* Timezone.swift */,
+			);
+			path = NetworkModels;
+			sourceTree = "<group>";
+		};
+		EEAC1D462952914000237331 /* Formatters */ = {
+			isa = PBXGroup;
+			children = (
+				EEAC1D472952914000237331 /* DateFormatter.swift */,
+			);
+			name = Formatters;
+			path = Journeys/Formatters;
+			sourceTree = SOURCE_ROOT;
 		};
 		EED2A75C294FB865003A9A1A /* StuffCell */ = {
 			isa = PBXGroup;
@@ -797,12 +865,15 @@
 				EEA76C612951325E00250B06 /* WeatherCollectionHeader.swift in Sources */,
 				EEA76C602951325E00250B06 /* PlacesInfoModel.swift in Sources */,
 				C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */,
+				EEAC1D35295271E400237331 /* Coordinates.swift in Sources */,
 				EEA76C622951325E00250B06 /* WeatherCell.swift in Sources */,
 				EE2B4126291413EC0067BE4F /* TripCell.swift in Sources */,
 				A837507D56DC8E0FFC90C522 /* TripsInteractor.swift in Sources */,
+				EEAC1D322952717800237331 /* NetworkRequestFactory.swift in Sources */,
 				EE02E56F2950E732002BE87E /* EmojiTextField.swift in Sources */,
 				EEA76C5E2951325E00250B06 /* PlacesInfoPresenter.swift in Sources */,
 				EEDAF555291C0F2200E6DDB9 /* AddTripCell.swift in Sources */,
+				EEAC1D312952717800237331 /* NetworkService.swift in Sources */,
 				678EC2173D55FABDA74E2A5F /* TripsModuleIO.swift in Sources */,
 				EED2A762294FCE4E003A9A1A /* AddStuffCell.swift in Sources */,
 				EEA76C6B2951325E00250B06 /* PlacesInfoBuilder.swift in Sources */,
@@ -811,6 +882,7 @@
 				668AB39849F8F5E0DBE3C8F4 /* TripsModel.swift in Sources */,
 				F92CACD193BE48A33A52A5DC /* TripsRouterInput.swift in Sources */,
 				EE29EBFA29191558008ECFF8 /* CoordinatorProtocol.swift in Sources */,
+				EEAC1D2C295260CB00237331 /* PlacesInfoModelIO.swift in Sources */,
 				0D551CF12951739C00A4151E /* Trip.swift in Sources */,
 				0F6FD83F50CCD8533C888533 /* TripsRouter.swift in Sources */,
 				EE497A122940AF41007E8579 /* AccountCoordinator.swift in Sources */,
@@ -821,6 +893,7 @@
 				B0CD597403B67CE15E6F43EA /* AccountViewIO.swift in Sources */,
 				EE02E54D2950D9EA002BE87E /* Route.swift in Sources */,
 				19DF7BAC373C54E8FB115888 /* AccountViewController.swift in Sources */,
+				EEAC1D3C29527A7000237331 /* WeatherForecast.swift in Sources */,
 				593D2FA682B366A48F2F32CA /* AccountModuleIO.swift in Sources */,
 				1EA5831F1D57C53497AB055D /* AccountPresenter.swift in Sources */,
 				9C60B5C563DCB01932E87E34 /* AccountModel.swift in Sources */,
@@ -834,12 +907,16 @@
 				8DBF7730AAAF9093C8B24767 /* StuffPresenter.swift in Sources */,
 				0D122BF4678B9ACCF7152904 /* StuffModel.swift in Sources */,
 				38B0C8DF2C72951C87C99D99 /* StuffBuilder.swift in Sources */,
+				EEAC1D482952914000237331 /* DateFormatter.swift in Sources */,
 				EEA76C652951325E00250B06 /* RouteCell.swift in Sources */,
 				50505393A370F99E10E3F864 /* TripInfoViewIO.swift in Sources */,
+				EE00ABFE2953B2AE00FAFDCD /* UILabel.swift in Sources */,
 				4F445FB920C9EB3384DA16BA /* TripInfoViewController.swift in Sources */,
 				D3B3547A919CA12361A3822A /* TripInfoModuleIO.swift in Sources */,
+				EEAC1D4029527A7000237331 /* WeatherMain.swift in Sources */,
 				EEA76C672951325E00250B06 /* EventCell.swift in Sources */,
 				C039CC5FA4AA609C5479897B /* TripInfoPresenter.swift in Sources */,
+				EEAC1D452952897F00237331 /* Timezone.swift in Sources */,
 				A9DD1DEF7782DE6C939585EA /* TripInfoModel.swift in Sources */,
 				EEA76C642951325E00250B06 /* WeatherCollection.swift in Sources */,
 				A4F278F34637C60C2ED5A34D /* TripInfoBuilder.swift in Sources */,

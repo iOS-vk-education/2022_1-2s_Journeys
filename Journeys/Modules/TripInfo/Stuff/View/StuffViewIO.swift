@@ -13,6 +13,7 @@ import Foundation
 
 protocol StuffViewInput: AnyObject {
     func reloadData()
+    func showAlert(title: String, message: String)
 }
 
 // MARK: - Stuff ViewOutput
@@ -30,4 +31,8 @@ protocol StuffViewOutput: AnyObject {
     func didTapCellPackButton(at indexpath: IndexPath?, tableView: UITableView)
     func emojiTextFieldDidChange(_ text: String, at indexPath: IndexPath)
     func nameTextFieldDidChange(_ text: String, at indexPath: IndexPath)
+    
+    func didTapScreen(tableView: UITableView)
+    
+    func didTapExitButton()
 }

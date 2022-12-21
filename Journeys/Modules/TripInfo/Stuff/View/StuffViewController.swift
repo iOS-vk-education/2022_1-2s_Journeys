@@ -21,30 +21,25 @@ final class StuffViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
         output.viewDidLoad()
         setupView()
     }
 
     private func setupView() {
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
-        setupNavBar()
         setupTableView()
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapScreen))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
-    }
-
-    private func setupNavBar() {
-        navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
-
-        let exitButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"),
-                                                 style: .plain,
-                                                 target: self,
-                                                 action: #selector(didTapExitButton))
-
-        navigationItem.leftBarButtonItem = exitButtonItem
-        title = "Список вещей"
     }
     
     private func setupTableView() {
@@ -68,7 +63,8 @@ final class StuffViewController: UIViewController {
         }
     }
 
-    @objc func dismissKeyboard() {
+    @objc func didTapScreen() {
+        output.didTapScreen(tableView: tableView)
         view.endEditing(true)
     }
 
@@ -77,10 +73,28 @@ final class StuffViewController: UIViewController {
 
     }
     
+    @objc func keyboardWillShow(notification: NSNotification) {
+        guard let userInfo = notification.userInfo else { return }
+        guard var keyboardFrame:CGRect = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue else { return }
+        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
+
+        var contentInset:UIEdgeInsets = self.tableView.contentInset
+        contentInset.bottom = keyboardFrame.size.height + 35
+        tableView.contentInset = contentInset
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        let contentInset:UIEdgeInsets = UIEdgeInsets.zero
+        tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
+    }
+    
 }
 
 extension StuffViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
+            return nil
+        }
         let deleteAction = UITableViewRowAction(style: .destructive,
                                                 title: L10n.delete) { [weak self] (action, indexPath) in
             self?.output.handeleCellDelete(at: indexPath)
@@ -114,30 +128,29 @@ extension StuffViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         30
     }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        44
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        2
+    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        output.getNumberOfRows(in: section)
+    }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerFooter = tableView.dequeueReusableHeaderFooterView(withIdentifier: "StuffTableViewHeader")
         let header = headerFooter as? StuffTableViewHeader
         header?.configure(title: output.getSectionHeaderText(section))
         return header
     }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        2
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        44
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        output.getNumberOfRows(in: section)
-    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "AddStuffCell", for: indexPath) as? AddStuffCell else {
                 return UITableViewCell()
             }
+            cell.selectionStyle = .none
             return cell
         }
         else {
@@ -148,6 +161,7 @@ extension StuffViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.configure(data: data, delegate: self)
+            cell.selectionStyle = .none
             return cell
         }
     }
@@ -157,6 +171,13 @@ extension StuffViewController: UITableViewDataSource {
 extension StuffViewController: StuffViewInput {
     func reloadData() {
         tableView.reloadData()
+    }
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title,
+                                      message: message,
+                          preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 }
 

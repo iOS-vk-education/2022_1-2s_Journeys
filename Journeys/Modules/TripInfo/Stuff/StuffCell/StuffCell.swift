@@ -17,10 +17,14 @@ final class StuffCell: UITableViewCell {
     }
     
     struct DisplayData {
+        let data: StuffData
+        let changeMode: ChangeMode
+    }
+    
+    struct StuffData {
         let emoji: String?
         let name: String
         let isPacked: Bool
-        let changeMode: ChangeMode
     }
 
     private var nameTextField = UITextField()
@@ -123,8 +127,10 @@ final class StuffCell: UITableViewCell {
     
     private func switchBasedNextTextField(_ textField: UITextField) {
         switch textField {
-        case self.emojiTextField:
+        case emojiTextField:
             self.nameTextField.becomeFirstResponder()
+        case self.nameTextField:
+            finishEditMode()
         default:
             self.nameTextField.resignFirstResponder()
         }
@@ -159,12 +165,16 @@ final class StuffCell: UITableViewCell {
         nameTextField.isUserInteractionEnabled = false
         emojiTextField.isUserInteractionEnabled = false
     }
+    
+    func giveData() -> StuffData {
+        StuffData(emoji: emojiTextField.text, name: nameTextField.text ?? "", isPacked: isPacked)
+    }
 
     func configure(data: DisplayData, delegate: StuffCellDelegate) {
         self.delegate = delegate
-        emojiTextField.text = data.emoji
-        nameTextField.text = data.name
-        isPacked = data.isPacked
+        emojiTextField.text = data.data.emoji
+        nameTextField.text = data.data.name
+        isPacked = data.data.isPacked
 
         if data.changeMode == .on {
             startEditMode()
