@@ -69,7 +69,6 @@ final class NetworkRequestFactory: NetworkRequestFactoryProtocol {
             assertionFailure("Something has gone wrong and URL could not be constructed!")
             return URLRequest(url: URL(string: "")!)
         }
-        print(url)
         var request = URLRequest(url: url)
         request.setValue(Constants.Timezone.apiKey, forHTTPHeaderField: "X-Api-Key")
         return request
@@ -93,7 +92,6 @@ final class NetworkRequestFactory: NetworkRequestFactoryProtocol {
             assertionFailure("Something has gone wrong and URL could not be constructed!")
             return URLRequest(url: URL(string: "")!)
         }
-        print(url)
         return URLRequest(url: url)
     }
     

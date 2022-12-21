@@ -21,12 +21,6 @@ final class RouteCell: UICollectionViewCell {
         return label
     }()
     
-//    lazy var width: NSLayoutConstraint = {
-//        let width = contentView.widthAnchor.constraint(equalToConstant: bounds.size.width)
-//        width.isActive = true
-//        return width
-//    }()
-    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupView()

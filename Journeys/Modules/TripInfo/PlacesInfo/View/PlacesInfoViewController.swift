@@ -27,12 +27,8 @@ final class PlacesInfoViewController: UIViewController {
         layout.sectionInset = UIEdgeInsets(top: 18, left: 0, bottom: 35, right: 0)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.contentInset = UIEdgeInsets(top: 18, left: 0, bottom: 0, right: 0)
-        collectionView.contentInsetAdjustmentBehavior = .always
         return collectionView
    }()
-    
-    var linesCount = 1
-    
 
     // MARK: Lifecycle
 
@@ -52,7 +48,6 @@ final class PlacesInfoViewController: UIViewController {
     private func setupCollectionView() {
         mainCollectionView.delegate = self
         mainCollectionView.dataSource = self
-        mainCollectionView.isPrefetchingEnabled = false
 
         mainCollectionView.register(RouteCell.self,
                                     forCellWithReuseIdentifier: "RouteCell")
@@ -72,14 +67,6 @@ final class PlacesInfoViewController: UIViewController {
             make.trailing.equalToSuperview()
         }
     }
-    
-    private func size() -> CGSize {
-        let cell = RouteCell()
-        guard let data = output.getRoutelData() else {
-            return CGSize(width: 0, height: 0)
-        }
-        return CGSize(width: mainCollectionView.frame.width, height: CGFloat(cell.getLabelLinesCount() * 15))
-    }
 }
 
 extension PlacesInfoViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -96,15 +83,7 @@ extension PlacesInfoViewController: UICollectionViewDelegate, UICollectionViewDe
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch indexPath.section {
         case 0:
-            return CGSize(width: mainCollectionView.frame.width, height: CGFloat(linesCount * 15))
-//            let sectionInset = (collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInset
-//            let referenceHeight: CGFloat = 100 // Approximate height of your cell
-//            let referenceWidth = collectionView.safeAreaLayoutGuide.layoutFrame.width
-//                - sectionInset?.left ?? 0
-//                - sectionInset?.right ?? 0
-//                - collectionView.contentInset.left
-//                - collectionView.contentInset.right
-//            return CGSize(width: referenceWidth, height: referenceHeight)
+            return CGSize(width: mainCollectionView.frame.width, height: 85)
         case 1:
             return CGSize(width: mainCollectionView.frame.width, height: 85)
         default:
@@ -142,7 +121,7 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
             routeCell.configure(data: data)
-            linesCount = routeCell.getLabelLinesCount()
+//            linesCount = routeCell.getLabelLinesCount()
             cell = routeCell
         case 1:
             guard let weatherCell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "WeatherCollection",
@@ -187,31 +166,3 @@ extension PlacesInfoViewController: WeatherCollectionDelegate {
         return output.getWeatherCollectionCellDisplayData(collectionRow: row, cellRow: indexpath.row)
     }
 }
-
-
-final class CommentFlowLayout : UICollectionViewFlowLayout {
-    
-    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-            let layoutAttributesObjects = super.layoutAttributesForElements(in: rect)?.map{ $0.copy() } as? [UICollectionViewLayoutAttributes]
-            layoutAttributesObjects?.forEach({ layoutAttributes in
-                if layoutAttributes.representedElementCategory == .cell {
-                    if let newFrame = layoutAttributesForItem(at: layoutAttributes.indexPath)?.frame {
-                        layoutAttributes.frame = newFrame
-                    }
-                }
-            })
-            return layoutAttributesObjects
-        }
-
-    override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        guard let collectionView = collectionView else { fatalError() }
-        guard let layoutAttributes = super.layoutAttributesForItem(at: indexPath)?.copy() as? UICollectionViewLayoutAttributes else {
-            return nil
-        }
-
-        layoutAttributes.frame.origin.x = sectionInset.left
-        layoutAttributes.frame.size.width = collectionView.safeAreaLayoutGuide.layoutFrame.width - sectionInset.left - sectionInset.right
-        return layoutAttributes
-    }
-}
-

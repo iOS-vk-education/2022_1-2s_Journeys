@@ -46,22 +46,6 @@ final class WeatherCell: UICollectionViewCell {
 
         setupSubviews()
     }
-    
-    var isHeightCalculated: Bool = false
-
-    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-        //Exhibit A - We need to cache our calculation to prevent a crash.
-        if !isHeightCalculated {
-            setNeedsLayout()
-            layoutIfNeeded()
-            let size = contentView.systemLayoutSizeFitting(layoutAttributes.size)
-            var newFrame = layoutAttributes.frame
-            newFrame.size.width = CGFloat(ceilf(Float(size.width)))
-            layoutAttributes.frame = newFrame
-            isHeightCalculated = true
-        }
-        return layoutAttributes
-    }
 
     // MARK: Private functions
 
@@ -98,6 +82,7 @@ final class WeatherCell: UICollectionViewCell {
             make.bottom.equalToSuperview()
         }
         
+        temperatureLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         icon.snp.makeConstraints { make in
             make.leading.equalTo(temperatureLabel.snp.trailing).offset(2)
             make.trailing.equalToSuperview()

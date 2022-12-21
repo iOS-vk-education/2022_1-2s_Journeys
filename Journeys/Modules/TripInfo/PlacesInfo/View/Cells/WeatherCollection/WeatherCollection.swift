@@ -87,7 +87,7 @@ extension WeatherCollection: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        delegate.getNumberOfItemsInWeatherCollection(self) ?? 0
+        return delegate.getNumberOfItemsInWeatherCollection(self) ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
