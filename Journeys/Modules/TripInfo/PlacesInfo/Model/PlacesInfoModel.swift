@@ -54,7 +54,7 @@ final class PlacesInfoModel {
                 do {
                     let decoder = JSONDecoder()
                     let forecast = try decoder.decode(WeatherForecast.self, from: data)
-                    let weather = strongSelf.generateWeatherModels(from: forecast)
+                    let weather = strongSelf.generateWeatherModels(from: forecast, location: place.location)
                     strongSelf.output.didRecieveWeatherData(weather)
                 } catch {
                     assertionFailure("\(error)")
@@ -63,14 +63,15 @@ final class PlacesInfoModel {
         }
     }
     
-    private func generateWeatherModels(from forecast: WeatherForecast) -> [Weather] {
+    private func generateWeatherModels(from forecast: WeatherForecast, location: Location) -> [Weather] {
         var weatherList: [Weather] = []
         let dailyWeather = forecast.dailyWeather
         for index in 0..<dailyWeather.date.count {
             let weather = Weather(date: dailyWeather.date[index],
                                   weatherCode: dailyWeather.weatherCode[index],
                                   temperatureMax: dailyWeather.temperatureMax[index],
-                                  temperatureMin: dailyWeather.temperatureMin[index])
+                                  temperatureMin: dailyWeather.temperatureMin[index],
+                                  location: location)
             weatherList.append(weather)
         }
         return weatherList
@@ -86,13 +87,13 @@ extension PlacesInfoModel: PlacesInfoModelInput {
         output.didRecieveRouteData(Route(id: "", departureLocation: loc1,
                                          places: [Place(location: loc2,
                                                         arrive: Date(),
-                                                        depart: Date().addingTimeInterval(100000)),
+                                                        depart: Date().addingTimeInterval(1000000)),
                                                   Place(location: loc3,
-                                                        arrive: Date().addingTimeInterval(100000),
-                                                        depart: Date().addingTimeInterval(200000)),
+                                                        arrive: Date().addingTimeInterval(1000000),
+                                                        depart: Date().addingTimeInterval(2000000)),
                                                   Place(location: loc4,
                                                         arrive: Date().addingTimeInterval(200000),
-                                                        depart: Date().addingTimeInterval(250000))]))
+                                                        depart: Date().addingTimeInterval(400000))]))
     }
 
     func getWeatherData(for place: Place) {

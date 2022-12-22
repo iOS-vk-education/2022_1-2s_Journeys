@@ -17,36 +17,22 @@ final class PlacesInfoPresenter {
     weak var moduleOutput: PlacesInfoModuleOutput!
     let routeId: String
 //    var weather: [[Weather]] = []
-//    var weather: [[Weather]] = [[Weather(date: "2022-12-01", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                 Weather(date: "2022-12-02", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                 Weather(date: "2022-12-03", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                 Weather(date: "2022-12-04", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                 Weather(date: "2022-12-05", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                 Weather(date: "2022-12-06", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                 Weather(date: "2022-12-07", weatherCode: 0, temperatureMax: 2, temperatureMin: 0)],
-//                                [Weather(date: "2022-12-08", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                 Weather(date: "2022-12-09", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                 Weather(date: "2022-12-10", weatherCode: 0, temperatureMax: 2, temperatureMin: 0)],
-//                                [Weather(date: "2022-12-08", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                 Weather(date: "2022-12-09", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                 Weather(date: "2022-12-10", weatherCode: 0, temperatureMax: 2, temperatureMin: 0)],
-//                                [Weather(date: "2022-12-01", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                 Weather(date: "2022-12-02", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                 Weather(date: "2022-12-03", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                 Weather(date: "2022-12-04", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                 Weather(date: "2022-12-05", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                 Weather(date: "2022-12-06", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                 Weather(date: "2022-12-07", weatherCode: 0, temperatureMax: 2, temperatureMin: 0)],
-//                                [Weather(date: "2022-12-08", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                 Weather(date: "2022-12-09", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                 Weather(date: "2022-12-10", weatherCode: 0, temperatureMax: 2, temperatureMin: 0)],
-//                                [Weather(date: "2022-12-01", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                 Weather(date: "2022-12-02", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                 Weather(date: "2022-12-03", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                 Weather(date: "2022-12-04", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                 Weather(date: "2022-12-05", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                 Weather(date: "2022-12-06", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                 Weather(date: "2022-12-07", weatherCode: 0, temperatureMax: 2, temperatureMin: 0)]]
+    var loc1 = Location(country: "Russia", city: "Kursk")
+    var loc2 = Location(country: "Russia", city: "Anapa")
+    var loc3 = Location(country: "Russia", city: "Perm")
+    lazy var weather: [[Weather]] = [[Weather(date: "2022-12-01", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1),
+                                 Weather(date: "2022-12-02", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1),
+                                 Weather(date: "2022-12-03", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1),
+                                 Weather(date: "2022-12-04", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1),
+                                 Weather(date: "2022-12-05", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1),
+                                      Weather(date: "2022-12-06", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1),
+                                 Weather(date: "2022-12-07", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1)],
+                                     [Weather(date: "2022-12-08", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc2),
+                                      Weather(date: "2022-12-09", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc2),
+                                      Weather(date: "2022-12-10", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc2)],
+                                     [Weather(date: "2022-12-08", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc3),
+                                      Weather(date: "2022-12-09", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc3),
+                                      Weather(date: "2022-12-10", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc3)]]
 //    var weather: [[Weather]] = [[Weather(date: "2022-12-08", weatherCode: 0, temperatureMax: 2, temperatureMin: 26),
 //                                  Weather(date: "2022-12-09", weatherCode: 0, temperatureMax: 2, temperatureMin: 24),
 //                                  Weather(date: "2022-12-10", weatherCode: 0, temperatureMax: 2, temperatureMin: 7)]]
@@ -57,7 +43,7 @@ final class PlacesInfoPresenter {
 //                                Weather(date: "2022-12-05", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
 //                                Weather(date: "2022-12-06", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
 //                                Weather(date: "2022-12-07", weatherCode: 0, temperatureMax: 2, temperatureMin: 0)]]
-    var weather: [[Weather]] = [[Weather(date: "2022-12-01", weatherCode: 0, temperatureMax: -16, temperatureMin: -1006)]]
+//    lazy var weather: [[Weather]] = [[Weather(date: "2022-12-01", weatherCode: 0, temperatureMax: -16, temperatureMin: -1006, location: route?.places[0].location)]]
 
     var route: Route?
     
@@ -75,8 +61,7 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
     }
     
     func getWeatherCollectionDisplayData(_ row: Int) -> WeatherCollection.DisplayData {
-        WeatherCollection.DisplayData(town: route?.places[row].location.city ?? "",
-                                      cellsCount: getWeatherCollectionCellsCount(for: row))
+        WeatherCollection.DisplayData(town: weather[row][0].location.city)
     }
     
     func getWeatherCollectionCellsCount(for row: Int) -> Int {

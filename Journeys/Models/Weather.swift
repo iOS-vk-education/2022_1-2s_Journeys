@@ -21,15 +21,13 @@ struct Weather: Decodable {
     let weatherCode: Int
     let temperatureMax: Float
     let temperatureMin: Float
+    let location: Location
     
-    internal init(date: String, weatherCode: Int, temperatureMax: Float, temperatureMin: Float) {
+    internal init(date: String, weatherCode: Int, temperatureMax: Float, temperatureMin: Float, location: Location) {
         self.date = date
         self.weatherCode = weatherCode
         self.temperatureMax = temperatureMax
         self.temperatureMin = temperatureMin
+        self.location = location
     }
-//
-//    static func weatherFromForecast(from weatherForecast: WeatherForecast) {
-//        
-//    }
 }

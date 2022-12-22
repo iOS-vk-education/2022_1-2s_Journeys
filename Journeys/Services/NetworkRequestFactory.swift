@@ -92,6 +92,7 @@ final class NetworkRequestFactory: NetworkRequestFactoryProtocol {
             assertionFailure("Something has gone wrong and URL could not be constructed!")
             return URLRequest(url: URL(string: "")!)
         }
+        print(url)
         return URLRequest(url: url)
     }
     

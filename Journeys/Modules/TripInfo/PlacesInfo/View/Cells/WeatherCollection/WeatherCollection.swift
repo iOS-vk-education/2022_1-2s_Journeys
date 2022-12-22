@@ -12,7 +12,6 @@ import SnapKit
 final class WeatherCollection: UICollectionViewCell {
     struct DisplayData {
         let town: String
-        let cellsCount: Int
     }
 
     private let townNameView = WeatherCollectionHeader()
