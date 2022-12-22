@@ -16,23 +16,23 @@ final class PlacesInfoPresenter {
     var model: PlacesInfoModel!
     weak var moduleOutput: PlacesInfoModuleOutput!
     let routeId: String
-//    var weather: [[Weather]] = []
-    var loc1 = Location(country: "Russia", city: "Kursk")
-    var loc2 = Location(country: "Russia", city: "Anapa")
-    var loc3 = Location(country: "Russia", city: "Perm")
-    lazy var weather: [[Weather]] = [[Weather(date: "2022-12-01", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1),
-                                 Weather(date: "2022-12-02", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1),
-                                 Weather(date: "2022-12-03", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1),
-                                 Weather(date: "2022-12-04", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1),
-                                 Weather(date: "2022-12-05", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1),
-                                      Weather(date: "2022-12-06", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1),
-                                 Weather(date: "2022-12-07", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1)],
-                                     [Weather(date: "2022-12-08", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc2),
-                                      Weather(date: "2022-12-09", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc2),
-                                      Weather(date: "2022-12-10", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc2)],
-                                     [Weather(date: "2022-12-08", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc3),
-                                      Weather(date: "2022-12-09", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc3),
-                                      Weather(date: "2022-12-10", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc3)]]
+    private var weather: [WeatherWithLocation] = []
+//    var loc1 = Location(country: "Russia", city: "Kursk")
+//    var loc2 = Location(country: "Russia", city: "Anapa")
+//    var loc3 = Location(country: "Russia", city: "Perm")
+//    lazy var weather: [[Weather]] = [[Weather(date: "2022-12-01", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1),
+//                                 Weather(date: "2022-12-02", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1),
+//                                 Weather(date: "2022-12-03", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1),
+//                                 Weather(date: "2022-12-04", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1),
+//                                 Weather(date: "2022-12-05", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1),
+//                                      Weather(date: "2022-12-06", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1),
+//                                 Weather(date: "2022-12-07", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1)],
+//                                     [Weather(date: "2022-12-08", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc2),
+//                                      Weather(date: "2022-12-09", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc2),
+//                                      Weather(date: "2022-12-10", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc2)],
+//                                     [Weather(date: "2022-12-08", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc3),
+//                                      Weather(date: "2022-12-09", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc3),
+//                                      Weather(date: "2022-12-10", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc3)]]
 //    var weather: [[Weather]] = [[Weather(date: "2022-12-08", weatherCode: 0, temperatureMax: 2, temperatureMin: 26),
 //                                  Weather(date: "2022-12-09", weatherCode: 0, temperatureMax: 2, temperatureMin: 24),
 //                                  Weather(date: "2022-12-10", weatherCode: 0, temperatureMax: 2, temperatureMin: 7)]]
@@ -50,6 +50,20 @@ final class PlacesInfoPresenter {
     init(routeId: String) {
         self.routeId = routeId
     }
+    
+    private func sortWeather() {
+        guard let route = route else { return }
+        var sortedWeather: [WeatherWithLocation] = []
+        for place in route.places {
+            for curWeather in weather {
+                if curWeather.location.city == place.location.city &&
+                    curWeather.location.country == place.location.country {
+                    sortedWeather.append(curWeather)
+                }
+            }
+        }
+        weather = sortedWeather
+    }
 }
 
 extension PlacesInfoPresenter: PlacesInfoModuleInput {
@@ -60,18 +74,22 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
         model.getRouteData(with: routeId)
     }
     
-    func getWeatherCollectionDisplayData(_ row: Int) -> WeatherCollection.DisplayData {
-        WeatherCollection.DisplayData(town: weather[row][0].location.city)
+    func getWeatherCollectionDisplayData(_ row: Int) -> WeatherCollection.DisplayData? {
+        guard weather.indices.contains(row) == true else { return nil }
+        return WeatherCollection.DisplayData(town: weather[row].location.city)
     }
     
     func getWeatherCollectionCellsCount(for row: Int) -> Int {
-        guard weather.indices.contains(row) else { return 0 }
-        print(weather[row].count)
-        return weather[row].count
+        guard weather.indices.contains(row) == true else { return 0 }
+        print(weather[row].weather.count)
+        return weather[row].weather.count
     }
     
-    func getWeatherCollectionCellDisplayData(collectionRow: Int, cellRow: Int) -> WeatherCell.DisplayData {
-        WeatherCellDisplayDataFactory().displayData(weather: weather[collectionRow][cellRow])
+    func getWeatherCollectionCellDisplayData(collectionRow: Int, cellRow: Int) -> WeatherCell.DisplayData? {
+        guard weather.indices.contains(collectionRow) == true else { return nil }
+        guard weather[collectionRow].weather.indices.contains(cellRow) == true else { return nil }
+        print(weather[collectionRow].weather[cellRow])
+        return WeatherCellDisplayDataFactory().displayData(weather: weather[collectionRow].weather[cellRow])
     }
     
     func getHeaderText(for indexpath: IndexPath) -> String {
@@ -119,8 +137,8 @@ extension PlacesInfoPresenter: PlacesInfoModelOutput {
         }
     }
     
-    func didRecieveWeatherData(_ weather: [Weather]) {
-        self.weather.append(weather)
+    func didRecieveWeatherData(_ weatherData: WeatherWithLocation) {
+        self.weather.append(weatherData)
         view.reloadData()
     }
 }

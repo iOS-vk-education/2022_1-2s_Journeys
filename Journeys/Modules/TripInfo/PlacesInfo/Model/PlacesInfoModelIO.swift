@@ -18,5 +18,5 @@ protocol PlacesInfoModelInput: AnyObject {
 
 protocol PlacesInfoModelOutput: AnyObject {
     func didRecieveRouteData(_ route: Route)
-    func didRecieveWeatherData(_ weather: [Weather])
+    func didRecieveWeatherData(_ weatherData: WeatherWithLocation)
 }

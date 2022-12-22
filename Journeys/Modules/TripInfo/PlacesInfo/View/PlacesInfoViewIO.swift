@@ -21,9 +21,9 @@ protocol PlacesInfoViewOutput: AnyObject {
     func getRoutelData() -> RouteCell.DisplayData?
     func getMainCollectionCellsCount(for section: Int) -> Int
     
-    func getWeatherCollectionDisplayData(_ row: Int) -> WeatherCollection.DisplayData
+    func getWeatherCollectionDisplayData(_ row: Int) -> WeatherCollection.DisplayData?
     func getWeatherCollectionCellsCount(for row: Int) -> Int
-    func getWeatherCollectionCellDisplayData(collectionRow: Int, cellRow: Int) -> WeatherCell.DisplayData
+    func getWeatherCollectionCellDisplayData(collectionRow: Int, cellRow: Int) -> WeatherCell.DisplayData?
     
     func didTapExitButton()
 }

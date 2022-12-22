@@ -15,6 +15,8 @@ final class WeatherCollection: UICollectionViewCell {
 //        let cellsCount: Int
     }
 
+    var collectionIndexPath: IndexPath?
+    
     private let townNameView = WeatherCollectionHeader()
 
     private lazy var collectionView: UICollectionView = {
@@ -71,7 +73,8 @@ final class WeatherCollection: UICollectionViewCell {
         }
     }
     
-    func configure(data: DisplayData, delegate: WeatherCollectionDelegate) {
+    func configure(data: DisplayData, delegate: WeatherCollectionDelegate, indexPath: IndexPath) {
+        self.collectionIndexPath = indexPath
         townNameView.configure(title: data.town)
         self.delegate = delegate
         print(collectionView.numberOfItems(inSection: 0))
@@ -88,15 +91,19 @@ extension WeatherCollection: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print(delegate.getNumberOfItemsInWeatherCollection(self) ?? 0)
-        return delegate.getNumberOfItemsInWeatherCollection(self) ?? 0
+        guard let collectionIndexPath = collectionIndexPath else { return 0 }
+        print(delegate.getNumberOfItemsInWeatherCollection(at: collectionIndexPath))
+        return delegate.getNumberOfItemsInWeatherCollection(at: collectionIndexPath)
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeatherCell", for: indexPath) as? WeatherCell else {
             return UICollectionViewCell()
         }
-        guard let data = delegate.getCellDisplayData(self, for: indexPath) else {
+        guard let collectionIndexPath = collectionIndexPath else {
+            return UICollectionViewCell()
+        }
+        guard let data = delegate.getCellDisplayData(at: collectionIndexPath, for: indexPath) else {
             return UICollectionViewCell()
         }
         cell.configure(data: data)
@@ -142,6 +149,6 @@ class HorizontallyCenteredCollectionViewFlowLayout: UICollectionViewFlowLayout {
 }
 
 protocol WeatherCollectionDelegate: AnyObject {
-    func getNumberOfItemsInWeatherCollection(_ collectionCell: WeatherCollection) -> Int?
-    func getCellDisplayData(_ collectionCell: WeatherCollection, for indexpath: IndexPath) -> WeatherCell.DisplayData?
+    func getNumberOfItemsInWeatherCollection(at collectionIndexPath: IndexPath) -> Int
+    func getCellDisplayData(at collectionIndexPath: IndexPath, for indexpath: IndexPath) -> WeatherCell.DisplayData?
 }

@@ -7,27 +7,26 @@
 
 import Foundation
 
-enum WeatherFeature: String {
-    case cloudy
-    case sunny
-    case rainy
-    case stormy
-    case snowy
-    case fog
-}
-
 struct Weather: Decodable {
     let date: String
     let weatherCode: Int
     let temperatureMax: Float
     let temperatureMin: Float
-    let location: Location
     
-    internal init(date: String, weatherCode: Int, temperatureMax: Float, temperatureMin: Float, location: Location) {
+    internal init(date: String, weatherCode: Int, temperatureMax: Float, temperatureMin: Float) {
         self.date = date
         self.weatherCode = weatherCode
         self.temperatureMax = temperatureMax
         self.temperatureMin = temperatureMin
+    }
+}
+
+struct WeatherWithLocation: Decodable {
+    let location: Location
+    let weather: [Weather]
+    
+    internal init(location: Location, weather: [Weather]) {
         self.location = location
+        self.weather = weather
     }
 }

@@ -127,7 +127,10 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
                                                                        for: indexPath) as? WeatherCollection else {
                 return cell
             }
-            weatherCell.configure(data: output.getWeatherCollectionDisplayData(indexPath.row), delegate: self)
+            guard let data = output.getWeatherCollectionDisplayData(indexPath.row) else {
+                return UICollectionViewCell()
+            }
+            weatherCell.configure(data: data, delegate: self, indexPath: indexPath)
             cell = weatherCell
         default:
             return cell
@@ -155,14 +158,11 @@ private extension PlacesInfoViewController {
 }
 
 extension PlacesInfoViewController: WeatherCollectionDelegate {
-    func getNumberOfItemsInWeatherCollection(_ collectionCell: WeatherCollection) -> Int? {
-        guard let row = mainCollectionView.indexPath(for: collectionCell)?.row else { return nil }
-        return output.getWeatherCollectionCellsCount(for: row)
+    func getNumberOfItemsInWeatherCollection(at collectionIndexPath: IndexPath) -> Int {
+        output.getWeatherCollectionCellsCount(for: collectionIndexPath.row)
     }
     
-    func getCellDisplayData(_ collectionCell: WeatherCollection,
-                            for indexpath: IndexPath) -> WeatherCell.DisplayData? {
-        guard let row = mainCollectionView.indexPath(for: collectionCell)?.row else { return nil }
-        return output.getWeatherCollectionCellDisplayData(collectionRow: row, cellRow: indexpath.row)
+    func getCellDisplayData(at collectionIndexPath: IndexPath, for indexpath: IndexPath) -> WeatherCell.DisplayData? {
+        output.getWeatherCollectionCellDisplayData(collectionRow: collectionIndexPath.row, cellRow: indexpath.row)
     }
 }
