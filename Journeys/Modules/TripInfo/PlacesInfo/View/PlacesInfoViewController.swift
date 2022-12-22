@@ -160,8 +160,9 @@ extension PlacesInfoViewController: WeatherCollectionDelegate {
         return output.getWeatherCollectionCellsCount(for: row)
     }
     
-    func getCellDisplayData(_ cell: WeatherCollection, for indexpath: IndexPath) -> WeatherCell.DisplayData? {
-        guard let row = mainCollectionView.indexPath(for: cell)?.row else { return nil }
+    func getCellDisplayData(_ collectionCell: WeatherCollection,
+                            for indexpath: IndexPath) -> WeatherCell.DisplayData? {
+        guard let row = mainCollectionView.indexPath(for: collectionCell)?.row else { return nil }
         return output.getWeatherCollectionCellDisplayData(collectionRow: row, cellRow: indexpath.row)
     }
 }
