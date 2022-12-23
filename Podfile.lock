@@ -1,0 +1,20 @@
+PODS:
+  - PureLayout (3.1.9)
+  - YandexMapsMobile (4.2.2-full)
+
+DEPENDENCIES:
+  - PureLayout
+  - YandexMapsMobile (= 4.2.2-full)
+
+SPEC REPOS:
+  trunk:
+    - PureLayout
+    - YandexMapsMobile
+
+SPEC CHECKSUMS:
+  PureLayout: 5fb5e5429519627d60d079ccb1eaa7265ce7cf88
+  YandexMapsMobile: 1fd5f86bc368ad6ba528b199f9477e4a26796567
+
+PODFILE CHECKSUM: 1c9455856bca529661c7d4053c341433e389a58b
+
+COCOAPODS: 1.11.3
