@@ -11,20 +11,17 @@ import UIKit
 struct Trip {
     
     let id: String?
-    var imageURLString: String?
     var routeId: String
     var baggageId: String
     var isInfavourites: Bool
     var dateChanged: Date
     
     internal init(id: String?,
-                  imageURLString: String?,
                   routeId: String,
                   baggageId: String,
                   dateChanged: Date,
                   isInfavourites: Bool = false) {
         self.id = id
-        self.imageURLString = imageURLString
         self.routeId = routeId
         self.baggageId = baggageId
         self.dateChanged = dateChanged
@@ -33,7 +30,6 @@ struct Trip {
     
     init?(from dictionary: [String: Any], id: String) {
         guard
-        let imageURLString = dictionary[CodingKeys.imageURLString.rawValue] as? String,
         let routeId = dictionary[CodingKeys.routeId.rawValue] as? String,
         let baggageId = dictionary[CodingKeys.baggageId.rawValue] as? String,
         let dateChanged = dictionary[CodingKeys.dateChanged.rawValue] as? String,
@@ -43,7 +39,6 @@ struct Trip {
         }
         
         self.id = id
-        self.imageURLString = imageURLString
         self.routeId = routeId
         self.baggageId = baggageId
         let dateFormatter = DateFormatter()
@@ -55,7 +50,6 @@ struct Trip {
     
     init(tripWithOtherData: TripWithRouteAndImage) {
         self.id = tripWithOtherData.id
-        self.imageURLString = tripWithOtherData.imageURLString
         self.routeId = tripWithOtherData.routeId
         self.baggageId = tripWithOtherData.baggageId
         self.dateChanged = tripWithOtherData.dateChanged
@@ -64,7 +58,6 @@ struct Trip {
     
     func toDictionary() -> [String: Any] {
         var dictionary: [String: Any] = [:]
-        dictionary[CodingKeys.imageURLString.rawValue] = imageURLString ?? ""
         dictionary[CodingKeys.routeId.rawValue] = routeId
         dictionary[CodingKeys.baggageId.rawValue] = baggageId
         
@@ -77,7 +70,6 @@ struct Trip {
     }
     
     enum CodingKeys: String {
-        case imageURLString = "image_URL"
         case routeId = "route_id"
         case baggageId = "baggage_id"
         case dateChanged = "last_change"
@@ -116,7 +108,7 @@ struct TripWithRouteAndImage {
     
     init(trip: Trip, image: UIImage?, route: Route) {
         self.id = trip.id
-        self.imageURLString = trip.imageURLString
+        self.imageURLString = route.imageURLString
         self.image = image
         self.route = route
         self.routeId = trip.routeId

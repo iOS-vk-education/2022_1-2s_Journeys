@@ -6,36 +6,56 @@
 //
 
 import Foundation
+import UIKit
 
 final class StoreNewTrip {
     private let firebaseService: FirebaseServiceProtocol
-    private let route: Route
+    private var route: Route
+    private let tripImage: UIImage
     private let output: StoreNewTripOutput
     
-    private var routeId: String?
+//    private var routeId: String?
     private var stuffIds: [String]?
     private var stuff: [Stuff]?
     
     private var count: Int?
     
-    internal init(route: Route, firebaseService: FirebaseServiceProtocol, output: StoreNewTripOutput) {
+    internal init(route: Route,
+                  tripImage: UIImage,
+                  firebaseService: FirebaseServiceProtocol,
+                  output: StoreNewTripOutput) {
         self.route = route
+        self.tripImage = tripImage
         self.firebaseService = firebaseService
         self.output = output
     }
     
     func start() {
-        storeRoute()
+        storeImage()
     }
     
-    private func storeRoute() {
+    private func storeImage() {
+        firebaseService.storeTripImage(image: tripImage) { result in
+            switch result {
+            case .failure:
+                self.didRecieveError()
+            case .success(let url):
+                self.didSaveImage(url: url)
+            }
+        }
+    }
+    
+    private func storeRoute(imageURL: String) {
+        route = Route(id: route.id,
+                      imageURLString: imageURL,
+                      departureLocation: route.departureLocation,
+                      places: route.places)
         firebaseService.storeRouteData(route: route) { result in
             switch result {
             case .failure:
-                assertionFailure()
                 self.didRecieveError()
             case .success(let route):
-                self.routeId = route.id
+                self.route = route
                 self.didSaveRouteData()
             }
         }
@@ -91,6 +111,10 @@ final class StoreNewTrip {
         }
     }
     
+    private func didSaveImage(url: String) {
+        storeRoute(imageURL: url)
+    }
+    
     private func didSaveRouteData() {
         obtainBaseStuff()
     }
@@ -112,12 +136,12 @@ final class StoreNewTrip {
     }
     
     private func didSaveBaggageData(baggage: Baggage) {
-        guard let routeId = routeId,
+        guard let routeId = route.id,
               let stuff = stuff else {
             didRecieveError()
             return
         }
-        let trip = Trip(id: nil, imageURLString: "", routeId: routeId, baggageId: baggage.id, dateChanged: Date())
+        let trip = Trip(id: nil, routeId: routeId, baggageId: baggage.id, dateChanged: Date())
         storeTrip(trip: trip)
 
         self.count = stuff.count

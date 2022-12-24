@@ -17,8 +17,6 @@ final class TripsViewController: UIViewController {
     }
 
     // MARK: Private properties
-    private var floatingChangeButton = FloatingButton()
-
     private lazy var collectionView: UICollectionView = {
        let layout = UICollectionViewFlowLayout()
        return UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -34,7 +32,6 @@ final class TripsViewController: UIViewController {
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         setupNavBar()
         setupCollectionView()
-        setupFloatingAddButton()
         makeConstraints()
     }
     
@@ -66,18 +63,11 @@ final class TripsViewController: UIViewController {
         }
     }
 
-    private func setupFloatingAddButton() {
-        view.addSubview(floatingChangeButton)
-        view.bringSubviewToFront(floatingChangeButton)
-        floatingChangeButton.configure(title: L10n.edit)
-    }
-
     private func setupCollectionView() {
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
-        collectionView.contentInset = TripsConstants.collectionInset
 
         collectionView.register(AddTripCell.self,
                                 forCellWithReuseIdentifier: "AddTripCell")
@@ -86,13 +76,6 @@ final class TripsViewController: UIViewController {
     }
 
     private func makeConstraints() {
-        floatingChangeButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-            make.width.equalTo(TripsConstants.FloationgChangeButton.width)
-            make.height.equalTo(TripsConstants.FloationgChangeButton.height)
-        }
-
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.bottom.equalToSuperview()
@@ -118,9 +101,9 @@ extension TripsViewController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         if indexPath.section == 0 {
-            return TripsConstants.addCellSize
+            return Constants.addCellSize
         } else {
-            return TripsConstants.tripCellSize
+            return Constants.tripCellSize
         }
     }
 }
@@ -249,14 +232,8 @@ extension TripsViewController: TripCellDelegate {
 // MARK: Constants
 private extension TripsViewController {
 
-    struct TripsConstants {
+    enum Constants {
         static let addCellSize = CGSize(width: 343, height: 72)
         static let tripCellSize = CGSize(width: 343, height: 272)
-
-        static let collectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 60, right: 0)
-        struct FloationgChangeButton {
-            static let width: CGFloat = 257.0
-            static let height: CGFloat = 40.0
-        }
     }
 }

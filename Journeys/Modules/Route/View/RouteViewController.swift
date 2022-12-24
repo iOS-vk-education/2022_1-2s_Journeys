@@ -27,7 +27,7 @@ final class RouteViewController: UIViewController {
         output.viewDidLoad()
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         setupNavBar()
-        setupCollectionView()
+        setupTableView()
         setupFloatingAddButton()
         makeConstraints()
     }
@@ -51,7 +51,7 @@ final class RouteViewController: UIViewController {
         floatingRouteBuildButton.addTarget(self, action: #selector(didTapFloatingSaveButton), for: .touchUpInside)
     }
 
-    private func setupCollectionView() {
+    private func setupTableView() {
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
@@ -60,6 +60,10 @@ final class RouteViewController: UIViewController {
 
         tableView.register(RouteCell.self,
                            forCellReuseIdentifier: "RouteCell")
+        tableView.register(ImageRouteCell.self,
+                           forCellReuseIdentifier: "ImageRouteCell")
+        
+        tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
     }
 
     private func makeConstraints() {
@@ -107,7 +111,10 @@ extension RouteViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        RouteConstants.cellsHeight
+        if indexPath.section == 0 {
+            return 140
+        }
+        return RouteConstants.cellsHeight
     }
 }
 
@@ -120,18 +127,40 @@ extension RouteViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "RouteCell", for: indexPath) as? RouteCell
+        if indexPath.section == 0 {
+            guard let imageCell = tableView.dequeueReusableCell(withIdentifier: "ImageRouteCell",
+                                                                for: indexPath) as? ImageRouteCell
+            else {
+                assertionFailure("Error while creating cell")
+                return UITableViewCell()
+            }
+            let displayData = output.getDisplayData(for: indexPath)
+            imageCell.configure(image: output.getImageCellDisplayData())
+            imageCell.selectionStyle = .none
+            return imageCell
+        }
+        
+        guard let routeCell = tableView.dequeueReusableCell(withIdentifier: "RouteCell",
+                                                            for: indexPath) as? RouteCell
         else {
             assertionFailure("Error while creating cell")
             return UITableViewCell()
         }
-        let displayData = output.getDisplayData(for: indexPath)
-        cell.configure(displayData: displayData)
-        return cell
+        guard let displayData = output.getDisplayData(for: indexPath) else { return UITableViewCell()}
+        routeCell.configure(displayData: displayData)
+        return routeCell
     }
 }
 
 extension RouteViewController: RouteViewInput {
+    func showImagePicker() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        imagePicker.sourceType = .photoLibrary
+        presentImagePicker(imagePicker: imagePicker)
+    }
+    
     func reloadData() {
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
@@ -144,6 +173,21 @@ extension RouteViewController: RouteViewInput {
                                       preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
+    }
+}
+
+extension RouteViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func presentImagePicker(imagePicker: UIImagePickerController) {
+        present(imagePicker, animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? ImageRouteCell
+            cell?.configure(image: editedImage)
+            output.setTripImage(editedImage)
+        }
+        dismiss(animated: true)
     }
 }
 

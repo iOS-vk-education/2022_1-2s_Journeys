@@ -24,6 +24,7 @@ final class RoutePresenter {
     
     var route: Route?
     var trip: Trip?
+    var tripImage: UIImage?
 
     internal init(trip: Trip?) {
         self.trip = trip
@@ -35,8 +36,9 @@ final class RoutePresenter {
             assertionFailure("Error while creating cell")
             return
         }
-        let indexPath = NSIndexPath(row: tableView.numberOfRows(inSection: 1), section: 1)
-        cell.configure(displayData: view.output.getDisplayData(for: indexPath as IndexPath))
+        let indexPath = NSIndexPath(row: tableView.numberOfRows(inSection: 1), section: 2)
+        guard let displayData = view.output.getDisplayData(for: indexPath as IndexPath) else { return }
+        cell.configure(displayData: displayData)
         
         tableView.beginUpdates()
         tableView.insertRows(at: [indexPath as IndexPath], with: .automatic)
@@ -54,6 +56,7 @@ final class RoutePresenter {
 }
 
 extension RoutePresenter: RouteViewOutput {
+    
     func viewDidLoad() {
         guard let trip = trip else { return }
         getRoute(routeId: trip.routeId)
@@ -61,27 +64,41 @@ extension RoutePresenter: RouteViewOutput {
     
     
     func numberOfSectins() -> Int {
-        3
+        4
     }
     
     func numberOfRowsInSection(section: Int) -> Int {
         switch section {
         case 0:
-            return deportCellsCount
+            return 1
         case 1:
-            return arrivalCellsCount
+            return deportCellsCount
         case 2:
+            return arrivalCellsCount
+        case 3:
             return addNewCityCellsCount
         default:
             return 0
         }
     }
     
-    func getDisplayData(for indexpath: IndexPath) -> RouteCell.DisplayData {
+    func getImageCellDisplayData() -> UIImage {
+        if let tripImage = tripImage {
+            return tripImage
+        }
+        let numberOfImages = 5
+        let random = Int.random(in: 1...5)
+        let image = UIImage(named: "TripCellImage\(random)")
+        tripImage = image
+        return image ?? UIImage()
+    }
+    
+    func getDisplayData(for indexpath: IndexPath) -> RouteCell.DisplayData? {
         let displayData = RouteCellDisplayDataFactory()
-        if indexpath.section == 0 {
+        switch indexpath.section {
+        case 1:
             return displayData.displayData(cellType: .departureTown(location: route?.departureLocation))
-        } else if indexpath.section == 1 {
+        case 2:
             guard let route = route else {
                 return displayData.displayData(cellType: .arrivalTown(location: nil))
             }
@@ -89,8 +106,10 @@ extension RoutePresenter: RouteViewOutput {
                 return displayData.displayData(cellType: .arrivalTown(location: nil))
             }
             return displayData.displayData(cellType: .arrivalTown(location: route.places[indexpath.row].location))
-        } else {
+        case 3:
             return displayData.displayData(cellType: .newLocation)
+        default:
+            return nil
         }
     }
 
@@ -103,22 +122,30 @@ extension RoutePresenter: RouteViewOutput {
             view.showAlert(title: "Ошибка", message: "Ошибка сохранения данных")
             return
         }
-        if trip == nil {
-            model.storeNewTrip(route: route)
-        } else {
-            model.storeRouteData(route: route)
+        guard let tripImage = tripImage else {
+            view.showAlert(title: "Ошибка", message: "Выберите титульное фото для поездки")
+            return
         }
+        guard let trip = trip,
+              let tripId = trip.id else {
+            model.storeNewTrip(route: route, tripImage: tripImage)
+            return
+        }
+        model.storeRouteData(route: route, tripImage: tripImage, tripId: tripId)
     }
     
     func didSelectRow(at indexpath: IndexPath) -> ((RouteViewController, UITableView)->())? {
         switch indexpath.section {
         case 0:
-            routeModuleWantsToOpenDepartureLocationModule()
+            view.showImagePicker()
             return nil
         case 1:
-            routeModuleWantsToOpenPlacenModule(indexPath: indexpath)
+            routeModuleWantsToOpenDepartureLocationModule()
             return nil
         case 2:
+            routeModuleWantsToOpenPlacenModule(indexPath: indexpath)
+            return nil
+        case 3:
             guard route != nil else {
                 view.showAlert(title: "Введите город отправления", message: "Сначала введите город отправления")
                 return nil
@@ -145,12 +172,25 @@ extension RoutePresenter: RouteViewOutput {
         self.route = route
         return deleteRow
     }
+    
+    func setTripImage(_ image: UIImage) {
+        self.tripImage = image
+    }
 }
 
 extension RoutePresenter: RouteModelOutput {
     func didFetchRouteData(data: Route) {
         self.route = data
         arrivalCellsCount = (data.places.count > 1 ? data.places.count : 1)
+        guard let imageURL = data.imageURLString else {
+            view.showAlert(title: "Ошибка", message: "Ошибка при загрузке титульной картинки поездки")
+            return
+        }
+        model.obtainTripImageFromServer(withURL: imageURL)
+    }
+    
+    func didFetchTripImage(image: UIImage) {
+        self.tripImage = image
         view.reloadData()
     }
     func didRecieveError(error: Errors) {
@@ -176,7 +216,7 @@ extension RoutePresenter: RouteModuleInput {
         if self.route != nil {
             self.route!.departureLocation = location
         } else {
-            self.route = Route(id: nil, departureLocation: location, places: [])
+            self.route = Route(id: nil, imageURLString: nil, departureLocation: location, places: [])
             self.arrivalCellsCount += 1
         }
         view.reloadData()

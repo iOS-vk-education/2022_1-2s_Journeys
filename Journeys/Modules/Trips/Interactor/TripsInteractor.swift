@@ -57,14 +57,14 @@ extension TripsInteractor: TripsInteractorInput {
         }
     }
 
-    func obtainTripImageFromServer(for imageURLString: String,
+    func obtainTripImageFromServer(withURL imageURLString: String,
                                    completion: @escaping (Result <UIImage, Error>)-> Void)  {
         FBService.obtainTripImage(for: imageURLString) { result in
             switch result {
             case .failure(let error):
                 completion(.failure(error))
-            case .success(let route):
-                completion(.success(route))
+            case .success(let image):
+                completion(.success(image))
             }
         }
     }

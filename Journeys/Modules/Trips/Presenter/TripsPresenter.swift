@@ -182,13 +182,33 @@ extension TripsPresenter: TripsInteractorOutput {
                 case .failure(let error):
                     strongSelf.didRecieveError(error: .obtainDataError)
                 case .success(let route):
-                    strongSelf.tripsData.append(TripWithRouteAndImage(trip: trip, image: nil, route: route))
-                    print(strongSelf.tripsData)
-                    strongSelf.sortTrips()
-                    strongSelf.view.reloadData()
+                    strongSelf.didFetchRouteData(route: route) { image in
+                        strongSelf.tripsData.append(TripWithRouteAndImage(trip: trip,
+                                                                          image: image,
+                                                                          route: route))
+                        print(strongSelf.tripsData)
+                        strongSelf.sortTrips()
+                        strongSelf.view.reloadData()
+                    }
                 }
             }
         }
+    }
+    
+    func didFetchRouteData(route: Route, completion: @escaping (UIImage) -> Void) {
+        guard let imageURL = route.imageURLString else { return }
+        guard !imageURL.isEmpty else { return }
+        interactor.obtainTripImageFromServer(withURL: imageURL) { [weak self] result in
+            guard let strongSelf = self else { return }
+            switch result {
+            case .failure(let error):
+                strongSelf.didRecieveError(error: .obtainDataError)
+            case .success(let image):
+                completion(image)
+            }
+        }
+        
+    }
 //        for index in 0..<tripsData.count {
 //            if let url = tripsData[index].imageURLString {
 //                interactor.obtainTripImageFromServer(for: url) { [weak self] result in
@@ -203,7 +223,6 @@ extension TripsPresenter: TripsInteractorOutput {
 //            }
 //        }
 //        view.reloadData()
-    }
     
     func didDeleteTrip() {
         if let cellToDeleteIndexPath = cellToDeleteIndexPath {

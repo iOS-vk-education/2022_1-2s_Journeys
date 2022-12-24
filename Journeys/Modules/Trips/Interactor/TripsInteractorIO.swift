@@ -14,7 +14,7 @@ protocol TripsInteractorInput: AnyObject {
     func obtainTripsDataFromSever()
     func obtainSavedTripsDataFromServer()
     func obtainRouteDataFromSever(with identifier: String, completion: @escaping (Result <Route, Error>)-> Void)
-    func obtainTripImageFromServer(for imageURLString: String, completion: @escaping (Result <UIImage, Error>)-> Void)
+    func obtainTripImageFromServer(withURL imageURLString: String, completion: @escaping (Result <UIImage, Error>)-> Void)
     
     func storeTripData(trip: Trip)
     

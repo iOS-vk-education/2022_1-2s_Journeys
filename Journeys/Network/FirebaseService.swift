@@ -12,7 +12,7 @@ import FirebaseFirestore
 protocol FirebaseServiceProtocol {
     func storeTripData(trip: Trip, completion: @escaping (Result<Trip, Error>) -> Void)
     func storeRouteData(route: Route, completion: @escaping (Result<Route, Error>) -> Void)
-    func storeTripImage(tripId: String, image: UIImage, completion: @escaping (Result<URL, Error>) -> Void)
+    func storeTripImage(image: UIImage, completion: @escaping (Result<String, Error>) -> Void)
     func storeStuffData(baggageId: String, stuff: Stuff, completion: @escaping (Result<Stuff, Error>) -> Void)
     func storeBaggageData(baggage: Baggage, completion: @escaping (Result<Baggage, Error>) -> Void)
 
@@ -73,8 +73,8 @@ class FirebaseService: FirebaseServiceProtocol {
         }
     }
     
-    func storeTripImage(tripId: String, image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
-        let ref = FBManager.storage.reference(withPath: "trips_images/\(tripId)")
+    func storeTripImage(image: UIImage, completion: @escaping (Result<String, Error>) -> Void) {
+        let ref = FBManager.storage.reference(withPath: "trips_images/\(UUID().uuidString)")
         guard let imageData = image.jpegData(compressionQuality: 0.4) else {
             return
         }
@@ -88,7 +88,7 @@ class FirebaseService: FirebaseServiceProtocol {
                     completion(.failure(FBError.noData))
                     return
                 }
-                completion(.success(url))
+                completion(.success(url.absoluteString))
             }
         }
         // TODO: add link into trip
@@ -209,7 +209,10 @@ class FirebaseService: FirebaseServiceProtocol {
                 assertionFailure("No data found")
                 return
             }
-            guard let route = Route(from: data, id: document!.documentID) else { return }
+            guard let route = Route(from: data, id: document!.documentID) else {
+                completion(.failure(FBError.noData))
+                return
+            }
             completion(.success(route))
         }
     }

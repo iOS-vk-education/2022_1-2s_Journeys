@@ -6,15 +6,18 @@
 //
 
 import Foundation
+import UIKit
 
 protocol RouteModelInput: AnyObject {
     func obtainRouteDataFromSever(with identifier: String)
-    func storeRouteData(route: Route)
-    func storeNewTrip(route: Route)
+    func storeRouteData(route: Route, tripImage: UIImage, tripId: String)
+    func storeNewTrip(route: Route, tripImage: UIImage)
+    func obtainTripImageFromServer(withURL imageURLString: String)
 }
 
 protocol RouteModelOutput: AnyObject, StoreNewTripOutput {
     func didFetchRouteData(data: Route)
+    func didFetchTripImage(image: UIImage)
     func didRecieveError(error: Errors)
     func didSaveRouteData()
     
