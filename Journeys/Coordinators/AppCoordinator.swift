@@ -14,9 +14,12 @@ class AppCoordinator: NSObject, CoordinatorProtocol {
     weak var journeysCoordinatorInput: CoordinatorProtocol?
     weak var eventsCoordinatorInput: CoordinatorProtocol?
     weak var accountCoordinatorInput: CoordinatorProtocol?
+    
+    private var firebaseService: FirebaseServiceProtocol
 
-    init(tabBarController: UITabBarController) {
+    init(tabBarController: UITabBarController, firebaseService: FirebaseServiceProtocol) {
         self.tabBarController = tabBarController
+        self.firebaseService = firebaseService
         tabBarController.tabBar.isTranslucent = false
         tabBarController.tabBar.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
     }
@@ -41,7 +44,8 @@ class AppCoordinator: NSObject, CoordinatorProtocol {
     private func getTabController(_ page: TabBarPage) {
         switch page {
         case .journeys:
-            let journeysCoordinator = JourneysCoordinator(rootTabBarController: tabBarController)
+            let journeysCoordinator = JourneysCoordinator(rootTabBarController: tabBarController,
+                                                          firebaseService: firebaseService)
             journeysCoordinator.start()
             childCoordinators.append(journeysCoordinator)
             journeysCoordinatorInput = journeysCoordinator

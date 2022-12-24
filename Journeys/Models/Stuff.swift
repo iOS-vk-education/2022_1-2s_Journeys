@@ -8,28 +8,39 @@
 import Foundation
 import UIKit
 
-struct Stuff: Dictionariable {
+struct Stuff {
     
-    let id: String
+    let id: String?
     var emoji: String
     var name: String
-    var isbyed: Bool?
     var isPacked: Bool
     
-    internal init(id: String, emoji: String, name: String, isbyed: Bool? = nil, isPacked: Bool) {
+    internal init(id: String?, emoji: String, name: String, isPacked: Bool) {
         self.id = id
         self.emoji = emoji
         self.name = name
-        self.isbyed = isbyed
         self.isPacked = isPacked
     }
     
-    init(from dictionary: [String: Any]) {
-        id = dictionary[CodingKeys.id.rawValue] as? String ?? ""
-        emoji = dictionary[CodingKeys.emoji.rawValue] as? String ?? ""
-        name = dictionary[CodingKeys.name.rawValue] as? String ?? ""
-        isbyed = dictionary[CodingKeys.isbyed.rawValue] as? Bool
-        isPacked = dictionary[CodingKeys.isPacked.rawValue] as? Bool ?? false
+    init?(from dictionary: [String: Any], id: String) {
+        guard
+        let emoji = dictionary[CodingKeys.emoji.rawValue] as? String,
+        let name = dictionary[CodingKeys.name.rawValue] as? String,
+        let isPacked = dictionary[CodingKeys.isPacked.rawValue] as? Bool
+        else {
+            return nil
+        }
+        self.id = id
+        self.emoji = emoji
+        self.name = name
+        self.isPacked = isPacked
+    }
+    
+    init(baseStuff: BaseStuff) {
+        self.id = baseStuff.id
+        self.emoji = baseStuff.emoji
+        self.name = baseStuff.name
+        self.isPacked = false
     }
     
     func toDictionary() -> [String: Any] {
@@ -37,7 +48,6 @@ struct Stuff: Dictionariable {
         dictionary[CodingKeys.id.rawValue] = id
         dictionary[CodingKeys.emoji.rawValue] = emoji
         dictionary[CodingKeys.name.rawValue] = name
-        dictionary[CodingKeys.isbyed.rawValue] = isbyed
         dictionary[CodingKeys.isPacked.rawValue] = isPacked
         return dictionary
     }
@@ -46,7 +56,43 @@ struct Stuff: Dictionariable {
         case id
         case emoji
         case name
-        case isbyed = "is_packed"
         case isPacked = "is_byed"
+    }
+}
+
+struct BaseStuff {
+    var id: String
+    var emoji: String
+    var name: String
+    
+    internal init(id: String, emoji: String, name: String) {
+        self.id = id
+        self.emoji = emoji
+        self.name = name
+    }
+    
+    init?(from dictionary: [String: Any], id: String) {
+        guard
+        let emoji = dictionary[CodingKeys.emoji.rawValue] as? String,
+        let name = dictionary[CodingKeys.name.rawValue] as? String
+        else {
+            return nil
+        }
+        self.id = id
+        self.emoji = emoji
+        self.name = name
+    }
+    
+    func toDictionary() -> [String: Any] {
+        var dictionary: [String: Any] = [:]
+        dictionary[CodingKeys.emoji.rawValue] = emoji
+        dictionary[CodingKeys.name.rawValue] = name
+        return dictionary
+    }
+    
+    enum CodingKeys: String {
+        case id
+        case emoji
+        case name
     }
 }

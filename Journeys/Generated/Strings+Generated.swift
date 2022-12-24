@@ -14,12 +14,26 @@ public enum L10n {
   public static let account = L10n.tr("Localizable", "Account")
   /// Добавить
   public static let add = L10n.tr("Localizable", "Add")
+  /// Добавление маршрута
+  public static let addingTown = L10n.tr("Localizable", "AddingTown")
+  /// Добавить город
+  public static let addTown = L10n.tr("Localizable", "AddTown")
+  /// Город прибытия
+  public static let arrivalTown = L10n.tr("Localizable", "ArrivalTown")
+  /// Построить маршрут
+  public static let buildRoute = L10n.tr("Localizable", "BuildRoute")
+  /// Удалить
+  public static let delete = L10n.tr("Localizable", "Delete")
+  /// Город отправления
+  public static let departureTown = L10n.tr("Localizable", "DepartureTown")
   /// Редактировать
   public static let edit = L10n.tr("Localizable", "Edit")
   /// Мероприятия
   public static let events = L10n.tr("Localizable", "Events")
   /// Путешествия
   public static let journeys = L10n.tr("Localizable", "Journeys")
+  /// Новый маршрут
+  public static let newRoute = L10n.tr("Localizable", "NewRoute")
   /// Поездки
   public static let trips = L10n.tr("Localizable", "Trips")
 }

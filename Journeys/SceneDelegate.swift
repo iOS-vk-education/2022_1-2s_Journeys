@@ -21,7 +21,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
         
-        coordinator = AppCoordinator(tabBarController: tabBarController)
+        let firebaseService = FirebaseService()
+        coordinator = AppCoordinator(tabBarController: tabBarController, firebaseService: firebaseService)
 
         coordinator?.start()
     }

@@ -6,6 +6,10 @@
 //
 
 // MARK: - TripsModel
+import Foundation
+import UIKit
 
-final class TripsModel {
+final class TripsEntity {
+    
 }
+
