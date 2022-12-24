@@ -86,7 +86,7 @@
 		EEAC1D3C29527A7000237331 /* WeatherForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D3729527A7000237331 /* WeatherForecast.swift */; };
 		EEAC1D4029527A7000237331 /* WeatherMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D3B29527A7000237331 /* WeatherMain.swift */; };
 		EEAC1D452952897F00237331 /* Timezone.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D442952897F00237331 /* Timezone.swift */; };
-		EEAC1D482952914000237331 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D472952914000237331 /* DateFormatter.swift */; };
+		EEAC1D482952914000237331 /* DateFormatter1.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D472952914000237331 /* DateFormatter1.swift */; };
 		EED2A75E294FB874003A9A1A /* StuffCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED2A75D294FB874003A9A1A /* StuffCell.swift */; };
 		EED2A760294FCAF9003A9A1A /* StuffTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED2A75F294FCAF9003A9A1A /* StuffTableViewHeader.swift */; };
 		EED2A762294FCE4E003A9A1A /* AddStuffCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED2A761294FCE4E003A9A1A /* AddStuffCell.swift */; };
@@ -180,7 +180,7 @@
 		EEAC1D3729527A7000237331 /* WeatherForecast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherForecast.swift; sourceTree = "<group>"; };
 		EEAC1D3B29527A7000237331 /* WeatherMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherMain.swift; sourceTree = "<group>"; };
 		EEAC1D442952897F00237331 /* Timezone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timezone.swift; sourceTree = "<group>"; };
-		EEAC1D472952914000237331 /* DateFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
+		EEAC1D472952914000237331 /* DateFormatter1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatter1.swift; sourceTree = "<group>"; };
 		EED2A75D294FB874003A9A1A /* StuffCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffCell.swift; sourceTree = "<group>"; };
 		EED2A75F294FCAF9003A9A1A /* StuffTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffTableViewHeader.swift; sourceTree = "<group>"; };
 		EED2A761294FCE4E003A9A1A /* AddStuffCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStuffCell.swift; sourceTree = "<group>"; };
@@ -654,7 +654,7 @@
 		EEAC1D462952914000237331 /* Formatters */ = {
 			isa = PBXGroup;
 			children = (
-				EEAC1D472952914000237331 /* DateFormatter.swift */,
+				EEAC1D472952914000237331 /* DateFormatter1.swift */,
 			);
 			name = Formatters;
 			path = Journeys/Formatters;
@@ -907,7 +907,7 @@
 				8DBF7730AAAF9093C8B24767 /* StuffPresenter.swift in Sources */,
 				0D122BF4678B9ACCF7152904 /* StuffModel.swift in Sources */,
 				38B0C8DF2C72951C87C99D99 /* StuffBuilder.swift in Sources */,
-				EEAC1D482952914000237331 /* DateFormatter.swift in Sources */,
+				EEAC1D482952914000237331 /* DateFormatter1.swift in Sources */,
 				EEA76C652951325E00250B06 /* RouteCell.swift in Sources */,
 				50505393A370F99E10E3F864 /* TripInfoViewIO.swift in Sources */,
 				EE00ABFE2953B2AE00FAFDCD /* UILabel.swift in Sources */,
