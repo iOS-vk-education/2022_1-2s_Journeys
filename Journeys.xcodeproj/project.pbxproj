@@ -8,29 +8,26 @@
 
 /* Begin PBXBuildFile section */
 		093861F1C840A5A7EA2ABBB0 /* TripsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551FBB3C3A6EBAA3F5825F1E /* TripsViewController.swift */; };
-		0D65A2337583A24729F852B1 /* PlaceBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A76FCB7DE71B4D0835960C /* PlaceBuilder.swift */; };
-		0F6FD83F50CCD8533C888533 /* TripsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBDC0F10F5CD5FD772D3371 /* TripsRouter.swift */; };
-		10708D44F55C9485F789DD9B /* TripsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842916911296584B6D97761A /* TripsPresenter.swift */; };
-		42F5E9147912D8D43EB79AA4 /* PlaceModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183B945F498EE426CEA7B330 /* PlaceModuleIO.swift */; };
-		668AB39849F8F5E0DBE3C8F4 /* TripsEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF490FDC4B357AFC27B31C9 /* TripsEntity.swift */; };
 		0D551CEF2951738A00A4151E /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D551CEE2951738A00A4151E /* Place.swift */; };
 		0D551CF12951739C00A4151E /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D551CF02951739C00A4151E /* Trip.swift */; };
 		0D551CF52951752700A4151E /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D551CF42951752700A4151E /* EventsViewController.swift */; };
+		0D65A2337583A24729F852B1 /* PlaceBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A76FCB7DE71B4D0835960C /* PlaceBuilder.swift */; };
 		0F6FD83F50CCD8533C888533 /* TripsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBDC0F10F5CD5FD772D3371 /* TripsRouter.swift */; };
 		10708D44F55C9485F789DD9B /* TripsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842916911296584B6D97761A /* TripsPresenter.swift */; };
 		19DF7BAC373C54E8FB115888 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977588DC3C6C73D208E91B01 /* AccountViewController.swift */; };
 		1EA5831F1D57C53497AB055D /* AccountPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEC91A92B6FC702B7FBFB11 /* AccountPresenter.swift */; };
+		42F5E9147912D8D43EB79AA4 /* PlaceModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183B945F498EE426CEA7B330 /* PlaceModuleIO.swift */; };
 		4431F639163359A5520EDCDC /* Pods_Journeys.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EA45D5B37A44CDB77468AE9 /* Pods_Journeys.framework */; };
 		593D2FA682B366A48F2F32CA /* AccountModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = A725453EEA31D1A13F20EF3F /* AccountModuleIO.swift */; };
-		668AB39849F8F5E0DBE3C8F4 /* TripsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF490FDC4B357AFC27B31C9 /* TripsModel.swift */; };
 		678EC2173D55FABDA74E2A5F /* TripsModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A73637212D312DF808EE9D /* TripsModuleIO.swift */; };
 		7BD7FBF6368C4ADCBC0B8866 /* TripsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E483DF62B28C4DBC30739F6A /* TripsBuilder.swift */; };
 		877628B20E359D76C0F8AAE7 /* PlaceViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A0AF946DD8212A87AFAF9D /* PlaceViewIO.swift */; };
 		91819FAFB33A7ABB47EAB8B0 /* TripsViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196CCEF28890034F45E73055 /* TripsViewIO.swift */; };
 		9C60B5C563DCB01932E87E34 /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6EA70FEACD7EC7B403ED784 /* AccountModel.swift */; };
 		A837507D56DC8E0FFC90C522 /* TripsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8D65328FD3C306119E7802 /* TripsInteractor.swift */; };
+		AE1A16661BC5D1E7EF15F769 /* AccountBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEECB46D3CD66B269BD0D11E /* AccountBuilder.swift */; };
+		B0CD597403B67CE15E6F43EA /* AccountViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56A833FC67AD50746E4B1DC /* AccountViewIO.swift */; };
 		B28603937176C7F2E653EB4C /* PlacePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B2710AC7E0F5D30592B22D /* PlacePresenter.swift */; };
-		BF7F42F8786135E6F36A9104 /* Pods_Journeys.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E77E324C769C67635517C4A /* Pods_Journeys.framework */; };
 		C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C624D7B25F42404829AF20C9 /* TripsInteractorIO.swift */; };
 		EE00AC002955E0D900FAFDCD /* LocationModelIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE00ABFF2955E0D900FAFDCD /* LocationModelIO.swift */; };
 		EE00AC12295601CD00FAFDCD /* DepartureLocationModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE00AC07295601CC00FAFDCD /* DepartureLocationModuleIO.swift */; };
@@ -40,9 +37,6 @@
 		EE00AC18295601CD00FAFDCD /* DepartureLocationViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE00AC0F295601CD00FAFDCD /* DepartureLocationViewIO.swift */; };
 		EE00AC1A29561F7C00FAFDCD /* StoreNewTrip.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE00AC1929561F7C00FAFDCD /* StoreNewTrip.swift */; };
 		EE00AC1D2956921100FAFDCD /* ImageRouteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE00AC1C2956921100FAFDCD /* ImageRouteCell.swift */; };
-		AE1A16661BC5D1E7EF15F769 /* AccountBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEECB46D3CD66B269BD0D11E /* AccountBuilder.swift */; };
-		B0CD597403B67CE15E6F43EA /* AccountViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56A833FC67AD50746E4B1DC /* AccountViewIO.swift */; };
-		C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C624D7B25F42404829AF20C9 /* TripsInteractorIO.swift */; };
 		EE02E5472950D9EA002BE87E /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02E53F2950D9EA002BE87E /* Location.swift */; };
 		EE02E5492950D9EA002BE87E /* Stuff.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02E5412950D9EA002BE87E /* Stuff.swift */; };
 		EE02E54B2950D9EA002BE87E /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02E5432950D9EA002BE87E /* Protocols.swift */; };
@@ -102,27 +96,28 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0AF490FDC4B357AFC27B31C9 /* TripsEntity.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsEntity.swift; sourceTree = "<group>"; };
-		183B945F498EE426CEA7B330 /* PlaceModuleIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlaceModuleIO.swift; sourceTree = "<group>"; };
-		196CCEF28890034F45E73055 /* TripsViewIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsViewIO.swift; sourceTree = "<group>"; };
-		51B2710AC7E0F5D30592B22D /* PlacePresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlacePresenter.swift; sourceTree = "<group>"; };
-		0AF490FDC4B357AFC27B31C9 /* TripsModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsModel.swift; sourceTree = "<group>"; };
 		0D551CEE2951738A00A4151E /* Place.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		0D551CF02951739C00A4151E /* Trip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		0D551CF42951752700A4151E /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
+		183B945F498EE426CEA7B330 /* PlaceModuleIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlaceModuleIO.swift; sourceTree = "<group>"; };
 		196CCEF28890034F45E73055 /* TripsViewIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsViewIO.swift; sourceTree = "<group>"; };
 		239B2B9344D72725D8D068C9 /* Pods-Journeys.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journeys.debug.xcconfig"; path = "Target Support Files/Pods-Journeys/Pods-Journeys.debug.xcconfig"; sourceTree = "<group>"; };
 		2EA45D5B37A44CDB77468AE9 /* Pods_Journeys.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Journeys.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		51B2710AC7E0F5D30592B22D /* PlacePresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlacePresenter.swift; sourceTree = "<group>"; };
 		551FBB3C3A6EBAA3F5825F1E /* TripsViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsViewController.swift; sourceTree = "<group>"; };
 		842916911296584B6D97761A /* TripsPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsPresenter.swift; sourceTree = "<group>"; };
 		8EBDC0F10F5CD5FD772D3371 /* TripsRouter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsRouter.swift; sourceTree = "<group>"; };
+		977588DC3C6C73D208E91B01 /* AccountViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		9900EC22E37EE7A138929B02 /* Pods-Journeys.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journeys.release.xcconfig"; path = "Target Support Files/Pods-Journeys/Pods-Journeys.release.xcconfig"; sourceTree = "<group>"; };
+		A56A833FC67AD50746E4B1DC /* AccountViewIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountViewIO.swift; sourceTree = "<group>"; };
+		A725453EEA31D1A13F20EF3F /* AccountModuleIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountModuleIO.swift; sourceTree = "<group>"; };
 		B6A0AF946DD8212A87AFAF9D /* PlaceViewIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlaceViewIO.swift; sourceTree = "<group>"; };
 		B6A73637212D312DF808EE9D /* TripsModuleIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsModuleIO.swift; sourceTree = "<group>"; };
+		B6EA70FEACD7EC7B403ED784 /* AccountModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
 		BE8185A5807AF85BC79DA25C /* PlaceViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlaceViewController.swift; sourceTree = "<group>"; };
 		C624D7B25F42404829AF20C9 /* TripsInteractorIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsInteractorIO.swift; sourceTree = "<group>"; };
+		CEEC91A92B6FC702B7FBFB11 /* AccountPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountPresenter.swift; sourceTree = "<group>"; };
 		D5F037949A48EAF01CF6644F /* PlaceModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlaceModel.swift; sourceTree = "<group>"; };
-		DCF2F17A719CC84C3C1DBBE4 /* Pods-Journeys.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journeys.debug.xcconfig"; path = "Target Support Files/Pods-Journeys/Pods-Journeys.debug.xcconfig"; sourceTree = "<group>"; };
-		DDA6312968B1102658E7F1AD /* Pods-Journeys.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journeys.release.xcconfig"; path = "Target Support Files/Pods-Journeys/Pods-Journeys.release.xcconfig"; sourceTree = "<group>"; };
 		E483DF62B28C4DBC30739F6A /* TripsBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsBuilder.swift; sourceTree = "<group>"; };
 		EC8D65328FD3C306119E7802 /* TripsInteractor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsInteractor.swift; sourceTree = "<group>"; };
 		EE00ABFF2955E0D900FAFDCD /* LocationModelIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModelIO.swift; sourceTree = "<group>"; };
@@ -133,16 +128,6 @@
 		EE00AC0F295601CD00FAFDCD /* DepartureLocationViewIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepartureLocationViewIO.swift; sourceTree = "<group>"; };
 		EE00AC1929561F7C00FAFDCD /* StoreNewTrip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreNewTrip.swift; sourceTree = "<group>"; };
 		EE00AC1C2956921100FAFDCD /* ImageRouteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRouteCell.swift; sourceTree = "<group>"; };
-		977588DC3C6C73D208E91B01 /* AccountViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
-		9900EC22E37EE7A138929B02 /* Pods-Journeys.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journeys.release.xcconfig"; path = "Target Support Files/Pods-Journeys/Pods-Journeys.release.xcconfig"; sourceTree = "<group>"; };
-		A56A833FC67AD50746E4B1DC /* AccountViewIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountViewIO.swift; sourceTree = "<group>"; };
-		A725453EEA31D1A13F20EF3F /* AccountModuleIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountModuleIO.swift; sourceTree = "<group>"; };
-		B6A73637212D312DF808EE9D /* TripsModuleIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsModuleIO.swift; sourceTree = "<group>"; };
-		B6EA70FEACD7EC7B403ED784 /* AccountModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
-		C624D7B25F42404829AF20C9 /* TripsInteractorIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsInteractorIO.swift; sourceTree = "<group>"; };
-		CEEC91A92B6FC702B7FBFB11 /* AccountPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountPresenter.swift; sourceTree = "<group>"; };
-		E483DF62B28C4DBC30739F6A /* TripsBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsBuilder.swift; sourceTree = "<group>"; };
-		EC8D65328FD3C306119E7802 /* TripsInteractor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsInteractor.swift; sourceTree = "<group>"; };
 		EE02E53F2950D9EA002BE87E /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		EE02E5412950D9EA002BE87E /* Stuff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stuff.swift; sourceTree = "<group>"; };
 		EE02E5432950D9EA002BE87E /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
@@ -178,6 +163,7 @@
 		EEDAF554291C0F2200E6DDB9 /* AddTripCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTripCell.swift; sourceTree = "<group>"; };
 		EEDAF556291C302500E6DDB9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		EEDAF55B291D5AF500E6DDB9 /* FloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButton.swift; sourceTree = "<group>"; };
+		EEECB46D3CD66B269BD0D11E /* AccountBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountBuilder.swift; sourceTree = "<group>"; };
 		EEFA76BF292BE88F00A0B8CA /* RouteModuleIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteModuleIO.swift; sourceTree = "<group>"; };
 		EEFA76C0292BE88F00A0B8CA /* RoutePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutePresenter.swift; sourceTree = "<group>"; };
 		EEFA76C1292BE88F00A0B8CA /* RouteBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteBuilder.swift; sourceTree = "<group>"; };
@@ -199,7 +185,6 @@
 		EEFA76EF2935F0C800A0B8CA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		EEFA76F22935F53A00A0B8CA /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		F4A76FCB7DE71B4D0835960C /* PlaceBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlaceBuilder.swift; sourceTree = "<group>"; };
-		EEECB46D3CD66B269BD0D11E /* AccountBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountBuilder.swift; sourceTree = "<group>"; };
 		FABAFF6132B4BF34FF1262AA /* TripsRouterInput.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsRouterInput.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -224,23 +209,6 @@
 			path = Presenter;
 			sourceTree = "<group>";
 		};
-		192F43419EC89E8DAC8819FF /* Entity */ = {
-			isa = PBXGroup;
-			children = (
-				0AF490FDC4B357AFC27B31C9 /* TripsEntity.swift */,
-			);
-			path = Entity;
-			sourceTree = "<group>";
-		};
-		726F8B830BB3C329A2D9076B /* Presenter */ = {
-			isa = PBXGroup;
-			children = (
-				183B945F498EE426CEA7B330 /* PlaceModuleIO.swift */,
-				51B2710AC7E0F5D30592B22D /* PlacePresenter.swift */,
-			);
-			path = Presenter;
-			sourceTree = "<group>";
-		};
 		2C4A58606A44486F9A6E173E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -258,6 +226,15 @@
 				EEECB46D3CD66B269BD0D11E /* AccountBuilder.swift */,
 			);
 			path = Account;
+			sourceTree = "<group>";
+		};
+		726F8B830BB3C329A2D9076B /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				183B945F498EE426CEA7B330 /* PlaceModuleIO.swift */,
+				51B2710AC7E0F5D30592B22D /* PlacePresenter.swift */,
+			);
+			path = Presenter;
 			sourceTree = "<group>";
 		};
 		7CB85C2A924F631A5E5F14EA /* View */ = {
@@ -316,15 +293,6 @@
 			path = Place;
 			sourceTree = "<group>";
 		};
-		D1FCDB4110F75BF664D4F972 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				B6A0AF946DD8212A87AFAF9D /* PlaceViewIO.swift */,
-				BE8185A5807AF85BC79DA25C /* PlaceViewController.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		C3D53AAA47C9CA29BA03C638 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -343,6 +311,15 @@
 			path = Presenter;
 			sourceTree = "<group>";
 		};
+		D1FCDB4110F75BF664D4F972 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B6A0AF946DD8212A87AFAF9D /* PlaceViewIO.swift */,
+				BE8185A5807AF85BC79DA25C /* PlaceViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		E28BB0326D852B2FE981AF93 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -359,7 +336,6 @@
 				7CB85C2A924F631A5E5F14EA /* View */,
 				A6B3EA1ACA9775E2354B24AE /* Interactor */,
 				07F2BE32A7DA84CF6E736B0A /* Presenter */,
-				192F43419EC89E8DAC8819FF /* Entity */,
 				9ABFCE79C7B59590A10F8899 /* Router */,
 				E483DF62B28C4DBC30739F6A /* TripsBuilder.swift */,
 			);
@@ -437,8 +413,6 @@
 				EE29EBF029186D4B008ECFF8 /* Extencions */,
 				EEFA76DC292CFEB400A0B8CA /* Models */,
 				EE02E53E2950D9EA002BE87E /* Models */,
-				EE57FF372927E6E400212DC2 /* ru.lproj */,
-				EE157F442926B31100A56157 /* Generated */,
 				EE0AF951291301C500EC52D3 /* Modules */,
 				EE29EBF62919151A008ECFF8 /* Coordinators */,
 				EE157F442926B31100A56157 /* Generated */,
@@ -831,7 +805,6 @@
 				678EC2173D55FABDA74E2A5F /* TripsModuleIO.swift in Sources */,
 				EE497A182940B183007E8579 /* TabbarItemFactory.swift in Sources */,
 				10708D44F55C9485F789DD9B /* TripsPresenter.swift in Sources */,
-				668AB39849F8F5E0DBE3C8F4 /* TripsEntity.swift in Sources */,
 				F92CACD193BE48A33A52A5DC /* TripsRouterInput.swift in Sources */,
 				EE29EBFA29191558008ECFF8 /* CoordinatorProtocol.swift in Sources */,
 				0D551CF12951739C00A4151E /* Trip.swift in Sources */,

@@ -28,12 +28,12 @@ public enum L10n {
   public static let departureTown = L10n.tr("Localizable", "DepartureTown")
   /// Редактировать
   public static let edit = L10n.tr("Localizable", "Edit")
-  /// Новый маршрут
-  public static let newRoute = L10n.tr("Localizable", "NewRoute")
   /// Мероприятия
   public static let events = L10n.tr("Localizable", "Events")
   /// Путешествия
   public static let journeys = L10n.tr("Localizable", "Journeys")
+  /// Новый маршрут
+  public static let newRoute = L10n.tr("Localizable", "NewRoute")
   /// Поездки
   public static let trips = L10n.tr("Localizable", "Trips")
 }

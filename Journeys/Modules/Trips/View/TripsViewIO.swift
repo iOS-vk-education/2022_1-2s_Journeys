@@ -17,7 +17,7 @@ protocol TripsViewInput: AnyObject {
                          disagreeActionTitle: String,
                          cellIndexPath: IndexPath)
     func reloadData()
-    
+    func endRefresh()
     func deleteItem(at indexPath: IndexPath)
 }
 

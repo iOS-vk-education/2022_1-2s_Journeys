@@ -21,6 +21,13 @@ final class TripsViewController: UIViewController {
        let layout = UICollectionViewFlowLayout()
        return UICollectionView(frame: .zero, collectionViewLayout: layout)
    }()
+    
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Идет обновление...")
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        return refreshControl
+    }()
 
     // MARK: Public properties
     var output: TripsViewOutput!
@@ -28,6 +35,7 @@ final class TripsViewController: UIViewController {
 
     // MARK: Lifecycle
     override func viewDidLoad() {
+        output.viewDidAppear()
         super.viewDidLoad()
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         setupNavBar()
@@ -35,10 +43,6 @@ final class TripsViewController: UIViewController {
         makeConstraints()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        output.viewDidAppear()
-    }
 
     private func setupNavBar() {
         navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
@@ -65,6 +69,7 @@ final class TripsViewController: UIViewController {
 
     private func setupCollectionView() {
         view.addSubview(collectionView)
+        collectionView.addSubview(refreshControl)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
@@ -84,6 +89,11 @@ final class TripsViewController: UIViewController {
         }
     }
 
+    @objc
+    private func refresh() {
+        output.viewDidAppear()
+    }
+    
     @objc
     private func didTapBackButton() {
         output.didTapBackBarButton()
@@ -181,6 +191,10 @@ extension TripsViewController: UICollectionViewDataSource {
 }
 
 extension TripsViewController: TripsViewInput {
+    func endRefresh() {
+        refreshControl.endRefreshing()
+    }
+    
     func showAlert(title: String, message: String, actionTitle: String) {
         let alert = UIAlertController(title: title,
                                       message: message,
@@ -228,6 +242,7 @@ extension TripsViewController: TripCellDelegate {
         output.didTapCellBookmarkButton(at: indexPath)
     }
 }
+
 
 // MARK: Constants
 private extension TripsViewController {

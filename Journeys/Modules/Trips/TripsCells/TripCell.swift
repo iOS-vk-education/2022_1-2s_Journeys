@@ -19,7 +19,6 @@ final class TripCell: UICollectionViewCell {
     }
 
     // MARK: Private properties
-
     private let picture: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = TripCellConstants.Picture.cornerRadius

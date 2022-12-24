@@ -89,8 +89,11 @@ extension TripsPresenter: TripsViewOutput {
         tripsViewControllerType
     }
     
-    func getCellData(for id: Int) -> TripCell.DisplayData? {
-        let trip = tripsData[id]
+    func getCellData(for row: Int) -> TripCell.DisplayData? {
+        print(row)
+        print(tripsData.count)
+        guard tripsData.indices.contains(row) else { return nil }
+        let trip = tripsData[row]
         return tripDisplayData(trip: trip)
     }
     
@@ -173,22 +176,24 @@ extension TripsPresenter: TripsViewOutput {
 
 extension TripsPresenter: TripsInteractorOutput {
     func didFetchTripsData(data: [Trip]) {
-        print(data)
-        self.tripsData = []
+        var trips: [TripWithRouteAndImage] = []
+        var count = data.count
         for trip in data {
             interactor.obtainRouteDataFromSever(with: trip.routeId) { [weak self] result in
                 guard let strongSelf = self else { return }
                 switch result {
                 case .failure(let error):
+                    count -= 1
                     strongSelf.didRecieveError(error: .obtainDataError)
                 case .success(let route):
+                    count -= 1
                     strongSelf.didFetchRouteData(route: route) { image in
-                        strongSelf.tripsData.append(TripWithRouteAndImage(trip: trip,
-                                                                          image: image,
-                                                                          route: route))
-                        print(strongSelf.tripsData)
-                        strongSelf.sortTrips()
-                        strongSelf.view.reloadData()
+                        trips.append(TripWithRouteAndImage(trip: trip,
+                                                           image: image,
+                                                           route: route))
+                        if count == 0 {
+                            strongSelf.didFinishObtainingData(trips: trips)
+                        }
                     }
                 }
             }
@@ -209,20 +214,13 @@ extension TripsPresenter: TripsInteractorOutput {
         }
         
     }
-//        for index in 0..<tripsData.count {
-//            if let url = tripsData[index].imageURLString {
-//                interactor.obtainTripImageFromServer(for: url) { [weak self] result in
-//                    guard let strongSelf = self else { return }
-//                    switch result {
-//                    case .failure(let error):
-//                        strongSelf.didRecieveError(error: .obtainDataError)
-//                    case .success(let image):
-//                        strongSelf.tripsData[index].image = image
-//                    }
-//                }
-//            }
-//        }
-//        view.reloadData()
+    
+    func didFinishObtainingData(trips: [TripWithRouteAndImage]) {
+        self.tripsData = trips
+        self.sortTrips()
+        self.view.reloadData()
+        self.view.endRefresh()
+    }
     
     func didDeleteTrip() {
         if let cellToDeleteIndexPath = cellToDeleteIndexPath {

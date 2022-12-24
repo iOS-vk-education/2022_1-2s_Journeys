@@ -22,10 +22,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
         
         let firebaseService = FirebaseService()
-        coordinator = AppCoordinator(tabBarController: tabBarController, firebaseService: firebaseService))
+        coordinator = AppCoordinator(tabBarController: tabBarController, firebaseService: firebaseService)
 
         coordinator?.start()
     }
 
-    }
 }

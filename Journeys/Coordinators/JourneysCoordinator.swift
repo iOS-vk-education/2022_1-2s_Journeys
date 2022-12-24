@@ -16,11 +16,13 @@ final class JourneysCoordinator: CoordinatorProtocol {
     private let rootTabBarController: UITabBarController
     private var navigationController = UINavigationController()
     private let tabBarItemFactory: TabBarItemFactoryProtocol
+    private let firebaseService: FirebaseServiceProtocol
     
     // MARK: Lifecycle
 
-    init(rootTabBarController: UITabBarController) {
+    init(rootTabBarController: UITabBarController, firebaseService: FirebaseServiceProtocol) {
         self.rootTabBarController = rootTabBarController
+        self.firebaseService = firebaseService
         tabBarItemFactory = TabBarItemFactory()
     }
 
