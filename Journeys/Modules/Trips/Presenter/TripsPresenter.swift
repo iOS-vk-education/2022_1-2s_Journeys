@@ -21,65 +21,57 @@ final class TripsPresenter {
     private let interactor: TripsInteractorInput
     private let router: TripsRouterInput
     
-    private var tripsData: [Trip] = []
+    private var tripsData: [TripWithRouteAndImage] = []
+    
+    private var cellToDeleteIndexPath: IndexPath?
+    
+    private var tripsViewControllerType: TripsViewController.ScreenType
 
+    //MARK: Lifecycle
 
-    //MARK: - Lifecycle
-
-    init(interactor: TripsInteractorInput, router: TripsRouterInput) {
+    init(interactor: TripsInteractorInput,
+         router: TripsRouterInput,
+         tripsViewControllerType: TripsViewController.ScreenType) {
         self.interactor = interactor
         self.router = router
-        loadTripsData()
-        print(tripsData.count)
+        self.tripsViewControllerType = tripsViewControllerType
     }
     
     private func loadTripsData() {
-        interactor.obtainTripsDataFromSever()
+        switch tripsViewControllerType {
+        case .usual:
+            interactor.obtainTripsDataFromSever()
+        case .saved :
+            interactor.obtainSavedTripsDataFromServer()
+        }
     }
     
-    private func tripDisplayData(trip: Trip) -> TripCell.DisplayData? {
+    private func tripDisplayData(trip: TripWithRouteAndImage) -> TripCell.DisplayData? {
         let arrow = "→"
         
-        var datesString: String? = nil
-        var routeString: String = ""
-        var tripDisplayData: TripCell.DisplayData
-        
-        guard let route = loadRoute(with: trip.routeId),
-              let image = loadTripImage(for: trip.imageURLString)
-        else {
-            didRecieveError(error: .obtainDataError)
-            return nil
-        }
-        if let startDate = route.places.first?.arrive,
-           let endDate = route.places.last?.depart {
+        var datesString: String?
+        if let startDate = trip.route.places.first?.arrive,
+           let endDate = trip.route.places.last?.depart {
             datesString = DateFormatter.dayAndMonth.string(from: startDate) + "-"
             + DateFormatter.dayAndMonth.string(from: endDate)
         }
-        routeString += route.departureLocation.city
         
-        for place in route.places {
+        var routeString: String = ""
+        routeString += trip.route.departureLocation.city
+        for place in trip.route.places {
             routeString += arrow + place.location.city
         }
         
-        tripDisplayData = TripCell.DisplayData(picture: image, dates: datesString, route: routeString, isInFavourites: trip.isInfavourites)
+        let tripDisplayData = TripCell.DisplayData(picture: trip.image,
+                                                   dates: datesString,
+                                                   route: routeString,
+                                                   isInFavourites: trip.isInfavourites)
         
         return tripDisplayData
     }
     
-    private func loadRoute(with identifier: String) -> Route? {
-        guard let route = interactor.obtainRouteDataFromSever(with: identifier) else {
-            didRecieveError(error: .obtainDataError)
-            return nil
-        }
-        return route
-    }
-    
-    private func loadTripImage(for imageURLString: String) -> UIImage? {
-        guard let image = interactor.obtainTripImageFromServer(for: imageURLString)else {
-            didRecieveError(error: .obtainDataError)
-            return nil
-        }
-        return image
+    private func sortTrips() {
+        tripsData.sort(by: {$0.dateChanged.timeIntervalSinceNow > $1.dateChanged.timeIntervalSinceNow})
     }
 }
 
@@ -89,35 +81,155 @@ extension TripsPresenter: TripsModuleInput {
 }
 
 extension TripsPresenter: TripsViewOutput {
+    func viewDidAppear() {
+        loadTripsData()
+    }
+    
+    func getScreenType() -> TripsViewController.ScreenType {
+        tripsViewControllerType
+    }
     
     func getCellData(for id: Int) -> TripCell.DisplayData? {
         let trip = tripsData[id]
         return tripDisplayData(trip: trip)
     }
     
-    func getTripCellsCount() -> Int {
+    func getSectionsCount() -> Int {
+        2
+    }
+    
+    func getCellsCount(for section: Int) -> Int {
+        if section == 0 {
+            switch tripsViewControllerType {
+            case .usual:
+                return 1
+            case .saved:
+                return 0
+            }
+        }
         return tripsData.count
     }
     
-    func didSelectCell(at indexpath: IndexPath) {
-        switch indexpath.section {
+    func didSelectCell(at indexPath: IndexPath) {
+        switch indexPath.section {
         case 0:
             moduleOutput.tripsCollectionWantsToOpenNewRouteModule()
         default:
-            moduleOutput.tripsCollectionWantsToOpenExistingRoute(with: tripsData[indexpath.item].routeId)
+            guard tripsData.indices.contains(indexPath.row) else {
+                view.showAlert(title: "Ошибка",
+                               message: "Возникла ошибка при открытии данных маршрута",
+                               actionTitle: "Ок")
+                return
+            }
+            moduleOutput.tripsCollectionWantsToOpenExistingRoute(with: Trip(tripWithOtherData: tripsData[indexPath.item]))
         }
+    }
+    
+    func didTapCellBookmarkButton(at indexPath: IndexPath) {
+        guard tripsData.indices.contains(indexPath.row) else { return }
+        tripsData[indexPath.row].isInfavourites.toggle()
+        interactor.storeTripData(trip: Trip(tripWithOtherData: tripsData[indexPath.row]))
+    }
+    
+    func didTapEditButton(at indexPath: IndexPath) {
+        guard tripsData.indices.contains(indexPath.row) else {
+            view.showAlert(title: "Ошибка",
+                           message: "Возникла ошибка при попытке отредактировать данные маршрута",
+                           actionTitle: "Ок")
+            return
+        }
+        moduleOutput.tripsCollectionWantsToOpenExistingRoute(with: Trip(tripWithOtherData: tripsData[indexPath.item]))
+    }
+    
+    func didTapDeleteButton(at indexPath: IndexPath) {
+        guard tripsData.indices.contains(indexPath.row) else {
+            view.showAlert(title: "Ошибка",
+                           message: "Возникла ошибка при удалении данных маршрута",
+                           actionTitle: "Ок")
+            return
+        }
+        view.showChoiceAlert(title: "Удалить маршрут", message: "Вы уверены, что хотите удалиь маршрут?", agreeActionTitle: "Да", disagreeActionTitle: "Нет", cellIndexPath: indexPath)
+    }
+    
+    func didSelectAgreeAlertAction(cellIndexPath: IndexPath) {
+        guard tripsData.indices.contains(cellIndexPath.row) else {
+            view.showAlert(title: "Ошибка",
+                           message: "Возникла ошибка при удалении данных маршрута",
+                           actionTitle: "Ок")
+            return
+        }
+        cellToDeleteIndexPath = cellIndexPath
+        interactor.deleteTrip(Trip(tripWithOtherData: tripsData[cellIndexPath.row]))
+    }
+    
+    func didTapBackBarButton() {
+        moduleOutput.savedTripsModuleWantsToClose()
+    }
+    
+    func didTapSavedBarButton() {
+        moduleOutput.usualTripsModuleWantsToOpenSavedTrips()
     }
 }
 
 extension TripsPresenter: TripsInteractorOutput {
-    
     func didFetchTripsData(data: [Trip]) {
-        tripsData = data
+        print(data)
+        self.tripsData = []
+        for trip in data {
+            interactor.obtainRouteDataFromSever(with: trip.routeId) { [weak self] result in
+                guard let strongSelf = self else { return }
+                switch result {
+                case .failure(let error):
+                    strongSelf.didRecieveError(error: .obtainDataError)
+                case .success(let route):
+                    strongSelf.tripsData.append(TripWithRouteAndImage(trip: trip, image: nil, route: route))
+                    print(strongSelf.tripsData)
+                    strongSelf.sortTrips()
+                    strongSelf.view.reloadData()
+                }
+            }
+        }
+//        for index in 0..<tripsData.count {
+//            if let url = tripsData[index].imageURLString {
+//                interactor.obtainTripImageFromServer(for: url) { [weak self] result in
+//                    guard let strongSelf = self else { return }
+//                    switch result {
+//                    case .failure(let error):
+//                        strongSelf.didRecieveError(error: .obtainDataError)
+//                    case .success(let image):
+//                        strongSelf.tripsData[index].image = image
+//                    }
+//                }
+//            }
+//        }
+//        view.reloadData()
+    }
+    
+    func didDeleteTrip() {
+        if let cellToDeleteIndexPath = cellToDeleteIndexPath {
+            if tripsData.indices.contains(cellToDeleteIndexPath.row) {
+                view.deleteItem(at: cellToDeleteIndexPath)
+                tripsData.remove(at: cellToDeleteIndexPath.row)
+            }
+        }
+        cellToDeleteIndexPath = nil
     }
     
     func didRecieveError(error: Errors) {
-        view.showAlert(title: "Ошибка",
-                       message: "Возникла ошибка при получении данных. Проверьте корректность данных и поробуйте снова",
-                       actionTitle: "Ок")
+        switch error {
+        case .obtainDataError:
+            view.showAlert(title: "Ошибка",
+                           message: "Возникла ошибка при получении данных",
+                           actionTitle: "Ок")
+        case .saveDataError:
+            view.showAlert(title: "Ошибка",
+                           message: "Возникла ошибка при сохранении данных. Проверьте корректность данных и поробуйте снова",
+                           actionTitle: "Ок")
+        case .deleteDataError:
+            cellToDeleteIndexPath = nil
+            view.showAlert(title: "Ошибка",
+                           message: "Возникла ошибка при удалении данных",
+                           actionTitle: "Ок")
+        }
     }
 }

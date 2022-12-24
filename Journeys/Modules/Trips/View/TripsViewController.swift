@@ -10,6 +10,11 @@ import UIKit
 // MARK: - TripsViewController
 
 final class TripsViewController: UIViewController {
+    
+    enum ScreenType {
+        case usual
+        case saved
+    }
 
     // MARK: Private properties
     private var floatingChangeButton = FloatingButton()
@@ -21,6 +26,7 @@ final class TripsViewController: UIViewController {
 
     // MARK: Public properties
     var output: TripsViewOutput!
+    var tripsViewControllerType: ScreenType?
 
     // MARK: Lifecycle
     override func viewDidLoad() {
@@ -31,23 +37,33 @@ final class TripsViewController: UIViewController {
         setupFloatingAddButton()
         makeConstraints()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        output.viewDidAppear()
+    }
 
     private func setupNavBar() {
         navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
 
-        let settingsButtonItem = UIBarButtonItem(image: UIImage(systemName: "gearshape.fill"),
-                                                 style: .plain,
-                                                 target: self,
-                                                 action: #selector(didTapSettingsButton))
-
-        let favouritesButtonItem = UIBarButtonItem(image: UIImage(systemName: "bookmark.fill"),
-                                                   style: .plain,
-                                                   target: self,
-                                                   action: #selector(didTapFavouritesButton))
-
-        navigationItem.leftBarButtonItem = settingsButtonItem
-        navigationItem.rightBarButtonItem = favouritesButtonItem
-        title = L10n.trips
+        switch output.getScreenType() {
+        case .usual:
+            let buttonItem = UIBarButtonItem(image: UIImage(systemName: "bookmark"),
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(didTapFavouritesButton))
+            
+            navigationItem.rightBarButtonItem = buttonItem
+            title = L10n.trips
+        case .saved:
+            let buttonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"),
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(didTapBackButton))
+            
+            navigationItem.leftBarButtonItem = buttonItem
+            title = "Избранное"
+        }
     }
 
     private func setupFloatingAddButton() {
@@ -86,13 +102,13 @@ final class TripsViewController: UIViewController {
     }
 
     @objc
-    private func didTapSettingsButton() {
-        print("Settings button was tapped")
+    private func didTapBackButton() {
+        output.didTapBackBarButton()
     }
 
     @objc
     private func didTapFavouritesButton() {
-        print("Favourites button was tapped")
+        output.didTapSavedBarButton()
     }
 }
 
@@ -112,11 +128,8 @@ extension TripsViewController: UICollectionViewDelegateFlowLayout {
 extension TripsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
-            output.didSelectCell(at: indexPath)
-        } else {
-            // TODO: another action
-        }
+        output.didSelectCell(at: indexPath)
+        collectionView.deselectItem(at: indexPath, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -127,10 +140,19 @@ extension TripsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
-        if section == 0 {
-            return UIEdgeInsets(top: 30, left: 0, bottom: 8, right: 0)
-        } else {
-            return UIEdgeInsets(top: 15, left: 0, bottom: 0, right: 0)
+        switch output.getScreenType() {
+        case .usual:
+            if section == 0 {
+                return UIEdgeInsets(top: 30, left: 0, bottom: 8, right: 0)
+            } else {
+                return UIEdgeInsets(top: 15, left: 0, bottom: 0, right: 0)
+            }
+        case .saved:
+            if section == 0 {
+                return UIEdgeInsets(top: 0, left: 0, bottom: 8, right: 0)
+            } else {
+                return UIEdgeInsets(top: 30, left: 0, bottom: 0, right: 0)
+            }
         }
     }
 }
@@ -139,13 +161,9 @@ extension TripsViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 0 {
-            return 1
-        } else {
-            return output.getTripCellsCount()
-        }
+        output.getCellsCount(for: section)
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -172,7 +190,7 @@ extension TripsViewController: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
             tripCell.configure(data: data,
-                               delegate: self)
+                               delegate: self, indexPath: indexPath)
             cell = tripCell
         }
         return cell
@@ -184,14 +202,47 @@ extension TripsViewController: TripsViewInput {
         let alert = UIAlertController(title: title,
                                       message: message,
                                       preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: actionTitle, style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: actionTitle, style: .default))
+        present(alert, animated: true)
+    }
+    
+    func showChoiceAlert(title: String,
+                         message: String,
+                         agreeActionTitle: String,
+                         disagreeActionTitle: String,
+                         cellIndexPath: IndexPath) {
+        let alert = UIAlertController(title: title,
+                                      message: message,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: agreeActionTitle, style: .default) { _ in
+            self.output.didSelectAgreeAlertAction(cellIndexPath: cellIndexPath)
+        })
+        alert.addAction(UIAlertAction(title: disagreeActionTitle, style: .default))
+        present(alert, animated: true)
+    }
+    
+    func reloadData() {
+        DispatchQueue.main.async { [weak self] in
+            self?.collectionView.reloadData()
+        }
+    }
+    
+    func deleteItem(at indexPath: IndexPath) {
+        self.collectionView.deleteItems(at: [indexPath])
     }
 }
 
 extension TripsViewController: TripCellDelegate {
-    // TODO: send data to presenter
-    func didTapBookmarkButton() {
-        return
+    func didTapEditButton(_ indexPath: IndexPath) {
+        output.didTapEditButton(at: indexPath)
+    }
+    
+    func didTapDeleteButton(_ indexPath: IndexPath) {
+        output.didTapDeleteButton(at: indexPath)
+    }
+    
+    func didTapBookmarkButton(_ indexPath: IndexPath) {
+        output.didTapCellBookmarkButton(at: indexPath)
     }
 }
 

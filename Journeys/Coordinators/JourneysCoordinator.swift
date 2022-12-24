@@ -39,35 +39,63 @@ final class JourneysCoordinator: CoordinatorProtocol {
 // MARK: TripsModuleOutput
 
 extension JourneysCoordinator: TripsModuleOutput {
+    func usualTripsModuleWantsToOpenSavedTrips() {
+        let builder = TripsModuleBuilder()
+        let newRouteViewController = builder.build(firebaseService: firebaseService, output: self, tripsViewControllerType: .saved)
+        navigationController.pushViewController(newRouteViewController, animated: true)
+    }
+    
+    func savedTripsModuleWantsToClose() {
+        navigationController.popViewController(animated: true)
+    }
+    
     func tripsCollectionWantsToOpenNewRouteModule() {
-        let builder = NewRouteCreatingModuleBuilder()
+        let builder = RouteModuleBuilder()
         let newRouteViewController = builder.build(firebaseService: firebaseService, output: self)
         navigationController.pushViewController(newRouteViewController, animated: true)
     }
     
     
-    func tripsCollectionWantsToOpenExistingRoute(with routId: String) {
-        let builder = NewRouteCreatingModuleBuilder()
-        let newRouteViewController = builder.build(firebaseService: firebaseService, with: routId, output: self)
+    func tripsCollectionWantsToOpenExistingRoute(with trip: Trip) {
+        let builder = RouteModuleBuilder()
+        let newRouteViewController = builder.build(firebaseService: firebaseService, with: trip, output: self)
         navigationController.pushViewController(newRouteViewController, animated: true)
     }
 
 }
 
-extension JourneysCoordinator: NewRouteCreatingModuleOutput {
-    func newRouteCreationModuleWantsToOpenAddNewLocationModule(place: Place?){
-        let builder = AddNewLocationModuleBuilder()
-        let newLocaionViewController = builder.build(firebaseService: firebaseService, output: self, place: place)
-        navigationController.pushViewController(newLocaionViewController, animated: true)
+extension JourneysCoordinator: RouteModuleOutput {
+    func routeModuleWantsToOpenDepartureLocationModule(departureLocation: Location?,
+                                                       routeModuleInput: RouteModuleInput) {
+        let builder = DepartureLocationModuleBuilder()
+        let departureLocationViewController = builder.build(output: self,
+                                                            departureLocation: departureLocation,
+                                                            routeModuleInput: routeModuleInput)
+        navigationController.pushViewController(departureLocationViewController, animated: true)
+    }
+    func routeModuleWantsToOpenPlaceModule(place: Place?, placeIndex: Int, routeModuleInput: RouteModuleInput) {
+        let builder = PlaceModuleBuilder()
+        let placeViewController = builder.build(firebaseService: firebaseService,
+                                                output: self,
+                                                place: place,
+                                                placeIndex: placeIndex,
+                                                routeModuleInput: routeModuleInput)
+        navigationController.pushViewController(placeViewController, animated: true)
     }
     
-    func newRouteCreationModuleWantsToClose() {
+    func routeModuleWantsToClose() {
         navigationController.popViewController(animated: true)
     }
 }
 
-extension JourneysCoordinator: AddNewLocationModuleOutput {
-    func addNewLoctionModuleWantsToClose() {
+extension JourneysCoordinator: DepartureLocationModuleOutput {
+    func departureLocationModuleWantsToClose() {
+        navigationController.popViewController(animated: true)
+    }
+}
+
+extension JourneysCoordinator: PlaceModuleOutput {
+    func placeModuleWantsToClose() {
         navigationController.popViewController(animated: true)
     }
 }

@@ -8,63 +8,120 @@
 import Foundation
 import UIKit
 
-struct Trip: Dictionariable {
+struct Trip {
     
-    let id: String
-    var imageURLString: String = ""
+    let id: String?
+    var imageURLString: String?
     var routeId: String
-    var baggageId: String?
+    var baggageId: String
     var isInfavourites: Bool
+    var dateChanged: Date
     
-    internal init(id: String, imageURLString: String, routeId: String, baggageId: String?, isInfavourites: Bool = false) {
+    internal init(id: String?,
+                  imageURLString: String?,
+                  routeId: String,
+                  baggageId: String,
+                  dateChanged: Date,
+                  isInfavourites: Bool = false) {
         self.id = id
         self.imageURLString = imageURLString
         self.routeId = routeId
         self.baggageId = baggageId
+        self.dateChanged = dateChanged
         self.isInfavourites = isInfavourites
     }
     
-    init(from dictionary: [String: Any]) {
-        id = dictionary[CodingKeys.id.rawValue] as? String ?? ""
-        imageURLString = dictionary[CodingKeys.imageURLString.rawValue] as? String ?? ""
-        routeId = dictionary[CodingKeys.routeId.rawValue] as? String ?? ""
-        baggageId = dictionary[CodingKeys.baggageId.rawValue] as? String
-        isInfavourites = dictionary[CodingKeys.isInfavourites.rawValue] as? Bool ?? false
+    init?(from dictionary: [String: Any], id: String) {
+        guard
+        let imageURLString = dictionary[CodingKeys.imageURLString.rawValue] as? String,
+        let routeId = dictionary[CodingKeys.routeId.rawValue] as? String,
+        let baggageId = dictionary[CodingKeys.baggageId.rawValue] as? String,
+        let dateChanged = dictionary[CodingKeys.dateChanged.rawValue] as? String,
+        let isInfavourites = dictionary[CodingKeys.isInfavourites.rawValue] as? Bool
+        else {
+            return nil
+        }
+        
+        self.id = id
+        self.imageURLString = imageURLString
+        self.routeId = routeId
+        self.baggageId = baggageId
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
+        guard let date = dateFormatter.date(from: dateChanged) else { return nil }
+        self.dateChanged = date
+        self.isInfavourites = isInfavourites
+    }
+    
+    init(tripWithOtherData: TripWithRouteAndImage) {
+        self.id = tripWithOtherData.id
+        self.imageURLString = tripWithOtherData.imageURLString
+        self.routeId = tripWithOtherData.routeId
+        self.baggageId = tripWithOtherData.baggageId
+        self.dateChanged = tripWithOtherData.dateChanged
+        self.isInfavourites = tripWithOtherData.isInfavourites
     }
     
     func toDictionary() -> [String: Any] {
         var dictionary: [String: Any] = [:]
-        dictionary[CodingKeys.id.rawValue] = id
-        dictionary[CodingKeys.imageURLString.rawValue] = imageURLString
+        dictionary[CodingKeys.imageURLString.rawValue] = imageURLString ?? ""
         dictionary[CodingKeys.routeId.rawValue] = routeId
         dictionary[CodingKeys.baggageId.rawValue] = baggageId
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
+        dictionary[CodingKeys.dateChanged.rawValue] = dateFormatter.string(from: dateChanged)
+        
         dictionary[CodingKeys.isInfavourites.rawValue] = isInfavourites
         return dictionary
     }
     
     enum CodingKeys: String {
-        case id
         case imageURLString = "image_URL"
         case routeId = "route_id"
         case baggageId = "baggage_id"
+        case dateChanged = "last_change"
         case isInfavourites = "is_saved"
     }
-//    
-//    init(from decoder: Decoder) throws {
-//        let container = try decoder.container(keyedBy: CodingKeys.self)
-//        id = try container.decode(String.self, forKey: .id)
-//        image = try container.decode(URL.self, forKey: .image)
-//        route = try container.decode(Route.self, forKey: .route)
-//        stuff = try container.decode([Stuff].self, forKey: .stuff)
-//        isInfavourites = try container.decode(Bool.self, forKey: .isInfavourites)
-//    }
-//    
-//    func encode(to encoder: Encoder) throws {
-//        var container = encoder.container(keyedBy: CodingKeys.self)
-//        try container.encode(id, forKey: .id)
-//        try container.encode(image, forKey: .image)
-//        try container.encode(route, forKey: .route)
-//        try container.encode(stuff, forKey: .stuff)
-//        try container.encode(isInfavourites, forKey: .isInfavourites)
-//    }
+}
+
+struct TripWithRouteAndImage {
+    let id: String?
+    var imageURLString: String?
+    var image: UIImage?
+    var route: Route
+    var routeId: String
+    var baggageId: String
+    var isInfavourites: Bool
+    var dateChanged: Date
+    
+    
+    internal init(id: String?,
+                  imageURLString: String?,
+                  image: UIImage,
+                  route: Route,
+                  routeId: String,
+                  baggageId: String,
+                  dateChanged: Date,
+                  isInfavourites: Bool) {
+        self.id = id
+        self.imageURLString = imageURLString
+        self.image = image
+        self.route = route
+        self.routeId = routeId
+        self.baggageId = baggageId
+        self.dateChanged = dateChanged
+        self.isInfavourites = isInfavourites
+    }
+    
+    init(trip: Trip, image: UIImage?, route: Route) {
+        self.id = trip.id
+        self.imageURLString = trip.imageURLString
+        self.image = image
+        self.route = route
+        self.routeId = trip.routeId
+        self.baggageId = trip.baggageId
+        self.dateChanged = trip.dateChanged
+        self.isInfavourites = trip.isInfavourites
+    }
 }
