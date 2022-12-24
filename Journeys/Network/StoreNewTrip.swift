@@ -68,7 +68,6 @@ final class StoreNewTrip {
                 assertionFailure()
                 self.didRecieveError()
             case .success(let baseStuff):
-                print(baseStuff)
                 self.didRecieveBaseStuffData(baseStuff)
             }
             

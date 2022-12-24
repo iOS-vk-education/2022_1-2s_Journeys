@@ -90,8 +90,6 @@ extension TripsPresenter: TripsViewOutput {
     }
     
     func getCellData(for row: Int) -> TripCell.DisplayData? {
-        print(row)
-        print(tripsData.count)
         guard tripsData.indices.contains(row) else { return nil }
         let trip = tripsData[row]
         return tripDisplayData(trip: trip)

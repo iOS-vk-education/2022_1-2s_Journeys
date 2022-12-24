@@ -184,7 +184,6 @@ extension PlaceViewController: PlaceViewInput {
     }
     
     func getCell(at indexPath: IndexPath) -> UITableViewCell? {
-        print(tableView.cellForRow(at: indexPath))
         return tableView.cellForRow(at: indexPath)
     }
 }

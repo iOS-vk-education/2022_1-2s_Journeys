@@ -201,7 +201,7 @@ extension TripsViewController: TripsViewInput {
                                       preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: actionTitle, style: .default))
         present(alert, animated: true)
-    }
+    }pri
     
     func showChoiceAlert(title: String,
                          message: String,
