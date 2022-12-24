@@ -14,16 +14,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
+        window = UIWindow(windowScene: scene)
         
-        let navigationController = UINavigationController()
+        let tabBarController = UITabBarController()
+        tabBarController.setViewControllers([], animated: false)
+        window?.rootViewController = tabBarController
+        window?.makeKeyAndVisible()
+        
         let firebaseService = FirebaseService()
-        coordinator = AppCoordinator(navigationController: navigationController, firebaseService: firebaseService)
+        coordinator = AppCoordinator(tabBarController: tabBarController, firebaseService: firebaseService))
 
         coordinator?.start()
-
-        window = UIWindow(windowScene: scene)
-        window?.rootViewController = navigationController
-        window?.makeKeyAndVisible()
+    }
 
     }
 }

@@ -8,18 +8,20 @@
 import Foundation
 import UIKit
 
-// MARK: - JourneysCoordinator
 
 final class JourneysCoordinator: CoordinatorProtocol {
 
     // MARK: Private Properties
-    private var navigationController: UINavigationController
-    private let firebaseService: FirebaseServiceProtocol
+
+    private let rootTabBarController: UITabBarController
+    private var navigationController = UINavigationController()
+    private let tabBarItemFactory: TabBarItemFactoryProtocol
+    
     // MARK: Lifecycle
 
-    init(navigationController: UINavigationController, firebaseService: FirebaseServiceProtocol) {
-        self.navigationController = navigationController
-        self.firebaseService = firebaseService
+    init(rootTabBarController: UITabBarController) {
+        self.rootTabBarController = rootTabBarController
+        tabBarItemFactory = TabBarItemFactory()
     }
 
     // MARK: Public Methods
@@ -29,6 +31,16 @@ final class JourneysCoordinator: CoordinatorProtocol {
         let tripsViewController = builder.build(firebaseService: firebaseService, output: self)
 
         navigationController.setViewControllers([tripsViewController], animated: false)
+
+        navigationController.tabBarItem = tabBarItemFactory.getTabBarItem(from: TabBarPage.journeys)
+
+        var controllers = rootTabBarController.viewControllers
+        if controllers == nil {
+            controllers = [navigationController]
+        } else {
+            controllers?.append(navigationController)
+        }
+        rootTabBarController.setViewControllers(controllers, animated: true)
     }
 
     // TODO: finish
