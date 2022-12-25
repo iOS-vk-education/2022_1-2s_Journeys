@@ -17,4 +17,6 @@ protocol TripInfoViewInput: AnyObject {
 protocol TripInfoViewOutput: AnyObject {
     func getViewControllers() -> [UIViewController]
     func getCurrentPageIndex() -> Int
+    
+    func didTapEvitButton()
 }

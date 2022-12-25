@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Place: Dictionariable {
+struct Place {
     
     var location: Location
     var arrive: Date
@@ -19,17 +19,39 @@ struct Place: Dictionariable {
         self.depart = depart
     }
     
-    init(from dictionary: [String: Any]) {
-        location = dictionary[CodingKeys.location.rawValue] as? Location ?? Location()
-        arrive = dictionary[CodingKeys.arrive.rawValue] as? Date ?? Date()
-        depart = dictionary[CodingKeys.depart.rawValue] as? Date ?? Date()
+    init?(from dictionary: [String: Any]) {
+        guard
+            let locationDict = dictionary[CodingKeys.location.rawValue]  as? [String : Any],
+            let arrive = dictionary[CodingKeys.arrive.rawValue] as? String,
+            let depart = dictionary[CodingKeys.depart.rawValue] as? String else {
+            return nil
+            
+        }
+       
+        guard
+            let location = Location(from: locationDict) else {
+            return nil
+        }
+        self.location = location
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
+        
+        guard let arriveDate = dateFormatter.date(from: arrive) else { return nil }
+        self.arrive = arriveDate
+        guard let departDate = dateFormatter.date(from: depart) else { return nil }
+        self.depart = departDate
     }
     
     func toDictionary() -> [String: Any] {
         var dictionary: [String: Any] = [:]
-        dictionary[CodingKeys.location.rawValue] = location
-        dictionary[CodingKeys.arrive.rawValue] = arrive
-        dictionary[CodingKeys.depart.rawValue] = depart
+        dictionary[CodingKeys.location.rawValue] = location.toDictionary()
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
+        
+        dictionary[CodingKeys.arrive.rawValue] = dateFormatter.string(from: arrive)
+        dictionary[CodingKeys.depart.rawValue] = dateFormatter.string(from: depart)
         return dictionary
     }
     

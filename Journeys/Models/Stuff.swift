@@ -15,25 +15,32 @@ struct Stuff {
     var name: String?
     var isPacked: Bool
     
-    init(isPacked: Bool) {
-        self.id = nil
-        self.emoji = nil
-        self.name = nil
-        self.isPacked = isPacked
-    }
-    
-    internal init(id: String, emoji: String, name: String, isPacked: Bool) {
+    internal init(id: String? = nil, emoji: String? = nil, name: String? = nil, isPacked: Bool) {
         self.id = id
         self.emoji = emoji
         self.name = name
         self.isPacked = isPacked
     }
     
-    init(from dictionary: [String: Any]) {
-        id = dictionary[CodingKeys.id.rawValue] as? String ?? ""
-        emoji = dictionary[CodingKeys.emoji.rawValue] as? String ?? ""
-        name = dictionary[CodingKeys.name.rawValue] as? String ?? ""
-        isPacked = dictionary[CodingKeys.isPacked.rawValue] as? Bool ?? false
+    init?(from dictionary: [String: Any], id: String) {
+        guard
+        let emoji = dictionary[CodingKeys.emoji.rawValue] as? String,
+        let name = dictionary[CodingKeys.name.rawValue] as? String,
+        let isPacked = dictionary[CodingKeys.isPacked.rawValue] as? Bool
+        else {
+            return nil
+        }
+        self.id = id
+        self.emoji = emoji
+        self.name = name
+        self.isPacked = isPacked
+    }
+    
+    init(baseStuff: BaseStuff) {
+        self.id = baseStuff.id
+        self.emoji = baseStuff.emoji
+        self.name = baseStuff.name
+        self.isPacked = false
     }
     
     func toDictionary() -> [String: Any] {
@@ -50,5 +57,42 @@ struct Stuff {
         case emoji
         case name
         case isPacked = "is_packed"
+    }
+}
+
+struct BaseStuff {
+    var id: String
+    var emoji: String
+    var name: String
+    
+    internal init(id: String, emoji: String, name: String) {
+        self.id = id
+        self.emoji = emoji
+        self.name = name
+    }
+    
+    init?(from dictionary: [String: Any], id: String) {
+        guard
+        let emoji = dictionary[CodingKeys.emoji.rawValue] as? String,
+        let name = dictionary[CodingKeys.name.rawValue] as? String
+        else {
+            return nil
+        }
+        self.id = id
+        self.emoji = emoji
+        self.name = name
+    }
+    
+    func toDictionary() -> [String: Any] {
+        var dictionary: [String: Any] = [:]
+        dictionary[CodingKeys.emoji.rawValue] = emoji
+        dictionary[CodingKeys.name.rawValue] = name
+        return dictionary
+    }
+    
+    enum CodingKeys: String {
+        case id
+        case emoji
+        case name
     }
 }

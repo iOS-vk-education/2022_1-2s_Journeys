@@ -11,37 +11,37 @@ import SnapKit
 // MARK: - TripInfoViewController
 
 final class TripInfoViewController: UIViewController {
-    
+
     // MARK: Properties
     private lazy var pageViewController: UIPageViewController = {
         let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
         pageViewController.setViewControllers([viewControllersList[currentPageIndex]], direction: .forward, animated: true)
         return pageViewController
     }()
-    
+
     private lazy var pageSegmentControll: UISegmentedControl = {
         let segmentControll = UISegmentedControl(items: getSecmentControllItems())
         segmentControll.selectedSegmentIndex = currentPageIndex
         segmentControll.addTarget(self, action: #selector(pageSegmentControllValueChanged), for: .valueChanged)
         return segmentControll
     }()
-    
+
     private lazy var viewControllersList: [UIViewController] = {
         output.getViewControllers()
     }()
-    
+
     private lazy var currentPageIndex: Int = {
         output.getCurrentPageIndex()
     }()
-    
+
     private func getSecmentControllItems() -> [String] {
         ["Информация", "Вещи"]
     }
-    
+
     var output: TripInfoViewOutput!
-    
+
     // MARK: Lifecycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 //        pageViewController.delegate = self
@@ -49,13 +49,13 @@ final class TripInfoViewController: UIViewController {
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         setupViews()
     }
-    
+
     private func setupViews() {
         view.addSubview(pageSegmentControll)
         view.addSubview(pageViewController.view)
-        
+
         pageSegmentControll.layer.cornerRadius = 10.0
-        
+
         pageSegmentControll.layer.masksToBounds = true
         setupConstraints()
         setupNavBar()
@@ -95,7 +95,7 @@ final class TripInfoViewController: UIViewController {
     
     @objc
     private func didTapExitButton() {
-        
+        output.didTapEvitButton()
     }
     
     @objc

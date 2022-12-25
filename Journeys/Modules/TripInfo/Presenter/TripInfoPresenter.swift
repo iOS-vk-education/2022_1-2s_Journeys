@@ -16,12 +16,17 @@ final class TripInfoPresenter {
     weak var view: TripInfoViewInput!
     weak var moduleOutput: TripInfoModuleOutput!
     
-    private var routeId: String
+    private let firebaseService: FirebaseServiceProtocol
     private var firstPageIndex: Int
+    
+    private var trip: Trip
+    private var route: Route
 
-    internal init(firstPageMode: FirstPageMode, routeId: String) {
-        self.routeId = routeId
+    internal init(firstPageMode: FirstPageMode, firebaseService: FirebaseServiceProtocol, trip: Trip, route: Route) {
+        self.trip = trip
+        self.route = route
         self.firstPageIndex = firstPageMode.rawValue
+        self.firebaseService = firebaseService
     }
 }
 
@@ -40,13 +45,18 @@ extension TripInfoPresenter: TripInfoViewOutput {
     
     func getViewControllers() -> [UIViewController] {
         var viewControllers: [UIViewController] = []
-        let stuffVC = StuffModuleBuilder().build(output: self)
-        let placesInfoVC = PlacesInfoModuleBuilder().build(output: self, routeId: routeId)
+        let stuffVC = StuffModuleBuilder().build(output: self,
+                                                 firebaseService: firebaseService,
+                                                 baggageId: trip.baggageId)
+        let placesInfoVC = PlacesInfoModuleBuilder().build(output: self, route: route)
         viewControllers.append(placesInfoVC)
         viewControllers.append(stuffVC)
         return viewControllers
     }
     
+    func didTapEvitButton() {
+        moduleOutput.tripInfoModuleWantsToClose()
+    }
 }
 
 extension TripInfoPresenter: PlacesInfoModuleOutput {

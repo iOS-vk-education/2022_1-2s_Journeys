@@ -20,8 +20,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         tabBarController.setViewControllers([], animated: false)
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
-
-        coordinator = AppCoordinator(tabBarController: tabBarController)
+        
+        let firebaseService = FirebaseService()
+        coordinator = AppCoordinator(tabBarController: tabBarController, firebaseService: firebaseService)
 
         coordinator?.start()
     }

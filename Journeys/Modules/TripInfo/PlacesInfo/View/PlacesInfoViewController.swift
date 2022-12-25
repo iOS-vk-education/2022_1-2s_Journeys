@@ -49,8 +49,8 @@ final class PlacesInfoViewController: UIViewController {
         mainCollectionView.delegate = self
         mainCollectionView.dataSource = self
 
-        mainCollectionView.register(RouteCell.self,
-                                    forCellWithReuseIdentifier: "RouteCell")
+        mainCollectionView.register(ShortRouteCell.self,
+                                    forCellWithReuseIdentifier: "ShortRouteCell")
         mainCollectionView.register(WeatherCollection.self,
                                     forCellWithReuseIdentifier: "WeatherCollection")
         mainCollectionView.register(MainCollectionHeader.self,
@@ -113,8 +113,8 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
         var cell = UICollectionViewCell()
         switch indexPath.section {
         case 0:
-            guard let routeCell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "RouteCell",
-                                                                     for: indexPath) as? RouteCell else {
+            guard let routeCell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "ShortRouteCell",
+                                                                     for: indexPath) as? ShortRouteCell else {
                 return cell
             }
             guard let data = output.getRoutelData() else {

@@ -15,7 +15,7 @@ final class PlacesInfoPresenter {
     weak var view: PlacesInfoViewInput!
     var model: PlacesInfoModel!
     weak var moduleOutput: PlacesInfoModuleOutput!
-    let routeId: String
+    private var route: Route
     private var weather: [WeatherWithLocation] = []
 //    var loc1 = Location(country: "Russia", city: "Kursk")
 //    var loc2 = Location(country: "Russia", city: "Anapa")
@@ -44,15 +44,20 @@ final class PlacesInfoPresenter {
 //                                Weather(date: "2022-12-06", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
 //                                Weather(date: "2022-12-07", weatherCode: 0, temperatureMax: 2, temperatureMin: 0)]]
 //    lazy var weather: [[Weather]] = [[Weather(date: "2022-12-01", weatherCode: 0, temperatureMax: -16, temperatureMin: -1006, location: route?.places[0].location)]]
-
-    var route: Route?
     
-    init(routeId: String) {
-        self.routeId = routeId
+    init(route: Route) {
+        self.route = route
+        let loc1 = Location(country: "Russia", city: "Moscow")
+        let loc2 = Location(country: "Russia", city: "Kursk")
+        let loc3 = Location(country: "Russia", city: "Anapa")
+        let loc4 = Location(country: "Russia", city: "Perm")
+        self.route = (Route(id: "", imageURLString: "", departureLocation: loc1,
+                                         places: [Place(location: loc4,
+                                                        arrive: Date().addingTimeInterval(200000),
+                                                        depart: Date().addingTimeInterval(240000))]))
     }
     
     private func sortWeather() {
-        guard let route = route else { return }
         var sortedWeather: [WeatherWithLocation] = []
         for place in route.places {
             for curWeather in weather {
@@ -71,7 +76,9 @@ extension PlacesInfoPresenter: PlacesInfoModuleInput {
 
 extension PlacesInfoPresenter: PlacesInfoViewOutput {
     func viewDidLoad() {
-        model.getRouteData(with: routeId)
+        for place in route.places {
+            model.getWeatherData(for: place)
+        }
     }
     
     func getWeatherCollectionDisplayData(_ row: Int) -> WeatherCollection.DisplayData? {
@@ -103,14 +110,13 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
         }
     }
     
-    func getRoutelData() -> RouteCell.DisplayData? {
+    func getRoutelData() -> ShortRouteCell.DisplayData? {
         let arrow: String = " → "
-        guard let route = route else { return nil }
         var routeString: String = route.departureLocation.city
         for place in route.places {
             routeString += arrow + place.location.city
         }
-        return RouteCell.DisplayData(route: routeString)
+        return ShortRouteCell.DisplayData(route: routeString)
     }
     
     func getMainCollectionCellsCount(for section: Int) -> Int {
@@ -128,14 +134,6 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
 }
 
 extension PlacesInfoPresenter: PlacesInfoModelOutput {
-    func didRecieveRouteData(_ route: Route) {
-        self.route = route
-        view.reloadData()
-
-        for place in route.places {
-            model.getWeatherData(for: place)
-        }
-    }
     
     func didRecieveWeatherData(_ weatherData: WeatherWithLocation) {
         self.weather.append(weatherData)

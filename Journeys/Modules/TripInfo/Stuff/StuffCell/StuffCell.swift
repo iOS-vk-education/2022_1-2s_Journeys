@@ -78,6 +78,7 @@ final class StuffCell: UITableViewCell {
         emojiTextField.delegate = self
         nameTextField.isUserInteractionEnabled = false
         emojiTextField.isUserInteractionEnabled = false
+        nameTextField.autocorrectionType = .no
 
         emojiTextField.addTarget(self, action: #selector(emojiTextFieldDidChange), for: .editingChanged)
         nameTextField.addTarget(self, action: #selector(nameTextFieldDidChange), for: .editingChanged)

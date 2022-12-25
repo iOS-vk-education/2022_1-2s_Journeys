@@ -15,11 +15,13 @@ final class AccountCoordinator: CoordinatorProtocol {
     private let rootTabBarController: UITabBarController
     private var navigationController = UINavigationController()
     private let tabBarItemFactory: TabBarItemFactoryProtocol
+    private let firebaseService: FirebaseServiceProtocol
     
     // MARK: Lifecycle
 
-    init(rootTabBarController: UITabBarController) {
+    init(rootTabBarController: UITabBarController, firebaseService: FirebaseServiceProtocol) {
         self.rootTabBarController = rootTabBarController
+        self.firebaseService = firebaseService
         tabBarItemFactory = TabBarItemFactory()
     }
 
@@ -28,7 +30,7 @@ final class AccountCoordinator: CoordinatorProtocol {
     // TODO: start
     func start() {
         let builder = AccountModuleBuilder()
-        let accountViewController = builder.build(output: self)
+        let accountViewController = builder.build(output: self, firebaseService: firebaseService)
 
         navigationController.setViewControllers([accountViewController], animated: false)
 
@@ -49,5 +51,18 @@ final class AccountCoordinator: CoordinatorProtocol {
 }
 
 extension AccountCoordinator: AccountModuleOutput {
+    func hideLoadingView() {
+        navigationController.dismiss(animated: true)
+    }
+    
+    func showLoadingView() {
+        let loadingVC = LoadingViewController()
+        // Animate loadingVC over the existing views on screen
+        loadingVC.modalPresentationStyle = .overCurrentContext
 
+        // Animate loadingVC with a fade in animation
+        loadingVC.modalTransitionStyle = .crossDissolve
+               
+        navigationController.present(loadingVC, animated: true)
+    }
 }

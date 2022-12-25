@@ -22,9 +22,15 @@ struct Location: Decodable {
         self.city = city
     }
     
-    init(from dictionary: [String: Any]) {
-        country = dictionary[CodingKeys.country.rawValue] as? String ?? ""
-        city = dictionary[CodingKeys.city.rawValue] as? String ?? ""
+    init?(from dictionary: [String: Any]) {
+        guard
+            let country = dictionary[CodingKeys.country.rawValue] as? String,
+            let city = dictionary[CodingKeys.city.rawValue] as? String
+        else {
+            return nil
+        }
+        self.country = country
+        self.city = city
     }
     
     func toDictionary() -> [String: Any] {

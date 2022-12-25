@@ -10,10 +10,14 @@ import UIKit
 // MARK: - TripInfoModuleBuilder
 
 final class TripInfoModuleBuilder {
-    func build(output: TripInfoModuleOutput, firstPageMode: FirstPageMode, routeId: String) -> UIViewController {
+    func build(firebaseService: FirebaseServiceProtocol,
+               output: TripInfoModuleOutput,
+               firstPageMode: FirstPageMode,
+               trip: Trip,
+               route: Route) -> UIViewController {
 
         let viewController = TripInfoViewController()
-        let presenter = TripInfoPresenter(firstPageMode: firstPageMode, routeId: routeId)
+        let presenter = TripInfoPresenter(firstPageMode: firstPageMode, firebaseService: firebaseService, trip: trip, route: route)
         presenter.view = viewController
         viewController.output = presenter
         presenter.moduleOutput = output

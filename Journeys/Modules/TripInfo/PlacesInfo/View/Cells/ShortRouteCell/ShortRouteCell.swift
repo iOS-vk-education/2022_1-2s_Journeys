@@ -1,5 +1,5 @@
 //
-//  RouteView.swift
+//  v.swift
 //  Journeys
 //
 //  Created by Сергей Адольевич on 14.12.2022.
@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import SnapKit
 
-final class RouteCell: UICollectionViewCell {
+final class ShortRouteCell: UICollectionViewCell {
     struct DisplayData {
         let route: String
     }
@@ -59,7 +59,7 @@ final class RouteCell: UICollectionViewCell {
     }
 }
 
-private extension RouteCell {
+private extension ShortRouteCell {
     enum Constants {
         
         enum RouteLabel {

@@ -79,16 +79,6 @@ final class PlacesInfoModel {
 }
 
 extension PlacesInfoModel: PlacesInfoModelInput {
-    func getRouteData(with identifyer: String) {
-        let loc1 = Location(country: "Russia", city: "Moscow")
-        let loc2 = Location(country: "Russia", city: "Kursk")
-        let loc3 = Location(country: "Russia", city: "Anapa")
-        let loc4 = Location(country: "Russia", city: "Perm")
-        output.didRecieveRouteData(Route(id: "", departureLocation: loc1,
-                                         places: [Place(location: loc4,
-                                                        arrive: Date().addingTimeInterval(200000),
-                                                        depart: Date().addingTimeInterval(240000))]))
-    }
 
     func getWeatherData(for place: Place) {
         let request = requestFactory.getLocationCoordinates(city: place.location.city,

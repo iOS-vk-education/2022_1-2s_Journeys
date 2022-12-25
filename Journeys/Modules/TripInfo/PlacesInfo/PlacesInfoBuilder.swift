@@ -10,9 +10,9 @@ import UIKit
 // MARK: - PlacesIngoModuleBuilder
 
 final class PlacesInfoModuleBuilder {
-    func build(output: PlacesInfoModuleOutput, routeId: String) -> UIViewController {
+    func build(output: PlacesInfoModuleOutput, route: Route) -> UIViewController {
 
-        let presenter = PlacesInfoPresenter(routeId: routeId)
+        let presenter = PlacesInfoPresenter(route: route)
         let viewController = PlacesInfoViewController()
         let model = PlacesInfoModel()
         viewController.output = presenter

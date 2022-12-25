@@ -17,11 +17,18 @@ final class StuffPresenter {
     var model: StuffModelInput!
     weak var moduleOutput: StuffModuleOutput!
     
+    private let baggageId: String
+    private var baggage: Baggage?
     private var allStuff: [Stuff] = []
     private var unpackedStuff: [Stuff] = []
     private var packedStuff: [Stuff] = []
     
+    private var cellToDeleteIndexPath: IndexPath?
     private var lastChangedIndexPath: IndexPath?
+    
+    init(baggageId: String) {
+        self.baggageId = baggageId
+    }
     
     private let addRow: (StuffViewController, UITableView, Int)->() = { view, tableView, section in
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "StuffCell") as? StuffCell
@@ -59,7 +66,45 @@ final class StuffPresenter {
 }
 
 extension StuffPresenter: StuffModelOutput {
-    func stuffWasObtainedData(data: [Stuff]) {
+    func didDeleteStuff() {
+        guard let cellToDeleteIndexPath else {
+            cellToDeleteIndexPath = nil
+            didRecieveError(.deleteDataError)
+            return
+        }
+        if cellToDeleteIndexPath.section == 0 {
+            if unpackedStuff.indices.contains(cellToDeleteIndexPath.row) {
+                unpackedStuff.remove(at: cellToDeleteIndexPath.row)
+            }
+        } else if cellToDeleteIndexPath.section == 1 {
+            if packedStuff.indices.contains(cellToDeleteIndexPath.row) {
+                packedStuff.remove(at: cellToDeleteIndexPath.row)
+            }
+        } else {
+            didRecieveError(.deleteDataError)
+        }
+        view.reloadData()
+        self.cellToDeleteIndexPath = nil
+    }
+    
+    func didRecieveError(_ error: Errors) {
+        switch error {
+        case .obtainDataError:
+            view.showAlert(title: "Ошибка",
+                           message: "Возникла ошибка при получении данных")
+        case .saveDataError:
+            view.showAlert(title: "Ошибка",
+                           message: "Возникла ошибка при сохранении данных. Проверьте корректность данных и поробуйте снова")
+        case .deleteDataError:
+            cellToDeleteIndexPath = nil
+            view.showAlert(title: "Ошибка",
+                           message: "Возникла ошибка при удалении данных")
+        default:
+            break
+        }
+    }
+    
+    func didRecieveStuffData(data: [Stuff]) {
         allStuff = data
         
         for stuff in allStuff {
@@ -72,12 +117,21 @@ extension StuffPresenter: StuffModelOutput {
         
         view.reloadData()
     }
+    
+    func didRecieveBaggageData(data: Baggage) {
+        baggage = data
+    }
 }
 
 extension StuffPresenter: StuffModuleInput {
 }
 
 extension StuffPresenter: StuffViewOutput {
+    func viewDidLoad() {
+        model.obtainStuffData(baggageId: baggageId)
+        model.obtainBaggageData(baggageId: baggageId)
+    }
+    
     func getSectionHeaderText(_ section: Int) -> String {
         if section == 0 {
             return  L10n.unpacked
@@ -94,10 +148,6 @@ extension StuffPresenter: StuffViewOutput {
             return packedStuff.count + 1
         }
         return 0
-    }
-
-    func viewDidLoad() {
-        model.obtainStuffData()
     }
 
     func getStuffCellDisplayData(for indexpath: IndexPath) -> StuffCell.DisplayData? {
@@ -153,12 +203,32 @@ extension StuffPresenter: StuffViewOutput {
 
     // MARK: Cells actions
     func handeleCellDelete(at indexPath: IndexPath) {
-        if indexPath.section == 0 {
-            guard unpackedStuff.indices.contains(indexPath.row) else { return }
-            unpackedStuff.remove(at: indexPath.row)
-        } else if indexPath.section == 1 {
-            guard packedStuff.indices.contains(indexPath.row) else { return }
-            packedStuff.remove(at: indexPath.row)
+        if indexPath.section == 0,
+            unpackedStuff.indices.contains(indexPath.row),
+            let baggage {
+            guard let id = unpackedStuff[indexPath.row].id else {
+                didRecieveError(.deleteDataError)
+                return
+            }
+            if unpackedStuff.indices.contains(indexPath.row) {
+                unpackedStuff.remove(at: indexPath.row)
+            }
+            cellToDeleteIndexPath = indexPath
+            model.deleteStuff(baggage: baggage, stuffId: id)
+        } else if indexPath.section == 1,
+                  packedStuff.indices.contains(indexPath.row),
+                  let baggage {
+            guard let id = packedStuff[indexPath.row].id else {
+                didRecieveError(.deleteDataError)
+                return
+            }
+            if packedStuff.indices.contains(indexPath.row) {
+                packedStuff.remove(at: indexPath.row)
+            }
+            cellToDeleteIndexPath = indexPath
+            model.deleteStuff(baggage: baggage, stuffId: id)
+        } else {
+            didRecieveError(.deleteDataError)
         }
     }
 
