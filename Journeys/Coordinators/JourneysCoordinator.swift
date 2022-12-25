@@ -29,7 +29,7 @@ final class JourneysCoordinator: CoordinatorProtocol {
     // MARK: Public Methods
 
     func start() {
-        var viewController = UIViewController()
+        let viewController = LoadingViewController()
         navigationController.setViewControllers([viewController], animated: false)
         Auth.auth().addIDTokenDidChangeListener { (auth, user) in
             if user == nil {
@@ -59,11 +59,27 @@ final class JourneysCoordinator: CoordinatorProtocol {
     // TODO: finish
     func finish() {
     }
+    
+    func hideLoadingView() {
+        DispatchQueue.main.async { [weak self] in
+            self?.navigationController.dismiss(animated: true)
+        }
+    }
+    
+    func showLoadingView() {
+        let loadingVC = LoadingViewController()
+        loadingVC.modalPresentationStyle = .overCurrentContext
+
+        loadingVC.modalTransitionStyle = .crossDissolve
+               
+        navigationController.present(loadingVC, animated: true)
+    }
 }
 
 // MARK: TripsModuleOutput
 
 extension JourneysCoordinator: TripsModuleOutput {
+    
     func usualTripsModuleWantsToOpenSavedTrips() {
         let builder = TripsModuleBuilder()
         let newRouteViewController = builder.build(firebaseService: firebaseService, output: self, tripsViewControllerType: .saved)

@@ -24,7 +24,6 @@ final class WeatherCollection: UICollectionViewCell {
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 16
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         return collectionView
    }()
@@ -53,9 +52,12 @@ final class WeatherCollection: UICollectionViewCell {
     private func setupCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.contentSize = CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
 
         collectionView.register(WeatherCell.self,
                                 forCellWithReuseIdentifier: "WeatherCell")
+        collectionView.register(NoWeatherDataCell.self,
+                                forCellWithReuseIdentifier: "NoWeatherDataCell")
     }
 
     private func setupConstraints() {
@@ -77,7 +79,6 @@ final class WeatherCollection: UICollectionViewCell {
         self.collectionIndexPath = indexPath
         townNameView.configure(title: data.town)
         self.delegate = delegate
-        print(collectionView.numberOfItems(inSection: 0))
     }
 }
 
@@ -92,7 +93,6 @@ extension WeatherCollection: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let collectionIndexPath = collectionIndexPath else { return 0 }
-        print(delegate.getNumberOfItemsInWeatherCollection(at: collectionIndexPath))
         return delegate.getNumberOfItemsInWeatherCollection(at: collectionIndexPath)
     }
 
@@ -104,7 +104,10 @@ extension WeatherCollection: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         guard let data = delegate.getCellDisplayData(at: collectionIndexPath, for: indexPath) else {
-            return UICollectionViewCell()
+            guard let noDataCell = collectionView.dequeueReusableCell(withReuseIdentifier: "NoWeatherDataCell", for: indexPath) as? NoWeatherDataCell else {
+                return UICollectionViewCell()
+            }
+            return noDataCell
         }
         cell.configure(data: data)
         return cell

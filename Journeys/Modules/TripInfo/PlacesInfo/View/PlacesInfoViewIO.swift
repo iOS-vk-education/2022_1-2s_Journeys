@@ -10,6 +10,7 @@ import Foundation
 
 protocol PlacesInfoViewInput: AnyObject {
     func reloadData()
+    func deleteRow(at indexPath: IndexPath)
 }
 
 // MARK: - PlacesIngo ViewOutput
@@ -18,6 +19,7 @@ protocol PlacesInfoViewOutput: AnyObject {
     func viewDidLoad()
     
     func getHeaderText(for indexpath: IndexPath) -> String
+    func getRouteCellHeight() -> CGFloat
     func getRoutelData() -> ShortRouteCell.DisplayData?
     func getMainCollectionCellsCount(for section: Int) -> Int
     

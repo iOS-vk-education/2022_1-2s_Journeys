@@ -96,6 +96,7 @@
 		EE910DC32958AE610094F5C8 /* FirebaseServiceAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DC22958AE610094F5C8 /* FirebaseServiceAuth.swift */; };
 		EE910DC52958AE700094F5C8 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DC42958AE700094F5C8 /* FirebaseService.swift */; };
 		EE910DC92958B93A0094F5C8 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DC82958B93A0094F5C8 /* LoadingViewController.swift */; };
+		EE910DCB2958D37F0094F5C8 /* NoWeatherDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DCA2958D37F0094F5C8 /* NoWeatherDataCell.swift */; };
 		EEA76C5E2951325E00250B06 /* PlacesInfoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C482951325E00250B06 /* PlacesInfoPresenter.swift */; };
 		EEA76C5F2951325E00250B06 /* PlacesInfoModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C492951325E00250B06 /* PlacesInfoModuleIO.swift */; };
 		EEA76C602951325E00250B06 /* PlacesInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C4B2951325E00250B06 /* PlacesInfoModel.swift */; };
@@ -238,6 +239,7 @@
 		EE910DC22958AE610094F5C8 /* FirebaseServiceAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseServiceAuth.swift; sourceTree = "<group>"; };
 		EE910DC42958AE700094F5C8 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		EE910DC82958B93A0094F5C8 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		EE910DCA2958D37F0094F5C8 /* NoWeatherDataCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoWeatherDataCell.swift; sourceTree = "<group>"; };
 		EEA76C482951325E00250B06 /* PlacesInfoPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesInfoPresenter.swift; sourceTree = "<group>"; };
 		EEA76C492951325E00250B06 /* PlacesInfoModuleIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesInfoModuleIO.swift; sourceTree = "<group>"; };
 		EEA76C4B2951325E00250B06 /* PlacesInfoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesInfoModel.swift; sourceTree = "<group>"; };
@@ -835,6 +837,7 @@
 			children = (
 				EEA76C512951325E00250B06 /* WeatherCell.swift */,
 				EEA76C522951325E00250B06 /* WeatherCellDisplayDataFactory.swift */,
+				EE910DCA2958D37F0094F5C8 /* NoWeatherDataCell.swift */,
 			);
 			path = WeatherCell;
 			sourceTree = "<group>";
@@ -1240,6 +1243,7 @@
 				EEFA76CC292BE88F00A0B8CA /* RouteViewController.swift in Sources */,
 				EE00AC13295601CD00FAFDCD /* DepartureLocationPresenter.swift in Sources */,
 				EE00AC17295601CD00FAFDCD /* DepartureLocationViewController.swift in Sources */,
+				EE910DCB2958D37F0094F5C8 /* NoWeatherDataCell.swift in Sources */,
 				EEFA76C8292BE88F00A0B8CA /* RoutePresenter.swift in Sources */,
 				EEFA76DB292C5E7E00A0B8CA /* CalendarCell.swift in Sources */,
 				EE157F482926B39A00A56157 /* XCAssets+Generated.swift in Sources */,

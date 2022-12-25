@@ -10,11 +10,13 @@ import Foundation
 // MARK: - PlacesInfo ModuleInput
 
 protocol PlacesInfoModelInput: AnyObject {
-    func getWeatherData(for place: Place)
+    func getWeatherData(for place: Place, index: Int)
 }
 
 // MARK: - PlacesInfo ModuleOutput
 
 protocol PlacesInfoModelOutput: AnyObject {
     func didRecieveWeatherData(_ weatherData: WeatherWithLocation)
+    func didRecieveError(error: Error)
+    func noCoordunatesFoPlace(_ place: Place, index: Int)
 }

@@ -22,16 +22,16 @@ final class PlacesInfoModel {
     private func getTimezone(for coordinates: Coordinates, place: Place) {
         let request = requestFactory.getCoordinatesTimezone(coordinates)
         networkService.sendRequest(request) { [weak self] result in
+            guard let self else { return }
             switch result {
             case .failure(let error):
-                print("Error: \(error)")
-                
+                self.output.didRecieveError(error: error)
             case .success(let data):
                 do {
                     let decoder = JSONDecoder()
                     decoder.keyDecodingStrategy = .convertFromSnakeCase
                     let timezone = try decoder.decode(Timezone.self, from: data)
-                    self?.getWeatherData(for: coordinates, timezone: timezone, place: place)
+                    self.getWeatherData(for: coordinates, timezone: timezone, place: place)
                 } catch {
                     assertionFailure("\(error)")
                 }
@@ -48,8 +48,7 @@ final class PlacesInfoModel {
             guard let strongSelf = self else { return }
             switch result {
             case .failure(let error):
-                print("Error: \(error)")
-                
+                strongSelf.output.didRecieveError(error: error)
             case .success(let data):
                 do {
                     let decoder = JSONDecoder()
@@ -73,26 +72,30 @@ final class PlacesInfoModel {
                                   temperatureMin: dailyWeather.temperatureMin[index])
             weatherList.append(weather)
         }
-        print(WeatherWithLocation(location: location, weather: weatherList))
         return WeatherWithLocation(location: location, weather: weatherList)
     }
 }
 
 extension PlacesInfoModel: PlacesInfoModelInput {
 
-    func getWeatherData(for place: Place) {
+    func getWeatherData(for place: Place, index: Int) {
         let request = requestFactory.getLocationCoordinates(city: place.location.city,
                                                             country: place.location.country)
         networkService.sendRequest(request) { [weak self] result in
+            guard let self else { return }
             switch result {
             case .failure(let error):
-                print("Error: \(error)")
+                self.output.didRecieveError(error: error)
             case .success(let data):
                 do {
                     let decoder = JSONDecoder()
                     let coordinatesMas = try decoder.decode([Coordinates].self, from: data)
+                    guard coordinatesMas.count > 0 else {
+                        self.output.noCoordunatesFoPlace(place, index: index)
+                        return
+                    }
                     let coordinates = coordinatesMas[0]
-                    self?.getTimezone(for: coordinates, place: place)
+                    self.getTimezone(for: coordinates, place: place)
                 } catch {
                     assertionFailure("\(error)")
                 }

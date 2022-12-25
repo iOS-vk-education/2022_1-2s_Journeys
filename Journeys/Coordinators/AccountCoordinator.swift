@@ -52,7 +52,9 @@ final class AccountCoordinator: CoordinatorProtocol {
 
 extension AccountCoordinator: AccountModuleOutput {
     func hideLoadingView() {
-        navigationController.dismiss(animated: true)
+        DispatchQueue.main.async { [weak self] in
+            self?.navigationController.dismiss(animated: true)
+        }
     }
     
     func showLoadingView() {

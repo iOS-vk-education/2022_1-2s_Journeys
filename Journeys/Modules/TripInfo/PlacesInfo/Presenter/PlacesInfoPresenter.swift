@@ -17,6 +17,7 @@ final class PlacesInfoPresenter {
     weak var moduleOutput: PlacesInfoModuleOutput!
     private var route: Route
     private var weather: [WeatherWithLocation] = []
+    
 //    var loc1 = Location(country: "Russia", city: "Kursk")
 //    var loc2 = Location(country: "Russia", city: "Anapa")
 //    var loc3 = Location(country: "Russia", city: "Perm")
@@ -47,14 +48,6 @@ final class PlacesInfoPresenter {
     
     init(route: Route) {
         self.route = route
-        let loc1 = Location(country: "Russia", city: "Moscow")
-        let loc2 = Location(country: "Russia", city: "Kursk")
-        let loc3 = Location(country: "Russia", city: "Anapa")
-        let loc4 = Location(country: "Russia", city: "Perm")
-        self.route = (Route(id: "", imageURLString: "", departureLocation: loc1,
-                                         places: [Place(location: loc4,
-                                                        arrive: Date().addingTimeInterval(200000),
-                                                        depart: Date().addingTimeInterval(240000))]))
     }
     
     private func sortWeather() {
@@ -69,16 +62,37 @@ final class PlacesInfoPresenter {
         }
         weather = sortedWeather
     }
+    
+    private func showLoadingView() {
+        moduleOutput.showLoadingView()
+    }
+    private func hideLoadingView() {
+        moduleOutput.hideLoadingView()
+    }
 }
 
 extension PlacesInfoPresenter: PlacesInfoModuleInput {
 }
 
 extension PlacesInfoPresenter: PlacesInfoViewOutput {
+    func getRouteCellHeight() -> CGFloat {
+        return 0.0
+    }
+    
     func viewDidLoad() {
-        for place in route.places {
-            model.getWeatherData(for: place)
+        for index in 0..<route.places.count {
+            model.getWeatherData(for: route.places[index], index: index)
         }
+    }
+    
+    func getMainCollectionCellsCount(for section: Int) -> Int {
+        if section == 0 {
+            return 1
+        } else if section == 1 {
+            print(weather.count)
+            return weather.count
+        }
+        return 0
     }
     
     func getWeatherCollectionDisplayData(_ row: Int) -> WeatherCollection.DisplayData? {
@@ -88,14 +102,15 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
     
     func getWeatherCollectionCellsCount(for row: Int) -> Int {
         guard weather.indices.contains(row) == true else { return 0 }
-        print(weather[row].weather.count)
+        if weather[row].weather.count == 0 {
+            return 1
+        }
         return weather[row].weather.count
     }
     
     func getWeatherCollectionCellDisplayData(collectionRow: Int, cellRow: Int) -> WeatherCell.DisplayData? {
         guard weather.indices.contains(collectionRow) == true else { return nil }
         guard weather[collectionRow].weather.indices.contains(cellRow) == true else { return nil }
-        print(weather[collectionRow].weather[cellRow])
         return WeatherCellDisplayDataFactory().displayData(weather: weather[collectionRow].weather[cellRow])
     }
     
@@ -119,24 +134,24 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
         return ShortRouteCell.DisplayData(route: routeString)
     }
     
-    func getMainCollectionCellsCount(for section: Int) -> Int {
-        if section == 0 {
-            return 1
-        } else if section == 1 {
-            return weather.count
-        }
-        return 0
-    }
-    
     func didTapExitButton() {
         moduleOutput.placesModuleWantsToClose()
     }
 }
 
 extension PlacesInfoPresenter: PlacesInfoModelOutput {
+    func noCoordunatesFoPlace(_ place: Place, index: Int) {
+        weather.append(WeatherWithLocation(location: place.location, weather: nil))
+        view.reloadData()
+    }
+    
+    func didRecieveError(error: Error) {
+        
+    }
     
     func didRecieveWeatherData(_ weatherData: WeatherWithLocation) {
         self.weather.append(weatherData)
         view.reloadData()
+        hideLoadingView()
     }
 }

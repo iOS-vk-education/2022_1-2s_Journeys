@@ -20,4 +20,6 @@ protocol RouteModuleOutput: AnyObject {
     func routeModuleWantsToOpenPlaceModule(place: Place?, placeIndex: Int, routeModuleInput: RouteModuleInput)
     func routeModuleWantsToOpenDepartureLocationModule(departureLocation: Location?, routeModuleInput: RouteModuleInput)
     func routeModuleWantsToOpenTripInfoModule( trip: Trip, route: Route)
+    func showLoadingView()
+    func hideLoadingView()
 }

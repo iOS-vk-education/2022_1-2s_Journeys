@@ -20,4 +20,7 @@ protocol TripsModuleOutput: AnyObject {
     func savedTripsModuleWantsToClose()
     
     func tripCollectionWantsToOpenTripInfoModule(trip: Trip, route: Route)
+    
+    func showLoadingView()
+    func hideLoadingView()
 }

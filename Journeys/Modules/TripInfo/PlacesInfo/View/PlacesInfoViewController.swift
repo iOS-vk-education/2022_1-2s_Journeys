@@ -24,7 +24,9 @@ final class PlacesInfoViewController: UIViewController {
     private lazy var mainCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 20
+//        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         layout.sectionInset = UIEdgeInsets(top: 18, left: 0, bottom: 35, right: 0)
+        layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.contentInset = UIEdgeInsets(top: 18, left: 0, bottom: 0, right: 0)
         return collectionView
@@ -49,6 +51,8 @@ final class PlacesInfoViewController: UIViewController {
         mainCollectionView.delegate = self
         mainCollectionView.dataSource = self
 
+        mainCollectionView.contentSize = CGSize(width: mainCollectionView.frame.width,
+                                                height: mainCollectionView.frame.height)
         mainCollectionView.register(ShortRouteCell.self,
                                     forCellWithReuseIdentifier: "ShortRouteCell")
         mainCollectionView.register(WeatherCollection.self,
@@ -83,9 +87,9 @@ extension PlacesInfoViewController: UICollectionViewDelegate, UICollectionViewDe
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch indexPath.section {
         case 0:
-            return CGSize(width: mainCollectionView.frame.width, height: 85)
+            return CGSize(width: mainCollectionView.frame.width, height: 25)
         case 1:
-            return CGSize(width: mainCollectionView.frame.width, height: 85)
+            return CGSize(width: mainCollectionView.frame.width, height: 90)
         default:
             return CGSize(width: 0, height: 0)
         }
@@ -140,6 +144,10 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
 }
 
 extension PlacesInfoViewController: PlacesInfoViewInput {
+    func deleteRow(at indexPath: IndexPath) {
+//        mainCollectionView.deleteItems(at: indexPath)
+    }
+    
     func reloadData() {
         DispatchQueue.main.async { [weak self] in
             self?.mainCollectionView.reloadData()
@@ -150,7 +158,6 @@ extension PlacesInfoViewController: PlacesInfoViewInput {
 private extension PlacesInfoViewController {
     enum Constants {
         static let contentBlocksSpacing: CGFloat = 30
-        
         enum RouteView {
             static let horisontalSpacing: CGFloat = 20
         }

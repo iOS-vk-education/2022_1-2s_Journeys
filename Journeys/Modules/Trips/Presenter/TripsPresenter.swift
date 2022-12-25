@@ -79,6 +79,7 @@ extension TripsPresenter: TripsModuleInput {
 
 extension TripsPresenter: TripsViewOutput {
     func viewDidAppear() {
+        moduleOutput.showLoadingView()
         loadTripsData()
     }
     
@@ -213,11 +214,9 @@ extension TripsPresenter: TripsInteractorOutput {
     
     func didFinishObtainingData(trips: [TripWithRouteAndImage]) {
         self.tripsData = trips
-//        for tr in tripsData {
-//            print(tr.dateChanged)
-//        }
         tripsData.sort(by: {$0.dateChanged.timeIntervalSinceNow > $1.dateChanged.timeIntervalSinceNow})
         self.view.reloadData()
+        moduleOutput.hideLoadingView()
         self.view.endRefresh()
     }
     
@@ -234,6 +233,7 @@ extension TripsPresenter: TripsInteractorOutput {
     func didRecieveError(error: Errors) {
         switch error {
         case .obtainDataError:
+            moduleOutput.hideLoadingView()
             view.showAlert(title: "Ошибка",
                            message: "Возникла ошибка при получении данных",
                            actionTitle: "Ок")

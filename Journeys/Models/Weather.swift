@@ -25,8 +25,8 @@ struct WeatherWithLocation: Decodable {
     let location: Location
     let weather: [Weather]
     
-    internal init(location: Location, weather: [Weather]) {
+    internal init(location: Location, weather: [Weather]?) {
         self.location = location
-        self.weather = weather
+        self.weather = weather ?? []
     }
 }

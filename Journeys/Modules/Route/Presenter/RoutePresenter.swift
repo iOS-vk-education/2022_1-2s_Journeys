@@ -36,7 +36,7 @@ final class RoutePresenter {
             assertionFailure("Error while creating cell")
             return
         }
-        let indexPath = NSIndexPath(row: tableView.numberOfRows(inSection: 1), section: 2)
+        let indexPath = NSIndexPath(row: tableView.numberOfRows(inSection: 2), section: 2)
         guard let displayData = view.output.getDisplayData(for: indexPath as IndexPath) else { return }
         cell.configure(displayData: displayData)
         
@@ -53,6 +53,13 @@ final class RoutePresenter {
         }
         return[deleteAction]
     }
+    
+    private func showLoadingView() {
+        moduleOutput.showLoadingView()
+    }
+    private func hideLoadingView() {
+        moduleOutput.hideLoadingView()
+    }
 }
 
 extension RoutePresenter: RouteViewOutput {
@@ -61,7 +68,6 @@ extension RoutePresenter: RouteViewOutput {
         guard let trip = trip else { return }
         getRoute(routeId: trip.routeId)
     }
-    
     
     func numberOfSectins() -> Int {
         4
@@ -128,9 +134,11 @@ extension RoutePresenter: RouteViewOutput {
         }
         guard let trip = trip,
               let tripId = trip.id else {
+            showLoadingView()
             model.storeNewTrip(route: route, tripImage: tripImage)
             return
         }
+        showLoadingView()
         model.storeRouteData(route: route, tripImage: tripImage, tripId: tripId)
     }
     
@@ -195,6 +203,7 @@ extension RoutePresenter: RouteModelOutput {
         view.reloadData()
     }
     func didRecieveError(error: Errors) {
+        hideLoadingView()
         switch error {
         case .obtainDataError:
             view.showAlert(title: "Ошибка",
@@ -212,17 +221,20 @@ extension RoutePresenter: RouteModelOutput {
     
     func didSaveRouteData(route: Route) {
         guard let trip else {
+            hideLoadingView()
             view.showAlert(title: "Ошибка",
                            message: "Возникла ошибка при открытии данных поездки")
             return
         }
         moduleOutput.routeModuleWantsToOpenTripInfoModule(trip: trip,
                                                           route: route)
+        hideLoadingView()
     }
     
     func didSaveData(trip: Trip, route: Route) {
         moduleOutput.routeModuleWantsToOpenTripInfoModule(trip: trip,
                                                           route: route)
+        hideLoadingView()
     }
 }
 

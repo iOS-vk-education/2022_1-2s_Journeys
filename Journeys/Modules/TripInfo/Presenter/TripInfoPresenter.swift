@@ -60,6 +60,13 @@ extension TripInfoPresenter: TripInfoViewOutput {
 }
 
 extension TripInfoPresenter: PlacesInfoModuleOutput {
+    func showLoadingView() {
+        moduleOutput.showLoadingView()
+    }
+    func hideLoadingView() {
+        moduleOutput.hideLoadingView()
+    }
+    
     func placesModuleWantsToClose() {
         moduleOutput.tripInfoModuleWantsToClose()
     }

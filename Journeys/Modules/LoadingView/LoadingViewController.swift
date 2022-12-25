@@ -36,10 +36,6 @@ class LoadingViewController: UIViewController {
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         
         blurEffectView.alpha = 0.9
-        
-        // Setting the autoresizing mask to flexible for
-        // width and height will ensure the blurEffectView
-        // is the same size as its parent view.
         blurEffectView.autoresizingMask = [
             .flexibleWidth, .flexibleHeight
         ]
@@ -52,13 +48,8 @@ class LoadingViewController: UIViewController {
         
         view.backgroundColor = UIColor.white.withAlphaComponent(0.1)
         
-        // Add the blurEffectView with the same
-        // size as view
         blurEffectView.frame = self.view.bounds
         view.insertSubview(blurEffectView, at: 0)
-        
-        // Add the loadingActivityIndicator in the
-        // center of view
         loadingActivityIndicator.center = CGPoint(
             x: view.bounds.midX,
             y: view.bounds.midY
