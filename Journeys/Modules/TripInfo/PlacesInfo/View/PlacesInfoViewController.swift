@@ -31,6 +31,7 @@ final class PlacesInfoViewController: UIViewController {
         collectionView.contentInset = UIEdgeInsets(top: 18, left: 0, bottom: 0, right: 0)
         return collectionView
    }()
+    
 
     // MARK: Lifecycle
 

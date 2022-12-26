@@ -76,6 +76,20 @@ extension PlacesInfoPresenter: PlacesInfoModuleInput {
 }
 
 extension PlacesInfoPresenter: PlacesInfoViewOutput {
+    func viewDidLoad() {
+        moduleOutput?.showLoadingView()
+        for place in route.places {
+            let currentDate = Date()
+            var dateComponent = DateComponents()
+            dateComponent.day = 15
+            if let futureDate = Calendar.current.date(byAdding: dateComponent, to: currentDate) {
+                if place.arrive < futureDate {
+                    model.getWeatherData(for: place)
+                }
+            }
+        }
+    }
+    
     func isEmptyCellNeed() -> Bool {
         if !isAnyPlaces || !isAnyPlacesWithWeather {
             return true
@@ -94,19 +108,6 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
     
     func getRouteCellHeight() -> CGFloat {
         return 0.0
-    }
-    
-    func viewDidLoad() {
-        for place in route.places {
-            let currentDate = Date()
-            var dateComponent = DateComponents()
-            dateComponent.day = 15
-            if let futureDate = Calendar.current.date(byAdding: dateComponent, to: currentDate) {
-                if place.arrive < futureDate {
-                    model.getWeatherData(for: place)
-                }
-            }
-        }
     }
     
     func getMainCollectionCellsCount(for section: Int) -> Int {
@@ -128,14 +129,12 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
     
     func getWeatherCollectionCellsCount(for indexPath: IndexPath) -> Int {
         guard weather.indices.contains(indexPath.row) == true else { return 0 }
-        print(weather[indexPath.row].weather)
         return weather[indexPath.row].weather.count
     }
     
     func getWeatherCollectionCellDisplayData(collectionRow: Int, cellRow: Int) -> WeatherCell.DisplayData? {
         guard weather.indices.contains(collectionRow) == true else { return nil }
         guard weather[collectionRow].weather.indices.contains(cellRow) == true else { return nil }
-        print(WeatherCellDisplayDataFactory().displayData(weather: weather[collectionRow].weather[cellRow]))
         return WeatherCellDisplayDataFactory().displayData(weather: weather[collectionRow].weather[cellRow])
     }
     
@@ -144,7 +143,7 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
         case 0:
             return "Маршрут"
         case 1:
-            return "Погода"
+            return "Погода на 15 дней"
         default:
             return ""
         }
@@ -173,10 +172,6 @@ extension PlacesInfoPresenter: PlacesInfoModelOutput {
         }
     }
     
-    func gotCoorcinates() {
-        dataToLoadCount -= 1
-    }
-    
     func didRecieveError(error: Error) {
         dataToLoadCount -= 1
         view.showAlert(title: "Ошибка", message: "Возникла ошибка при загрузке данных")
@@ -185,7 +180,7 @@ extension PlacesInfoPresenter: PlacesInfoModelOutput {
     func didRecieveWeatherData(_ weatherData: WeatherWithLocation) {
         self.loadedeWeather.append(weatherData)
         isAnyPlacesWithWeather = true
-        print(dataToLoadCount)
+        dataToLoadCount -= 1
         if dataToLoadCount == 0 {
             isDataLoaded = true
             dataLoaded()

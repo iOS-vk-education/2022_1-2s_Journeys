@@ -94,7 +94,6 @@ extension PlacesInfoModel: PlacesInfoModelInput {
                         self.output.noCoordunates()
                         return
                     }
-                    self.output.gotCoorcinates()
                     let coordinates = coordinatesMas[0]
                     self.getTimezone(for: coordinates, place: place)
                 } catch {

@@ -79,6 +79,7 @@ final class StuffCell: UITableViewCell {
         nameTextField.isUserInteractionEnabled = false
         emojiTextField.isUserInteractionEnabled = false
         nameTextField.autocorrectionType = .no
+        nameTextField.placeholder = "Название вещи"
 
         emojiTextField.addTarget(self, action: #selector(emojiTextFieldDidChange), for: .editingDidEnd)
         nameTextField.addTarget(self, action: #selector(nameTextFieldDidChange), for: .editingDidEnd)
@@ -105,8 +106,6 @@ final class StuffCell: UITableViewCell {
             make.top.equalToSuperview()
             make.bottom.equalToSuperview().inset(6)
             make.width.equalTo(packButton.snp.height)
-//            make.height.equalTo(24)
-//            make.width.equalTo(24)
         }
         separator.snp.makeConstraints { make in
             make.leading.equalToSuperview()
