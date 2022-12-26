@@ -152,8 +152,6 @@ final class StuffCell: UITableViewCell {
     @objc
     private func didTapCellButton() {
         delegate?.cellPackButtonWasTapped(self)
-        isPacked.toggle()
-        configureButton()
     }
     
     func startEditMode() {
@@ -169,6 +167,11 @@ final class StuffCell: UITableViewCell {
     
     func giveData() -> StuffData {
         StuffData(emoji: emojiTextField.text, name: nameTextField.text ?? "", isPacked: isPacked)
+    }
+    
+    func changeIsPickedFlag() {
+        isPacked.toggle()
+        configureButton()
     }
 
     func configure(data: DisplayData, delegate: StuffCellDelegate) {

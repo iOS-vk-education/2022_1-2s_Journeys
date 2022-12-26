@@ -12,16 +12,16 @@ import Foundation
 final class AccountPresenter {
     // MARK: - Public Properties
 
-    weak var view: AccountViewInput!
-    var model: AccountModelInput!
-    weak var moduleOutout: AccountModuleOutput!
+    weak var view: AccountViewInput?
+    var model: AccountModelInput?
+    weak var moduleOutout: AccountModuleOutput?
 
     private func showLoadingView() {
-        moduleOutout.showLoadingView()
+        moduleOutout?.showLoadingView()
     }
     
     private func hideLoadingView() {
-        moduleOutout.hideLoadingView()
+        moduleOutout?.hideLoadingView()
     }
 }
 
@@ -30,43 +30,43 @@ extension AccountPresenter: AccountModuleInput {
 
 extension AccountPresenter: AccountViewOutput {
     func didTapSaveButton() {
-        view.getCellsValues()
+        view?.getCellsValues()
     }
     
     func didTapExitButton() {
-        model.signOut()
+        model?.signOut()
+        moduleOutout?.logout()
     }
-    
-    
+
     func setCellsValues(newEmail: String?, password: String?, newPassword: String?) {
-        guard let email = model.getUserData()?.email else {
-            view.showAlert(title: "Ошибка", message: "Возникли проблемы с вашим Email адресом, перезайдите в аккаунт")
+        guard let email = model?.getUserData()?.email else {
+            view?.showAlert(title: "Ошибка", message: "Возникли проблемы с вашим Email адресом, перезайдите в аккаунт")
             return
         }
         guard let password else {
-            view.showAlert(title: "Ошибка", message: "Введите текущий пароль для смены данных")
+            view?.showAlert(title: "Ошибка", message: "Введите текущий пароль для смены данных")
             return
         }
         if let newEmail {
             if let newPassword {
-                model.saveEmailAndPassword(email: email,
+                model?.saveEmailAndPassword(email: email,
                                            newEmail: newEmail,
                                            password: password,
                                            newPassword: newPassword)
                 showLoadingView()
                 return
             } else {
-                model.saveEmail(email: email, newEmail: newEmail, password: password)
+                model?.saveEmail(email: email, newEmail: newEmail, password: password)
                 showLoadingView()
                 return
             }
         }
         if let newPassword {
-            model.savePassword(email: email, password: password, newPassword: newPassword)
+            model?.savePassword(email: email, password: password, newPassword: newPassword)
             showLoadingView()
             return
         }
-        view.showAlert(title: "Ошибка", message: "Заполните поля для изменения данных")
+        view?.showAlert(title: "Ошибка", message: "Заполните поля для изменения данных")
     }
     
     func getCellsCount() -> Int {
@@ -99,11 +99,11 @@ extension AccountPresenter: AccountViewOutput {
 extension AccountPresenter: AccountModelOutput {
     func didRecieveError(error: Error) {
         hideLoadingView()
-        view.showAlert(title: "Error", message: error.localizedDescription)
+        view?.showAlert(title: "Error", message: error.localizedDescription)
     }
     
     func saveSuccesfull() {
         hideLoadingView()
-        view.showAlert(title: "Данные сохранены", message: "Данные успешно сохранены")
+        view?.showAlert(title: "Данные сохранены", message: "Данные успешно сохранены")
     }
 }

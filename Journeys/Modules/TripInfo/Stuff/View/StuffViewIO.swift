@@ -16,6 +16,7 @@ protocol StuffViewInput: AnyObject {
     func showAlert(title: String, message: String)
     func moveTableViewRow(at fromIndexPath: IndexPath, to toIndexPath: IndexPath)
     func getCellsData(from indexPath: IndexPath) -> StuffCell.StuffData?
+    func changeIsPickedCellFlag(at indexPath: IndexPath)
 }
 
 // MARK: - Stuff ViewOutput

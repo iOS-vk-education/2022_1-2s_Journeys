@@ -60,14 +60,17 @@ extension StuffModel: StuffModelInput {
         }
     }
     
-    func saveChangedStuff(stuff: Stuff, baggage: Baggage) {
+    func saveChangedStuff(stuff: Stuff, baggage: Baggage, indexPath: IndexPath) {
         saveStuff(stuff, baggageId: baggage.id) {  [weak self] savedStuff in
             guard let self else { return }
             if stuff.id == nil,
                let savedStuffId = savedStuff.id {
                 var newBagagge = baggage
                 newBagagge.stuffIDs.append(savedStuffId)
-                self.saveBaggage(newBagagge) { _ in }
+                print(savedStuffId)
+                self.saveBaggage(newBagagge) { savedBagagge in
+                    self.output.didSaveStuff(stuff: savedStuff, baggage: savedBagagge, indexPath: indexPath)
+                }
             }
         }
     }

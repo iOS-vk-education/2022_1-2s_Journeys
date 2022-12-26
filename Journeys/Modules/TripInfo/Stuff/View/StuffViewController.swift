@@ -170,6 +170,11 @@ extension StuffViewController: UITableViewDataSource {
 }
 
 extension StuffViewController: StuffViewInput {
+    func changeIsPickedCellFlag(at indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? StuffCell else { return }
+        cell.changeIsPickedFlag()
+    }
+    
     func getCellsData(from indexPath: IndexPath) -> StuffCell.StuffData? {
         guard let cell = tableView.cellForRow(at: indexPath) as? StuffCell else {
             return nil

@@ -15,4 +15,5 @@ protocol AccountModuleInput: AnyObject {
 protocol AccountModuleOutput: AnyObject {
     func showLoadingView()
     func hideLoadingView()
+    func logout()
 }

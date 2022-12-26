@@ -53,7 +53,7 @@ final class NoWeatherDataCell: UICollectionViewCell {
     private func makeConstraints() {
         text.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.top.equalToSuperview()
             make.height.equalTo(20)
             make.width.equalToSuperview().offset(-40)
         }

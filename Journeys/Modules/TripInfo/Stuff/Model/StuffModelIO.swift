@@ -12,7 +12,7 @@ protocol StuffModelInput: AnyObject {
     func deleteStuff(baggage: Baggage, stuffId: String)
     func obtainBaggageData(baggageId: String)
     func changeStuffIsPackedFlag(stuff: Stuff, baggage: Baggage, indexPath: IndexPath)
-    func saveChangedStuff(stuff: Stuff, baggage: Baggage)
+    func saveChangedStuff(stuff: Stuff, baggage: Baggage, indexPath: IndexPath) 
 }
 
 protocol StuffModelOutput: AnyObject {
@@ -21,4 +21,6 @@ protocol StuffModelOutput: AnyObject {
     func didRecieveError(_ type: Errors)
     func didDeleteStuff()
     func didChangeStuffStatus(stuff: Stuff, indexPath: IndexPath)
+    
+    func didSaveStuff(stuff: Stuff, baggage: Baggage, indexPath: IndexPath)
 }

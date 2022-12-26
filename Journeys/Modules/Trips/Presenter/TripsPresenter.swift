@@ -13,7 +13,7 @@ import UIKit
 final class TripsPresenter {
     // MARK: - Public Properties
 
-    weak var view: TripsViewInput!
+    weak var view: TripsViewInput?
     weak var moduleOutput: TripsModuleOutput!
 
     // MARK: - Private Properties
@@ -115,7 +115,7 @@ extension TripsPresenter: TripsViewOutput {
             moduleOutput.tripsCollectionWantsToOpenNewRouteModule()
         default:
             guard tripsData.indices.contains(indexPath.row) else {
-                view.showAlert(title: "Ошибка",
+                view?.showAlert(title: "Ошибка",
                                message: "Возникла ошибка при открытии данных маршрута",
                                actionTitle: "Ок")
                 return
@@ -133,7 +133,7 @@ extension TripsPresenter: TripsViewOutput {
     
     func didTapEditButton(at indexPath: IndexPath) {
         guard tripsData.indices.contains(indexPath.row) else {
-            view.showAlert(title: "Ошибка",
+            view?.showAlert(title: "Ошибка",
                            message: "Возникла ошибка при попытке отредактировать данные маршрута",
                            actionTitle: "Ок")
             return
@@ -143,17 +143,17 @@ extension TripsPresenter: TripsViewOutput {
     
     func didTapDeleteButton(at indexPath: IndexPath) {
         guard tripsData.indices.contains(indexPath.row) else {
-            view.showAlert(title: "Ошибка",
+            view?.showAlert(title: "Ошибка",
                            message: "Возникла ошибка при удалении данных маршрута",
                            actionTitle: "Ок")
             return
         }
-        view.showChoiceAlert(title: "Удалить маршрут", message: "Вы уверены, что хотите удалиь маршрут?", agreeActionTitle: "Да", disagreeActionTitle: "Нет", cellIndexPath: indexPath)
+        view?.showChoiceAlert(title: "Удалить маршрут", message: "Вы уверены, что хотите удалиь маршрут?", agreeActionTitle: "Да", disagreeActionTitle: "Нет", cellIndexPath: indexPath)
     }
     
     func didSelectAgreeAlertAction(cellIndexPath: IndexPath) {
         guard tripsData.indices.contains(cellIndexPath.row) else {
-            view.showAlert(title: "Ошибка",
+            view?.showAlert(title: "Ошибка",
                            message: "Возникла ошибка при удалении данных маршрута",
                            actionTitle: "Ок")
             return
@@ -177,7 +177,7 @@ extension TripsPresenter: TripsInteractorOutput {
         var count = data.count
         if count  == 0 {
             moduleOutput.hideLoadingView()
-            view.endRefresh()
+            view?.endRefresh()
         }
         for trip in data {
             interactor.obtainRouteDataFromSever(with: trip.routeId) { [weak self] result in
@@ -219,15 +219,15 @@ extension TripsPresenter: TripsInteractorOutput {
     func didFinishObtainingData(trips: [TripWithRouteAndImage]) {
         self.tripsData = trips
         tripsData.sort(by: {$0.dateChanged.timeIntervalSinceNow > $1.dateChanged.timeIntervalSinceNow})
-        self.view.reloadData()
+        self.view?.reloadData()
         moduleOutput.hideLoadingView()
-        self.view.endRefresh()
+        self.view?.endRefresh()
     }
     
     func didDeleteTrip() {
         if let cellToDeleteIndexPath = cellToDeleteIndexPath {
             if tripsData.indices.contains(cellToDeleteIndexPath.row) {
-                view.deleteItem(at: cellToDeleteIndexPath)
+                view?.deleteItem(at: cellToDeleteIndexPath)
                 tripsData.remove(at: cellToDeleteIndexPath.row)
             }
         }
@@ -238,16 +238,16 @@ extension TripsPresenter: TripsInteractorOutput {
         switch error {
         case .obtainDataError:
             moduleOutput.hideLoadingView()
-            view.showAlert(title: "Ошибка",
+            view?.showAlert(title: "Ошибка",
                            message: "Возникла ошибка при получении данных",
                            actionTitle: "Ок")
         case .saveDataError:
-            view.showAlert(title: "Ошибка",
+            view?.showAlert(title: "Ошибка",
                            message: "Возникла ошибка при сохранении данных. Проверьте корректность данных и поробуйте снова",
                            actionTitle: "Ок")
         case .deleteDataError:
             cellToDeleteIndexPath = nil
-            view.showAlert(title: "Ошибка",
+            view?.showAlert(title: "Ошибка",
                            message: "Возникла ошибка при удалении данных",
                            actionTitle: "Ок")
         default:

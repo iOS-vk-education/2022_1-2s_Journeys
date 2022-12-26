@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import FirebaseAuth
 
 final class AccountCoordinator: CoordinatorProtocol {
 
@@ -51,6 +52,18 @@ final class AccountCoordinator: CoordinatorProtocol {
 }
 
 extension AccountCoordinator: AccountModuleOutput {
+    func logout() {
+        Auth.auth().addIDTokenDidChangeListener { (auth, user) in
+            if user == nil {
+                let builder = AuthModuleBuilder()
+                let viewController = builder.build(moduleType: .auth,
+                                                   output: self,
+                                                   firebaseService: self.firebaseService)
+                self.navigationController.setViewControllers([viewController], animated: false)
+            }
+        }
+    }
+    
     func hideLoadingView() {
         DispatchQueue.main.async { [weak self] in
             self?.navigationController.dismiss(animated: true)
@@ -66,5 +79,32 @@ extension AccountCoordinator: AccountModuleOutput {
         loadingVC.modalTransitionStyle = .crossDissolve
                
         navigationController.present(loadingVC, animated: true)
+    }
+}
+
+extension AccountCoordinator: AuthModuleOutput {
+    func authModuleWantsToChangeModulenType(currentType: AuthPresenter.ModuleType) {
+        let builder = AuthModuleBuilder()
+        var authViewController: UIViewController
+        switch currentType {
+        case .auth:
+            authViewController = builder.build(moduleType: .registration,
+                                               output: self,
+                                               firebaseService: firebaseService)
+        case .registration:
+            authViewController = builder.build(moduleType: .auth,
+                                               output: self,
+                                               firebaseService: firebaseService)
+        }
+        
+        navigationController.popViewController(animated: false)
+        navigationController.setViewControllers([authViewController], animated: true)
+    }
+    
+    func authModuleWantsToOpenTripsModule() {
+        let builder = AccountModuleBuilder()
+        let accountViewController = builder.build(output: self, firebaseService: firebaseService)
+
+        navigationController.setViewControllers([accountViewController], animated: false)
     }
 }

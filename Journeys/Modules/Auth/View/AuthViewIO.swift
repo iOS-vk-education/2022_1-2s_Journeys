@@ -13,6 +13,7 @@ import Foundation
 protocol AuthViewInput: AnyObject {
     func getCellsValues()
     func showAlert(title: String, message: String)
+    func showTabbar()
 }
 
 // MARK: - Auth ViewOutput

@@ -79,16 +79,34 @@ final class StuffPresenter {
         }
     }
     
-    private func saveStuff(_ stuff: Stuff) {
+    private func saveStuff(_ stuff: Stuff, indexPath: IndexPath) {
         guard let baggage else {
             view.showAlert(title: "Ошибка", message: "Произошла ошибка при сохранении данных. Перезайдите в приложение и попробуйте снова")
             return
         }
-        model.saveChangedStuff(stuff: stuff, baggage: baggage)
+        model.saveChangedStuff(stuff: stuff, baggage: baggage, indexPath: indexPath)
     }
 }
 
 extension StuffPresenter: StuffModelOutput {
+    func didSaveStuff(stuff: Stuff, baggage: Baggage, indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            guard unpackedStuff.indices.contains(indexPath.row) else {
+                didRecieveError(.saveDataError)
+                return
+            }
+            self.baggage = baggage
+            unpackedStuff[indexPath.row] = stuff
+        } else if indexPath.section == 1 {
+            guard packedStuff.indices.contains(indexPath.row) else {
+                didRecieveError(.saveDataError)
+                return
+            }
+            self.baggage = baggage
+            packedStuff[indexPath.row] = stuff
+        }
+    }
+    
     func didDeleteStuff() {
         view.reloadData()
         self.cellToDeleteIndexPath = nil
@@ -113,16 +131,7 @@ extension StuffPresenter: StuffModelOutput {
     
     func didRecieveStuffData(data: [Stuff]) {
         allStuff = data
-        
         sortStuff()
-//        for stuff in allStuff {
-//            if stuff.isPacked {
-//                packedStuff.append(stuff)
-//            } else {
-//                unpackedStuff.append(stuff)
-//            }
-//        }
-        
         view.reloadData()
     }
     
@@ -134,11 +143,13 @@ extension StuffPresenter: StuffModelOutput {
         if indexPath.section == 0 {
             packedStuff.append(unpackedStuff[indexPath.row])
             unpackedStuff.remove(at: indexPath.row)
+            view.changeIsPickedCellFlag(at: indexPath)
             view.moveTableViewRow(at: indexPath, to: IndexPath(row: packedStuff.count - 1, section: 1))
         } else if indexPath.section == 1 {
             unpackedStuff.append(packedStuff[indexPath.row])
             packedStuff.remove(at: indexPath.row)
-            view.moveTableViewRow(at: indexPath, to: IndexPath(row: packedStuff.count - 1, section: 0))
+            view.changeIsPickedCellFlag(at: indexPath)
+            view.moveTableViewRow(at: indexPath, to: IndexPath(row: unpackedStuff.count - 1, section: 0))
         }
     }
 }
@@ -285,13 +296,13 @@ extension StuffPresenter: StuffViewOutput {
             guard unpackedStuff.indices.contains(indexPath.row) else { return }
             unpackedStuff[indexPath.row].emoji = text
             if unpackedStuff[indexPath.row].name != nil {
-                saveStuff(unpackedStuff[indexPath.row])
+                saveStuff(unpackedStuff[indexPath.row], indexPath: indexPath)
             }
         } else if indexPath.section == 1 {
             guard packedStuff.indices.contains(indexPath.row) else { return }
             packedStuff[indexPath.row].emoji = text
             if packedStuff[indexPath.row].name != nil {
-                saveStuff(packedStuff[indexPath.row])
+                saveStuff(packedStuff[indexPath.row], indexPath: indexPath)
             }
         }
     }
@@ -304,11 +315,11 @@ extension StuffPresenter: StuffViewOutput {
         if indexPath.section == 0 {
             guard unpackedStuff.indices.contains(indexPath.row) else { return }
             unpackedStuff[indexPath.row].name = text
-            saveStuff(unpackedStuff[indexPath.row])
+            saveStuff(unpackedStuff[indexPath.row], indexPath: indexPath)
         } else if indexPath.section == 1 {
             guard packedStuff.indices.contains(indexPath.row) else { return }
             packedStuff[indexPath.row].name = text
-            saveStuff(packedStuff[indexPath.row])
+            saveStuff(packedStuff[indexPath.row], indexPath: indexPath)
         }
     }
     

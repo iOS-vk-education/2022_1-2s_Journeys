@@ -18,7 +18,7 @@ final class AuthPresenter {
     
     // MARK: - Public Properties
 
-    weak var view: AuthViewInput!
+    weak var view: AuthViewInput?
     var model: AuthModelInput!
     weak var moduleOutput: AuthModuleOutput!
     
@@ -43,7 +43,7 @@ extension AuthPresenter: AuthViewOutput {
     }
     
     func didTapContinueButton() {
-        view.getCellsValues()
+        view?.getCellsValues()
     }
     
     func didTapChangeScreenTypeButton() {
@@ -55,9 +55,9 @@ extension AuthPresenter: AuthViewOutput {
               let password else {
             switch moduleType {
             case .auth:
-                view.showAlert(title: "Ошибка", message: "Заполните все поля для авторизации!")
+                view?.showAlert(title: "Ошибка", message: "Заполните все поля для авторизации!")
             case .registration:
-                view.showAlert(title: "Ошибка", message: "Заполните все поля для регистрации")
+                view?.showAlert(title: "Ошибка", message: "Заполните все поля для регистрации")
             }
             return
         }
@@ -94,10 +94,11 @@ extension AuthPresenter: AuthViewOutput {
 
 extension AuthPresenter: AuthModelOutput {
     func didRecieveError(error: Error) {
-        view.showAlert(title: "Ошибка", message: "Произошла ошибка при регистрации. \(error.localizedDescription)")
+        view?.showAlert(title: "Error", message: "\(error.localizedDescription)")
     }
     
     func authSuccesfull() {
+        view?.showTabbar()
         moduleOutput.authModuleWantsToOpenTripsModule()
     }
 }

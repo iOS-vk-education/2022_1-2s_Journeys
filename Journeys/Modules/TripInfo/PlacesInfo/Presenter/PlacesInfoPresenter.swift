@@ -20,34 +20,6 @@ final class PlacesInfoPresenter {
     
     private var isAnyPlacesForWeather: Bool = true
     
-//    var loc1 = Location(country: "Russia", city: "Kursk")
-//    var loc2 = Location(country: "Russia", city: "Anapa")
-//    var loc3 = Location(country: "Russia", city: "Perm")
-//    lazy var weather: [[Weather]] = [[Weather(date: "2022-12-01", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1),
-//                                 Weather(date: "2022-12-02", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1),
-//                                 Weather(date: "2022-12-03", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1),
-//                                 Weather(date: "2022-12-04", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1),
-//                                 Weather(date: "2022-12-05", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1),
-//                                      Weather(date: "2022-12-06", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1),
-//                                 Weather(date: "2022-12-07", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc1)],
-//                                     [Weather(date: "2022-12-08", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc2),
-//                                      Weather(date: "2022-12-09", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc2),
-//                                      Weather(date: "2022-12-10", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc2)],
-//                                     [Weather(date: "2022-12-08", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc3),
-//                                      Weather(date: "2022-12-09", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc3),
-//                                      Weather(date: "2022-12-10", weatherCode: 0, temperatureMax: 2, temperatureMin: 0, location: loc3)]]
-//    var weather: [[Weather]] = [[Weather(date: "2022-12-08", weatherCode: 0, temperatureMax: 2, temperatureMin: 26),
-//                                  Weather(date: "2022-12-09", weatherCode: 0, temperatureMax: 2, temperatureMin: 24),
-//                                  Weather(date: "2022-12-10", weatherCode: 0, temperatureMax: 2, temperatureMin: 7)]]
-//    var weather: [[Weather]] = [[Weather(date: "2022-12-01", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                Weather(date: "2022-12-02", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                Weather(date: "2022-12-03", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                Weather(date: "2022-12-04", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                Weather(date: "2022-12-05", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                Weather(date: "2022-12-06", weatherCode: 0, temperatureMax: 2, temperatureMin: 0),
-//                                Weather(date: "2022-12-07", weatherCode: 0, temperatureMax: 2, temperatureMin: 0)]]
-//    lazy var weather: [[Weather]] = [[Weather(date: "2022-12-01", weatherCode: 0, temperatureMax: -16, temperatureMin: -1006, location: route?.places[0].location)]]
-    
     init(route: Route) {
         self.route = route
         if route.places.count == 0 {

@@ -143,6 +143,10 @@ extension AuthViewController: UICollectionViewDataSource {
 }
 
 extension AuthViewController: AuthViewInput {
+    func showTabbar() {
+        tabBarController?.tabBar.items?.forEach { $0.isEnabled = true }
+    }
+    
     func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title,
                                       message: message,
