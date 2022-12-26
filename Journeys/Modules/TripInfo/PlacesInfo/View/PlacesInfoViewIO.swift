@@ -10,13 +10,14 @@ import Foundation
 
 protocol PlacesInfoViewInput: AnyObject {
     func reloadData()
-    func deleteRow(at indexPath: IndexPath)
 }
 
 // MARK: - PlacesIngo ViewOutput
 
 protocol PlacesInfoViewOutput: AnyObject {
     func viewDidLoad()
+    
+    func isAnyPlacesFowWeather() -> Bool
     
     func getHeaderText(for indexpath: IndexPath) -> String
     func getRouteCellHeight() -> CGFloat

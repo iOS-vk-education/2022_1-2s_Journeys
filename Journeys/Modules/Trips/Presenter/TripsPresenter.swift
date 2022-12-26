@@ -138,7 +138,7 @@ extension TripsPresenter: TripsViewOutput {
                            actionTitle: "Ок")
             return
         }
-        moduleOutput.tripsCollectionWantsToOpenExistingRoute(with: Trip(tripWithOtherData: tripsData[indexPath.item]))
+        moduleOutput.tripsCollectionWantsToOpenExistingRoute(with: tripsData[indexPath.item])
     }
     
     func didTapDeleteButton(at indexPath: IndexPath) {

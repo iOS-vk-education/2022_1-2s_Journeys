@@ -91,7 +91,7 @@ final class StuffCell: UITableViewCell {
             make.leading.equalToSuperview().inset(8)
             make.bottom.equalToSuperview().inset(10)
             make.height.equalTo(20)
-            make.width.equalTo(22)
+            make.width.equalTo(24)
         }
         
         nameTextField.snp.makeConstraints { make in

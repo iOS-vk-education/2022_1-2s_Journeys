@@ -14,9 +14,11 @@ final class PlacesInfoPresenter {
 
     weak var view: PlacesInfoViewInput!
     var model: PlacesInfoModel!
-    weak var moduleOutput: PlacesInfoModuleOutput!
+    weak var moduleOutput: PlacesInfoModuleOutput?
     private var route: Route
     private var weather: [WeatherWithLocation] = []
+    
+    private var isAnyPlacesForWeather: Bool = true
     
 //    var loc1 = Location(country: "Russia", city: "Kursk")
 //    var loc2 = Location(country: "Russia", city: "Anapa")
@@ -48,6 +50,9 @@ final class PlacesInfoPresenter {
     
     init(route: Route) {
         self.route = route
+        if route.places.count == 0 {
+            isAnyPlacesForWeather = false
+        }
     }
     
     private func sortWeather() {
@@ -64,10 +69,10 @@ final class PlacesInfoPresenter {
     }
     
     private func showLoadingView() {
-        moduleOutput.showLoadingView()
+        moduleOutput?.showLoadingView()
     }
     private func hideLoadingView() {
-        moduleOutput.hideLoadingView()
+        moduleOutput?.hideLoadingView()
     }
 }
 
@@ -75,13 +80,26 @@ extension PlacesInfoPresenter: PlacesInfoModuleInput {
 }
 
 extension PlacesInfoPresenter: PlacesInfoViewOutput {
+    func isAnyPlacesFowWeather() -> Bool {
+        isAnyPlacesForWeather
+    }
     func getRouteCellHeight() -> CGFloat {
         return 0.0
     }
     
     func viewDidLoad() {
-        for index in 0..<route.places.count {
-            model.getWeatherData(for: route.places[index], index: index)
+        for place in route.places {
+            let currentDate = Date()
+            var dateComponent = DateComponents()
+            dateComponent.day = 15
+            if let futureDate = Calendar.current.date(byAdding: dateComponent, to: currentDate) {
+                print(futureDate)
+                if place.arrive > futureDate {
+                    weather.append(WeatherWithLocation(location: place.location, weather: nil))
+                } else {
+                    model.getWeatherData(for: place)
+                }
+            }
         }
     }
     
@@ -89,6 +107,9 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
         if section == 0 {
             return 1
         } else if section == 1 {
+            if weather.count == 0 && !isAnyPlacesForWeather {
+                return 1
+            }
             print(weather.count)
             return weather.count
         }
@@ -135,12 +156,12 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
     }
     
     func didTapExitButton() {
-        moduleOutput.placesModuleWantsToClose()
+        moduleOutput?.placesModuleWantsToClose()
     }
 }
 
 extension PlacesInfoPresenter: PlacesInfoModelOutput {
-    func noCoordunatesFoPlace(_ place: Place, index: Int) {
+    func noCoordunatesFoPlace(_ place: Place) {
         weather.append(WeatherWithLocation(location: place.location, weather: nil))
         view.reloadData()
     }

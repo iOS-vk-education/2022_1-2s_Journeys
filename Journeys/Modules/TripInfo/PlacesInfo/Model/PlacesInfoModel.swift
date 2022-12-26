@@ -78,7 +78,7 @@ final class PlacesInfoModel {
 
 extension PlacesInfoModel: PlacesInfoModelInput {
 
-    func getWeatherData(for place: Place, index: Int) {
+    func getWeatherData(for place: Place) {
         let request = requestFactory.getLocationCoordinates(city: place.location.city,
                                                             country: place.location.country)
         networkService.sendRequest(request) { [weak self] result in
@@ -91,7 +91,7 @@ extension PlacesInfoModel: PlacesInfoModelInput {
                     let decoder = JSONDecoder()
                     let coordinatesMas = try decoder.decode([Coordinates].self, from: data)
                     guard coordinatesMas.count > 0 else {
-                        self.output.noCoordunatesFoPlace(place, index: index)
+                        self.output.noCoordunatesFoPlace(place)
                         return
                     }
                     let coordinates = coordinatesMas[0]

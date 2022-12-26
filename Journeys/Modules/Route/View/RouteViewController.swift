@@ -69,7 +69,7 @@ final class RouteViewController: UIViewController {
     private func makeConstraints() {
         floatingRouteBuildButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(20)
             make.width.equalTo(RouteConstants.FloatingRouteBuildButton.width)
             make.height.equalTo(RouteConstants.FloatingRouteBuildButton.height)
         }

@@ -67,22 +67,6 @@ final class StuffPresenter {
 
 extension StuffPresenter: StuffModelOutput {
     func didDeleteStuff() {
-        guard let cellToDeleteIndexPath else {
-            cellToDeleteIndexPath = nil
-            didRecieveError(.deleteDataError)
-            return
-        }
-        if cellToDeleteIndexPath.section == 0 {
-            if unpackedStuff.indices.contains(cellToDeleteIndexPath.row) {
-                unpackedStuff.remove(at: cellToDeleteIndexPath.row)
-            }
-        } else if cellToDeleteIndexPath.section == 1 {
-            if packedStuff.indices.contains(cellToDeleteIndexPath.row) {
-                packedStuff.remove(at: cellToDeleteIndexPath.row)
-            }
-        } else {
-            didRecieveError(.deleteDataError)
-        }
         view.reloadData()
         self.cellToDeleteIndexPath = nil
     }

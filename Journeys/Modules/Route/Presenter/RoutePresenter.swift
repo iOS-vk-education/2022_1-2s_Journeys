@@ -23,11 +23,15 @@ final class RoutePresenter {
     var arrivalCellsCount: Int = 0
     
     var route: Route?
-    var trip: Trip?
+    var trip: TripWithRouteAndImage?
     var tripImage: UIImage?
 
-    internal init(trip: Trip?) {
+    internal init(trip: TripWithRouteAndImage?) {
         self.trip = trip
+        guard let trip = trip else { return }
+        route = trip.route
+        arrivalCellsCount = route?.places.count ?? 0
+        tripImage = trip.image
     }
     
     private let addNewCellClosure: (RouteViewController, UITableView)->() = { view, tableView in
@@ -66,7 +70,7 @@ extension RoutePresenter: RouteViewOutput {
     
     func viewDidLoad() {
         guard let trip = trip else { return }
-        getRoute(routeId: trip.routeId)
+//        getRoute(routeId: trip.routeId)
     }
     
     func numberOfSectins() -> Int {
@@ -167,7 +171,7 @@ extension RoutePresenter: RouteViewOutput {
     }
 
     func userWantsToDeleteCell(indexPath: IndexPath) -> ((UITableView, IndexPath) -> [UITableViewRowAction]?)? {
-        if indexPath.row == 0 {
+        if indexPath.section != 2 || arrivalCellsCount < 2 {
             return nil
         }
         guard var route = route else {
@@ -226,7 +230,7 @@ extension RoutePresenter: RouteModelOutput {
                            message: "Возникла ошибка при открытии данных поездки")
             return
         }
-        moduleOutput.routeModuleWantsToOpenTripInfoModule(trip: trip,
+        moduleOutput.routeModuleWantsToOpenTripInfoModule(trip: Trip(tripWithOtherData: trip),
                                                           route: route)
         hideLoadingView()
     }

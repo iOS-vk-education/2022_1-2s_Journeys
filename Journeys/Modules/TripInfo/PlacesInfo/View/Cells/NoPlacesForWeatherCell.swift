@@ -1,5 +1,5 @@
 //
-//  NoWeatherDataCell.swift
+//  NoPlacesForWeatherCell.swift
 //  Journeys
 //
 //  Created by Анастасия Ищенко on 03.11.2022.
@@ -10,13 +10,13 @@ import UIKit
 import SnapKit
 
 
-final class NoWeatherDataCell: UICollectionViewCell {
+final class NoPlacesForWeatherCell: UICollectionViewCell {
 
     // MARK: Private properties
 
     private let text: UILabel = {
         let label = UILabel()
-        label.text = "Погоды для этого города или даты нет :("
+        label.text = "Не выбрано ни одного места пребывания"
         label.numberOfLines = 0
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 16.0, weight: .regular)
@@ -53,7 +53,7 @@ final class NoWeatherDataCell: UICollectionViewCell {
     private func makeConstraints() {
         text.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.top.equalToSuperview()
             make.height.equalTo(20)
             make.width.equalToSuperview().offset(-40)
         }

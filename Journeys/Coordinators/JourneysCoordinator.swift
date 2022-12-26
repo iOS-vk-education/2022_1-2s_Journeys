@@ -96,7 +96,7 @@ extension JourneysCoordinator: TripsModuleOutput {
         navigationController.pushViewController(newRouteViewController, animated: true)
     }
     
-    func tripsCollectionWantsToOpenExistingRoute(with trip: Trip) {
+    func tripsCollectionWantsToOpenExistingRoute(with trip: TripWithRouteAndImage) {
         let builder = RouteModuleBuilder()
         let newRouteViewController = builder.build(firebaseService: firebaseService, with: trip, output: self)
         navigationController.pushViewController(newRouteViewController, animated: true)

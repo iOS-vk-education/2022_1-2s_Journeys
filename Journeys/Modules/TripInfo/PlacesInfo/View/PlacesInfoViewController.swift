@@ -57,6 +57,8 @@ final class PlacesInfoViewController: UIViewController {
                                     forCellWithReuseIdentifier: "ShortRouteCell")
         mainCollectionView.register(WeatherCollection.self,
                                     forCellWithReuseIdentifier: "WeatherCollection")
+        mainCollectionView.register(NoPlacesForWeatherCell.self,
+                                    forCellWithReuseIdentifier: "NoPlacesForWeatherCell")
         mainCollectionView.register(MainCollectionHeader.self,
                                     forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                     withReuseIdentifier: "MainCollectionHeader")
@@ -110,7 +112,8 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        output.getMainCollectionCellsCount(for: section)
+        print(output.getMainCollectionCellsCount(for: section))
+        return output.getMainCollectionCellsCount(for: section)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -127,6 +130,13 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
             routeCell.configure(data: data)
             cell = routeCell
         case 1:
+            if !output.isAnyPlacesFowWeather() {
+                guard let emptyCell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "NoPlacesForWeatherCell",
+                                                                         for: indexPath) as? NoPlacesForWeatherCell else {
+                    return UICollectionViewCell()
+                }
+                return emptyCell
+            }
             guard let weatherCell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "WeatherCollection",
                                                                        for: indexPath) as? WeatherCollection else {
                 return cell
@@ -144,9 +154,6 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
 }
 
 extension PlacesInfoViewController: PlacesInfoViewInput {
-    func deleteRow(at indexPath: IndexPath) {
-//        mainCollectionView.deleteItems(at: indexPath)
-    }
     
     func reloadData() {
         DispatchQueue.main.async { [weak self] in
