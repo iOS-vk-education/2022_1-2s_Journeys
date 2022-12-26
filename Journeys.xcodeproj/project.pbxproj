@@ -638,7 +638,6 @@
 			children = (
 				EE00ABFC2953B2A100FAFDCD /* Extencions */,
 				EEAC1D462952914000237331 /* Formatters */,
-				EEAC1D2D2952717800237331 /* Services */,
 				EE30C72C2943FB4200A9DCF6 /* Errors */,
 				EEFA76F12935F52400A0B8CA /* Network */,
 				EEFA76EF2935F0C800A0B8CA /* GoogleService-Info.plist */,
@@ -995,6 +994,7 @@
 		EEFA76F12935F52400A0B8CA /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				EEAC1D2D2952717800237331 /* Services */,
 				EE910DC62958AE820094F5C8 /* Firebase */,
 				EE00AC1929561F7C00FAFDCD /* StoreNewTrip.swift */,
 			);
