@@ -46,6 +46,7 @@ final class StuffViewController: UIViewController {
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
+        
         tableView.register(StuffCell.self, forCellReuseIdentifier: "StuffCell")
         tableView.register(AddStuffCell.self, forCellReuseIdentifier: "AddStuffCell")
         tableView.register(StuffTableViewHeader.self, forHeaderFooterViewReuseIdentifier: "StuffTableViewHeader")
@@ -169,6 +170,13 @@ extension StuffViewController: UITableViewDataSource {
 }
 
 extension StuffViewController: StuffViewInput {
+    func getCellsData(from indexPath: IndexPath) -> StuffCell.StuffData? {
+        guard let cell = tableView.cellForRow(at: indexPath) as? StuffCell else {
+            return nil
+        }
+        return cell.giveData()
+    }
+    
     func moveTableViewRow(at fromIndexPath: IndexPath, to toIndexPath: IndexPath) {
         tableView.moveRow(at: fromIndexPath, to: toIndexPath)
     }

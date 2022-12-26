@@ -24,14 +24,13 @@ struct Stuff {
     
     init?(from dictionary: [String: Any], id: String) {
         guard
-        let emoji = dictionary[CodingKeys.emoji.rawValue] as? String,
         let name = dictionary[CodingKeys.name.rawValue] as? String,
         let isPacked = dictionary[CodingKeys.isPacked.rawValue] as? Bool
         else {
             return nil
         }
         self.id = id
-        self.emoji = emoji
+        self.emoji = dictionary[CodingKeys.emoji.rawValue] as? String
         self.name = name
         self.isPacked = isPacked
     }

@@ -175,6 +175,10 @@ extension TripsPresenter: TripsInteractorOutput {
     func didFetchTripsData(data: [Trip]) {
         var trips: [TripWithRouteAndImage] = []
         var count = data.count
+        if count  == 0 {
+            moduleOutput.hideLoadingView()
+            view.endRefresh()
+        }
         for trip in data {
             interactor.obtainRouteDataFromSever(with: trip.routeId) { [weak self] result in
                 guard let strongSelf = self else { return }

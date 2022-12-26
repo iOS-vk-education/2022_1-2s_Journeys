@@ -15,6 +15,7 @@ protocol StuffViewInput: AnyObject {
     func reloadData()
     func showAlert(title: String, message: String)
     func moveTableViewRow(at fromIndexPath: IndexPath, to toIndexPath: IndexPath)
+    func getCellsData(from indexPath: IndexPath) -> StuffCell.StuffData?
 }
 
 // MARK: - Stuff ViewOutput

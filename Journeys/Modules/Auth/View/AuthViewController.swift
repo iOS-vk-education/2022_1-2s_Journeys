@@ -54,6 +54,10 @@ final class AuthViewController: UIViewController {
         view.addSubview(continueButton)
         view.addSubview(changeScreenTypeButton)
         
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapScreen))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+        
         navigationItem.setHidesBackButton(true, animated: false)
         changeScreenTypeButton.setTitle(output.getButtonName(), for: .normal)
         
@@ -105,6 +109,10 @@ final class AuthViewController: UIViewController {
     @objc
     private func didTapChangeScreenTypeButton() {
         output.didTapChangeScreenTypeButton()
+    }
+    
+    @objc func didTapScreen() {
+        view.endEditing(true)
     }
 }
 

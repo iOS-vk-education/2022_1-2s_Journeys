@@ -80,8 +80,8 @@ final class StuffCell: UITableViewCell {
         emojiTextField.isUserInteractionEnabled = false
         nameTextField.autocorrectionType = .no
 
-        emojiTextField.addTarget(self, action: #selector(emojiTextFieldDidChange), for: .editingChanged)
-        nameTextField.addTarget(self, action: #selector(nameTextFieldDidChange), for: .editingChanged)
+        emojiTextField.addTarget(self, action: #selector(emojiTextFieldDidChange), for: .editingDidEnd)
+        nameTextField.addTarget(self, action: #selector(nameTextFieldDidChange), for: .editingDidEnd)
         packButton.addTarget(self, action: #selector(didTapCellButton), for: .touchUpInside)
         makeConstraints()
     }

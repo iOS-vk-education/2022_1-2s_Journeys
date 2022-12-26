@@ -42,27 +42,27 @@ final class StuffPresenter {
         tableView.endUpdates()
     }
     
-    private func saveCellData(cell: StuffCell) {
-        let data = cell.giveData()
-        if data.name.isEmpty {
-            view.showAlert(title: "Введите данные", message: "Введите название вещи")
-            return
-        }
-        guard let lastChangedIndexPath = lastChangedIndexPath else { return }
-        cell.finishEditMode()
-        if lastChangedIndexPath.section == 0 {
-            unpackedStuff[lastChangedIndexPath.row] = Stuff(id: "",
-                                                            emoji: data.emoji ?? "",
-                                                            name: data.name,
-                                                            isPacked: data.isPacked)
-        } else if lastChangedIndexPath.section == 1 {
-            packedStuff[lastChangedIndexPath.row] = Stuff(id: "",
-                                                          emoji: data.emoji ?? "",
-                                                          name: data.name,
-                                                          isPacked: data.isPacked)
-            self.lastChangedIndexPath = nil
-        }
-    }
+//    private func saveCellData(cell: StuffCell) {
+//        let data = cell.giveData()
+//        if data.name.isEmpty {
+//            view.showAlert(title: "Введите данные", message: "Введите название вещи")
+//            return
+//        }
+//        guard let lastChangedIndexPath = lastChangedIndexPath else { return }
+//        cell.finishEditMode()
+//        if lastChangedIndexPath.section == 0 {
+//            unpackedStuff[lastChangedIndexPath.row] = Stuff(id: "",
+//                                                            emoji: data.emoji ?? "",
+//                                                            name: data.name,
+//                                                            isPacked: data.isPacked)
+//        } else if lastChangedIndexPath.section == 1 {
+//            packedStuff[lastChangedIndexPath.row] = Stuff(id: "",
+//                                                          emoji: data.emoji ?? "",
+//                                                          name: data.name,
+//                                                          isPacked: data.isPacked)
+//            self.lastChangedIndexPath = nil
+//        }
+//    }
     
     private func sortStuff() {
         guard let baggage else { return }
@@ -77,6 +77,14 @@ final class StuffPresenter {
                 }
             }
         }
+    }
+    
+    private func saveStuff(_ stuff: Stuff) {
+        guard let baggage else {
+            view.showAlert(title: "Ошибка", message: "Произошла ошибка при сохранении данных. Перезайдите в приложение и попробуйте снова")
+            return
+        }
+        model.saveChangedStuff(stuff: stuff, baggage: baggage)
     }
 }
 
@@ -161,23 +169,22 @@ extension StuffPresenter: StuffViewOutput {
         }
         return 0
     }
-
+    
     func getStuffCellDisplayData(for indexpath: IndexPath) -> StuffCell.DisplayData? {
         if indexpath.section == 0 {
             if !unpackedStuff.indices.contains(indexpath.row) {
                 return nil
             }
             let stuff = unpackedStuff[indexpath.row]
-            guard let name = stuff.name,
-                  let emoji = stuff.emoji else {
+            guard let name = stuff.name else {
                 return StuffCell.DisplayData(data: StuffCell.StuffData(emoji: "",
-                                             name: "",
-                                             isPacked: stuff.isPacked),
+                                                                       name: "",
+                                                                       isPacked: stuff.isPacked),
                                              changeMode: .on)
             }
-            return StuffCell.DisplayData(data: StuffCell.StuffData(emoji: emoji,
-                                         name: name,
-                                         isPacked: stuff.isPacked),
+            return StuffCell.DisplayData(data: StuffCell.StuffData(emoji: stuff.emoji,
+                                                                   name: name,
+                                                                   isPacked: stuff.isPacked),
                                          changeMode: .off)
         } else if indexpath.section == 1 {
             if !packedStuff.indices.contains(indexpath.row) {
@@ -187,18 +194,18 @@ extension StuffPresenter: StuffViewOutput {
             guard let name = stuff.name,
                   let emoji = stuff.emoji else {
                 return StuffCell.DisplayData(data: StuffCell.StuffData(emoji: "",
-                                             name: "",
-                                             isPacked: stuff.isPacked),
+                                                                       name: "",
+                                                                       isPacked: stuff.isPacked),
                                              changeMode: .on)
             }
             return StuffCell.DisplayData(data: StuffCell.StuffData(emoji: emoji,
-                                         name: name,
-                                         isPacked: stuff.isPacked),
+                                                                   name: name,
+                                                                   isPacked: stuff.isPacked),
                                          changeMode: .off)
         }
         return nil
     }
-
+    
     func didSelectRow(at indexPath: IndexPath,
                       rowsInSection: Int) -> ((StuffViewController, UITableView, Int)->())? {
         if indexPath.row == rowsInSection - 1 {
@@ -212,14 +219,14 @@ extension StuffPresenter: StuffViewOutput {
         }
         return nil
     }
-
+    
     // MARK: Cells actions
     func handeleCellDelete(at indexPath: IndexPath) {
         if indexPath.section == 0,
-            unpackedStuff.indices.contains(indexPath.row),
-            let baggage {
+           unpackedStuff.indices.contains(indexPath.row),
+           let baggage {
             guard let id = unpackedStuff[indexPath.row].id else {
-                didRecieveError(.deleteDataError)
+                unpackedStuff.remove(at: indexPath.row)
                 return
             }
             if unpackedStuff.indices.contains(indexPath.row) {
@@ -231,7 +238,7 @@ extension StuffPresenter: StuffViewOutput {
                   packedStuff.indices.contains(indexPath.row),
                   let baggage {
             guard let id = packedStuff[indexPath.row].id else {
-                didRecieveError(.deleteDataError)
+                packedStuff.remove(at: indexPath.row)
                 return
             }
             if packedStuff.indices.contains(indexPath.row) {
@@ -243,14 +250,14 @@ extension StuffPresenter: StuffViewOutput {
             didRecieveError(.deleteDataError)
         }
     }
-
+    
     func handeleCellEdit(at indexPath: IndexPath, tableView: UITableView?) {
         view.reloadData()
         guard let cell = tableView?.cellForRow(at: indexPath) as? StuffCell else { return }
         lastChangedIndexPath = indexPath
         cell.startEditMode()
     }
-
+    
     func didTapCellPackButton(at indexpath: IndexPath?) {
         guard let indexpath,
               let baggage else {
@@ -270,29 +277,45 @@ extension StuffPresenter: StuffViewOutput {
     }
     
     func emojiTextFieldDidChange(_ text: String, at indexPath: IndexPath) {
+        guard text.count > 0 else {
+//            view.showAlert(title: "Ошибка", message: "Поле не должно быит пустым, изменения не сохранены")
+            return
+        }
         if indexPath.section == 0 {
             guard unpackedStuff.indices.contains(indexPath.row) else { return }
             unpackedStuff[indexPath.row].emoji = text
+            if unpackedStuff[indexPath.row].name != nil {
+                saveStuff(unpackedStuff[indexPath.row])
+            }
         } else if indexPath.section == 1 {
             guard packedStuff.indices.contains(indexPath.row) else { return }
             packedStuff[indexPath.row].emoji = text
+            if packedStuff[indexPath.row].name != nil {
+                saveStuff(packedStuff[indexPath.row])
+            }
         }
     }
     
     func nameTextFieldDidChange(_ text: String, at indexPath: IndexPath) {
+        guard text.count > 0 else {
+//            view.showAlert(title: "Ошибка", message: "Поле не должно быит пустым, изменения не сохранены")
+            return
+        }
         if indexPath.section == 0 {
             guard unpackedStuff.indices.contains(indexPath.row) else { return }
             unpackedStuff[indexPath.row].name = text
+            saveStuff(unpackedStuff[indexPath.row])
         } else if indexPath.section == 1 {
             guard packedStuff.indices.contains(indexPath.row) else { return }
             packedStuff[indexPath.row].name = text
+            saveStuff(packedStuff[indexPath.row])
         }
     }
     
     func didTapScreen(tableView: UITableView) {
-        guard let lastChangedIndexPath = lastChangedIndexPath else { return }
-        guard let cell = tableView.cellForRow(at: lastChangedIndexPath) as? StuffCell else { return }
-        saveCellData(cell: cell)
+//        guard let lastChangedIndexPath = lastChangedIndexPath else { return }
+//        guard let cell = tableView.cellForRow(at: lastChangedIndexPath) as? StuffCell else { return }
+//        saveCellData(cell: cell)
     }
     
     func didTapExitButton() {

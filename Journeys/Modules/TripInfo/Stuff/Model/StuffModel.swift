@@ -60,6 +60,18 @@ extension StuffModel: StuffModelInput {
         }
     }
     
+    func saveChangedStuff(stuff: Stuff, baggage: Baggage) {
+        saveStuff(stuff, baggageId: baggage.id) {  [weak self] savedStuff in
+            guard let self else { return }
+            if stuff.id == nil,
+               let savedStuffId = savedStuff.id {
+                var newBagagge = baggage
+                newBagagge.stuffIDs.append(savedStuffId)
+                self.saveBaggage(newBagagge) { _ in }
+            }
+        }
+    }
+    
     func continueChangingStuffStatus(stuff: Stuff, baggage: Baggage, indexPath: IndexPath) {
         saveStuff(stuff, baggageId: baggage.id) { [weak self] savedStuff in
             guard let self else { return }
