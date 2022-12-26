@@ -13,7 +13,7 @@ import UIKit
 final class TripsPresenter {
     // MARK: - Public Properties
 
-    weak var view: TripsViewInput!
+    weak var view: TripsViewInput?
     weak var moduleOutput: TripsModuleOutput!
 
     // MARK: - Private Properties
@@ -47,7 +47,7 @@ final class TripsPresenter {
     }
     
     private func tripDisplayData(trip: TripWithRouteAndImage) -> TripCell.DisplayData? {
-        let arrow = "→"
+        let arrow = " → "
         
         var datesString: String?
         if let startDate = trip.route.places.first?.arrive,
@@ -69,10 +69,7 @@ final class TripsPresenter {
         
         return tripDisplayData
     }
-    
-    private func sortTrips() {
-        tripsData.sort(by: {$0.dateChanged.timeIntervalSinceNow > $1.dateChanged.timeIntervalSinceNow})
-    }
+
 }
 
 
@@ -82,6 +79,9 @@ extension TripsPresenter: TripsModuleInput {
 
 extension TripsPresenter: TripsViewOutput {
     func viewDidAppear() {
+        if tripsViewControllerType == .usual {
+            moduleOutput.showLoadingView()
+        }
         loadTripsData()
     }
     
@@ -117,12 +117,13 @@ extension TripsPresenter: TripsViewOutput {
             moduleOutput.tripsCollectionWantsToOpenNewRouteModule()
         default:
             guard tripsData.indices.contains(indexPath.row) else {
-                view.showAlert(title: "Ошибка",
+                view?.showAlert(title: "Ошибка",
                                message: "Возникла ошибка при открытии данных маршрута",
                                actionTitle: "Ок")
                 return
             }
-            moduleOutput.tripsCollectionWantsToOpenExistingRoute(with: Trip(tripWithOtherData: tripsData[indexPath.item]))
+            moduleOutput.tripCollectionWantsToOpenTripInfoModule(trip: Trip(tripWithOtherData: tripsData[indexPath.row]),
+                                                                 route: tripsData[indexPath.row].route)
         }
     }
     
@@ -134,27 +135,27 @@ extension TripsPresenter: TripsViewOutput {
     
     func didTapEditButton(at indexPath: IndexPath) {
         guard tripsData.indices.contains(indexPath.row) else {
-            view.showAlert(title: "Ошибка",
+            view?.showAlert(title: "Ошибка",
                            message: "Возникла ошибка при попытке отредактировать данные маршрута",
                            actionTitle: "Ок")
             return
         }
-        moduleOutput.tripsCollectionWantsToOpenExistingRoute(with: Trip(tripWithOtherData: tripsData[indexPath.item]))
+        moduleOutput.tripsCollectionWantsToOpenExistingRoute(with: tripsData[indexPath.item])
     }
     
     func didTapDeleteButton(at indexPath: IndexPath) {
         guard tripsData.indices.contains(indexPath.row) else {
-            view.showAlert(title: "Ошибка",
+            view?.showAlert(title: "Ошибка",
                            message: "Возникла ошибка при удалении данных маршрута",
                            actionTitle: "Ок")
             return
         }
-        view.showChoiceAlert(title: "Удалить маршрут", message: "Вы уверены, что хотите удалиь маршрут?", agreeActionTitle: "Да", disagreeActionTitle: "Нет", cellIndexPath: indexPath)
+        view?.showChoiceAlert(title: "Удалить маршрут", message: "Вы уверены, что хотите удалиь маршрут?", agreeActionTitle: "Да", disagreeActionTitle: "Нет", cellIndexPath: indexPath)
     }
     
     func didSelectAgreeAlertAction(cellIndexPath: IndexPath) {
         guard tripsData.indices.contains(cellIndexPath.row) else {
-            view.showAlert(title: "Ошибка",
+            view?.showAlert(title: "Ошибка",
                            message: "Возникла ошибка при удалении данных маршрута",
                            actionTitle: "Ок")
             return
@@ -176,6 +177,10 @@ extension TripsPresenter: TripsInteractorOutput {
     func didFetchTripsData(data: [Trip]) {
         var trips: [TripWithRouteAndImage] = []
         var count = data.count
+        if count  == 0 {
+            moduleOutput.hideLoadingView()
+            view?.endRefresh()
+        }
         for trip in data {
             interactor.obtainRouteDataFromSever(with: trip.routeId) { [weak self] result in
                 guard let strongSelf = self else { return }
@@ -184,11 +189,12 @@ extension TripsPresenter: TripsInteractorOutput {
                     count -= 1
                     strongSelf.didRecieveError(error: .obtainDataError)
                 case .success(let route):
-                    count -= 1
                     strongSelf.didFetchRouteData(route: route) { image in
                         trips.append(TripWithRouteAndImage(trip: trip,
                                                            image: image,
                                                            route: route))
+                        count -= 1
+                        print(count)
                         if count == 0 {
                             strongSelf.didFinishObtainingData(trips: trips)
                         }
@@ -215,15 +221,16 @@ extension TripsPresenter: TripsInteractorOutput {
     
     func didFinishObtainingData(trips: [TripWithRouteAndImage]) {
         self.tripsData = trips
-        self.sortTrips()
-        self.view.reloadData()
-        self.view.endRefresh()
+        tripsData.sort(by: {$0.dateChanged.timeIntervalSinceNow > $1.dateChanged.timeIntervalSinceNow})
+        self.view?.reloadData()
+        moduleOutput.hideLoadingView()
+        self.view?.endRefresh()
     }
     
     func didDeleteTrip() {
         if let cellToDeleteIndexPath = cellToDeleteIndexPath {
             if tripsData.indices.contains(cellToDeleteIndexPath.row) {
-                view.deleteItem(at: cellToDeleteIndexPath)
+                view?.deleteItem(at: cellToDeleteIndexPath)
                 tripsData.remove(at: cellToDeleteIndexPath.row)
             }
         }
@@ -233,18 +240,21 @@ extension TripsPresenter: TripsInteractorOutput {
     func didRecieveError(error: Errors) {
         switch error {
         case .obtainDataError:
-            view.showAlert(title: "Ошибка",
+            moduleOutput.hideLoadingView()
+            view?.showAlert(title: "Ошибка",
                            message: "Возникла ошибка при получении данных",
                            actionTitle: "Ок")
         case .saveDataError:
-            view.showAlert(title: "Ошибка",
+            view?.showAlert(title: "Ошибка",
                            message: "Возникла ошибка при сохранении данных. Проверьте корректность данных и поробуйте снова",
                            actionTitle: "Ок")
         case .deleteDataError:
             cellToDeleteIndexPath = nil
-            view.showAlert(title: "Ошибка",
+            view?.showAlert(title: "Ошибка",
                            message: "Возникла ошибка при удалении данных",
                            actionTitle: "Ок")
+        default:
+            break
         }
     }
 }

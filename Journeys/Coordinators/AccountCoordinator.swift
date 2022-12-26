@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import FirebaseAuth
 
 final class AccountCoordinator: CoordinatorProtocol {
 
@@ -15,11 +16,13 @@ final class AccountCoordinator: CoordinatorProtocol {
     private let rootTabBarController: UITabBarController
     private var navigationController = UINavigationController()
     private let tabBarItemFactory: TabBarItemFactoryProtocol
+    private let firebaseService: FirebaseServiceProtocol
     
     // MARK: Lifecycle
 
-    init(rootTabBarController: UITabBarController) {
+    init(rootTabBarController: UITabBarController, firebaseService: FirebaseServiceProtocol) {
         self.rootTabBarController = rootTabBarController
+        self.firebaseService = firebaseService
         tabBarItemFactory = TabBarItemFactory()
     }
 
@@ -28,7 +31,7 @@ final class AccountCoordinator: CoordinatorProtocol {
     // TODO: start
     func start() {
         let builder = AccountModuleBuilder()
-        let accountViewController = builder.build(output: self)
+        let accountViewController = builder.build(output: self, firebaseService: firebaseService)
 
         navigationController.setViewControllers([accountViewController], animated: false)
 
@@ -49,5 +52,59 @@ final class AccountCoordinator: CoordinatorProtocol {
 }
 
 extension AccountCoordinator: AccountModuleOutput {
+    func logout() {
+        Auth.auth().addIDTokenDidChangeListener { (auth, user) in
+            if user == nil {
+                let builder = AuthModuleBuilder()
+                let viewController = builder.build(moduleType: .auth,
+                                                   output: self,
+                                                   firebaseService: self.firebaseService)
+                self.navigationController.setViewControllers([viewController], animated: false)
+            }
+        }
+    }
+    
+    func hideLoadingView() {
+        DispatchQueue.main.async { [weak self] in
+            self?.navigationController.dismiss(animated: true)
+        }
+    }
+    
+    func showLoadingView() {
+        let loadingVC = LoadingViewController()
+        // Animate loadingVC over the existing views on screen
+        loadingVC.modalPresentationStyle = .overCurrentContext
 
+        // Animate loadingVC with a fade in animation
+        loadingVC.modalTransitionStyle = .crossDissolve
+               
+        navigationController.present(loadingVC, animated: true)
+    }
+}
+
+extension AccountCoordinator: AuthModuleOutput {
+    func authModuleWantsToChangeModulenType(currentType: AuthPresenter.ModuleType) {
+        let builder = AuthModuleBuilder()
+        var authViewController: UIViewController
+        switch currentType {
+        case .auth:
+            authViewController = builder.build(moduleType: .registration,
+                                               output: self,
+                                               firebaseService: firebaseService)
+        case .registration:
+            authViewController = builder.build(moduleType: .auth,
+                                               output: self,
+                                               firebaseService: firebaseService)
+        }
+        
+        navigationController.popViewController(animated: false)
+        navigationController.setViewControllers([authViewController], animated: true)
+    }
+    
+    func authModuleWantsToOpenTripsModule() {
+        let builder = AccountModuleBuilder()
+        let accountViewController = builder.build(output: self, firebaseService: firebaseService)
+
+        navigationController.setViewControllers([accountViewController], animated: false)
+    }
 }

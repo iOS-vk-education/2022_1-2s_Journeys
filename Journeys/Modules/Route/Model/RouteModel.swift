@@ -67,7 +67,7 @@ extension RouteModel: RouteModelInput {
             case .failure:
                 strongSelf.output.didRecieveError(error: .saveDataError)
             case .success(let route):
-                strongSelf.output.didSaveRouteData()
+                strongSelf.output.didSaveRouteData(route: route)
             }
         }
     }
@@ -76,10 +76,18 @@ extension RouteModel: RouteModelInput {
         let helper = StoreNewTrip(route: route,
                                   tripImage: tripImage,
                                   firebaseService: FBService,
-                                  output: output)
+                                  output: self)
         helper.start()
     }
 }
 
-
+extension RouteModel: StoreNewTripOutput {
+    func saveFinished(trip: Trip, route: Route) {
+        output.didSaveData(trip: trip, route: route)
+    }
+    
+    func saveError() {
+        output.didRecieveError(error: .saveDataError)
+    }
+}
 

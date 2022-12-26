@@ -38,14 +38,20 @@ final class TripsViewController: UIViewController {
         output.viewDidAppear()
         super.viewDidLoad()
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
+        tabBarController?.tabBar.items?.forEach { $0.isEnabled = true }
         setupNavBar()
         setupCollectionView()
         makeConstraints()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+//        output.viewDidAppear()
+        super.viewWillAppear(animated)
+    }
 
     private func setupNavBar() {
         navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
+        navigationItem.setHidesBackButton(true, animated: false)
 
         switch output.getScreenType() {
         case .usual:
@@ -73,6 +79,7 @@ final class TripsViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
+        collectionView.alwaysBounceVertical = true
 
         collectionView.register(AddTripCell.self,
                                 forCellWithReuseIdentifier: "AddTripCell")
@@ -179,7 +186,6 @@ extension TripsViewController: UICollectionViewDataSource {
             }
             
             guard let data = output.getCellData(for: indexPath.row) else {
-                UIAlertController(title: "Error", message: "Error while obtaining trip data", preferredStyle: .alert)
                 return UICollectionViewCell()
             }
             tripCell.configure(data: data,
@@ -201,7 +207,7 @@ extension TripsViewController: TripsViewInput {
                                       preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: actionTitle, style: .default))
         present(alert, animated: true)
-    }pri
+    }
     
     func showChoiceAlert(title: String,
                          message: String,

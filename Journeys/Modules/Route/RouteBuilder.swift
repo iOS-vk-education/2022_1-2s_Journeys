@@ -11,7 +11,7 @@ import UIKit
 
 final class RouteModuleBuilder {
     func build(firebaseService: FirebaseServiceProtocol,
-               with trip: Trip? = nil,
+               with trip: TripWithRouteAndImage? = nil,
                output: RouteModuleOutput) -> UIViewController {
 
         let presenter = RoutePresenter(trip: trip)

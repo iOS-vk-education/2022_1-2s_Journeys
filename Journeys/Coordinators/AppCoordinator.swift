@@ -57,7 +57,8 @@ class AppCoordinator: NSObject, CoordinatorProtocol {
             eventsCoordinatorInput = eventsCoordinator
 
         case .account:
-            let accountCoordinator = AccountCoordinator(rootTabBarController: tabBarController)
+            let accountCoordinator = AccountCoordinator(rootTabBarController: tabBarController,
+                                                        firebaseService: firebaseService)
             accountCoordinator.start()
             childCoordinators.append(accountCoordinator)
             accountCoordinatorInput = accountCoordinator

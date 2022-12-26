@@ -7,13 +7,17 @@
 
 import Foundation
 
-enum Errors: String {
+enum Errors: Error {
     case obtainDataError
     case saveDataError
     case deleteDataError
+    case authError
+    case signOutError
 }
 
 enum FBError: Error {
     case noData
     case error
+    case authError
+    case signOutError
 }

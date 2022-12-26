@@ -15,12 +15,10 @@ protocol RouteModelInput: AnyObject {
     func obtainTripImageFromServer(withURL imageURLString: String)
 }
 
-protocol RouteModelOutput: AnyObject, StoreNewTripOutput {
+protocol RouteModelOutput: AnyObject {
     func didFetchRouteData(data: Route)
     func didFetchTripImage(image: UIImage)
     func didRecieveError(error: Errors)
-    func didSaveRouteData()
-    
-    func saveFinished()
-    func saveError()
+    func didSaveRouteData(route: Route)
+    func didSaveData(trip: Trip, route: Route)
 }

@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseCore
+import FirebaseAuth
 
 @main
 final class AppDelegate: UIResponder, UIApplicationDelegate {

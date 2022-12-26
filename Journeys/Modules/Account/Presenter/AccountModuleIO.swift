@@ -13,4 +13,7 @@ protocol AccountModuleInput: AnyObject {
 // MARK: - Account ModuleOutput
 
 protocol AccountModuleOutput: AnyObject {
+    func showLoadingView()
+    func hideLoadingView()
+    func logout()
 }

@@ -8,14 +8,14 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     var window: UIWindow?
     var coordinator: CoordinatorProtocol?
-
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
-        
+
         let tabBarController = UITabBarController()
         tabBarController.setViewControllers([], animated: false)
         window?.rootViewController = tabBarController
@@ -26,5 +26,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         coordinator?.start()
     }
-
+    
 }

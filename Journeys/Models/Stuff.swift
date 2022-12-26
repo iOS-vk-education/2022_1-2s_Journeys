@@ -11,11 +11,11 @@ import UIKit
 struct Stuff {
     
     let id: String?
-    var emoji: String
-    var name: String
+    var emoji: String?
+    var name: String?
     var isPacked: Bool
     
-    internal init(id: String?, emoji: String, name: String, isPacked: Bool) {
+    internal init(id: String? = nil, emoji: String? = nil, name: String? = nil, isPacked: Bool) {
         self.id = id
         self.emoji = emoji
         self.name = name
@@ -24,14 +24,13 @@ struct Stuff {
     
     init?(from dictionary: [String: Any], id: String) {
         guard
-        let emoji = dictionary[CodingKeys.emoji.rawValue] as? String,
         let name = dictionary[CodingKeys.name.rawValue] as? String,
         let isPacked = dictionary[CodingKeys.isPacked.rawValue] as? Bool
         else {
             return nil
         }
         self.id = id
-        self.emoji = emoji
+        self.emoji = dictionary[CodingKeys.emoji.rawValue] as? String
         self.name = name
         self.isPacked = isPacked
     }
@@ -56,7 +55,7 @@ struct Stuff {
         case id
         case emoji
         case name
-        case isPacked = "is_byed"
+        case isPacked = "is_packed"
     }
 }
 

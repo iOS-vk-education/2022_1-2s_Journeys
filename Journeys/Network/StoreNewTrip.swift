@@ -11,6 +11,7 @@ import UIKit
 final class StoreNewTrip {
     private let firebaseService: FirebaseServiceProtocol
     private var route: Route
+    private var trip: Trip?
     private let tripImage: UIImage
     private let output: StoreNewTripOutput
     
@@ -105,7 +106,7 @@ final class StoreNewTrip {
             case .failure:
                 self.didRecieveError()
             case .success(let trip):
-                self.didSaveTripData()
+                self.trip = trip
             }
         }
     }
@@ -142,14 +143,11 @@ final class StoreNewTrip {
         }
         let trip = Trip(id: nil, routeId: routeId, baggageId: baggage.id, dateChanged: Date())
         storeTrip(trip: trip)
-
+        
         self.count = stuff.count
         for surStuff in stuff {
             storeStuff(baggageId: baggage.id, stuff: surStuff)
         }
-    }
-    
-    private func didSaveTripData() {
     }
     
     private func didRecieveError() {
@@ -157,11 +155,15 @@ final class StoreNewTrip {
     }
     
     private func saveSuccesful() {
-        output.saveFinished()
+        guard let trip else {
+            output.saveError()
+            return
+        }
+        output.saveFinished(trip: trip, route: route)
     }
 }
 
 protocol StoreNewTripOutput: AnyObject {
-    func saveFinished()
+    func saveFinished(trip: Trip, route: Route)
     func saveError()
 }

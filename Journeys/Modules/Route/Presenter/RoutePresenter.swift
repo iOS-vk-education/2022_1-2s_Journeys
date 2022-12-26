@@ -23,11 +23,15 @@ final class RoutePresenter {
     var arrivalCellsCount: Int = 0
     
     var route: Route?
-    var trip: Trip?
+    var trip: TripWithRouteAndImage?
     var tripImage: UIImage?
 
-    internal init(trip: Trip?) {
+    internal init(trip: TripWithRouteAndImage?) {
         self.trip = trip
+        guard let trip = trip else { return }
+        route = trip.route
+        arrivalCellsCount = route?.places.count ?? 0
+        tripImage = trip.image
     }
     
     private let addNewCellClosure: (RouteViewController, UITableView)->() = { view, tableView in
@@ -36,7 +40,7 @@ final class RoutePresenter {
             assertionFailure("Error while creating cell")
             return
         }
-        let indexPath = NSIndexPath(row: tableView.numberOfRows(inSection: 1), section: 2)
+        let indexPath = NSIndexPath(row: tableView.numberOfRows(inSection: 2), section: 2)
         guard let displayData = view.output.getDisplayData(for: indexPath as IndexPath) else { return }
         cell.configure(displayData: displayData)
         
@@ -53,15 +57,21 @@ final class RoutePresenter {
         }
         return[deleteAction]
     }
+    
+    private func showLoadingView() {
+        moduleOutput.showLoadingView()
+    }
+    private func hideLoadingView() {
+        moduleOutput.hideLoadingView()
+    }
 }
 
 extension RoutePresenter: RouteViewOutput {
     
     func viewDidLoad() {
         guard let trip = trip else { return }
-        getRoute(routeId: trip.routeId)
+//        getRoute(routeId: trip.routeId)
     }
-    
     
     func numberOfSectins() -> Int {
         4
@@ -87,7 +97,7 @@ extension RoutePresenter: RouteViewOutput {
             return tripImage
         }
         let numberOfImages = 5
-        let random = Int.random(in: 1...5)
+        let random = Int.random(in: 1...numberOfImages)
         let image = UIImage(named: "TripCellImage\(random)")
         tripImage = image
         return image ?? UIImage()
@@ -119,7 +129,7 @@ extension RoutePresenter: RouteViewOutput {
     
     func didTapFloatingSaveButton() {
         guard let route = route else {
-            view.showAlert(title: "Ошибка", message: "Ошибка сохранения данных")
+            view.showAlert(title: "Ошибка", message: "Введите хотябы один город")
             return
         }
         guard let tripImage = tripImage else {
@@ -128,9 +138,11 @@ extension RoutePresenter: RouteViewOutput {
         }
         guard let trip = trip,
               let tripId = trip.id else {
+            showLoadingView()
             model.storeNewTrip(route: route, tripImage: tripImage)
             return
         }
+        showLoadingView()
         model.storeRouteData(route: route, tripImage: tripImage, tripId: tripId)
     }
     
@@ -159,7 +171,7 @@ extension RoutePresenter: RouteViewOutput {
     }
 
     func userWantsToDeleteCell(indexPath: IndexPath) -> ((UITableView, IndexPath) -> [UITableViewRowAction]?)? {
-        if indexPath.row == 0 {
+        if indexPath.section != 2 || arrivalCellsCount < 2 {
             return nil
         }
         guard var route = route else {
@@ -179,6 +191,7 @@ extension RoutePresenter: RouteViewOutput {
 }
 
 extension RoutePresenter: RouteModelOutput {
+
     func didFetchRouteData(data: Route) {
         self.route = data
         arrivalCellsCount = (data.places.count > 1 ? data.places.count : 1)
@@ -194,6 +207,7 @@ extension RoutePresenter: RouteModelOutput {
         view.reloadData()
     }
     func didRecieveError(error: Errors) {
+        hideLoadingView()
         switch error {
         case .obtainDataError:
             view.showAlert(title: "Ошибка",
@@ -204,10 +218,27 @@ extension RoutePresenter: RouteModelOutput {
         case .deleteDataError:
             view.showAlert(title: "Ошибка",
                            message: "Возникла ошибка при удалении данных")
+        default:
+            break
         }
     }
     
-    func didSaveRouteData() {
+    func didSaveRouteData(route: Route) {
+        guard let trip else {
+            hideLoadingView()
+            view.showAlert(title: "Ошибка",
+                           message: "Возникла ошибка при открытии данных поездки")
+            return
+        }
+        moduleOutput.routeModuleWantsToOpenTripInfoModule(trip: Trip(tripWithOtherData: trip),
+                                                          route: route)
+        hideLoadingView()
+    }
+    
+    func didSaveData(trip: Trip, route: Route) {
+        moduleOutput.routeModuleWantsToOpenTripInfoModule(trip: trip,
+                                                          route: route)
+        hideLoadingView()
     }
 }
 
@@ -228,16 +259,6 @@ extension RoutePresenter: RouteModuleInput {
             self.route?.places.append(place)
         }
         view.reloadData()
-    }
-}
-
-extension RoutePresenter: StoreNewTripOutput {
-    func saveFinished() {
-        return
-    }
-    
-    func saveError() {
-        didRecieveError(error: .saveDataError)
     }
 }
 

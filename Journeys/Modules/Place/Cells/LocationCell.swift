@@ -58,6 +58,7 @@ final class LocationCell: UITableViewCell, UITextFieldDelegate {
         contentView.addSubview(chevronButton)
         contentView.addSubview(icon)
 
+//        locationTextField.becomeFirstResponder()
         locationTextField.autocorrectionType = .no
         locationTextField.delegate = self
 
