@@ -41,6 +41,10 @@ internal enum Asset {
     internal enum Placeholder {
       internal static let placeholderColor = ColorAsset(name: "PlaceholderColor")
     }
+    internal enum SpecifyAdress {
+      internal static let buttonSpecifyAdress = ColorAsset(name: "ButtonSpecifyAdress")
+      internal static let photoButton = ColorAsset(name: "photoButton")
+    }
     internal enum Text {
       internal static let mainTextColor = ColorAsset(name: "MainTextColor")
     }

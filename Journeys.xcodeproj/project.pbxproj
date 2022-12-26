@@ -26,6 +26,16 @@
 		AE1A16661BC5D1E7EF15F769 /* AccountBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEECB46D3CD66B269BD0D11E /* AccountBuilder.swift */; };
 		B0CD597403B67CE15E6F43EA /* AccountViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56A833FC67AD50746E4B1DC /* AccountViewIO.swift */; };
 		C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C624D7B25F42404829AF20C9 /* TripsInteractorIO.swift */; };
+		CE4CCC9529568C0E0057455D /* Add icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE4CCC9429568C0E0057455D /* Add icon.png */; };
+		CE4CCC97295693310057455D /* TapToAddButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4CCC96295693310057455D /* TapToAddButtonViewController.swift */; };
+		CE4CCC992956A7BB0057455D /* placemark.png in Resources */ = {isa = PBXBuildFile; fileRef = CE4CCC982956A7BA0057455D /* placemark.png */; };
+		CE4CCC9B2956B47D0057455D /* SuggestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4CCC9A2956B47D0057455D /* SuggestionViewController.swift */; };
+		CE4CCC9D2956B6170057455D /* AddingEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4CCC9C2956B6170057455D /* AddingEventViewController.swift */; };
+		CE4CCC9F295859150057455D /* PlacemarkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4CCC9E295859150057455D /* PlacemarkCell.swift */; };
+		CE4CCCA1295863CB0057455D /* FloatingButton2.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4CCCA0295863CB0057455D /* FloatingButton2.swift */; };
+		CE4CCCA32958B1A20057455D /* AddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4CCCA22958B1A10057455D /* AddressCell.swift */; };
+		CE4CCCA72958F9080057455D /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4CCCA62958F9080057455D /* DateCell.swift */; };
+		CE7F42CF29594BE1000CBA63 /* TextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7F42CE29594BE1000CBA63 /* TextCell.swift */; };
 		EE02E5472950D9EA002BE87E /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02E53F2950D9EA002BE87E /* Location.swift */; };
 		EE02E5492950D9EA002BE87E /* Stuff.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02E5412950D9EA002BE87E /* Stuff.swift */; };
 		EE02E54B2950D9EA002BE87E /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02E5432950D9EA002BE87E /* Protocols.swift */; };
@@ -74,6 +84,16 @@
 		B6A73637212D312DF808EE9D /* TripsModuleIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsModuleIO.swift; sourceTree = "<group>"; };
 		B6EA70FEACD7EC7B403ED784 /* AccountModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
 		C624D7B25F42404829AF20C9 /* TripsInteractorIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsInteractorIO.swift; sourceTree = "<group>"; };
+		CE4CCC9429568C0E0057455D /* Add icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Add icon.png"; sourceTree = "<group>"; };
+		CE4CCC96295693310057455D /* TapToAddButtonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TapToAddButtonViewController.swift; sourceTree = "<group>"; };
+		CE4CCC982956A7BA0057455D /* placemark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placemark.png; sourceTree = "<group>"; };
+		CE4CCC9A2956B47D0057455D /* SuggestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestionViewController.swift; sourceTree = "<group>"; };
+		CE4CCC9C2956B6170057455D /* AddingEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddingEventViewController.swift; sourceTree = "<group>"; };
+		CE4CCC9E295859150057455D /* PlacemarkCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacemarkCell.swift; sourceTree = "<group>"; };
+		CE4CCCA0295863CB0057455D /* FloatingButton2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatingButton2.swift; sourceTree = "<group>"; };
+		CE4CCCA22958B1A10057455D /* AddressCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressCell.swift; sourceTree = "<group>"; };
+		CE4CCCA62958F9080057455D /* DateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateCell.swift; sourceTree = "<group>"; };
+		CE7F42CE29594BE1000CBA63 /* TextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextCell.swift; sourceTree = "<group>"; };
 		CEEC91A92B6FC702B7FBFB11 /* AccountPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountPresenter.swift; sourceTree = "<group>"; };
 		E483DF62B28C4DBC30739F6A /* TripsBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsBuilder.swift; sourceTree = "<group>"; };
 		EC8D65328FD3C306119E7802 /* TripsInteractor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsInteractor.swift; sourceTree = "<group>"; };
@@ -211,6 +231,24 @@
 			path = Presenter;
 			sourceTree = "<group>";
 		};
+		CE4CCC93295689520057455D /* EventsViews */ = {
+			isa = PBXGroup;
+			children = (
+				0D551CF42951752700A4151E /* EventsViewController.swift */,
+				CE4CCC96295693310057455D /* TapToAddButtonViewController.swift */,
+				CE4CCC9A2956B47D0057455D /* SuggestionViewController.swift */,
+				CE4CCC9C2956B6170057455D /* AddingEventViewController.swift */,
+				CE4CCC9E295859150057455D /* PlacemarkCell.swift */,
+				CE4CCCA0295863CB0057455D /* FloatingButton2.swift */,
+				CE4CCCA62958F9080057455D /* DateCell.swift */,
+				CE4CCCA22958B1A10057455D /* AddressCell.swift */,
+				CE7F42CE29594BE1000CBA63 /* TextCell.swift */,
+				CE4CCC982956A7BA0057455D /* placemark.png */,
+				CE4CCC9429568C0E0057455D /* Add icon.png */,
+			);
+			path = EventsViews;
+			sourceTree = "<group>";
+		};
 		E28BB0326D852B2FE981AF93 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -279,7 +317,7 @@
 				EE0AF93D2913010D00EC52D3 /* AppDelegate.swift */,
 				EEDAF556291C302500E6DDB9 /* SceneDelegate.swift */,
 				EE0AF9412913010D00EC52D3 /* ViewController.swift */,
-				0D551CF42951752700A4151E /* EventsViewController.swift */,
+				CE4CCC93295689520057455D /* EventsViews */,
 				EE0AF9432913010D00EC52D3 /* Main.storyboard */,
 				EE0AF9462913010F00EC52D3 /* Assets.xcassets */,
 				EE157F422926B2F200A56157 /* Colors.xcassets */,
@@ -369,6 +407,7 @@
 				EE157E0E2926651E00A56157 /* SwiftLint */,
 				EE157F412926AFA700A56157 /* SwiftGen */,
 				F0F93A4EABE7EF2D759DFAC9 /* [CP] Embed Pods Frameworks */,
+				E33DA1848B9BD30054AD8682 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -418,6 +457,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE4CCC992956A7BB0057455D /* placemark.png in Resources */,
+				CE4CCC9529568C0E0057455D /* Add icon.png in Resources */,
 				EE157F432926B2F200A56157 /* Colors.xcassets in Resources */,
 				EE57FF3D2927E7E100212DC2 /* Localizable.strings in Resources */,
 				EE0AF94A2913010F00EC52D3 /* LaunchScreen.storyboard in Resources */,
@@ -450,6 +491,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E33DA1848B9BD30054AD8682 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Journeys/Pods-Journeys-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Journeys/Pods-Journeys-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Journeys/Pods-Journeys-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		EE157E0E2926651E00A56157 /* SwiftLint */ = {
@@ -514,15 +572,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				EEDAF557291C302500E6DDB9 /* SceneDelegate.swift in Sources */,
+				CE4CCCA1295863CB0057455D /* FloatingButton2.swift in Sources */,
 				EE02E5472950D9EA002BE87E /* Location.swift in Sources */,
 				EE0AF9422913010D00EC52D3 /* ViewController.swift in Sources */,
 				EEDAF553291C05B300E6DDB9 /* JourneysCoordinator.swift in Sources */,
 				EE57FF3F2927E8B000212DC2 /* Strings+Generated.swift in Sources */,
 				EE497A142940AF4C007E8579 /* EventsCoordinator.swift in Sources */,
+				CE4CCC97295693310057455D /* TapToAddButtonViewController.swift in Sources */,
 				0D551CEF2951738A00A4151E /* Place.swift in Sources */,
 				EE0AF93E2913010D00EC52D3 /* AppDelegate.swift in Sources */,
+				CE4CCC9B2956B47D0057455D /* SuggestionViewController.swift in Sources */,
 				EE497A162940B0EB007E8579 /* Pages.swift in Sources */,
 				0D551CF52951752700A4151E /* EventsViewController.swift in Sources */,
+				CE4CCCA32958B1A20057455D /* AddressCell.swift in Sources */,
 				EE29EBF829191534008ECFF8 /* AppCoordinator.swift in Sources */,
 				91819FAFB33A7ABB47EAB8B0 /* TripsViewIO.swift in Sources */,
 				093861F1C840A5A7EA2ABBB0 /* TripsViewController.swift in Sources */,
@@ -530,6 +592,7 @@
 				EE2B4126291413EC0067BE4F /* TripCell.swift in Sources */,
 				A837507D56DC8E0FFC90C522 /* TripsInteractor.swift in Sources */,
 				EEDAF555291C0F2200E6DDB9 /* AddTripCell.swift in Sources */,
+				CE4CCCA72958F9080057455D /* DateCell.swift in Sources */,
 				678EC2173D55FABDA74E2A5F /* TripsModuleIO.swift in Sources */,
 				EE497A182940B183007E8579 /* TabbarItemFactory.swift in Sources */,
 				10708D44F55C9485F789DD9B /* TripsPresenter.swift in Sources */,
@@ -541,6 +604,7 @@
 				EE497A122940AF41007E8579 /* AccountCoordinator.swift in Sources */,
 				7BD7FBF6368C4ADCBC0B8866 /* TripsBuilder.swift in Sources */,
 				EEDAF55C291D5AF500E6DDB9 /* FloatingButton.swift in Sources */,
+				CE4CCC9D2956B6170057455D /* AddingEventViewController.swift in Sources */,
 				EE02E5492950D9EA002BE87E /* Stuff.swift in Sources */,
 				EE157F482926B39A00A56157 /* XCAssets+Generated.swift in Sources */,
 				B0CD597403B67CE15E6F43EA /* AccountViewIO.swift in Sources */,
@@ -549,6 +613,8 @@
 				593D2FA682B366A48F2F32CA /* AccountModuleIO.swift in Sources */,
 				1EA5831F1D57C53497AB055D /* AccountPresenter.swift in Sources */,
 				9C60B5C563DCB01932E87E34 /* AccountModel.swift in Sources */,
+				CE4CCC9F295859150057455D /* PlacemarkCell.swift in Sources */,
+				CE7F42CF29594BE1000CBA63 /* TextCell.swift in Sources */,
 				EE02E54C2950D9EA002BE87E /* Weather.swift in Sources */,
 				EE02E54B2950D9EA002BE87E /* Protocols.swift in Sources */,
 				EE02E54E2950D9EA002BE87E /* Baggage.swift in Sources */,

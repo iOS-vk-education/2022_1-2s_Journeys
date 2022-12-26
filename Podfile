@@ -9,5 +9,6 @@ target 'Journeys' do
   pod 'SnapKit', '5.6.0'
   pod 'SwiftLint'
   pod 'SwiftGen', '~> 6.5.1'
-
+  pod 'PureLayout'
+  pod 'YandexMapsMobile', '4.2.2-full'
 end

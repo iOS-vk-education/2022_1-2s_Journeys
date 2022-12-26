@@ -1,24 +1,32 @@
 PODS:
+  - PureLayout (3.1.9)
   - SnapKit (5.6.0)
   - SwiftGen (6.5.1)
   - SwiftLint (0.47.1)
+  - YandexMapsMobile (4.2.2-full)
 
 DEPENDENCIES:
+  - PureLayout
   - SnapKit (= 5.6.0)
   - SwiftGen (~> 6.5.1)
   - SwiftLint
+  - YandexMapsMobile (= 4.2.2-full)
 
 SPEC REPOS:
   trunk:
+    - PureLayout
     - SnapKit
     - SwiftGen
     - SwiftLint
+    - YandexMapsMobile
 
 SPEC CHECKSUMS:
+  PureLayout: 5fb5e5429519627d60d079ccb1eaa7265ce7cf88
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SwiftGen: a6d22010845f08fe18fbdf3a07a8e380fd22e0ea
   SwiftLint: f80f1be7fa96d30e0aa68e58d45d4ea1ccaac519
+  YandexMapsMobile: 1fd5f86bc368ad6ba528b199f9477e4a26796567
 
-PODFILE CHECKSUM: 2af17535e7d4659f5ce341f80b2123e7129dcaf7
+PODFILE CHECKSUM: c8b744b8f5b2f985ee1e4ac23852f7b3d33f7728
 
 COCOAPODS: 1.11.3
