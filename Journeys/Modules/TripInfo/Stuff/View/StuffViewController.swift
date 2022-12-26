@@ -169,6 +169,10 @@ extension StuffViewController: UITableViewDataSource {
 }
 
 extension StuffViewController: StuffViewInput {
+    func moveTableViewRow(at fromIndexPath: IndexPath, to toIndexPath: IndexPath) {
+        tableView.moveRow(at: fromIndexPath, to: toIndexPath)
+    }
+    
     func reloadData() {
         tableView.reloadData()
     }
@@ -183,7 +187,7 @@ extension StuffViewController: StuffViewInput {
 
 extension StuffViewController: StuffCellDelegate {
     func cellPackButtonWasTapped(_ cell: StuffCell) {
-        output.didTapCellPackButton(at: tableView.indexPath(for: cell), tableView: tableView)
+        output.didTapCellPackButton(at: tableView.indexPath(for: cell))
     }
     func emojiTextFieldDidChange(_ text: String, in cell: StuffCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }

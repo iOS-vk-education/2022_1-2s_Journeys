@@ -5,6 +5,8 @@
 //  Created by Nastya Ischenko on 18/12/2022.
 //
 
+import Foundation
+
 // MARK: - StuffModel
 
 final class StuffModel {
@@ -14,9 +16,57 @@ final class StuffModel {
     init(firebaseService: FirebaseServiceProtocol) {
         self.firebaseService = firebaseService
     }
+    
+    private func saveBaggage(_ baggage: Baggage, completion: @escaping (Baggage) -> Void) {
+        firebaseService.storeBaggageData(baggage: baggage) { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .failure:
+                self.output.didRecieveError(.saveDataError)
+            case .success(let savedBaggage):
+                completion(savedBaggage)
+            }
+        }
+    }
+    
+    private func saveStuff(_ stuff: Stuff, baggageId: String, completion: @escaping (Stuff) -> Void) {
+        firebaseService.storeStuffData(baggageId: baggageId, stuff: stuff) {[weak self] result in
+            guard let self else { return }
+            switch result {
+            case .failure:
+                self.output.didRecieveError(.saveDataError)
+            case .success(let savedStuff):
+                completion(savedStuff)
+            }
+            
+        }
+    }
 }
 
 extension StuffModel: StuffModelInput {
+    func changeStuffIsPackedFlag(stuff: Stuff, baggage: Baggage, indexPath: IndexPath) {
+        guard let stuffId = stuff.id else { return }
+        guard let index = baggage.stuffIDs.firstIndex(of: stuffId) else {
+            output.didRecieveError(.deleteDataError)
+            return
+        }
+        var newBagagge: Baggage = baggage
+        newBagagge.stuffIDs.remove(at: index)
+        newBagagge.stuffIDs.append(stuffId)
+        
+        saveBaggage(newBagagge) { [weak self] savedBaggage in
+            guard let self else { return }
+            self.continueChangingStuffStatus(stuff: stuff, baggage: savedBaggage, indexPath: indexPath)
+        }
+    }
+    
+    func continueChangingStuffStatus(stuff: Stuff, baggage: Baggage, indexPath: IndexPath) {
+        saveStuff(stuff, baggageId: baggage.id) { [weak self] savedStuff in
+            guard let self else { return }
+            self.output.didChangeStuffStatus(stuff: savedStuff, indexPath: indexPath)
+        }
+    }
+    
     func deleteStuff(baggage: Baggage, stuffId: String) {
         guard let index = baggage.stuffIDs.firstIndex(of: stuffId) else {
             output.didRecieveError(.deleteDataError)
@@ -24,14 +74,9 @@ extension StuffModel: StuffModelInput {
         }
         var newBagagge: Baggage = baggage
         newBagagge.stuffIDs.remove(at: index)
-        firebaseService.storeBaggageData(baggage: newBagagge) { [weak self] result in
+        saveBaggage(newBagagge) {[weak self] savedBaggage in
             guard let self else { return }
-            switch result {
-            case .failure:
-                self.output.didRecieveError(.obtainDataError)
-            case .success(let savedBaggage):
-                self.stuffIdWasDeletedFromBaggage(stuffId: stuffId, baggageId: savedBaggage.id)
-            }
+            self.stuffIdWasDeletedFromBaggage(stuffId: stuffId, baggageId: savedBaggage.id)
         }
     }
     

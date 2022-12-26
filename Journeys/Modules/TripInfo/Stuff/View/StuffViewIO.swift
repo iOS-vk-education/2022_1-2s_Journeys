@@ -14,6 +14,7 @@ import Foundation
 protocol StuffViewInput: AnyObject {
     func reloadData()
     func showAlert(title: String, message: String)
+    func moveTableViewRow(at fromIndexPath: IndexPath, to toIndexPath: IndexPath)
 }
 
 // MARK: - Stuff ViewOutput
@@ -28,7 +29,7 @@ protocol StuffViewOutput: AnyObject {
     func handeleCellDelete(at indexPath: IndexPath)
     func handeleCellEdit(at indexPath: IndexPath, tableView: UITableView?)
 
-    func didTapCellPackButton(at indexpath: IndexPath?, tableView: UITableView)
+    func didTapCellPackButton(at indexpath: IndexPath?)
     func emojiTextFieldDidChange(_ text: String, at indexPath: IndexPath)
     func nameTextFieldDidChange(_ text: String, at indexPath: IndexPath)
     

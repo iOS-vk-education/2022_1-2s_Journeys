@@ -42,7 +42,7 @@ final class StuffPresenter {
         tableView.endUpdates()
     }
     
-    func saveCellData(cell: StuffCell) {
+    private func saveCellData(cell: StuffCell) {
         let data = cell.giveData()
         if data.name.isEmpty {
             view.showAlert(title: "Введите данные", message: "Введите название вещи")
@@ -61,6 +61,21 @@ final class StuffPresenter {
                                                           name: data.name,
                                                           isPacked: data.isPacked)
             self.lastChangedIndexPath = nil
+        }
+    }
+    
+    private func sortStuff() {
+        guard let baggage else { return }
+        for stuffId in baggage.stuffIDs {
+            for stuff in allStuff {
+                if stuffId == stuff.id {
+                    if stuff.isPacked {
+                        packedStuff.append(stuff)
+                    } else {
+                        unpackedStuff.append(stuff)
+                    }
+                }
+            }
         }
     }
 }
@@ -91,19 +106,32 @@ extension StuffPresenter: StuffModelOutput {
     func didRecieveStuffData(data: [Stuff]) {
         allStuff = data
         
-        for stuff in allStuff {
-            if stuff.isPacked {
-                packedStuff.append(stuff)
-            } else {
-                unpackedStuff.append(stuff)
-            }
-        }
+        sortStuff()
+//        for stuff in allStuff {
+//            if stuff.isPacked {
+//                packedStuff.append(stuff)
+//            } else {
+//                unpackedStuff.append(stuff)
+//            }
+//        }
         
         view.reloadData()
     }
     
     func didRecieveBaggageData(data: Baggage) {
         baggage = data
+    }
+    
+    func didChangeStuffStatus(stuff: Stuff, indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            packedStuff.append(unpackedStuff[indexPath.row])
+            unpackedStuff.remove(at: indexPath.row)
+            view.moveTableViewRow(at: indexPath, to: IndexPath(row: packedStuff.count - 1, section: 1))
+        } else if indexPath.section == 1 {
+            unpackedStuff.append(packedStuff[indexPath.row])
+            packedStuff.remove(at: indexPath.row)
+            view.moveTableViewRow(at: indexPath, to: IndexPath(row: packedStuff.count - 1, section: 0))
+        }
     }
 }
 
@@ -223,20 +251,21 @@ extension StuffPresenter: StuffViewOutput {
         cell.startEditMode()
     }
 
-    func didTapCellPackButton(at indexpath: IndexPath?, tableView: UITableView) {
-        guard let indexpath = indexpath else {
+    func didTapCellPackButton(at indexpath: IndexPath?) {
+        guard let indexpath,
+              let baggage else {
             return
         }
         if indexpath.section == 0 {
             unpackedStuff[indexpath.row].isPacked.toggle()
-            packedStuff.append(unpackedStuff[indexpath.row])
-            unpackedStuff.remove(at: indexpath.row)
-            tableView.moveRow(at: indexpath, to: IndexPath(row: packedStuff.count - 1, section: 1))
+            model.changeStuffIsPackedFlag(stuff: unpackedStuff[indexpath.row],
+                                          baggage: baggage,
+                                          indexPath: indexpath)
         } else if indexpath.section == 1 {
             packedStuff[indexpath.row].isPacked.toggle()
-            unpackedStuff.append(packedStuff[indexpath.row])
-            packedStuff.remove(at: indexpath.row)
-            tableView.moveRow(at: indexpath, to: IndexPath(row: unpackedStuff.count - 1, section: 0))
+            model.changeStuffIsPackedFlag(stuff: packedStuff[indexpath.row],
+                                          baggage: baggage,
+                                          indexPath: indexpath)
         }
     }
     
