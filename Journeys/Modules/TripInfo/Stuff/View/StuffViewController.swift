@@ -13,8 +13,16 @@ import SnapKit
 final class StuffViewController: UIViewController {
 
     var output: StuffViewOutput!
+    
     private lazy var tableView: UITableView = {
         UITableView(frame: CGRect.zero, style: .grouped)
+    }()
+    
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Идет обновление...")
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        return refreshControl
     }()
 
     // MARK: Lifecycle
@@ -44,6 +52,7 @@ final class StuffViewController: UIViewController {
     
     private func setupTableView() {
         view.addSubview(tableView)
+        tableView.addSubview(refreshControl)
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -62,6 +71,11 @@ final class StuffViewController: UIViewController {
             make.leading.equalToSuperview().inset(30)
             make.trailing.equalToSuperview().inset(30)
         }
+    }
+    
+    @objc
+    private func refresh() {
+        output.viewDidLoad()
     }
 
     @objc func didTapScreen() {
@@ -170,6 +184,10 @@ extension StuffViewController: UITableViewDataSource {
 }
 
 extension StuffViewController: StuffViewInput {
+    func endRefresh() {
+        refreshControl.endRefreshing()
+    }
+    
     func changeIsPickedCellFlag(at indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? StuffCell else { return }
         cell.changeIsPickedFlag()

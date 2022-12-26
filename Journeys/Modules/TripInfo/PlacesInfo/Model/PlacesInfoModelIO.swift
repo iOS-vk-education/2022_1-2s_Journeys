@@ -18,5 +18,6 @@ protocol PlacesInfoModelInput: AnyObject {
 protocol PlacesInfoModelOutput: AnyObject {
     func didRecieveWeatherData(_ weatherData: WeatherWithLocation)
     func didRecieveError(error: Error)
-    func noCoordunatesFoPlace(_ place: Place)
+    func noCoordunates()
+    func gotCoorcinates()
 }

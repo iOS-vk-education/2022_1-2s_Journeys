@@ -46,7 +46,7 @@ class LoadingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.white.withAlphaComponent(0.1)
+        view.backgroundColor = UIColor.white.withAlphaComponent(0.3)
         
         blurEffectView.frame = self.view.bounds
         view.insertSubview(blurEffectView, at: 0)

@@ -54,6 +54,10 @@ final class DepartureLocationViewController: UIViewController {
     private func setupView() {
         view.addSubview(tableView)
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
 
     private func setupTableView() {
@@ -79,6 +83,10 @@ final class DepartureLocationViewController: UIViewController {
     private func registerCell() {
         tableView.register(LocationCell.self, forCellReuseIdentifier: "LocationCell")
         tableView.register(CalendarCell.self, forCellReuseIdentifier: "CalendarCell")
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     @objc

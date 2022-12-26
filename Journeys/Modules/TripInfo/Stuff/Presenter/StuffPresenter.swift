@@ -26,6 +26,8 @@ final class StuffPresenter {
     private var cellToDeleteIndexPath: IndexPath?
     private var lastChangedIndexPath: IndexPath?
     
+    private var isDataObtained: Bool = false
+    
     init(baggageId: String) {
         self.baggageId = baggageId
     }
@@ -129,14 +131,13 @@ extension StuffPresenter: StuffModelOutput {
         }
     }
     
-    func didRecieveStuffData(data: [Stuff]) {
-        allStuff = data
+    func didRecieveData(stuff: [Stuff], baggage: Baggage) {
+        isDataObtained = true
+        allStuff = stuff
+        self.baggage = baggage
         sortStuff()
+        view.endRefresh()
         view.reloadData()
-    }
-    
-    func didRecieveBaggageData(data: Baggage) {
-        baggage = data
     }
     
     func didChangeStuffStatus(stuff: Stuff, indexPath: IndexPath) {
@@ -159,8 +160,7 @@ extension StuffPresenter: StuffModuleInput {
 
 extension StuffPresenter: StuffViewOutput {
     func viewDidLoad() {
-        model.obtainStuffData(baggageId: baggageId)
-        model.obtainBaggageData(baggageId: baggageId)
+        model.obtainData(baggageId: baggageId)
     }
     
     func getSectionHeaderText(_ section: Int) -> String {
@@ -173,6 +173,9 @@ extension StuffPresenter: StuffViewOutput {
     }
     
     func getNumberOfRows(in section: Int) -> Int {
+        guard isDataObtained else {
+            return 0
+        }
         if section == 0 {
             return unpackedStuff.count + 1
         } else if section == 1 {

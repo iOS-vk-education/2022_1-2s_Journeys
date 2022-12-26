@@ -106,36 +106,27 @@ extension StuffModel: StuffModelInput {
         }
     }
     
-    func obtainBaggageData(baggageId: String) {
+    func obtainData(baggageId: String) {
         firebaseService.obtainBaggageData(baggageId: baggageId) { [weak self]  result in
                guard let self else { return }
                switch result {
                case .failure:
                    self.output.didRecieveError(.obtainDataError)
                case .success(let baggage):
-                   self.output.didRecieveBaggageData(data: baggage)
+                   self.obtainStuffData(baggage: baggage)
                }
         }
     }
     
-    func obtainStuffData(baggageId: String) {
-        firebaseService.obtainBaggage(baggageId: baggageId) { [weak self]  result in
+    func obtainStuffData(baggage: Baggage) {
+        firebaseService.obtainBaggage(baggageId: baggage.id) { [weak self]  result in
             guard let self else { return }
             switch result {
             case .failure:
                 self.output.didRecieveError(.obtainDataError)
             case .success(let stuff):
-                self.output.didRecieveStuffData(data: stuff)
+                self.output.didRecieveData(stuff: stuff, baggage: baggage)
             }
         }
-//        output.stuffWasObtainedData(data: [Stuff(id: "1", emoji: "🩳", name: "Шорты", isPacked: true),
-//                                           Stuff(id: "2", emoji: "🪥", name: "Зубная щетка", isPacked: true),
-//                                           Stuff(id: "3", emoji: "🪢", name: "Веревка", isPacked: false),
-//                                           Stuff(id: "4", emoji: "👕", name: "Футболка", isPacked: true),
-//                                           Stuff(id: "5", emoji: "🧼", name: "Мыло", isPacked: false),
-//                                           Stuff(id: "6", emoji: "🩲", name: "Нижнее белье", isPacked: true),
-//                                           Stuff(id: "7", emoji: "👗", name: "Платье", isPacked: false),
-//                                           Stuff(id: "8", emoji: "👠", name: "Обувь", isPacked: false)]
-//                                    )
     }
 }

@@ -44,7 +44,8 @@ final class ShortRouteCell: UICollectionViewCell {
         routeLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(Constants.RouteLabel.horisontalSpacing)
             make.trailing.equalToSuperview().inset(Constants.RouteLabel.horisontalSpacing)
-            make.height.greaterThanOrEqualTo(20)
+            make.width.lessThanOrEqualTo(250)
+//            make.height.greaterThanOrEqualTo(20)
             make.top.equalToSuperview()
             make.bottom.equalToSuperview()
         }

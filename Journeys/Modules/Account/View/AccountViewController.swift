@@ -10,9 +10,20 @@ import UIKit
 // MARK: - AccountViewController
 
 final class AccountViewController: UIViewController {
-
+    
     var output: AccountViewOutput!
-
+    
+    private lazy var emailLabel: UILabel = {
+        let label = UILabel()
+        if let email: String = output.getUserEmail() {
+            label.text = "Текущий Email: \(email)"
+        }
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 17, weight: .medium)
+        label.numberOfLines = 0
+        return label
+    }()
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 8
@@ -24,8 +35,6 @@ final class AccountViewController: UIViewController {
     private lazy var saveFloatingButton: FloatingButton = {
         let button = FloatingButton()
         button.backgroundColor = UIColor(asset: Asset.Colors.BaseColors.contrastToThemeColor)
-//        button.layer.cornerRadius = 10
-//        button.layer.masksToBounds = false
         button.configure(title: "Сохранить")
         button.addTarget(self, action: #selector(didTapSaveButton), for: .touchUpInside)
         return button
@@ -39,9 +48,9 @@ final class AccountViewController: UIViewController {
         button.addTarget(self, action: #selector(didTapExitButton), for: .touchUpInside)
         return button
     }()
-
+    
     // MARK: Lifecycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
@@ -50,8 +59,13 @@ final class AccountViewController: UIViewController {
     }
     
     private func setupView() {
+        view.addSubview(emailLabel)
         view.addSubview(saveFloatingButton)
         view.addSubview(exitButton)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
         
         navigationItem.setHidesBackButton(true, animated: false)
         
@@ -80,6 +94,13 @@ final class AccountViewController: UIViewController {
             make.trailing.equalToSuperview()
         }
         
+        emailLabel.snp.makeConstraints { make in
+//            make.top.equalToSuperview().inset(100)
+            make.leading.equalToSuperview().inset(20)
+            make.trailing.equalToSuperview().inset(20)
+            make.bottom.equalTo(collectionView.snp.top).offset(-30)
+        }
+        
         exitButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.width.equalTo(120)
@@ -93,6 +114,10 @@ final class AccountViewController: UIViewController {
             make.bottom.equalToSuperview().inset(20)
             make.height.equalTo(40)
         }
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     @objc

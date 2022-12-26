@@ -29,6 +29,10 @@ extension AccountPresenter: AccountModuleInput {
 }
 
 extension AccountPresenter: AccountViewOutput {
+    func getUserEmail() -> String? {
+        model?.getUserData()?.email
+    }
+    
     func didTapSaveButton() {
         view?.getCellsValues()
     }

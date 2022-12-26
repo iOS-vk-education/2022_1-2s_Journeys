@@ -20,6 +20,8 @@ final class JourneysCoordinator: CoordinatorProtocol {
     
     // MARK: Lifecycle
 
+    let lock = NSLock()
+    private let loadingViewGroup = DispatchGroup()
     init(rootTabBarController: UITabBarController, firebaseService: FirebaseServiceProtocol) {
         self.rootTabBarController = rootTabBarController
         self.firebaseService = firebaseService
@@ -29,8 +31,8 @@ final class JourneysCoordinator: CoordinatorProtocol {
     // MARK: Public Methods
 
     func start() {
-        let viewController = LoadingViewController()
-        navigationController.setViewControllers([viewController], animated: false)
+        let loadingViewController = LoadingViewController()
+        navigationController.setViewControllers([loadingViewController], animated: false)
         Auth.auth().addIDTokenDidChangeListener { (auth, user) in
             if user == nil {
                 let builder = AuthModuleBuilder()
@@ -61,8 +63,8 @@ final class JourneysCoordinator: CoordinatorProtocol {
     }
     
     func hideLoadingView() {
-        DispatchQueue.main.async { [weak self] in
-            self?.navigationController.dismiss(animated: true)
+        DispatchQueue.main.async {
+            self.navigationController.dismiss(animated: true)
         }
     }
     
@@ -71,7 +73,6 @@ final class JourneysCoordinator: CoordinatorProtocol {
         loadingVC.modalPresentationStyle = .overCurrentContext
 
         loadingVC.modalTransitionStyle = .crossDissolve
-               
         navigationController.present(loadingVC, animated: true)
     }
 }

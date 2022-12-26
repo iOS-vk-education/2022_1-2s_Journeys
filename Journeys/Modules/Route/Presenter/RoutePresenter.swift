@@ -129,7 +129,7 @@ extension RoutePresenter: RouteViewOutput {
     
     func didTapFloatingSaveButton() {
         guard let route = route else {
-            view.showAlert(title: "Ошибка", message: "Введите данные")
+            view.showAlert(title: "Ошибка", message: "Введите хотябы один город")
             return
         }
         guard let tripImage = tripImage else {

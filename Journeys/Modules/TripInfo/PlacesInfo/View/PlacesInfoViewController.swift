@@ -24,7 +24,7 @@ final class PlacesInfoViewController: UIViewController {
     private lazy var mainCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 20
-//        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         layout.sectionInset = UIEdgeInsets(top: 18, left: 0, bottom: 35, right: 0)
         layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -84,18 +84,18 @@ extension PlacesInfoViewController: UICollectionViewDelegate, UICollectionViewDe
         print("taptap")
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        switch indexPath.section {
-        case 0:
-            return CGSize(width: mainCollectionView.frame.width, height: 25)
-        case 1:
-            return CGSize(width: mainCollectionView.frame.width, height: 90)
-        default:
-            return CGSize(width: 0, height: 0)
-        }
-    }
+//    func collectionView(_ collectionView: UICollectionView,
+//                        layout collectionViewLayout: UICollectionViewLayout,
+//                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        switch indexPath.section {
+//        case 0:
+//            return CGSize(width: mainCollectionView.frame.width, height: 25)
+//        case 1:
+//            return CGSize(width: mainCollectionView.frame.width, height: 90)
+//        default:
+//            return CGSize(width: 0, height: 0)
+//        }
+//    }
 }
 
 extension PlacesInfoViewController: UICollectionViewDataSource {
@@ -112,7 +112,6 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print(output.getMainCollectionCellsCount(for: section))
         return output.getMainCollectionCellsCount(for: section)
     }
     
@@ -130,11 +129,12 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
             routeCell.configure(data: data)
             cell = routeCell
         case 1:
-            if !output.isAnyPlacesFowWeather() {
+            if output.isEmptyCellNeed() {
                 guard let emptyCell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "NoPlacesForWeatherCell",
                                                                          for: indexPath) as? NoPlacesForWeatherCell else {
                     return UICollectionViewCell()
                 }
+                emptyCell.configure(text: output.getEmptyCellData())
                 return emptyCell
             }
             guard let weatherCell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "WeatherCollection",
@@ -154,6 +154,19 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
 }
 
 extension PlacesInfoViewController: PlacesInfoViewInput {
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title,
+                          message: message,
+                          preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func embedPlaceholderForCell(at indexPath: IndexPath, placeholder: UIViewController) {
+        guard let cell = mainCollectionView.cellForItem(at: indexPath) as? WeatherCollection else { return }
+        cell.embedPlaceholder(placeholder)
+    }
+    
     
     func reloadData() {
         DispatchQueue.main.async { [weak self] in
@@ -173,7 +186,7 @@ private extension PlacesInfoViewController {
 
 extension PlacesInfoViewController: WeatherCollectionDelegate {
     func getNumberOfItemsInWeatherCollection(at collectionIndexPath: IndexPath) -> Int {
-        output.getWeatherCollectionCellsCount(for: collectionIndexPath.row)
+        output.getWeatherCollectionCellsCount(for: collectionIndexPath)
     }
     
     func getCellDisplayData(at collectionIndexPath: IndexPath, for indexpath: IndexPath) -> WeatherCell.DisplayData? {

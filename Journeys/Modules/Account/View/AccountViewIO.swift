@@ -20,6 +20,7 @@ protocol AccountViewInput: AnyObject {
 protocol AccountViewOutput: AnyObject {
     func getCellsCount() -> Int
     func getCellsDisplaydata(for indexPath: IndexPath) -> AccountCell.Displaydata?
+    func getUserEmail() -> String?
     
     func didTapSaveButton()
     func didTapExitButton()

@@ -63,6 +63,7 @@ final class AccountCell: UICollectionViewCell {
         contentView.addSubview(textField)
         
         textField.autocorrectionType = .no
+        textField.delegate = self
 
         setupColors()
         makeConstraints()
@@ -96,5 +97,12 @@ final class AccountCell: UICollectionViewCell {
             textField.textContentType = .oneTimeCode
             textField.isSecureTextEntry = true
         }
+    }
+}
+
+extension AccountCell: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

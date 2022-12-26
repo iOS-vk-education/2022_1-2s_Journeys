@@ -60,6 +60,7 @@ final class RouteCell: UITableViewCell {
         locationLabel.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(8)
             make.leading.equalTo(icon.snp.trailing).offset(11)
+            make.trailing.lessThanOrEqualToSuperview().inset(20)
         }
         
         icon.snp.makeConstraints { make in

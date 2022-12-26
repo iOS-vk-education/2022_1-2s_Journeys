@@ -54,7 +54,7 @@ final class AuthViewController: UIViewController {
         view.addSubview(continueButton)
         view.addSubview(changeScreenTypeButton)
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapScreen))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
         
@@ -101,6 +101,10 @@ final class AuthViewController: UIViewController {
         }
     }
     
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     @objc
     private func didTapContimueButton() {
         output.didTapContinueButton()
@@ -109,10 +113,6 @@ final class AuthViewController: UIViewController {
     @objc
     private func didTapChangeScreenTypeButton() {
         output.didTapChangeScreenTypeButton()
-    }
-    
-    @objc func didTapScreen() {
-        view.endEditing(true)
     }
 }
 

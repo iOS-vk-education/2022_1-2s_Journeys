@@ -18,6 +18,7 @@ final class WeatherCollection: UICollectionViewCell {
     var collectionIndexPath: IndexPath?
     
     private let townNameView = WeatherCollectionHeader()
+    private var placeholderView = UIView()
 
     private lazy var collectionView: UICollectionView = {
         let layout = HorizontallyCenteredCollectionViewFlowLayout()
@@ -56,8 +57,6 @@ final class WeatherCollection: UICollectionViewCell {
 
         collectionView.register(WeatherCell.self,
                                 forCellWithReuseIdentifier: "WeatherCell")
-        collectionView.register(NoWeatherDataCell.self,
-                                forCellWithReuseIdentifier: "NoWeatherDataCell")
     }
 
     private func setupConstraints() {
@@ -65,13 +64,16 @@ final class WeatherCollection: UICollectionViewCell {
             make.leading.equalToSuperview().inset(32)
             make.trailing.equalToSuperview().inset(32)
             make.top.equalToSuperview()
+            make.height.equalTo(25)
         }
 
         collectionView.snp.makeConstraints { make in
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
             make.top.equalTo(townNameView.snp.bottom).offset(16)
+            make.width.equalTo(UIScreen.main.bounds.width)
             make.bottom.equalToSuperview()
+            make.height.equalTo(50)
         }
     }
     
@@ -79,6 +81,24 @@ final class WeatherCollection: UICollectionViewCell {
         self.collectionIndexPath = indexPath
         townNameView.configure(title: data.town)
         self.delegate = delegate
+    }
+    
+    func embedPlaceholder(_ viewController: UIViewController) {
+        guard let placeholderViewController: WeatherPlaceNoDataPlaceholder = viewController
+            as? WeatherPlaceNoDataPlaceholder else { return }
+
+        placeholderViewController.configure(with: WeatherPlaceNoDataPlaceholder.DisplayData(title: "Нет погоды для этого города или дат"))
+        placeholderView = placeholderViewController.view
+        contentView.addSubview(placeholderView)
+        collectionView.isHidden = true
+
+        placeholderView.snp.makeConstraints { [weak self] make in
+            guard let self = self else { return }
+            make.top.equalTo(townNameView.snp.bottom).offset(10)
+            make.bottom.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+        }
     }
 }
 
@@ -104,10 +124,7 @@ extension WeatherCollection: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         guard let data = delegate.getCellDisplayData(at: collectionIndexPath, for: indexPath) else {
-            guard let noDataCell = collectionView.dequeueReusableCell(withReuseIdentifier: "NoWeatherDataCell", for: indexPath) as? NoWeatherDataCell else {
-                return UICollectionViewCell()
-            }
-            return noDataCell
+            return UICollectionViewCell()
         }
         cell.configure(data: data)
         return cell

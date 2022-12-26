@@ -44,6 +44,10 @@ final class TripsViewController: UIViewController {
         makeConstraints()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+//        output.viewDidAppear()
+        super.viewWillAppear(animated)
+    }
 
     private func setupNavBar() {
         navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)

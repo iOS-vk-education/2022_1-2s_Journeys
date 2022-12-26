@@ -17,6 +17,7 @@ protocol StuffViewInput: AnyObject {
     func moveTableViewRow(at fromIndexPath: IndexPath, to toIndexPath: IndexPath)
     func getCellsData(from indexPath: IndexPath) -> StuffCell.StuffData?
     func changeIsPickedCellFlag(at indexPath: IndexPath)
+    func endRefresh()
 }
 
 // MARK: - Stuff ViewOutput

@@ -84,16 +84,17 @@ extension PlacesInfoModel: PlacesInfoModelInput {
         networkService.sendRequest(request) { [weak self] result in
             guard let self else { return }
             switch result {
-            case .failure(let error):
-                self.output.didRecieveError(error: error)
+            case .failure:
+                self.output.noCoordunates()
             case .success(let data):
                 do {
                     let decoder = JSONDecoder()
                     let coordinatesMas = try decoder.decode([Coordinates].self, from: data)
                     guard coordinatesMas.count > 0 else {
-                        self.output.noCoordunatesFoPlace(place)
+                        self.output.noCoordunates()
                         return
                     }
+                    self.output.gotCoorcinates()
                     let coordinates = coordinatesMas[0]
                     self.getTimezone(for: coordinates, place: place)
                 } catch {

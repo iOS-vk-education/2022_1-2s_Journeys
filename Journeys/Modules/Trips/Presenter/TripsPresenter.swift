@@ -79,7 +79,9 @@ extension TripsPresenter: TripsModuleInput {
 
 extension TripsPresenter: TripsViewOutput {
     func viewDidAppear() {
-        moduleOutput.showLoadingView()
+        if tripsViewControllerType == .usual {
+            moduleOutput.showLoadingView()
+        }
         loadTripsData()
     }
     
@@ -192,6 +194,7 @@ extension TripsPresenter: TripsInteractorOutput {
                                                            image: image,
                                                            route: route))
                         count -= 1
+                        print(count)
                         if count == 0 {
                             strongSelf.didFinishObtainingData(trips: trips)
                         }
