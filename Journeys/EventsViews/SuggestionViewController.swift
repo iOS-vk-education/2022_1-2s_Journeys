@@ -194,8 +194,10 @@ class SuggestionViewController: UIViewController, UITableViewDataSource, UITable
             let lat = placemark?.location?.coordinate.latitude
             let lon = placemark?.location?.coordinate.longitude
             print("Lat: \(lat), Lon: \(lon)")
-            viewController.lat = String(lat!)
-            viewController.lon = String(lon!)
+            if lat != nil && lon != nil {
+                viewController.lat = String(lat!)
+                viewController.lon = String(lon!)
+            }
         }
         print(cell.itemName.text!)
         

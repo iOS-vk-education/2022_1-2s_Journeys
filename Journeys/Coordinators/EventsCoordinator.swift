@@ -63,4 +63,10 @@ final class EventsCoordinator: CoordinatorProtocol {
         eventsViewController.moduleOutput = self
         navigationController.pushViewController(eventsViewController, animated: true)
     }
+    
+    func openEventViewController() {
+        let eventsViewController = EventsViewController()
+        eventsViewController.moduleOutput = self
+        navigationController.pushViewController(eventsViewController, animated: true)
+    }
 }

@@ -89,6 +89,7 @@ final class AddingEventViewController: UIViewController, PlacemarkCellDelegate, 
                                 forCellWithReuseIdentifier: "DateCell")
         collectionView.register(ImageEventCell.self,
                                 forCellWithReuseIdentifier: "ImageEventCell")
+        collectionView.register(MapCell.self, forCellWithReuseIdentifier: "MapCell")
     }
 
     private func makeConstraints() {
@@ -228,12 +229,13 @@ extension AddingEventViewController: UICollectionViewDataSource {
         }
         if indexPath.section == 6 {
             guard let placemarkCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "ImageEventCell",
+                withReuseIdentifier: "MapCell",
                 for: indexPath
-            ) as? ImageEventCell else {
+            ) as? MapCell else {
                 return cell
             }
-            placemarkCell.configure(delegate: self)
+            placemarkCell.configure(data: MapCellDisplayData(latitude: 66.6, longitude: 66.6))
+            placemarkCell.configureDelegate(delegate: self)
 
             cell = placemarkCell
         }
@@ -270,6 +272,13 @@ extension AddingEventViewController: ImageEventCellDelegate {
             cell?.configure2(image: editedImage)
         }
         dismiss(animated: true)
+    }
+}
+
+extension AddingEventViewController: MapCellDelegate {
+    func didTouchMap() {
+        let viewController = EventsViewController()
+        moduleOutput?.openEventViewController()
     }
 }
 
