@@ -30,6 +30,7 @@ internal enum Asset {
       internal static let tripCellImage4 = ImageAsset(name: "TripCellImage4")
       internal static let tripCellImage5 = ImageAsset(name: "TripCellImage5")
     }
+    internal static let tripsPlaceholder = ImageAsset(name: "TripsPlaceholder")
   }
   internal enum Colors {
     internal enum Auth {
@@ -69,6 +70,9 @@ internal enum Asset {
     internal enum Text {
       internal static let mainTextColor = ColorAsset(name: "MainTextColor")
     }
+    internal enum Trips {
+      internal static let tripsPlaceholder = ColorAsset(name: "TripsPlaceholder")
+    }
     internal enum Weather {
       internal static let cloudy = ColorAsset(name: "cloudy")
       internal static let drizzle = ColorAsset(name: "drizzle")
@@ -81,6 +85,7 @@ internal enum Asset {
       internal static let sunny = ColorAsset(name: "sunny")
       internal static let thunderstorm = ColorAsset(name: "thunderstorm")
     }
+    internal static let loaderColor = ColorAsset(name: "loaderColor")
   }
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name

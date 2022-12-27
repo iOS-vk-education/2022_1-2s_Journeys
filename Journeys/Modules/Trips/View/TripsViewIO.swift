@@ -19,12 +19,18 @@ protocol TripsViewInput: AnyObject {
     func reloadData()
     func endRefresh()
     func deleteItem(at indexPath: IndexPath)
+    func showLoadingView()
+    func hideLoadingView()
+    func changeIsSavedCellStatus(at indexPath: IndexPath, status: Bool)
 }
 
 // MARK: - Trips ViewOutput
 
 protocol TripsViewOutput: AnyObject {
-    func viewDidAppear()
+    func viewDidLoad()
+    func refreshView()
+    
+    func placeholderDisplayData() -> PlaceHolderViewController.DisplayData
     func getScreenType() -> TripsViewController.ScreenType
     func didSelectCell(at indexpath: IndexPath)
     func didTapCellBookmarkButton(at indexPath: IndexPath)

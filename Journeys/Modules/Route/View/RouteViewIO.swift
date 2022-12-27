@@ -12,9 +12,12 @@ import UIKit
 // MARK: - Route ViewInput
 
 protocol RouteViewInput: AnyObject {
+//    func changeTabbarAvailibility(to value: Bool)
     func showAlert(title: String, message: String)
     func reloadData()
     func showImagePicker()
+    func showLoadingView()
+    func hideLoadingView()
 }
 
 // MARK: - Route ViewOutput
