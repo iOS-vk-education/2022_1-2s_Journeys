@@ -188,11 +188,12 @@ extension JourneysCoordinator: AuthModuleOutput {
     }
     
     func authModuleWantsToOpenTripsModule() {
-        let builder = TripsModuleBuilder()
-        let tripsViewController = builder.build(firebaseService: firebaseService,
-                                                output: self)
-//        self.navigationController.viewControllers.remove(at: 0)
-//        navigationController.pushViewController(tripsViewController, animated: true)
-        self.navigationController.setViewControllers([tripsViewController], animated: true)
+//        let builder = TripsModuleBuilder()
+//        let tripsViewController = builder.build(firebaseService: firebaseService,
+//                                                output: self)
+////        self.navigationController.viewControllers.remove(at: 0)
+////        navigationController.pushViewController(tripsViewController, animated: true)
+        self.navigationController.popViewController(animated: true)
+//        self.navigationController.setViewControllers([tripsViewController], animated: true)
     }
 }

@@ -94,7 +94,7 @@ final class StuffViewController: UIViewController {
         keyboardFrame = self.view.convert(keyboardFrame, from: nil)
 
         var contentInset:UIEdgeInsets = self.tableView.contentInset
-        contentInset.bottom = keyboardFrame.size.height + 35
+        contentInset.bottom = keyboardFrame.size.height + 50
         tableView.contentInset = contentInset
     }
 
@@ -184,6 +184,14 @@ extension StuffViewController: UITableViewDataSource {
 }
 
 extension StuffViewController: StuffViewInput {
+    func getCell(for indexpath: IndexPath) -> UITableViewCell? {
+        tableView.cellForRow(at: indexpath)
+    }
+    
+    func deleteRow(at indexPath: IndexPath) {
+        tableView.deleteRows(at: [indexPath], with: .left)
+    }
+    
     func endRefresh() {
         refreshControl.endRefreshing()
     }

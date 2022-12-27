@@ -70,6 +70,9 @@ final class StuffPresenter {
 
 extension StuffPresenter: StuffModelOutput {
     func didSaveStuff(stuff: Stuff, baggage: Baggage, indexPath: IndexPath) {
+        if let cell = view.getCell(for: indexPath) as? StuffCell {
+            cell.finishEditMode()
+        }
         if indexPath.section == 0 {
             guard unpackedStuff.indices.contains(indexPath.row) else {
                 didRecieveError(.saveDataError)
@@ -269,6 +272,9 @@ extension StuffPresenter: StuffViewOutput {
     }
     
     func emojiTextFieldDidChange(_ text: String, at indexPath: IndexPath) {
+//        if let cell = view.getCell(for: indexPath) as? StuffCell {
+//            cell.resingFirstResponders()
+//        }
         guard text.count > 0 else {
 //            view.showAlert(title: "Ошибка", message: "Поле не должно быит пустым, изменения не сохранены")
             return
@@ -289,6 +295,9 @@ extension StuffPresenter: StuffViewOutput {
     }
     
     func nameTextFieldDidChange(_ text: String, at indexPath: IndexPath) {
+//        if let cell = view.getCell(for: indexPath) as? StuffCell {
+//            cell.resingFirstResponders()
+//        }
         guard text.count > 0 else {
 //            view.showAlert(title: "Ошибка", message: "Поле не должно быит пустым, изменения не сохранены")
             return
@@ -305,9 +314,10 @@ extension StuffPresenter: StuffViewOutput {
     }
     
     func didTapScreen(tableView: UITableView) {
-//        guard let lastChangedIndexPath = lastChangedIndexPath else { return }
-//        guard let cell = tableView.cellForRow(at: lastChangedIndexPath) as? StuffCell else { return }
-//        saveCellData(cell: cell)
+        guard let lastChangedIndexPath = lastChangedIndexPath else { return }
+        if let cell = view.getCell(for: lastChangedIndexPath) as? StuffCell {
+            cell.finishEditMode()
+        }
     }
     
     func didTapExitButton() {

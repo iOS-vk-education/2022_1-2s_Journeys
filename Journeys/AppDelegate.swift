@@ -16,7 +16,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        YMKMapKit.setApiKey("aceed971-8010-4ec5-90d7-0f452e525f71")
+        YMKMapKit.setApiKey("d594da49-3ffb-4815-acc6-61baf9f12f54")
         YMKMapKit.sharedInstance()
 
         FirebaseApp.configure()

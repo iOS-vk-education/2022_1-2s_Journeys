@@ -18,6 +18,7 @@ protocol StuffViewInput: AnyObject {
     func getCellsData(from indexPath: IndexPath) -> StuffCell.StuffData?
     func changeIsPickedCellFlag(at indexPath: IndexPath)
     func endRefresh()
+    func getCell(for indexpath: IndexPath) -> UITableViewCell?
 }
 
 // MARK: - Stuff ViewOutput

@@ -153,6 +153,11 @@ final class StuffCell: UITableViewCell {
         delegate?.cellPackButtonWasTapped(self)
     }
     
+    func resingFirstResponders() {
+        emojiTextField.resignFirstResponder()
+        nameTextField.resignFirstResponder()
+    }
+    
     func startEditMode() {
         nameTextField.isUserInteractionEnabled = true
         emojiTextField.isUserInteractionEnabled = true
