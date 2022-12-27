@@ -62,19 +62,19 @@ final class JourneysCoordinator: CoordinatorProtocol {
     func finish() {
     }
     
-    func hideLoadingView() {
-        DispatchQueue.main.async {
-            self.navigationController.dismiss(animated: true)
-        }
-    }
-    
-    func showLoadingView() {
-        let loadingVC = LoadingViewController()
-        loadingVC.modalPresentationStyle = .overCurrentContext
-
-        loadingVC.modalTransitionStyle = .crossDissolve
-        navigationController.present(loadingVC, animated: true)
-    }
+//    func hideLoadingView() {
+//        DispatchQueue.main.async {
+//            self.navigationController.dismiss(animated: true)
+//        }
+//    }
+//    
+//    func showLoadingView() {
+//        let loadingVC = LoadingViewController()
+//        loadingVC.modalPresentationStyle = .overCurrentContext
+//
+//        loadingVC.modalTransitionStyle = .crossDissolve
+//        navigationController.present(loadingVC, animated: true)
+//    }
 }
 
 // MARK: TripsModuleOutput

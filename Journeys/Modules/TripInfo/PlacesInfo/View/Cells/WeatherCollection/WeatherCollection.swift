@@ -82,24 +82,6 @@ final class WeatherCollection: UICollectionViewCell {
         townNameView.configure(title: data.town)
         self.delegate = delegate
     }
-    
-    func embedPlaceholder(_ viewController: UIViewController) {
-        guard let placeholderViewController: WeatherPlaceNoDataPlaceholder = viewController
-            as? WeatherPlaceNoDataPlaceholder else { return }
-
-        placeholderViewController.configure(with: WeatherPlaceNoDataPlaceholder.DisplayData(title: "Нет погоды для этого города или дат"))
-        placeholderView = placeholderViewController.view
-        contentView.addSubview(placeholderView)
-        collectionView.isHidden = true
-
-        placeholderView.snp.makeConstraints { [weak self] make in
-            guard let self = self else { return }
-            make.top.equalTo(townNameView.snp.bottom).offset(10)
-            make.bottom.equalToSuperview()
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-        }
-    }
 }
 
 extension WeatherCollection: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {

@@ -21,6 +21,6 @@ protocol TripsModuleOutput: AnyObject {
     
     func tripCollectionWantsToOpenTripInfoModule(trip: Trip, route: Route)
     
-    func showLoadingView()
-    func hideLoadingView()
+//    func showLoadingView()
+//    func hideLoadingView()
 }

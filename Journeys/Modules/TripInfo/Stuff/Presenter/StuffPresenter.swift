@@ -44,28 +44,6 @@ final class StuffPresenter {
         tableView.endUpdates()
     }
     
-//    private func saveCellData(cell: StuffCell) {
-//        let data = cell.giveData()
-//        if data.name.isEmpty {
-//            view.showAlert(title: "Введите данные", message: "Введите название вещи")
-//            return
-//        }
-//        guard let lastChangedIndexPath = lastChangedIndexPath else { return }
-//        cell.finishEditMode()
-//        if lastChangedIndexPath.section == 0 {
-//            unpackedStuff[lastChangedIndexPath.row] = Stuff(id: "",
-//                                                            emoji: data.emoji ?? "",
-//                                                            name: data.name,
-//                                                            isPacked: data.isPacked)
-//        } else if lastChangedIndexPath.section == 1 {
-//            packedStuff[lastChangedIndexPath.row] = Stuff(id: "",
-//                                                          emoji: data.emoji ?? "",
-//                                                          name: data.name,
-//                                                          isPacked: data.isPacked)
-//            self.lastChangedIndexPath = nil
-//        }
-//    }
-    
     private func sortStuff() {
         guard let baggage else { return }
         for stuffId in baggage.stuffIDs {

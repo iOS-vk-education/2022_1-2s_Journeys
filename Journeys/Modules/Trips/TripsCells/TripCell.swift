@@ -165,13 +165,15 @@ final class TripCell: UICollectionViewCell {
         }
     }
 
+    func changeIsSavedStatus(status: Bool) {
+        isInFavourites = status
+        setBookmarkButtonImage()
+    }
     // TODO: send data to view
     @objc
     private func didTapBookmarkButton() {
         guard let indexPath = indexPath else { return }
         delegate.didTapBookmarkButton(indexPath)
-        isInFavourites.toggle()
-        setBookmarkButtonImage()
     }
 
     @objc

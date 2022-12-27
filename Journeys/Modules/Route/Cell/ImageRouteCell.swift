@@ -62,3 +62,4 @@ final class ImageRouteCell: UITableViewCell {
         picture.image = image
     }
 }
+
