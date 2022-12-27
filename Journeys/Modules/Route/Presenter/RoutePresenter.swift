@@ -59,10 +59,10 @@ final class RoutePresenter {
     }
     
     private func showLoadingView() {
-        moduleOutput.showLoadingView()
+        view.showLoadingView()
     }
     private func hideLoadingView() {
-        moduleOutput.hideLoadingView()
+        view.hideLoadingView()
     }
 }
 
@@ -70,7 +70,6 @@ extension RoutePresenter: RouteViewOutput {
     
     func viewDidLoad() {
         guard let trip = trip else { return }
-//        getRoute(routeId: trip.routeId)
     }
     
     func numberOfSectins() -> Int {
@@ -191,21 +190,6 @@ extension RoutePresenter: RouteViewOutput {
 }
 
 extension RoutePresenter: RouteModelOutput {
-
-    func didFetchRouteData(data: Route) {
-        self.route = data
-        arrivalCellsCount = (data.places.count > 1 ? data.places.count : 1)
-        guard let imageURL = data.imageURLString else {
-            view.showAlert(title: "Ошибка", message: "Ошибка при загрузке титульной картинки поездки")
-            return
-        }
-        model.obtainTripImageFromServer(withURL: imageURL)
-    }
-    
-    func didFetchTripImage(image: UIImage) {
-        self.tripImage = image
-        view.reloadData()
-    }
     func didRecieveError(error: Errors) {
         hideLoadingView()
         switch error {
@@ -264,9 +248,6 @@ extension RoutePresenter: RouteModuleInput {
 
 
 private extension RoutePresenter {
-    func getRoute(routeId: String) {
-        model.obtainRouteDataFromSever(with: routeId)
-    }
     
     func routeModuleWantsToOpenPlacenModule(indexPath: IndexPath) {
         guard let route = route else {
@@ -284,10 +265,6 @@ private extension RoutePresenter {
                                                            placeIndex: indexPath.row,
                                                            routeModuleInput: self)
         }
-    }
-    
-    func sortRoutePlaces() {
-        route?.places.sort(by: {$0.depart.timeIntervalSinceNow > $1.depart.timeIntervalSinceNow})
     }
     
     func routeModuleWantsToOpenDepartureLocationModule() {

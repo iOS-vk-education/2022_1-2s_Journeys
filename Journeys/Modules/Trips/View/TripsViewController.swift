@@ -28,6 +28,9 @@ final class TripsViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         return refreshControl
     }()
+    
+    private let loadingView = LoadingView()
+    private var placeholderView = UIView()
 
     // MARK: Public properties
     var output: TripsViewOutput!
@@ -35,18 +38,14 @@ final class TripsViewController: UIViewController {
 
     // MARK: Lifecycle
     override func viewDidLoad() {
-        output.viewDidAppear()
+        output.viewDidLoad()
         super.viewDidLoad()
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         tabBarController?.tabBar.items?.forEach { $0.isEnabled = true }
+        placeholderView.isHidden = true
         setupNavBar()
         setupCollectionView()
         makeConstraints()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-//        output.viewDidAppear()
-        super.viewWillAppear(animated)
     }
 
     private func setupNavBar() {
@@ -94,11 +93,12 @@ final class TripsViewController: UIViewController {
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
         }
+        view.bringSubviewToFront(loadingView)
     }
 
     @objc
     private func refresh() {
-        output.viewDidAppear()
+        output.refreshView()
     }
     
     @objc
@@ -232,6 +232,57 @@ extension TripsViewController: TripsViewInput {
     
     func deleteItem(at indexPath: IndexPath) {
         self.collectionView.deleteItems(at: [indexPath])
+    }
+    
+    func showLoadingView() {
+        view.addSubview(loadingView)
+        loadingView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+        }
+        view.bringSubviewToFront(loadingView)
+    }
+    
+    func hideLoadingView() {
+        DispatchQueue.main.async { [weak self] in
+            self?.loadingView.removeFromSuperview()
+        }
+    }
+}
+
+extension TripsViewController: TripsTransitionHandlerProtocol {
+    func embedPlaceholder(_ viewController: UIViewController) {
+        guard let placeholderViewController = viewController as? PlaceHolderViewController else { return }
+
+        guard placeholderView.isHidden == true else {
+            return
+        }
+//        let displayData = output.placeholderDisplayData
+        placeholderViewController
+            .configure(with: PlaceHolderViewController.DisplayData(title: "Пока что маршрутов нет",
+                                                                   imageName: "TripsPlaceholder"))
+        addChild(placeholderViewController)
+        placeholderViewController.didMove(toParent: self)
+        placeholderView = placeholderViewController.view
+        collectionView.addSubview(placeholderView)
+        placeholderView.isHidden = false
+        placeholderView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
+            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
+        }
+    }
+    
+    func hidePlaceholder() {
+        placeholderView.isHidden = true
+    }
+    
+    func changeIsSavedCellStatus(at indexPath: IndexPath, status: Bool) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? TripCell else { return }
+        cell.changeIsSavedStatus(status: status)
     }
 }
 

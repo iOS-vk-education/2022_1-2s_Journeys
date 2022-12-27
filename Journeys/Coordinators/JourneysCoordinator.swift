@@ -31,7 +31,7 @@ final class JourneysCoordinator: CoordinatorProtocol {
     // MARK: Public Methods
 
     func start() {
-        let loadingViewController = LoadingViewController()
+        let loadingViewController = EmtyViewController()
         navigationController.setViewControllers([loadingViewController], animated: false)
         Auth.auth().addIDTokenDidChangeListener { (auth, user) in
             if user == nil {
@@ -62,19 +62,19 @@ final class JourneysCoordinator: CoordinatorProtocol {
     func finish() {
     }
     
-    func hideLoadingView() {
-        DispatchQueue.main.async {
-            self.navigationController.dismiss(animated: true)
-        }
-    }
-    
-    func showLoadingView() {
-        let loadingVC = LoadingViewController()
-        loadingVC.modalPresentationStyle = .overCurrentContext
-
-        loadingVC.modalTransitionStyle = .crossDissolve
-        navigationController.present(loadingVC, animated: true)
-    }
+//    func hideLoadingView() {
+//        DispatchQueue.main.async {
+//            self.navigationController.dismiss(animated: true)
+//        }
+//    }
+//    
+//    func showLoadingView() {
+//        let loadingVC = LoadingViewController()
+//        loadingVC.modalPresentationStyle = .overCurrentContext
+//
+//        loadingVC.modalTransitionStyle = .crossDissolve
+//        navigationController.present(loadingVC, animated: true)
+//    }
 }
 
 // MARK: TripsModuleOutput

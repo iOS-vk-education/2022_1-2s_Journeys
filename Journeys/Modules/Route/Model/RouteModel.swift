@@ -20,29 +20,6 @@ final class RouteModel {
 }
 
 extension RouteModel: RouteModelInput {
-    func obtainRouteDataFromSever(with identifier: String) {
-        FBService.obtainRoute(with: identifier) { [weak self] result in
-            guard let strongSelf = self else { return }
-            switch result {
-            case .failure(let error):
-                strongSelf.output.didRecieveError(error: .obtainDataError)
-            case .success(let route):
-                strongSelf.output.didFetchRouteData(data: route)
-            }
-        }
-    }
-    
-    func obtainTripImageFromServer(withURL imageURLString: String)  {
-        FBService.obtainTripImage(for: imageURLString) { [weak self] result in
-            guard let strongSelf = self else { return }
-            switch result {
-            case .failure(let error):
-                strongSelf.output.didRecieveError(error: .obtainDataError)
-            case .success(let image):
-                strongSelf.output.didFetchTripImage(image: image)
-            }
-        }
-    }
     
     func storeRouteData(route: Route, tripImage: UIImage, tripId: String) {
         FBService.storeTripImage(image: tripImage) { [weak self] result in

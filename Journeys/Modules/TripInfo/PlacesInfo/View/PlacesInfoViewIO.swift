@@ -11,8 +11,9 @@ import UIKit
 
 protocol PlacesInfoViewInput: AnyObject {
     func reloadData()
-    func embedPlaceholderForCell(at indexPath: IndexPath, placeholder: UIViewController)
     func showAlert(title: String, message: String)
+    func showLoadingView()
+    func hideLoadingView()
 }
 
 // MARK: - PlacesIngo ViewOutput

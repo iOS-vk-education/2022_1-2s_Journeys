@@ -14,6 +14,4 @@ protocol TripInfoModuleInput: AnyObject {
 
 protocol TripInfoModuleOutput: AnyObject {
     func tripInfoModuleWantsToClose()
-    func showLoadingView()
-    func hideLoadingView()
 }

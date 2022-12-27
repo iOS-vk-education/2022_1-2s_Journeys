@@ -70,6 +70,21 @@ final class TripsPresenter {
         return tripDisplayData
     }
 
+    private func showLoadingView() {
+        view?.showLoadingView()
+    }
+    
+    private func hideLoadingView() {
+        view?.hideLoadingView()
+    }
+    
+    private func embedRPlaceholder() {
+        router.embedPlaceholder()
+    }
+    
+    private func hidePlaceholder() {
+        router.hidePlaceholder()
+    }
 }
 
 
@@ -78,11 +93,17 @@ extension TripsPresenter: TripsModuleInput {
 }
 
 extension TripsPresenter: TripsViewOutput {
-    func viewDidAppear() {
-        if tripsViewControllerType == .usual {
-            moduleOutput.showLoadingView()
-        }
+    func viewDidLoad() {
+        showLoadingView()
         loadTripsData()
+    }
+    
+    func refreshView() {
+        loadTripsData()
+    }
+    
+    func placeholderDisplayData() -> PlaceHolderViewController.DisplayData {
+        PlaceholderDisplayDataFactory().displayData()
     }
     
     func getScreenType() -> TripsViewController.ScreenType {
@@ -108,6 +129,11 @@ extension TripsPresenter: TripsViewOutput {
                 return 0
             }
         }
+        if tripsData.count == 0 {
+            embedRPlaceholder()
+        } else {
+            hidePlaceholder()
+        }
         return tripsData.count
     }
     
@@ -130,7 +156,14 @@ extension TripsPresenter: TripsViewOutput {
     func didTapCellBookmarkButton(at indexPath: IndexPath) {
         guard tripsData.indices.contains(indexPath.row) else { return }
         tripsData[indexPath.row].isInfavourites.toggle()
-        interactor.storeTripData(trip: Trip(tripWithOtherData: tripsData[indexPath.row]))
+        interactor.storeTripData(trip: Trip(tripWithOtherData: tripsData[indexPath.row])) { [weak self] in
+            guard let self else { return }
+            self.view?.changeIsSavedCellStatus(at: indexPath, status: self.tripsData[indexPath.row].isInfavourites)
+            if self.tripsViewControllerType == .saved {
+                self.tripsData.remove(at: indexPath.row)
+                self.view?.deleteItem(at: indexPath)
+            }
+        }
     }
     
     func didTapEditButton(at indexPath: IndexPath) {
@@ -178,7 +211,7 @@ extension TripsPresenter: TripsInteractorOutput {
         var trips: [TripWithRouteAndImage] = []
         var count = data.count
         if count  == 0 {
-            moduleOutput.hideLoadingView()
+            hideLoadingView()
             view?.endRefresh()
         }
         for trip in data {
@@ -223,8 +256,8 @@ extension TripsPresenter: TripsInteractorOutput {
         self.tripsData = trips
         tripsData.sort(by: {$0.dateChanged.timeIntervalSinceNow > $1.dateChanged.timeIntervalSinceNow})
         self.view?.reloadData()
-        moduleOutput.hideLoadingView()
         self.view?.endRefresh()
+        hideLoadingView()
     }
     
     func didDeleteTrip() {
@@ -240,7 +273,7 @@ extension TripsPresenter: TripsInteractorOutput {
     func didRecieveError(error: Errors) {
         switch error {
         case .obtainDataError:
-            moduleOutput.hideLoadingView()
+            hideLoadingView()
             view?.showAlert(title: "Ошибка",
                            message: "Возникла ошибка при получении данных",
                            actionTitle: "Ок")

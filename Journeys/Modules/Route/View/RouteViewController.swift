@@ -18,6 +18,8 @@ final class RouteViewController: UIViewController {
         UITableView(frame: CGRect.zero, style: .plain)
    }()
 
+    private let loadingView = LoadingView()
+    
     // MARK: Public properties
     var output: RouteViewOutput!
 
@@ -80,6 +82,7 @@ final class RouteViewController: UIViewController {
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
         }
+        view.bringSubviewToFront(loadingView)
     }
 
     @objc
@@ -153,6 +156,10 @@ extension RouteViewController: UITableViewDataSource {
 }
 
 extension RouteViewController: RouteViewInput {
+    func changeTabbarAvailibility(to value: Bool) {
+        tabBarController?.tabBar.items?.forEach { $0.isEnabled = value }
+    }
+    
     func showImagePicker() {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
@@ -173,6 +180,23 @@ extension RouteViewController: RouteViewInput {
                                       preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
+    }
+    
+    func showLoadingView() {
+        view.addSubview(loadingView)
+        loadingView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+        }
+        view.bringSubviewToFront(loadingView)
+    }
+    
+    func hideLoadingView() {
+        DispatchQueue.main.async { [weak self] in
+            self?.loadingView.removeFromSuperview()
+        }
     }
 }
 

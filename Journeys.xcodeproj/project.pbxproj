@@ -55,10 +55,10 @@
 		CE4CCCA32958B1A20057455D /* AddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4CCCA22958B1A10057455D /* AddressCell.swift */; };
 		CE4CCCA72958F9080057455D /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4CCCA62958F9080057455D /* DateCell.swift */; };
 		CE7F42CF29594BE1000CBA63 /* AddPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7F42CE29594BE1000CBA63 /* AddPhotoCell.swift */; };
-		CE7F42D1295A6390000CBA63 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE7F42D0295A638F000CBA63 /* GoogleService-Info.plist */; };
 		CE7F42D3295ACFE4000CBA63 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7F42D2295ACFE3000CBA63 /* Event.swift */; };
 		CE7F42D5295AD003000CBA63 /* Adress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7F42D4295AD003000CBA63 /* Adress.swift */; };
 		CE7F42D9295B1820000CBA63 /* MapCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7F42D8295B181F000CBA63 /* MapCell.swift */; };
+		CE7F42DB295B34E8000CBA63 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE7F42DA295B34E7000CBA63 /* GoogleService-Info.plist */; };
 		D2F0BC3358339956DDE22244 /* StuffViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5363B31E1ED6703B3D86E86D /* StuffViewController.swift */; };
 		D3B3547A919CA12361A3822A /* TripInfoModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902CF0A08A2306F0D3CE65D9 /* TripInfoModuleIO.swift */; };
 		EE00ABFE2953B2AE00FAFDCD /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE00ABFD2953B2AE00FAFDCD /* UILabel.swift */; };
@@ -100,6 +100,11 @@
 		EE497A182940B183007E8579 /* TabbarItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE497A172940B183007E8579 /* TabbarItemFactory.swift */; };
 		EE57FF3D2927E7E100212DC2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE57FF3B2927E7E100212DC2 /* Localizable.strings */; };
 		EE57FF3F2927E8B000212DC2 /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */; };
+		EE7819B0295A69E8008F607E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819AF295A69E8008F607E /* LoadingView.swift */; };
+		EE7819B3295A8441008F607E /* TripsPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819B2295A8441008F607E /* TripsPlaceholder.swift */; };
+		EE7819B5295A8629008F607E /* PlaceholderDisplayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819B4295A8629008F607E /* PlaceholderDisplayData.swift */; };
+		EE7819B7295A87DC008F607E /* TripsTransitionHandlerProlocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819B6295A87DC008F607E /* TripsTransitionHandlerProlocol.swift */; };
+		EE7819B9295B1705008F607E /* EmptyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819B8295B1705008F607E /* EmptyViewController.swift */; };
 		EE910DB12957CBC30094F5C8 /* AccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DB02957CBC30094F5C8 /* AccountCell.swift */; };
 		EE910DB72957EF9D0094F5C8 /* AuthModelIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DB62957EF9D0094F5C8 /* AuthModelIO.swift */; };
 		EE910DB92957FAFA0094F5C8 /* SetVisible.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DB82957FAFA0094F5C8 /* SetVisible.swift */; };
@@ -207,10 +212,10 @@
 		CE4CCCA22958B1A10057455D /* AddressCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressCell.swift; sourceTree = "<group>"; };
 		CE4CCCA62958F9080057455D /* DateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateCell.swift; sourceTree = "<group>"; };
 		CE7F42CE29594BE1000CBA63 /* AddPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPhotoCell.swift; sourceTree = "<group>"; };
-		CE7F42D0295A638F000CBA63 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CE7F42D2295ACFE3000CBA63 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		CE7F42D4295AD003000CBA63 /* Adress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Adress.swift; sourceTree = "<group>"; };
 		CE7F42D8295B181F000CBA63 /* MapCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCell.swift; sourceTree = "<group>"; };
+		CE7F42DA295B34E7000CBA63 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Network/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CEEC91A92B6FC702B7FBFB11 /* AccountPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountPresenter.swift; sourceTree = "<group>"; };
 		D5F037949A48EAF01CF6644F /* PlaceModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlaceModel.swift; sourceTree = "<group>"; };
 		E483DF62B28C4DBC30739F6A /* TripsBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsBuilder.swift; sourceTree = "<group>"; };
@@ -257,6 +262,11 @@
 		EE497A172940B183007E8579 /* TabbarItemFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarItemFactory.swift; sourceTree = "<group>"; };
 		EE57FF3C2927E7E100212DC2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Localizable.strings; sourceTree = "<group>"; };
 		EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Strings+Generated.swift"; sourceTree = "<group>"; };
+		EE7819AF295A69E8008F607E /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		EE7819B2295A8441008F607E /* TripsPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsPlaceholder.swift; sourceTree = "<group>"; };
+		EE7819B4295A8629008F607E /* PlaceholderDisplayData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderDisplayData.swift; sourceTree = "<group>"; };
+		EE7819B6295A87DC008F607E /* TripsTransitionHandlerProlocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsTransitionHandlerProlocol.swift; sourceTree = "<group>"; };
+		EE7819B8295B1705008F607E /* EmptyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewController.swift; sourceTree = "<group>"; };
 		EE910DB02957CBC30094F5C8 /* AccountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCell.swift; sourceTree = "<group>"; };
 		EE910DB62957EF9D0094F5C8 /* AuthModelIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModelIO.swift; sourceTree = "<group>"; };
 		EE910DB82957FAFA0094F5C8 /* SetVisible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetVisible.swift; sourceTree = "<group>"; };
@@ -474,6 +484,7 @@
 			children = (
 				FABAFF6132B4BF34FF1262AA /* TripsRouterInput.swift */,
 				8EBDC0F10F5CD5FD772D3371 /* TripsRouter.swift */,
+				EE7819B6295A87DC008F607E /* TripsTransitionHandlerProlocol.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -590,6 +601,7 @@
 		E7C7F8885C59BF0183002C79 /* Trips */ = {
 			isa = PBXGroup;
 			children = (
+				EE7819B1295A8431008F607E /* Placeholder */,
 				EE2B4124291413C80067BE4F /* TripsCells */,
 				7CB85C2A924F631A5E5F14EA /* View */,
 				A6B3EA1ACA9775E2354B24AE /* Interactor */,
@@ -683,7 +695,7 @@
 		EE0AF93C2913010D00EC52D3 /* Journeys */ = {
 			isa = PBXGroup;
 			children = (
-				CE7F42D0295A638F000CBA63 /* GoogleService-Info.plist */,
+				CE7F42DA295B34E7000CBA63 /* GoogleService-Info.plist */,
 				EE00ABFC2953B2A100FAFDCD /* Extencions */,
 				EEAC1D462952914000237331 /* Formatters */,
 				EE30C72C2943FB4200A9DCF6 /* Errors */,
@@ -791,6 +803,15 @@
 			path = ru.lproj;
 			sourceTree = "<group>";
 		};
+		EE7819B1295A8431008F607E /* Placeholder */ = {
+			isa = PBXGroup;
+			children = (
+				EE7819B2295A8441008F607E /* TripsPlaceholder.swift */,
+				EE7819B4295A8629008F607E /* PlaceholderDisplayData.swift */,
+			);
+			path = Placeholder;
+			sourceTree = "<group>";
+		};
 		EE910DAF2957CBB10094F5C8 /* AccountCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -816,6 +837,8 @@
 			isa = PBXGroup;
 			children = (
 				EE910DC82958B93A0094F5C8 /* LoadingViewController.swift */,
+				EE7819B8295B1705008F607E /* EmptyViewController.swift */,
+				EE7819AF295A69E8008F607E /* LoadingView.swift */,
 			);
 			path = LoadingView;
 			sourceTree = "<group>";
@@ -1123,12 +1146,12 @@
 			files = (
 				CE4CCC992956A7BB0057455D /* placemark.png in Resources */,
 				CE4CCC9529568C0E0057455D /* Add icon.png in Resources */,
-				CE7F42D1295A6390000CBA63 /* GoogleService-Info.plist in Resources */,
 				EE157F432926B2F200A56157 /* Colors.xcassets in Resources */,
 				EE57FF3D2927E7E100212DC2 /* Localizable.strings in Resources */,
 				EE0AF94A2913010F00EC52D3 /* LaunchScreen.storyboard in Resources */,
 				EE0AF9472913010F00EC52D3 /* Assets.xcassets in Resources */,
 				EE0AF9452913010D00EC52D3 /* Main.storyboard in Resources */,
+				CE7F42DB295B34E8000CBA63 /* GoogleService-Info.plist in Resources */,
 				EE157F402926AEB300A56157 /* swiftgen.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1242,11 +1265,13 @@
 				EED2A760294FCAF9003A9A1A /* StuffTableViewHeader.swift in Sources */,
 				EEA76C682951325E00250B06 /* MainCollectionHeader.swift in Sources */,
 				EEFA76C7292BE88F00A0B8CA /* RouteModuleIO.swift in Sources */,
+				EE7819B7295A87DC008F607E /* TripsTransitionHandlerProlocol.swift in Sources */,
 				EE02E5472950D9EA002BE87E /* Location.swift in Sources */,
 				EE0AF9422913010D00EC52D3 /* ViewController.swift in Sources */,
 				EEDAF553291C05B300E6DDB9 /* JourneysCoordinator.swift in Sources */,
 				EE57FF3F2927E8B000212DC2 /* Strings+Generated.swift in Sources */,
 				EE497A142940AF4C007E8579 /* EventsCoordinator.swift in Sources */,
+				EE7819B9295B1705008F607E /* EmptyViewController.swift in Sources */,
 				CE4CCC97295693310057455D /* TapToAddButtonViewController.swift in Sources */,
 				EEA76C6A2951325E00250B06 /* PlacesInfoViewIO.swift in Sources */,
 				EEA76C632951325E00250B06 /* WeatherCellDisplayDataFactory.swift in Sources */,
@@ -1261,6 +1286,7 @@
 				EE0AF93E2913010D00EC52D3 /* AppDelegate.swift in Sources */,
 				CE4CCC9B2956B47D0057455D /* SuggestionViewController.swift in Sources */,
 				EE497A162940B0EB007E8579 /* Pages.swift in Sources */,
+				EE7819B0295A69E8008F607E /* LoadingView.swift in Sources */,
 				0D551CF52951752700A4151E /* EventsViewController.swift in Sources */,
 				CE4CCCA32958B1A20057455D /* AddressCell.swift in Sources */,
 				EE29EBF829191534008ECFF8 /* AppCoordinator.swift in Sources */,
@@ -1282,6 +1308,7 @@
 				EE30C7262943E89200A9DCF6 /* FirebaseServiceDataObtain.swift in Sources */,
 				C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */,
 				EEAC1D35295271E400237331 /* Coordinates.swift in Sources */,
+				EE7819B5295A8629008F607E /* PlaceholderDisplayData.swift in Sources */,
 				EEA76C622951325E00250B06 /* WeatherCell.swift in Sources */,
 				EE2B4126291413EC0067BE4F /* TripCell.swift in Sources */,
 				EE30C72B2943F28E00A9DCF6 /* RouteModelIO.swift in Sources */,
@@ -1350,6 +1377,7 @@
 				CE7F42CF29594BE1000CBA63 /* AddPhotoCell.swift in Sources */,
 				EE02E54C2950D9EA002BE87E /* Weather.swift in Sources */,
 				EE02E54B2950D9EA002BE87E /* Protocols.swift in Sources */,
+				EE7819B3295A8441008F607E /* TripsPlaceholder.swift in Sources */,
 				EE02E54E2950D9EA002BE87E /* Baggage.swift in Sources */,
 				AE1A16661BC5D1E7EF15F769 /* AccountBuilder.swift in Sources */,
 				9D013B16E85192403961730F /* StuffViewIO.swift in Sources */,

@@ -12,7 +12,7 @@ import UIKit
 final class PlacesInfoPresenter {
     // MARK: - Public Properties
 
-    weak var view: PlacesInfoViewInput!
+    weak var view: PlacesInfoViewInput?
     var model: PlacesInfoModel!
     weak var moduleOutput: PlacesInfoModuleOutput?
     private var route: Route
@@ -47,10 +47,10 @@ final class PlacesInfoPresenter {
     }
     
     private func showLoadingView() {
-        moduleOutput?.showLoadingView()
+        view?.showLoadingView()
     }
     private func hideLoadingView() {
-        moduleOutput?.hideLoadingView()
+        view?.hideLoadingView()
     }
 
     private func datesRange(from: Date, to: Date) -> [Date] {
@@ -67,7 +67,7 @@ final class PlacesInfoPresenter {
     private func dataLoaded() {
         sortWeather()
         weather = loadedeWeather
-        view.reloadData()
+        view?.reloadData()
         hideLoadingView()
     }
 }
@@ -77,7 +77,7 @@ extension PlacesInfoPresenter: PlacesInfoModuleInput {
 
 extension PlacesInfoPresenter: PlacesInfoViewOutput {
     func viewDidLoad() {
-        moduleOutput?.showLoadingView()
+        showLoadingView()
         for place in route.places {
             let currentDate = Date()
             var dateComponent = DateComponents()
@@ -143,7 +143,7 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
         case 0:
             return "Маршрут"
         case 1:
-            return "Погода на 15 дней"
+            return "Погода"
         default:
             return ""
         }
@@ -174,7 +174,7 @@ extension PlacesInfoPresenter: PlacesInfoModelOutput {
     
     func didRecieveError(error: Error) {
         dataToLoadCount -= 1
-        view.showAlert(title: "Ошибка", message: "Возникла ошибка при загрузке данных")
+        view?.showAlert(title: "Ошибка", message: "Возникла ошибка при загрузке данных")
     }
     
     func didRecieveWeatherData(_ weatherData: WeatherWithLocation) {
@@ -185,10 +185,5 @@ extension PlacesInfoPresenter: PlacesInfoModelOutput {
             isDataLoaded = true
             dataLoaded()
         }
-    }
-    
-    func embedPlaceholder(for indexPath: IndexPath) {
-        let placeholderViewController = WeatherPlaceNoDataPlaceholder()
-        view?.embedPlaceholderForCell(at: indexPath, placeholder: placeholderViewController)
     }
 }
