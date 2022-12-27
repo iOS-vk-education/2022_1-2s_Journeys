@@ -31,7 +31,7 @@ final class JourneysCoordinator: CoordinatorProtocol {
     // MARK: Public Methods
 
     func start() {
-        let loadingViewController = LoadingViewController()
+        let loadingViewController = EmtyViewController()
         navigationController.setViewControllers([loadingViewController], animated: false)
         Auth.auth().addIDTokenDidChangeListener { (auth, user) in
             if user == nil {

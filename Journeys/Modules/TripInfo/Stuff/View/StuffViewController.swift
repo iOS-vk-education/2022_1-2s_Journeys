@@ -60,7 +60,7 @@ final class StuffViewController: UIViewController {
         tableView.register(AddStuffCell.self, forCellReuseIdentifier: "AddStuffCell")
         tableView.register(StuffTableViewHeader.self, forHeaderFooterViewReuseIdentifier: "StuffTableViewHeader")
         
-//        tableView.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
+        tableView.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
