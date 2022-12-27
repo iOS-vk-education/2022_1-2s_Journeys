@@ -86,6 +86,7 @@
 		EE497A182940B183007E8579 /* TabbarItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE497A172940B183007E8579 /* TabbarItemFactory.swift */; };
 		EE57FF3D2927E7E100212DC2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE57FF3B2927E7E100212DC2 /* Localizable.strings */; };
 		EE57FF3F2927E8B000212DC2 /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */; };
+		EE7819B9295B1705008F607E /* EmptyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819B8295B1705008F607E /* EmptyViewController.swift */; };
 		EE910DB12957CBC30094F5C8 /* AccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DB02957CBC30094F5C8 /* AccountCell.swift */; };
 		EE910DB72957EF9D0094F5C8 /* AuthModelIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DB62957EF9D0094F5C8 /* AuthModelIO.swift */; };
 		EE910DB92957FAFA0094F5C8 /* SetVisible.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DB82957FAFA0094F5C8 /* SetVisible.swift */; };
@@ -230,6 +231,7 @@
 		EE497A172940B183007E8579 /* TabbarItemFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarItemFactory.swift; sourceTree = "<group>"; };
 		EE57FF3C2927E7E100212DC2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Localizable.strings; sourceTree = "<group>"; };
 		EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Strings+Generated.swift"; sourceTree = "<group>"; };
+		EE7819B8295B1705008F607E /* EmptyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewController.swift; sourceTree = "<group>"; };
 		EE910DB02957CBC30094F5C8 /* AccountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCell.swift; sourceTree = "<group>"; };
 		EE910DB62957EF9D0094F5C8 /* AuthModelIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModelIO.swift; sourceTree = "<group>"; };
 		EE910DB82957FAFA0094F5C8 /* SetVisible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetVisible.swift; sourceTree = "<group>"; };
@@ -769,6 +771,7 @@
 			isa = PBXGroup;
 			children = (
 				EE910DC82958B93A0094F5C8 /* LoadingViewController.swift */,
+				EE7819B8295B1705008F607E /* EmptyViewController.swift */,
 			);
 			path = LoadingView;
 			sourceTree = "<group>";
@@ -1179,6 +1182,7 @@
 				EEDAF553291C05B300E6DDB9 /* JourneysCoordinator.swift in Sources */,
 				EE57FF3F2927E8B000212DC2 /* Strings+Generated.swift in Sources */,
 				EE497A142940AF4C007E8579 /* EventsCoordinator.swift in Sources */,
+				EE7819B9295B1705008F607E /* EmptyViewController.swift in Sources */,
 				EEA76C6A2951325E00250B06 /* PlacesInfoViewIO.swift in Sources */,
 				EEA76C632951325E00250B06 /* WeatherCellDisplayDataFactory.swift in Sources */,
 				EE910DC12958AE520094F5C8 /* FirebaseServiceDataDelete.swift in Sources */,
