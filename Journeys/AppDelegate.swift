@@ -7,6 +7,8 @@
 
 import UIKit
 import YandexMapsMobile
+import FirebaseCore
+import FirebaseAuth
 
 @main
 final class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,6 +19,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         YMKMapKit.setApiKey("aceed971-8010-4ec5-90d7-0f452e525f71")
         YMKMapKit.sharedInstance()
 
+        FirebaseApp.configure()
         return true
     }
     

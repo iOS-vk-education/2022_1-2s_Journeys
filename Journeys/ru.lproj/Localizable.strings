@@ -9,11 +9,21 @@
 "Add" = "Добавить";
 "Trips" = "Поездки";
 "Edit" = "Редактировать";
+"DepartureTown" = "Город отправления";
+"ArrivalTown" = "Город прибытия";
+"AddTown" = "Добавить город";
+"NewRoute" = "Новый маршрут";
+"BuildRoute" = "Построить маршрут";
+"Delete" = "Удалить";
+"AddingTown" = "Добавление маршрута";
 
 // Tabbar
 "Journeys" = "Путешествия";
 "Events" = "Мероприятия";
 "Account" = "Аккаунт";
 
-//events
-
+"PlaceInfo" = "Общая информация";
+"StuffList" = "Список вещей";
+"Change" = "Изменить";
+"Packed" = "Собрано";
+"Unpacked" = "Не собрано";

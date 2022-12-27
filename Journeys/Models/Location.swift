@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Location: Dictionariable {
+struct Location: Decodable {
     var country: String
     var city: String
     
@@ -22,9 +22,15 @@ struct Location: Dictionariable {
         self.city = city
     }
     
-    init(from dictionary: [String: Any]) {
-        country = dictionary[CodingKeys.country.rawValue] as? String ?? ""
-        city = dictionary[CodingKeys.city.rawValue] as? String ?? ""
+    init?(from dictionary: [String: Any]) {
+        guard
+            let country = dictionary[CodingKeys.country.rawValue] as? String,
+            let city = dictionary[CodingKeys.city.rawValue] as? String
+        else {
+            return nil
+        }
+        self.country = country
+        self.city = city
     }
     
     func toDictionary() -> [String: Any] {
@@ -34,7 +40,7 @@ struct Location: Dictionariable {
         return dictionary
     }
     
-    enum CodingKeys: String {
+    enum CodingKeys: String, CodingKey {
         case country
         case city
     }

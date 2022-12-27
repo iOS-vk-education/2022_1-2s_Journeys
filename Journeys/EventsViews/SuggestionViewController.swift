@@ -54,8 +54,8 @@ class SuggestionViewController: UIViewController, UITableViewDataSource, UITable
         button.layer.cornerRadius = 16.0
         button.register(SuggestCell.self, forCellReuseIdentifier: profileInfoCellReuseIdentifier)
         var countSections = suggestResults.count
-        button.autoSetDimension(.height, toSize: CGFloat(countSections*40))
-        button.backgroundColor = UIColor(named: "background")
+        button.autoSetDimension(.height, toSize: 1000)
+        button.backgroundColor = UIColor(named: "backgrouncountSectionsd")
         return button
         
     }()
@@ -190,6 +190,7 @@ class SuggestionViewController: UIViewController, UITableViewDataSource, UITable
     
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(suggestResults.count)
         return suggestResults.count
     }
 }

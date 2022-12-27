@@ -11,4 +11,11 @@ target 'Journeys' do
   pod 'SwiftGen', '~> 6.5.1'
   pod 'PureLayout'
   pod 'YandexMapsMobile', '4.2.2-full'
+  pod 'FSCalendar'
+  
+  pod 'FirebaseAuth'
+  pod 'FirebaseFirestore'
+  pod 'FirebaseAnalytics'
+  pod 'FirebaseStorage'
+
 end
