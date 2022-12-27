@@ -94,6 +94,10 @@ final class PlacemarkCell: UICollectionViewCell {
             isInFavourites = data.isInFavourites
             self.delegate = delegate
         }
+    
+    func returnText() -> String {
+        return inputField.text!
+    }
 }
     
     private extension PlacemarkCell {

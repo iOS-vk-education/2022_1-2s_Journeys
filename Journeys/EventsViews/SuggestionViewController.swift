@@ -1,6 +1,7 @@
 import UIKit
 import YandexMapsMobile
 import PureLayout
+import CoreLocation
 
 class SuggestCell: UITableViewCell {
     
@@ -149,6 +150,8 @@ class SuggestionViewController: UIViewController, UITableViewDataSource, UITable
         let suggestHandler = {(response: [YMKSuggestItem]?, error: Error?) -> Void in
             if let items = response {
                 self.onSuggestResponse(items)
+                
+                
             } else {
                 self.onSuggestError(error!)
             }
@@ -175,9 +178,25 @@ class SuggestionViewController: UIViewController, UITableViewDataSource, UITable
 
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "profileInfoCellReuseIdentifier", for: indexPath) as? SuggestCell else {return}
         cell.itemName.text = suggestResults[indexPath.row].displayText
+
         let viewController = AddingEventViewController()
         navigationController?.pushViewController(viewController, animated: true)
         viewController.address = cell.itemName.text!
+//        if viewController.address.split(separator: ",").count >= 3 {
+//            let masAddress = viewController.address.split(separator: ",")
+//            let country = masAddress[0]
+//            let city = masAddress[2]
+//            print(country, city)
+        var geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(cell.itemName.text!) {
+            placemarks, error in
+            let placemark = placemarks?.first
+            let lat = placemark?.location?.coordinate.latitude
+            let lon = placemark?.location?.coordinate.longitude
+            print("Lat: \(lat), Lon: \(lon)")
+            viewController.lat = String(lat!)
+            viewController.lon = String(lon!)
+        }
         print(cell.itemName.text!)
         
     

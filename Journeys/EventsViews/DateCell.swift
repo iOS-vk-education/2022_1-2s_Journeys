@@ -15,7 +15,7 @@ final class DateCell: UICollectionViewCell {
     
     
     private var delegate: DateCellDelegate!
-    
+    private var date : String!
     private var dataPicker : UIDatePicker{
         let picker = UIDatePicker()
         picker.datePickerMode = .dateAndTime
@@ -28,10 +28,22 @@ final class DateCell: UICollectionViewCell {
         return toolbar
     }
     
-    func getDateFromPicker() {
+    func getDateFromPicker() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd.MM.yyy HH:mm"
+        date = formatter.string(from: dataPicker.date)
+        return date
         
+    }
+    
+    func addTargetforDatePicker() {
+        dataPicker.addTarget(self, action: #selector(didDataChange), for: .allEditingEvents)
+    }
+    @objc func didDataChange() {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyy HH:mm"
+        date = formatter.string(from: dataPicker.date)
+        print(date)
     }
     
     required init?(coder: NSCoder) {
@@ -39,6 +51,7 @@ final class DateCell: UICollectionViewCell {
         setupCell()
         setupSubviews()
         setupConstraints()
+        addTargetforDatePicker()
     }
     
     override init(frame: CGRect) {
@@ -46,6 +59,7 @@ final class DateCell: UICollectionViewCell {
         setupCell()
         setupSubviews()
         setupConstraints()
+        addTargetforDatePicker()
     }
     
     override func prepareForReuse() {

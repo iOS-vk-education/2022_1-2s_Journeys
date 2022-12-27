@@ -54,8 +54,10 @@
 		CE4CCCA1295863CB0057455D /* FloatingButton2.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4CCCA0295863CB0057455D /* FloatingButton2.swift */; };
 		CE4CCCA32958B1A20057455D /* AddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4CCCA22958B1A10057455D /* AddressCell.swift */; };
 		CE4CCCA72958F9080057455D /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4CCCA62958F9080057455D /* DateCell.swift */; };
-		CE7F42CF29594BE1000CBA63 /* TextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7F42CE29594BE1000CBA63 /* TextCell.swift */; };
+		CE7F42CF29594BE1000CBA63 /* AddPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7F42CE29594BE1000CBA63 /* AddPhotoCell.swift */; };
 		CE7F42D1295A6390000CBA63 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE7F42D0295A638F000CBA63 /* GoogleService-Info.plist */; };
+		CE7F42D3295ACFE4000CBA63 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7F42D2295ACFE3000CBA63 /* Event.swift */; };
+		CE7F42D5295AD003000CBA63 /* Adress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7F42D4295AD003000CBA63 /* Adress.swift */; };
 		D2F0BC3358339956DDE22244 /* StuffViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5363B31E1ED6703B3D86E86D /* StuffViewController.swift */; };
 		D3B3547A919CA12361A3822A /* TripInfoModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902CF0A08A2306F0D3CE65D9 /* TripInfoModuleIO.swift */; };
 		EE00ABFE2953B2AE00FAFDCD /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE00ABFD2953B2AE00FAFDCD /* UILabel.swift */; };
@@ -203,8 +205,10 @@
 		CE4CCCA0295863CB0057455D /* FloatingButton2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatingButton2.swift; sourceTree = "<group>"; };
 		CE4CCCA22958B1A10057455D /* AddressCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressCell.swift; sourceTree = "<group>"; };
 		CE4CCCA62958F9080057455D /* DateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateCell.swift; sourceTree = "<group>"; };
-		CE7F42CE29594BE1000CBA63 /* TextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextCell.swift; sourceTree = "<group>"; };
+		CE7F42CE29594BE1000CBA63 /* AddPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPhotoCell.swift; sourceTree = "<group>"; };
 		CE7F42D0295A638F000CBA63 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CE7F42D2295ACFE3000CBA63 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		CE7F42D4295AD003000CBA63 /* Adress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Adress.swift; sourceTree = "<group>"; };
 		CEEC91A92B6FC702B7FBFB11 /* AccountPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountPresenter.swift; sourceTree = "<group>"; };
 		D5F037949A48EAF01CF6644F /* PlaceModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlaceModel.swift; sourceTree = "<group>"; };
 		E483DF62B28C4DBC30739F6A /* TripsBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsBuilder.swift; sourceTree = "<group>"; };
@@ -540,7 +544,9 @@
 				CE4CCCA0295863CB0057455D /* FloatingButton2.swift */,
 				CE4CCCA62958F9080057455D /* DateCell.swift */,
 				CE4CCCA22958B1A10057455D /* AddressCell.swift */,
-				CE7F42CE29594BE1000CBA63 /* TextCell.swift */,
+				CE7F42CE29594BE1000CBA63 /* AddPhotoCell.swift */,
+				CE7F42D2295ACFE3000CBA63 /* Event.swift */,
+				CE7F42D4295AD003000CBA63 /* Adress.swift */,
 				CE4CCC982956A7BA0057455D /* placemark.png */,
 				CE4CCC9429568C0E0057455D /* Add icon.png */,
 			);
@@ -1245,6 +1251,7 @@
 				EE0AF93E2913010D00EC52D3 /* AppDelegate.swift in Sources */,
 				EE497A162940B0EB007E8579 /* Pages.swift in Sources */,
 				EEA76C662951325E00250B06 /* EventsView.swift in Sources */,
+				CE7F42D5295AD003000CBA63 /* Adress.swift in Sources */,
 				EE02E53D294FFB10002BE87E /* StuffModelIO.swift in Sources */,
 				0D551CEF2951738A00A4151E /* Place.swift in Sources */,
 				EE910DC52958AE700094F5C8 /* FirebaseService.swift in Sources */,
@@ -1337,7 +1344,7 @@
 				1EA5831F1D57C53497AB055D /* AccountPresenter.swift in Sources */,
 				9C60B5C563DCB01932E87E34 /* AccountModel.swift in Sources */,
 				CE4CCC9F295859150057455D /* PlacemarkCell.swift in Sources */,
-				CE7F42CF29594BE1000CBA63 /* TextCell.swift in Sources */,
+				CE7F42CF29594BE1000CBA63 /* AddPhotoCell.swift in Sources */,
 				EE02E54C2950D9EA002BE87E /* Weather.swift in Sources */,
 				EE02E54B2950D9EA002BE87E /* Protocols.swift in Sources */,
 				EE02E54E2950D9EA002BE87E /* Baggage.swift in Sources */,
@@ -1363,6 +1370,7 @@
 				EE910DCD295913860094F5C8 /* NoPlacesForWeatherCell.swift in Sources */,
 				EEA76C642951325E00250B06 /* WeatherCollection.swift in Sources */,
 				A4F278F34637C60C2ED5A34D /* TripInfoBuilder.swift in Sources */,
+				CE7F42D3295ACFE4000CBA63 /* Event.swift in Sources */,
 				EE910DB92957FAFA0094F5C8 /* SetVisible.swift in Sources */,
 				4AC7D3287092DF4F538A3C6B /* AuthViewIO.swift in Sources */,
 				4AD4E01689D0BCD604A4361C /* AuthViewController.swift in Sources */,

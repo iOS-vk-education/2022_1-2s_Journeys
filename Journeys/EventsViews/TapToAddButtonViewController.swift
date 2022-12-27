@@ -23,6 +23,7 @@ class TapToAddButtonViewController: UIViewController, UIPopoverPresentationContr
         self.setupConstraints()
         setupSpecifyButton()
         coordinats()
+        print(mapOnAdding)
         //setupGestures()
     }
     

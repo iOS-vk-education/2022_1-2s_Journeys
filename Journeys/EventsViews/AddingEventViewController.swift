@@ -8,23 +8,25 @@ final class AddingEventViewController: UIViewController, PlacemarkCellDelegate, 
         return
     }
     
-
+    
     var moduleOutput: EventsCoordinator? = nil
     var address = ""
-
+    var lat = ""
+    var lon = ""
+    
     // MARK: Private properties
     private var floatingChangeButton = FloatingButton2()
-
-    private lazy var collectionView: UICollectionView = {
-       let layout = UICollectionViewFlowLayout()
-       return UICollectionView(frame: .zero, collectionViewLayout: layout)
-   }()
     
-
-
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        return UICollectionView(frame: .zero, collectionViewLayout: layout)
+    }()
+    
+    
+    
     // MARK: Public properties
     var output: TripsViewOutput!
-
+    
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,22 +36,43 @@ final class AddingEventViewController: UIViewController, PlacemarkCellDelegate, 
         setupFloatingAddButton()
         makeConstraints()
     }
-
+    
     private func setupNavBar() {
         navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
-
+        
         let backButtonItem = UIBarButtonItem(image: UIImage(systemName: "chewron.forward"),
-                                                 style: .plain,
-                                                 target: self,
-                                                 action: #selector(didTapBacksButton))
-
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(didTapBacksButton))
+        
         navigationItem.leftBarButtonItem = backButtonItem
     }
-
+    
     private func setupFloatingAddButton() {
         view.addSubview(floatingChangeButton)
         view.bringSubviewToFront(floatingChangeButton)
         floatingChangeButton.configure(title: "ГОТОВО")
+        floatingChangeButton.addTarget(self, action: #selector(didTapReadyButton), for: .touchUpInside)
+    }
+    
+    @objc func didTapReadyButton() {
+        let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 1)) as? PlacemarkCell
+        let ofice = cell?.returnText()
+        let cell2 = collectionView.cellForItem(at: IndexPath(row: 0, section: 2)) as? PlacemarkCell
+        let floor = cell2?.returnText()
+        let cell3 = collectionView.cellForItem(at: IndexPath(row: 0, section: 3)) as? PlacemarkCell
+        let eventName = cell3?.returnText()
+        let cell4 = collectionView.cellForItem(at: IndexPath(row: 0, section: 4)) as? PlacemarkCell
+        let eventType = cell4?.returnText()
+        let cell5 = collectionView.cellForItem(at: IndexPath(row: 0, section: 5)) as? DateCell
+        let date = cell5?.getDateFromPicker()
+        let cell6 = collectionView.cellForItem(at: IndexPath(row: 0, section: 5)) as? DateCell
+        let link = cell6?.getDateFromPicker()
+        print(floor,ofice,eventName,eventType, date)
+        let post: [Event] = [
+            .init(id: "1", adress: address, date: date!, type: eventType!, name: eventName!, link: link!,  floor: "rtr", room: ofice!, photoURL: floor!)
+        ]
+        
     }
 
     private func setupCollectionView() {
@@ -124,7 +147,7 @@ extension AddingEventViewController: UICollectionViewDelegate {
 
 extension AddingEventViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 7
+        return 8
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -210,22 +233,43 @@ extension AddingEventViewController: UICollectionViewDataSource {
             ) as? ImageEventCell else {
                 return cell
             }
+            placemarkCell.configure(delegate: self)
 
+            cell = placemarkCell
+        }
+        if indexPath.section == 7 {
+            guard let placemarkCell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "PlacemarkCell",
+                for: indexPath
+            ) as? PlacemarkCell else {
+                return cell
+            }
+            placemarkCell.configure(data: PlacemarkCellDisplayData(
+                placeholder: "Ссылка на источник", text: "", isInFavourites: true), delegate: self)
             cell = placemarkCell
         }
         return cell
     }
+
+
 }
 
 extension AddingEventViewController: ImageEventCellDelegate {
     func didTapAddPhotoButton() {
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.delegate = self
-        present(imagePickerController, animated: true)
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
+        if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 6)) as? ImageEventCell
+            
+            cell?.configure2(image: editedImage)
+        }
+        dismiss(animated: true)
     }
 }
 

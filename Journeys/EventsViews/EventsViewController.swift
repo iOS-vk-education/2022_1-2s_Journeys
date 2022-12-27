@@ -24,22 +24,22 @@ class EventsViewController: UIViewController {
     
     private func setupNavBar() {
         navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
-
+        
         let settingsButtonItem = UIBarButtonItem(image: UIImage(systemName: "gearshape.fill"),
                                                  style: .plain,
                                                  target: self,
                                                  action: #selector(didTapSettingsButton))
-
+        
         let favouritesButtonItem = UIBarButtonItem(image: UIImage(systemName: "bookmark.fill"),
                                                    style: .plain,
                                                    target: self,
                                                    action: #selector(didTapFavouritesButton))
-
+        
         navigationItem.leftBarButtonItem = settingsButtonItem
         navigationItem.rightBarButtonItem = favouritesButtonItem
         title = L10n.events
     }
-
+    
     
     lazy var addingButton: UIButton = {
         let button = UIButton()
@@ -58,9 +58,9 @@ class EventsViewController: UIViewController {
     lazy var map: YMKMapView = {
         let map1 = YMKMapView()
         map1.mapWindow.map.move(
-                            with: YMKCameraPosition.init(target: YMKPoint(latitude: 55.751574, longitude: 37.573856), zoom: 15, azimuth: 0, tilt: 0),
-                            animationType: YMKAnimation(type: YMKAnimationType.smooth, duration: 5),
-                            cameraCallback: nil)
+            with: YMKCameraPosition.init(target: YMKPoint(latitude: 55.751574, longitude: 37.573856), zoom: 1, azimuth: 0, tilt: 0),
+            animationType: YMKAnimation(type: YMKAnimationType.smooth, duration: 5),
+            cameraCallback: nil)
         map1.autoSetDimension(.height, toSize: 1000)
         return map1
         
@@ -87,7 +87,7 @@ class EventsViewController: UIViewController {
     private func setupAddingButton() {
         addingButton.addTarget(self, action: #selector(didTapAddingButton), for: .touchUpInside)
     }
-
+    
     
     @objc
     private func didTapAddingButton() {
@@ -99,10 +99,10 @@ class EventsViewController: UIViewController {
     private func didTapSettingsButton() {
         print("Settings button was tapped")
     }
-
+    
     @objc
     private func didTapFavouritesButton() {
         print("Favourites button was tapped")
     }
-
+    
 }

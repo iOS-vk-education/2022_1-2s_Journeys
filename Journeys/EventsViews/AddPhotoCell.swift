@@ -14,7 +14,11 @@ struct ImageEventCellDisplayData {
     let text : String
 }
 
-final class ImageEventCell: UICollectionViewCell, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+final class ImageEventCell: UICollectionViewCell {
+    
+    
+    var editImage : UIImage!
+    private var delegate: ImageEventCellDelegate!
     
     private let photoLabel: UILabel = {
         let inpField = UILabel()
@@ -25,7 +29,7 @@ final class ImageEventCell: UICollectionViewCell, UIImagePickerControllerDelegat
     
     private let addPhotoButton: UIButton = {
         let inpField = UIButton()
-        inpField.backgroundColor = UIColor(asset: Asset.Colors.Icons.tappedIconsColor)
+        inpField.backgroundColor = UIColor(asset: Asset.Colors.SpecifyAdress.photoButton)
         inpField.layer.cornerRadius = 10
         inpField.setImage(UIImage(systemName: "photo.on.rectangle.angled")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
         return inpField
@@ -99,7 +103,18 @@ final class ImageEventCell: UICollectionViewCell, UIImagePickerControllerDelegat
         
     @objc
     private func didTapAddPhotoButton(){
-        print("goood")
+        delegate.didTapAddPhotoButton()
+    }
+    
+    func configure(delegate: ImageEventCellDelegate) {
+        self.delegate = delegate
+    }
+    
+    func configure2(image: UIImage) {
+        addPhotoButton.setImage(image, for: .normal)
+    }
+    func returnPhoto() {
+        
     }
 }
 
