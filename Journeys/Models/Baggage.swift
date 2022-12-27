@@ -8,44 +8,78 @@
 import Foundation
 
 
-struct Baggage: Dictionariable {
+struct Baggage{
     let id: String
-    var baseStuff: [Stuff]
-    var userStuff: [Stuff]
+    var stuffIDs: [String]
     
-    internal init(id: String, baseStuff: [Stuff], userStuff: [Stuff]) {
-        self.id = id
-        self.baseStuff = baseStuff
-        self.userStuff = userStuff
+    internal init(id: String? , stuffIDs: [String]) {
+        self.id = id ?? UUID().uuidString
+        self.stuffIDs = stuffIDs
     }
     
-    init(from dictionary: [String: Any]) {
-        id = dictionary[CodingKeys.id.rawValue] as? String ?? ""
-        baseStuff = dictionary[CodingKeys.baseStuff.rawValue] as? [Stuff] ?? []
-        userStuff = dictionary[CodingKeys.userStuff.rawValue] as? [Stuff] ?? []
+    init?(from dictionary: [String: Any], id: String) {
+        guard let stuffIDs = dictionary[CodingKeys.stuffIDs.rawValue] as? [String] else { return nil }
+        self.stuffIDs = stuffIDs
+        self.id = id
     }
     
     func toDictionary() -> [String: Any] {
         var dictionary: [String: Any] = [:]
         dictionary[CodingKeys.id.rawValue] = id
-
-        var baseStuffDictList: [[String: Any]] = [[:]]
-        for stuff in baseStuff {
-            baseStuffDictList.append(stuff.toDictionary())
-        }
-        dictionary[CodingKeys.baseStuff.rawValue] = baseStuffDictList
+        dictionary[CodingKeys.stuffIDs.rawValue] = stuffIDs
         
-        var userStuffDictList: [[String: Any]] = [[:]]
-        for stuff in userStuff {
-            baseStuffDictList.append(stuff.toDictionary())
-        }
-        dictionary[CodingKeys.userStuff.rawValue] = userStuffDictList
         return dictionary
     }
     
     enum CodingKeys: String {
         case id
-        case baseStuff = "base_stuff"
-        case userStuff = "user_stuff"
+        case stuffIDs
     }
 }
+
+////
+////  Baggage.swift
+////  Journeys
+////
+////  Created by Сергей Адольевич on 04.12.2022.
+////
+//
+//import Foundation
+//
+//
+//struct Baggage{
+//    let id: String
+//    var unpackedStuffIDs: [String]
+//    var packedStuffIDs: [String]
+//    
+//    internal init(id: String? , unpackedStuffIDs: [String], packedStuffIDs: [String]) {
+//        self.id = id ?? UUID().uuidString
+//        self.unpackedStuffIDs = unpackedStuffIDs
+//        self.packedStuffIDs = packedStuffIDs
+//    }
+//    
+//    init?(from dictionary: [String: Any], id: String) {
+//        guard let unpackedStuffIDs = dictionary[CodingKeys.unpackedStuffIDs.rawValue] as? [String],
+//              let packedStuffIDs = dictionary[CodingKeys.unpackedStuffIDs.rawValue] as? [String]
+//        else { return nil }
+//        self.unpackedStuffIDs = unpackedStuffIDs
+//        self.packedStuffIDs = packedStuffIDs
+//        self.id = id
+//    }
+//    
+//    func toDictionary() -> [String: Any] {
+//        var dictionary: [String: Any] = [:]
+//        dictionary[CodingKeys.id.rawValue] = id
+//        dictionary[CodingKeys.unpackedStuffIDs.rawValue] = unpackedStuffIDs
+//        dictionary[CodingKeys.packedStuffIDs.rawValue] = packedStuffIDs
+//        
+//        return dictionary
+//    }
+//    
+//    enum CodingKeys: String {
+//        case id
+//        case unpackedStuffIDs
+//        case packedStuffIDs
+//    }
+//}
+

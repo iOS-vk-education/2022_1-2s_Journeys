@@ -24,11 +24,17 @@ internal enum Asset {
   internal enum Assets {
     internal static let accentColor = ColorAsset(name: "AccentColor")
     internal enum TripCell {
-      internal static let tripCellImage = ImageAsset(name: "TripCellImage")
+      internal static let tripCellImage1 = ImageAsset(name: "TripCellImage1")
       internal static let tripCellImage2 = ImageAsset(name: "TripCellImage2")
+      internal static let tripCellImage3 = ImageAsset(name: "TripCellImage3")
+      internal static let tripCellImage4 = ImageAsset(name: "TripCellImage4")
+      internal static let tripCellImage5 = ImageAsset(name: "TripCellImage5")
     }
   }
   internal enum Colors {
+    internal enum Auth {
+      internal static let continueButton = ColorAsset(name: "ContinueButton")
+    }
     internal enum Background {
       internal static let brightColor = ColorAsset(name: "BrightColor")
       internal static let dimColor = ColorAsset(name: "DimColor")
@@ -44,12 +50,34 @@ internal enum Asset {
     internal enum Placeholder {
       internal static let placeholderColor = ColorAsset(name: "PlaceholderColor")
     }
+    internal enum PlacesInfo {
+      internal enum SectionHeader {
+        internal static let background = ColorAsset(name: "background")
+      }
+      internal enum WeatherCell {
+        internal static let dateColor = ColorAsset(name: "dateColor")
+      }
+    }
+    internal enum Stuff {
+      internal static let addCellColor = ColorAsset(name: "AddCellColor")
+      internal static let cellSeparator = ColorAsset(name: "CellSeparator")
+      internal enum StuffButton {
+        internal static let stuffIsPacked = ColorAsset(name: "StuffIsPacked")
+        internal static let stuffIsUnpacked = ColorAsset(name: "StuffIsUnpacked")
+      }
+    }
     internal enum Text {
       internal static let mainTextColor = ColorAsset(name: "MainTextColor")
     }
     internal enum Weather {
       internal static let cloudy = ColorAsset(name: "cloudy")
-      internal static let rainy = ColorAsset(name: "rainy")
+      internal static let drizzle = ColorAsset(name: "drizzle")
+      internal static let fog = ColorAsset(name: "fog")
+      internal static let freezingRain = ColorAsset(name: "freezingRain")
+      internal static let grains = ColorAsset(name: "grains")
+      internal static let heawyRain = ColorAsset(name: "heawyRain")
+      internal static let rain = ColorAsset(name: "rain")
+      internal static let snowy = ColorAsset(name: "snowy")
       internal static let sunny = ColorAsset(name: "sunny")
       internal static let thunderstorm = ColorAsset(name: "thunderstorm")
     }

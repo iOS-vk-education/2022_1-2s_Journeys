@@ -7,31 +7,26 @@
 
 import Foundation
 
-enum WeatherFeature: Codable {
-    case cloudy
-    case sunny
-    case rainy
-    case stormy
+struct Weather: Decodable {
+    let date: String
+    let weatherCode: Int
+    let temperatureMax: Float
+    let temperatureMin: Float
+    
+    internal init(date: String, weatherCode: Int, temperatureMax: Float, temperatureMin: Float) {
+        self.date = date
+        self.weatherCode = weatherCode
+        self.temperatureMax = temperatureMax
+        self.temperatureMin = temperatureMin
+    }
 }
 
-struct Weather: Codable {
-    let id: String
-    var date: Date
-    var temperature: Int
-    var weatherFeature: WeatherFeature
+struct WeatherWithLocation: Decodable {
+    let location: Location
+    let weather: [Weather]
     
-    enum CodingKeys: String, CodingKey {
-        case id
-        case date
-        case temperature
-        case weatherFeature = "weather_feature"
-    }
-    
-    init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        id = try values.decode(String.self, forKey: .id)
-        date = try values.decode(Date.self, forKey: .date)
-        temperature = try values.decode(Int.self, forKey: .temperature)
-        weatherFeature = try values.decode(WeatherFeature.self, forKey: .weatherFeature)
+    internal init(location: Location, weather: [Weather]?) {
+        self.location = location
+        self.weather = weather ?? []
     }
 }
