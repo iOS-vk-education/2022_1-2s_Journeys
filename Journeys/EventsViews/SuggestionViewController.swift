@@ -54,7 +54,7 @@ class SuggestionViewController: UIViewController, UITableViewDataSource, UITable
         button.layer.cornerRadius = 16.0
         button.register(SuggestCell.self, forCellReuseIdentifier: profileInfoCellReuseIdentifier)
         var countSections = suggestResults.count
-        button.autoSetDimension(.height, toSize: 1000)
+        button.autoSetDimension(.height, toSize: 40*8)
         button.backgroundColor = UIColor(named: "backgrouncountSectionsd")
         return button
         
