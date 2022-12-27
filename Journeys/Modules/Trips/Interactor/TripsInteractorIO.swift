@@ -13,10 +13,12 @@ import UIKit
 protocol TripsInteractorInput: AnyObject {
     func obtainTripsDataFromSever()
     func obtainSavedTripsDataFromServer()
-    func obtainRouteDataFromSever(with identifier: String, completion: @escaping (Result <Route, Error>)-> Void)
-    func obtainTripImageFromServer(withURL imageURLString: String, completion: @escaping (Result <UIImage, Error>)-> Void)
+    func obtainRouteDataFromSever(with identifier: String,
+                                  completion: @escaping (Result <Route, Error>) -> Void)
+    func obtainTripImageFromServer(withURL imageURLString: String,
+                                   completion: @escaping (Result <UIImage, Error>) -> Void)
     
-    func storeTripData(trip: Trip)
+    func storeTripData(trip: Trip, completion: @escaping () -> Void)
     
     func deleteTrip(_ trip: Trip)
 }

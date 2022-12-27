@@ -69,14 +69,14 @@ extension TripsInteractor: TripsInteractorInput {
         }
     }
     
-    func storeTripData(trip: Trip) {
+    func storeTripData(trip: Trip, completion: @escaping () -> Void) {
         FBService.storeTripData(trip: trip) { [weak self] result in
             guard let strongSelf = self else { return }
             switch result {
             case .failure(let error):
                 strongSelf.output?.didRecieveError(error: .saveDataError)
-            case .success(let trips):
-                break
+            case .success(let trip):
+                completion()
             }
         }
     }

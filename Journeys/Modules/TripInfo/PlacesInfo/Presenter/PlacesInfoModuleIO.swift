@@ -14,6 +14,4 @@ protocol PlacesInfoModuleInput: AnyObject {
 
 protocol PlacesInfoModuleOutput: AnyObject {
     func placesModuleWantsToClose()
-    func showLoadingView()
-    func hideLoadingView()
 }

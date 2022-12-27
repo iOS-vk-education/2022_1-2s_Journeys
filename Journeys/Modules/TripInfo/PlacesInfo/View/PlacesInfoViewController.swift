@@ -32,6 +32,7 @@ final class PlacesInfoViewController: UIViewController {
         return collectionView
    }()
     
+    private let loadingView = LoadingView()
 
     // MARK: Lifecycle
 
@@ -73,6 +74,7 @@ final class PlacesInfoViewController: UIViewController {
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
         }
+        view.bringSubviewToFront(loadingView)
     }
 }
 
@@ -80,23 +82,6 @@ extension PlacesInfoViewController: UICollectionViewDelegate, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: mainCollectionView.frame.width, height: 25)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("taptap")
-    }
-    
-//    func collectionView(_ collectionView: UICollectionView,
-//                        layout collectionViewLayout: UICollectionViewLayout,
-//                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        switch indexPath.section {
-//        case 0:
-//            return CGSize(width: mainCollectionView.frame.width, height: 25)
-//        case 1:
-//            return CGSize(width: mainCollectionView.frame.width, height: 90)
-//        default:
-//            return CGSize(width: 0, height: 0)
-//        }
-//    }
 }
 
 extension PlacesInfoViewController: UICollectionViewDataSource {
@@ -162,16 +147,27 @@ extension PlacesInfoViewController: PlacesInfoViewInput {
         alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
-    
-    func embedPlaceholderForCell(at indexPath: IndexPath, placeholder: UIViewController) {
-        guard let cell = mainCollectionView.cellForItem(at: indexPath) as? WeatherCollection else { return }
-        cell.embedPlaceholder(placeholder)
-    }
-    
-    
+
     func reloadData() {
         DispatchQueue.main.async { [weak self] in
             self?.mainCollectionView.reloadData()
+        }
+    }
+    
+    func showLoadingView() {
+        view.addSubview(loadingView)
+        loadingView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+        }
+        view.bringSubviewToFront(loadingView)
+    }
+    
+    func hideLoadingView() {
+        DispatchQueue.main.async { [weak self] in
+            self?.loadingView.removeFromSuperview()
         }
     }
 }
