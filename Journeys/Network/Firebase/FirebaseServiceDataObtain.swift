@@ -26,7 +26,6 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
     
     func obtainTrips(completion: @escaping (Result<[Trip], Error>) -> Void){
         guard let userId = FBManager.auth.currentUser?.uid else {
-            //            assertionFailure("Login first")
             return
         }
         FBManager.firestore.collection("trips")
@@ -49,7 +48,6 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
     
     func obtainSavedTrips(completion: @escaping (Result<[Trip], Error>) -> Void){
         guard let userId = FBManager.auth.currentUser?.uid else {
-            //            assertionFailure("Login first")
             return
         }
         FBManager.firestore.collection("trips")
@@ -72,7 +70,6 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
     
     func obtainTrip(with identifier: String, completion: @escaping (Result<Trip, Error>) -> Void) {
         guard let userId = FBManager.auth.currentUser?.uid else {
-            //            assertionFailure("Login first")
             return
         }
         FBManager.firestore.collection("trips").document(userId).collection("user_trips").document(identifier)

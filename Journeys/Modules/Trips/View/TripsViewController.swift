@@ -38,7 +38,6 @@ final class TripsViewController: UIViewController {
 
     // MARK: Lifecycle
     override func viewDidLoad() {
-        output.viewDidLoad()
         super.viewDidLoad()
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         tabBarController?.tabBar.items?.forEach { $0.isEnabled = true }
@@ -46,6 +45,11 @@ final class TripsViewController: UIViewController {
         setupNavBar()
         setupCollectionView()
         makeConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        output.viewDidLoad()
+        super.viewWillAppear(animated)
     }
 
     private func setupNavBar() {
@@ -259,7 +263,6 @@ extension TripsViewController: TripsTransitionHandlerProtocol {
         guard placeholderView.isHidden == true else {
             return
         }
-//        let displayData = output.placeholderDisplayData
         placeholderViewController
             .configure(with: PlaceHolderViewController.DisplayData(title: "Пока что маршрутов нет",
                                                                    imageName: "TripsPlaceholder"))

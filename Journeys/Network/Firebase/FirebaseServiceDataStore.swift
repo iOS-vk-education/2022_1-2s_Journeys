@@ -23,7 +23,6 @@ extension FirebaseService: FirebaseServiceStoreProtocol {
     
     func storeTripData(trip: Trip, completion: @escaping (Result<Trip, Error>) -> Void) {
         guard let userId = FBManager.auth.currentUser?.uid else {
-//            assertionFailure("Login first")
             return
         }
         var ref: DocumentReference?

@@ -20,7 +20,6 @@ final class StuffViewController: UIViewController {
     
     private lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
-        refreshControl.attributedTitle = NSAttributedString(string: "Идет обновление...")
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         return refreshControl
     }()
@@ -44,7 +43,6 @@ final class StuffViewController: UIViewController {
     private func setupView() {
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         setupTableView()
-        
         let tap = UITapGestureRecognizer(target: self, action: #selector(didTapScreen))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
@@ -81,11 +79,6 @@ final class StuffViewController: UIViewController {
     @objc func didTapScreen() {
         output.didTapScreen(tableView: tableView)
         view.endEditing(true)
-    }
-
-    @objc
-    private func didTapExitButton() {
-
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -205,7 +198,7 @@ extension StuffViewController: StuffViewInput {
         guard let cell = tableView.cellForRow(at: indexPath) as? StuffCell else {
             return nil
         }
-        return cell.giveData()
+        return cell.getData()
     }
     
     func moveTableViewRow(at fromIndexPath: IndexPath, to toIndexPath: IndexPath) {

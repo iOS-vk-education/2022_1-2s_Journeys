@@ -44,6 +44,9 @@ internal enum Asset {
       internal static let contrastToThemeColor = ColorAsset(name: "ContrastToThemeColor")
       internal static let similarToThemeColor = ColorAsset(name: "SimilarToThemeColor")
     }
+    internal enum Calendar {
+      internal static let header = ColorAsset(name: "header")
+    }
     internal enum Icons {
       internal static let iconsColor = ColorAsset(name: "IconsColor")
       internal static let tappedIconsColor = ColorAsset(name: "TappedIconsColor")

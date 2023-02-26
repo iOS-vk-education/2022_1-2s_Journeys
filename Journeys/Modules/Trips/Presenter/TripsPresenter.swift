@@ -277,6 +277,7 @@ extension TripsPresenter: TripsInteractorOutput {
             view?.showAlert(title: "Ошибка",
                            message: "Возникла ошибка при получении данных",
                            actionTitle: "Ок")
+            view?.endRefresh()
         case .saveDataError:
             view?.showAlert(title: "Ошибка",
                            message: "Возникла ошибка при сохранении данных. Проверьте корректность данных и поробуйте снова",

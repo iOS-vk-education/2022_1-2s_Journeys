@@ -71,6 +71,10 @@ final class PlacesInfoPresenter {
         sortWeather()
         weather = loadedeWeather
         view?.reloadData()
+        if noWeather && !isWeatherAlertShown {
+            isWeatherAlertShown = true
+            view?.showAlert(title: "Погода на 15 дней", message: "Journeys может показывать погоду только на 15 ближайших дней")
+        }
         hideLoadingView()
     }
 }
@@ -97,6 +101,10 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
                 } else {
                     noWeather = true
                     dataToLoadCount -= 1
+                    if dataToLoadCount == 0 {
+                        isDataLoaded = true
+                        dataLoaded()
+                    }
                 }
             }
         }
@@ -200,10 +208,6 @@ extension PlacesInfoPresenter: PlacesInfoModelOutput {
         self.loadedeWeather.append(weatherData)
         isAnyPlacesWithWeather = true
         dataToLoadCount -= 1
-        if noWeather && !isWeatherAlertShown {
-            isWeatherAlertShown = true
-            view?.showAlert(title: "Погода на 15 дней", message: "Journeys может показывать погоду только на 15 ближайших дней")
-        }
         if dataToLoadCount == 0 {
             isDataLoaded = true
             dataLoaded()

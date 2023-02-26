@@ -20,7 +20,6 @@ extension FirebaseService: FirebaseServiceDeleteProtocol {
     
     func deleteTripData(_ trip: Trip, completion: @escaping (Error?) -> Void) {
         guard let userId = FBManager.auth.currentUser?.uid else {
-//            assertionFailure("Login first")
             return
         }
         guard let id = trip.id else { return }

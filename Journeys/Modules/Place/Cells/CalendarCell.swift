@@ -18,11 +18,9 @@ final class CalendarCell: UITableViewCell {
     // MARK: - Private Properties
     private var calendar: FSCalendar!
     
-    // first date in the range
     private var firstDate: Date?
-    // last date in the range
     private var lastDate: Date?
-    var datesRange: [Date]?
+    private var datesRange: [Date]?
     
     var delegate: CalendarCellDeledate?
     
@@ -50,46 +48,38 @@ final class CalendarCell: UITableViewCell {
         contentView.addSubview(calendar)
         calendar.dataSource = self
         calendar.delegate = self
-        
         calendar.allowsMultipleSelection = true
         
+        calendar.appearance.headerTitleColor = UIColor(asset: Asset.Colors.Calendar.header)
+        calendar.appearance.weekdayTextColor = UIColor(asset: Asset.Colors.Calendar.header)
+        calendar.appearance.titleDefaultColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
+        calendar.firstWeekday = 2
+    }
+    
+    func getDates() -> [Date]? {
+        return datesRange
     }
     
     func counfigure(displayData: DisplayData, delegate: CalendarCellDeledate) {
         setupViews()
         self.delegate = delegate
+        guard let arrivalDate = displayData.arrivalDate,
+              let departureDate = displayData.departureDate else { return }
+        datesRange = datesRange(from: arrivalDate, to: departureDate)
         selectDates(from: displayData.arrivalDate, to: displayData.departureDate)
     }
     
+    fileprivate lazy var dateFormatter1: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
 }
 
-extension CalendarCell: FSCalendarDataSource {
-    
+extension CalendarCell: FSCalendarDataSource, FSCalendarDelegateAppearance {
 }
 
 extension CalendarCell: FSCalendarDelegate {
-//    func calendar(_ calendar: FSCalendar, shouldDeselect date: Date, at monthPosition: FSCalendarMonthPosition) -> Bool {
-//        performDateDeselect(calendar, date: date)
-//        return true
-//    }
-//
-//
-//    private func performDateDeselect(_ calendar: FSCalendar, date: Date) {
-//        let sorted = calendar.selectedDates.sorted { $0 < $1 }
-//        if let index = sorted.firstIndex(of: date)  {
-//            let deselectDates = Array(sorted[index...])
-//            calendar.deselectDates(deselectDates)
-//        }
-//    }
-//
-//    private func performDateSelection(_ calendar: FSCalendar) {
-//        let sorted = calendar.selectedDates.sorted { $0 < $1 }
-//        if let firstDate = sorted.first, let lastDate = sorted.last {
-//            let ranges = datesRange(from: firstDate, to: lastDate)
-//            calendar.selectDates(ranges)
-//        }
-//    }
-    
     func datesRange(from: Date, to: Date) -> [Date] {
         if from > to { return [Date]() }
         var tempDate = from
@@ -113,7 +103,6 @@ extension CalendarCell: FSCalendarDelegate {
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        // nothing selected:
         if firstDate == nil {
             firstDate = date
             datesRange = [firstDate!]
@@ -121,9 +110,7 @@ extension CalendarCell: FSCalendarDelegate {
             return
         }
 
-        // only first date is selected:
         if firstDate != nil && lastDate == nil {
-            // handle the case of if the last date is less than the first date:
             if date <= firstDate! {
                 calendar.deselect(firstDate!)
                 firstDate = date
@@ -133,9 +120,7 @@ extension CalendarCell: FSCalendarDelegate {
             }
 
             let range = datesRange(from: firstDate!, to: date)
-
             lastDate = range.last
-
             for day in range {
                 calendar.select(day)
             }
@@ -145,7 +130,6 @@ extension CalendarCell: FSCalendarDelegate {
             return
         }
 
-        // both are selected:
         if firstDate != nil && lastDate != nil {
             for day in calendar.selectedDates {
                 calendar.deselect(day)
@@ -159,9 +143,6 @@ extension CalendarCell: FSCalendarDelegate {
     }
 
     func calendar(_ calendar: FSCalendar, didDeselect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        // both are selected:
-
-        // NOTE: the is a REDUANDENT CODE:
         if firstDate != nil && lastDate != nil {
             for day in calendar.selectedDates {
                 calendar.deselect(day)

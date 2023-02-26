@@ -1094,7 +1094,7 @@
 				EE157E0E2926651E00A56157 /* SwiftLint */,
 				EE157F412926AFA700A56157 /* SwiftGen */,
 				A21F57AB2D84E72658046EBB /* [CP] Embed Pods Frameworks */,
-				3E4AE2DFC7D98C15ED2973A7 /* [CP] Copy Pods Resources */,
+				B64BADF29440E1622C8B7254 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1159,23 +1159,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3E4AE2DFC7D98C15ED2973A7 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Journeys/Pods-Journeys-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Journeys/Pods-Journeys-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Journeys/Pods-Journeys-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		A21F57AB2D84E72658046EBB /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1191,6 +1174,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Journeys/Pods-Journeys-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B64BADF29440E1622C8B7254 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Journeys/Pods-Journeys-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Journeys/Pods-Journeys-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Journeys/Pods-Journeys-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C7DF77967100175D0655C01D /* [CP] Check Pods Manifest.lock */ = {

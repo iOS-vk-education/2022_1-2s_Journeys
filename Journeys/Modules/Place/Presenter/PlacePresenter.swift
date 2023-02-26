@@ -81,7 +81,7 @@ extension PlacePresenter: PlaceViewOutput {
             assertionFailure("Error while getting calendat Data")
             return
         }
-        let dates = calendarCell.datesRange
+        let dates = calendarCell.getDates()
         guard let arrivaleDate = dates?.first,
               let departDate = dates?.last else {
             view.showAlert(title: "Заполните данные", message: "Выберите даты")

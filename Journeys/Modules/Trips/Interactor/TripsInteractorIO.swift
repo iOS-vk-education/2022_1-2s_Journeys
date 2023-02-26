@@ -29,5 +29,4 @@ protocol TripsInteractorOutput: AnyObject {
     func didRecieveError(error: Errors)
     func didFetchTripsData(data: [Trip])
     func didDeleteTrip()
-//    func didFetchData(data: DataModel)
 }

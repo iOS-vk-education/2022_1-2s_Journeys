@@ -62,6 +62,7 @@ final class AccountCell: UICollectionViewCell {
     private func setupSubviews() {
         contentView.addSubview(textField)
         
+        textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
         textField.delegate = self
 

@@ -47,7 +47,6 @@ final class PlaceHolderViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        view.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
         setupImage()
         setupTitleLabel()
     }
