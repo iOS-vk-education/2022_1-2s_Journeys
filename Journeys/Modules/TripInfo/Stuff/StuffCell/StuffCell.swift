@@ -69,6 +69,7 @@ final class StuffCell: UITableViewCell {
     }
 
     private func setupSubiews() {
+        backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         contentView.addSubview(nameTextField)
         contentView.addSubview(emojiTextField)
         contentView.addSubview(packButton)
@@ -82,6 +83,7 @@ final class StuffCell: UITableViewCell {
         nameTextField.placeholder = "Название вещи"
 
         emojiTextField.addTarget(self, action: #selector(emojiTextFieldDidChange), for: .editingDidEnd)
+        emojiTextField.addTarget(self, action: #selector(emojiTextFieldValueChanged(_: )), for: .editingChanged)
         nameTextField.addTarget(self, action: #selector(nameTextFieldDidChange), for: .editingDidEnd)
         packButton.addTarget(self, action: #selector(didTapCellButton), for: .touchUpInside)
         makeConstraints()
@@ -131,6 +133,8 @@ final class StuffCell: UITableViewCell {
             self.nameTextField.becomeFirstResponder()
         case self.nameTextField:
             finishEditMode()
+            self.nameTextField.resignFirstResponder()
+            break
         default:
             self.nameTextField.resignFirstResponder()
         }
@@ -140,6 +144,13 @@ final class StuffCell: UITableViewCell {
     private func emojiTextFieldDidChange() {
         guard let text = emojiTextField.text else { return }
         delegate?.emojiTextFieldDidChange(text, in: self)
+    }
+    
+    @objc
+    private func emojiTextFieldValueChanged(_ textField: UITextField) {
+        if emojiTextField.text?.count == 1 {
+            switchBasedNextTextField(textField)
+        }
     }
                                  
     @objc
@@ -152,6 +163,11 @@ final class StuffCell: UITableViewCell {
     private func didTapCellButton() {
         delegate?.cellPackButtonWasTapped(self)
     }
+
+    func resingFirstResponders() {
+        emojiTextField.resignFirstResponder()
+        nameTextField.resignFirstResponder()
+    }
     
     func startEditMode() {
         nameTextField.isUserInteractionEnabled = true
@@ -160,11 +176,12 @@ final class StuffCell: UITableViewCell {
     }
     
     func finishEditMode() {
+        resingFirstResponders()
         nameTextField.isUserInteractionEnabled = false
         emojiTextField.isUserInteractionEnabled = false
     }
     
-    func giveData() -> StuffData {
+    func getData() -> StuffData {
         StuffData(emoji: emojiTextField.text, name: nameTextField.text ?? "", isPacked: isPacked)
     }
     

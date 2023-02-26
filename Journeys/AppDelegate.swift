@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import YandexMapsMobile
 import FirebaseCore
 import FirebaseAuth
 
@@ -14,6 +15,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        YMKMapKit.setApiKey("d594da49-3ffb-4815-acc6-61baf9f12f54")
+        YMKMapKit.sharedInstance()
+
         FirebaseApp.configure()
         return true
     }

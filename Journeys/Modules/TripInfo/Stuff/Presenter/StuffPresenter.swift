@@ -13,7 +13,7 @@ import UIKit
 final class StuffPresenter {
     // MARK: - Public Properties
     
-    weak var view: StuffViewInput!
+    weak var view: StuffViewInput?
     var model: StuffModelInput!
     weak var moduleOutput: StuffModuleOutput!
     
@@ -23,7 +23,6 @@ final class StuffPresenter {
     private var unpackedStuff: [Stuff] = []
     private var packedStuff: [Stuff] = []
     
-    private var cellToDeleteIndexPath: IndexPath?
     private var lastChangedIndexPath: IndexPath?
     
     private var isDataObtained: Bool = false
@@ -61,7 +60,7 @@ final class StuffPresenter {
     
     private func saveStuff(_ stuff: Stuff, indexPath: IndexPath) {
         guard let baggage else {
-            view.showAlert(title: "Ошибка", message: "Произошла ошибка при сохранении данных. Перезайдите в приложение и попробуйте снова")
+            view?.showAlert(title: "Ошибка", message: "Произошла ошибка при сохранении данных. Перезайдите в приложение и попробуйте снова")
             return
         }
         model.saveChangedStuff(stuff: stuff, baggage: baggage, indexPath: indexPath)
@@ -70,6 +69,9 @@ final class StuffPresenter {
 
 extension StuffPresenter: StuffModelOutput {
     func didSaveStuff(stuff: Stuff, baggage: Baggage, indexPath: IndexPath) {
+        if let cell = view?.getCell(for: indexPath) as? StuffCell {
+            cell.finishEditMode()
+        }
         if indexPath.section == 0 {
             guard unpackedStuff.indices.contains(indexPath.row) else {
                 didRecieveError(.saveDataError)
@@ -88,21 +90,19 @@ extension StuffPresenter: StuffModelOutput {
     }
     
     func didDeleteStuff() {
-        view.reloadData()
-        self.cellToDeleteIndexPath = nil
+        view?.reloadData()
     }
     
     func didRecieveError(_ error: Errors) {
         switch error {
         case .obtainDataError:
-            view.showAlert(title: "Ошибка",
+            view?.showAlert(title: "Ошибка",
                            message: "Возникла ошибка при получении данных")
         case .saveDataError:
-            view.showAlert(title: "Ошибка",
+            view?.showAlert(title: "Ошибка",
                            message: "Возникла ошибка при сохранении данных. Проверьте корректность данных и поробуйте снова")
         case .deleteDataError:
-            cellToDeleteIndexPath = nil
-            view.showAlert(title: "Ошибка",
+            view?.showAlert(title: "Ошибка",
                            message: "Возникла ошибка при удалении данных")
         default:
             break
@@ -110,25 +110,28 @@ extension StuffPresenter: StuffModelOutput {
     }
     
     func didRecieveData(stuff: [Stuff], baggage: Baggage) {
+        allStuff.removeAll()
+        packedStuff.removeAll()
+        unpackedStuff.removeAll()
         isDataObtained = true
         allStuff = stuff
         self.baggage = baggage
         sortStuff()
-        view.endRefresh()
-        view.reloadData()
+        view?.endRefresh()
+        view?.reloadData()
     }
     
     func didChangeStuffStatus(stuff: Stuff, indexPath: IndexPath) {
         if indexPath.section == 0 {
             packedStuff.append(unpackedStuff[indexPath.row])
             unpackedStuff.remove(at: indexPath.row)
-            view.changeIsPickedCellFlag(at: indexPath)
-            view.moveTableViewRow(at: indexPath, to: IndexPath(row: packedStuff.count - 1, section: 1))
+            view?.changeIsPickedCellFlag(at: indexPath)
+            view?.moveTableViewRow(at: indexPath, to: IndexPath(row: packedStuff.count - 1, section: 1))
         } else if indexPath.section == 1 {
             unpackedStuff.append(packedStuff[indexPath.row])
             packedStuff.remove(at: indexPath.row)
-            view.changeIsPickedCellFlag(at: indexPath)
-            view.moveTableViewRow(at: indexPath, to: IndexPath(row: unpackedStuff.count - 1, section: 0))
+            view?.changeIsPickedCellFlag(at: indexPath)
+            view?.moveTableViewRow(at: indexPath, to: IndexPath(row: unpackedStuff.count - 1, section: 0))
         }
     }
 }
@@ -224,7 +227,6 @@ extension StuffPresenter: StuffViewOutput {
             if unpackedStuff.indices.contains(indexPath.row) {
                 unpackedStuff.remove(at: indexPath.row)
             }
-            cellToDeleteIndexPath = indexPath
             model.deleteStuff(baggage: baggage, stuffId: id)
         } else if indexPath.section == 1,
                   packedStuff.indices.contains(indexPath.row),
@@ -236,7 +238,6 @@ extension StuffPresenter: StuffViewOutput {
             if packedStuff.indices.contains(indexPath.row) {
                 packedStuff.remove(at: indexPath.row)
             }
-            cellToDeleteIndexPath = indexPath
             model.deleteStuff(baggage: baggage, stuffId: id)
         } else {
             didRecieveError(.deleteDataError)
@@ -244,7 +245,7 @@ extension StuffPresenter: StuffViewOutput {
     }
     
     func handeleCellEdit(at indexPath: IndexPath, tableView: UITableView?) {
-        view.reloadData()
+        view?.reloadData()
         guard let cell = tableView?.cellForRow(at: indexPath) as? StuffCell else { return }
         lastChangedIndexPath = indexPath
         cell.startEditMode()
@@ -270,7 +271,6 @@ extension StuffPresenter: StuffViewOutput {
     
     func emojiTextFieldDidChange(_ text: String, at indexPath: IndexPath) {
         guard text.count > 0 else {
-//            view.showAlert(title: "Ошибка", message: "Поле не должно быит пустым, изменения не сохранены")
             return
         }
         if indexPath.section == 0 {
@@ -290,7 +290,6 @@ extension StuffPresenter: StuffViewOutput {
     
     func nameTextFieldDidChange(_ text: String, at indexPath: IndexPath) {
         guard text.count > 0 else {
-//            view.showAlert(title: "Ошибка", message: "Поле не должно быит пустым, изменения не сохранены")
             return
         }
         if indexPath.section == 0 {
@@ -305,9 +304,11 @@ extension StuffPresenter: StuffViewOutput {
     }
     
     func didTapScreen(tableView: UITableView) {
-//        guard let lastChangedIndexPath = lastChangedIndexPath else { return }
-//        guard let cell = tableView.cellForRow(at: lastChangedIndexPath) as? StuffCell else { return }
-//        saveCellData(cell: cell)
+        guard let lastChangedIndexPath = lastChangedIndexPath else { return }
+        if let cell = view?.getCell(for: lastChangedIndexPath) as? StuffCell {
+            let data = cell.getData()
+            cell.finishEditMode()
+        }
     }
     
     func didTapExitButton() {

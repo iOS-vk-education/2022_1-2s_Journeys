@@ -764,9 +764,11 @@ PODS:
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
   - PromisesObjC (2.1.1)
+  - PureLayout (3.1.9)
   - SnapKit (5.6.0)
   - SwiftGen (6.5.1)
   - SwiftLint (0.47.1)
+  - YandexMapsMobile (4.2.2-full)
 
 DEPENDENCIES:
   - FirebaseAnalytics
@@ -774,9 +776,11 @@ DEPENDENCIES:
   - FirebaseFirestore
   - FirebaseStorage
   - FSCalendar
+  - PureLayout
   - SnapKit (= 5.6.0)
   - SwiftGen (~> 6.5.1)
   - SwiftLint
+  - YandexMapsMobile (= 4.2.2-full)
 
 SPEC REPOS:
   trunk:
@@ -802,9 +806,11 @@ SPEC REPOS:
     - Libuv-gRPC
     - nanopb
     - PromisesObjC
+    - PureLayout
     - SnapKit
     - SwiftGen
     - SwiftLint
+    - YandexMapsMobile
 
 SPEC CHECKSUMS:
   abseil: ebe5b5529fb05d93a8bdb7951607be08b7fa71bc
@@ -829,10 +835,12 @@ SPEC CHECKSUMS:
   Libuv-gRPC: 55e51798e14ef436ad9bc45d12d43b77b49df378
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
+  PureLayout: 5fb5e5429519627d60d079ccb1eaa7265ce7cf88
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SwiftGen: a6d22010845f08fe18fbdf3a07a8e380fd22e0ea
   SwiftLint: f80f1be7fa96d30e0aa68e58d45d4ea1ccaac519
+  YandexMapsMobile: 1fd5f86bc368ad6ba528b199f9477e4a26796567
 
-PODFILE CHECKSUM: 41f30070b41348c92bbda3ca1b773ea60e8cd44b
+PODFILE CHECKSUM: 715fd1608b2310a9915bd818b007e1cd3bd5b7df
 
 COCOAPODS: 1.11.3

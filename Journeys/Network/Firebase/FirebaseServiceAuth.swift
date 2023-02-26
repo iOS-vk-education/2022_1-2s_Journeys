@@ -89,21 +89,6 @@ extension FirebaseService: FirebaseServiceAuthProtocol {
     // MARK: Store data
     
     func updateUserEmail(email: String, password: String, completion: @escaping (Error?) -> Void) {
-//        login(email: email, password: password) { [weak self] result in
-//            guard let self else { return }
-//            switch result {
-//            case .failure(let error):
-//                completion(error)
-//            case .success(let user):
-//                self.FBManager.auth.currentUser?.updateEmail(to: email) { error in
-//                    if let error {
-//                        completion(error)
-//                        return
-//                    }
-//                    completion(nil)
-//                }
-//            }
-//        }
         FBManager.auth.currentUser?.updateEmail(to: email) { error in
             if let error {
                 completion(error)

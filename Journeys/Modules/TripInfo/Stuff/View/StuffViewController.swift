@@ -20,7 +20,6 @@ final class StuffViewController: UIViewController {
     
     private lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
-        refreshControl.attributedTitle = NSAttributedString(string: "Идет обновление...")
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         return refreshControl
     }()
@@ -44,7 +43,6 @@ final class StuffViewController: UIViewController {
     private func setupView() {
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         setupTableView()
-        
         let tap = UITapGestureRecognizer(target: self, action: #selector(didTapScreen))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
@@ -82,11 +80,6 @@ final class StuffViewController: UIViewController {
         output.didTapScreen(tableView: tableView)
         view.endEditing(true)
     }
-
-    @objc
-    private func didTapExitButton() {
-
-    }
     
     @objc func keyboardWillShow(notification: NSNotification) {
         guard let userInfo = notification.userInfo else { return }
@@ -94,7 +87,7 @@ final class StuffViewController: UIViewController {
         keyboardFrame = self.view.convert(keyboardFrame, from: nil)
 
         var contentInset:UIEdgeInsets = self.tableView.contentInset
-        contentInset.bottom = keyboardFrame.size.height + 35
+        contentInset.bottom = keyboardFrame.size.height + 50
         tableView.contentInset = contentInset
     }
 
@@ -184,6 +177,14 @@ extension StuffViewController: UITableViewDataSource {
 }
 
 extension StuffViewController: StuffViewInput {
+    func getCell(for indexpath: IndexPath) -> UITableViewCell? {
+        tableView.cellForRow(at: indexpath)
+    }
+    
+    func deleteRow(at indexPath: IndexPath) {
+        tableView.deleteRows(at: [indexPath], with: .left)
+    }
+    
     func endRefresh() {
         refreshControl.endRefreshing()
     }
@@ -197,7 +198,7 @@ extension StuffViewController: StuffViewInput {
         guard let cell = tableView.cellForRow(at: indexPath) as? StuffCell else {
             return nil
         }
-        return cell.giveData()
+        return cell.getData()
     }
     
     func moveTableViewRow(at fromIndexPath: IndexPath, to toIndexPath: IndexPath) {

@@ -25,6 +25,9 @@ final class PlacesInfoPresenter {
     private var isDataLoaded: Bool = false
     private var dataToLoadCount: Int
     
+    private var noWeather: Bool = false
+    private var isWeatherAlertShown: Bool = false
+    
     init(route: Route) {
         self.route = route
         if route.places.count > 0 {
@@ -68,6 +71,10 @@ final class PlacesInfoPresenter {
         sortWeather()
         weather = loadedeWeather
         view?.reloadData()
+        if noWeather && !isWeatherAlertShown {
+            isWeatherAlertShown = true
+            view?.showAlert(title: "Погода на 15 дней", message: "Journeys может показывать погоду только на 15 ближайших дней")
+        }
         hideLoadingView()
     }
 }
@@ -84,7 +91,20 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
             dateComponent.day = 15
             if let futureDate = Calendar.current.date(byAdding: dateComponent, to: currentDate) {
                 if place.arrive < futureDate {
-                    model.getWeatherData(for: place)
+                    if place.depart > futureDate {
+                        let newPlace = Place(location: place.location, arrive: place.arrive, depart: futureDate)
+                        model.getWeatherData(for: newPlace)
+                        noWeather = true
+                    } else {
+                        model.getWeatherData(for: place)
+                    }
+                } else {
+                    noWeather = true
+                    dataToLoadCount -= 1
+                    if dataToLoadCount == 0 {
+                        isDataLoaded = true
+                        dataLoaded()
+                    }
                 }
             }
         }
@@ -164,6 +184,13 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
 }
 
 extension PlacesInfoPresenter: PlacesInfoModelOutput {
+//    func noCoordunates() {
+//        dataToLoadCount -= 1
+//        if dataToLoadCount == 0 {
+//            isDataLoaded = true
+//            dataLoaded()
+//        }
+//    }
     func noCoordunates() {
         dataToLoadCount -= 1
         if dataToLoadCount == 0 {

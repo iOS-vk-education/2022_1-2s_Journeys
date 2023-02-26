@@ -49,6 +49,8 @@ final class AddStuffCell: UITableViewCell {
     }
 
     private func setupSubiews() {
+        backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
+        
         contentView.addSubview(title)
         contentView.addSubview(icon)
         contentView.addSubview(separator)

@@ -44,6 +44,9 @@ internal enum Asset {
       internal static let contrastToThemeColor = ColorAsset(name: "ContrastToThemeColor")
       internal static let similarToThemeColor = ColorAsset(name: "SimilarToThemeColor")
     }
+    internal enum Calendar {
+      internal static let header = ColorAsset(name: "header")
+    }
     internal enum Icons {
       internal static let iconsColor = ColorAsset(name: "IconsColor")
       internal static let tappedIconsColor = ColorAsset(name: "TappedIconsColor")
@@ -58,6 +61,10 @@ internal enum Asset {
       internal enum WeatherCell {
         internal static let dateColor = ColorAsset(name: "dateColor")
       }
+    }
+    internal enum SpecifyAdress {
+      internal static let buttonSpecifyAdress = ColorAsset(name: "ButtonSpecifyAdress")
+      internal static let photoButton = ColorAsset(name: "photoButton")
     }
     internal enum Stuff {
       internal static let addCellColor = ColorAsset(name: "AddCellColor")

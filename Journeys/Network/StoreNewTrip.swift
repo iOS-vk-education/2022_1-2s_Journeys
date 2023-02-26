@@ -15,7 +15,6 @@ final class StoreNewTrip {
     private let tripImage: UIImage
     private let output: StoreNewTripOutput
     
-//    private var routeId: String?
     private var stuffIds: [String]?
     private var stuff: [Stuff]?
     

@@ -39,18 +39,25 @@ final class AuthViewController: UIViewController {
         button.addTarget(self, action: #selector(didTapChangeScreenTypeButton), for: .touchUpInside)
         return button
     }()
+    
+    private let backgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
+        return view
+    }()
 
     // MARK: Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tabBarController?.tabBar.items?.forEach { $0.isEnabled = false }
-        view.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
+        view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         title = output.getTitle()
         setupView()
     }
     
     private func setupView() {
+        view.addSubview(backgroundView)
         view.addSubview(continueButton)
         view.addSubview(changeScreenTypeButton)
         
@@ -78,6 +85,13 @@ final class AuthViewController: UIViewController {
     }
 
     private func makeConstraints() {
+        backgroundView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.bottom.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+        }
+        
         let height = output.getCellsCount() * 60
         collectionView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
