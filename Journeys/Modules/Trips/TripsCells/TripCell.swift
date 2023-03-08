@@ -76,6 +76,8 @@ final class TripCell: UICollectionViewCell {
         bookmarkButton.setImage(nil, for: .normal)
         datesLabel.text = nil
         townsRouteLabel.text = nil
+        
+        setupSkeleton()
     }
     
     override func layoutSubviews() {

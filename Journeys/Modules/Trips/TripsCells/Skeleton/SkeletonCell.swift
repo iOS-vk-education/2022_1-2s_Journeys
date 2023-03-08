@@ -16,14 +16,14 @@ class SkeletonTripCell: UICollectionViewCell {
         label.text = "22.22.2222 - 22.22.2222"
         return label
     }()
-    let datesLayer = CAGradientLayer()
+    private let datesLayer = CAGradientLayer()
 
     private let routeLabel: UILabel = {
         let label = UILabel()
         label.text = "A"
         return label
     }()
-    let routeLayer = CAGradientLayer()
+    private let routeLayer = CAGradientLayer()
     
     private let picture: UIImageView = {
         let imageView = UIImageView()
@@ -31,7 +31,7 @@ class SkeletonTripCell: UICollectionViewCell {
         imageView.clipsToBounds = true
         return imageView
     }()
-    let pictureLayer = CAGradientLayer()
+    private let pictureLayer = CAGradientLayer()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -44,6 +44,12 @@ class SkeletonTripCell: UICollectionViewCell {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        setup()
+        layout()
     }
     
     private func setupCell() {
