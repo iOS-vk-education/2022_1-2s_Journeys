@@ -99,9 +99,9 @@ class SkeletonTripCell: UICollectionViewCell {
         addSubview(routeLabel)
         
         datesLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(TripCellConstants.DatesLabel.leadingIndent)
-//                                                   + TripCellConstants.BookmarkButton.width
-//                                                   + TripCellConstants.BookmarkButton.trailingIndent)
+            make.leading.equalToSuperview().offset(TripCellConstants.DatesLabel.leadingIndent
+                                                   + TripCellConstants.BookmarkButton.width
+                                                   + TripCellConstants.BookmarkButton.trailingIndent)
             make.top.equalToSuperview().inset(TripCellConstants.DatesLabel.topIndent)
         }
 
