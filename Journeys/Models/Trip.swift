@@ -106,7 +106,7 @@ struct TripWithRouteAndImage {
         self.isInfavourites = isInfavourites
     }
     
-    init(trip: Trip, image: UIImage?, route: Route) {
+    init(trip: Trip, image: UIImage? = nil, route: Route) {
         self.id = trip.id
         self.imageURLString = route.imageURLString
         self.image = image

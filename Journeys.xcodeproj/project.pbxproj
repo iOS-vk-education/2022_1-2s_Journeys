@@ -98,6 +98,8 @@
 		EE497A142940AF4C007E8579 /* EventsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE497A132940AF4C007E8579 /* EventsCoordinator.swift */; };
 		EE497A162940B0EB007E8579 /* Pages.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE497A152940B0EB007E8579 /* Pages.swift */; };
 		EE497A182940B183007E8579 /* TabbarItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE497A172940B183007E8579 /* TabbarItemFactory.swift */; };
+		EE4F820E29B8BE11004784A6 /* SkeletonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4F820D29B8BE11004784A6 /* SkeletonCell.swift */; };
+		EE4F821029B8BF53004784A6 /* SkeletonLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4F820F29B8BF53004784A6 /* SkeletonLoadable.swift */; };
 		EE57FF3D2927E7E100212DC2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE57FF3B2927E7E100212DC2 /* Localizable.strings */; };
 		EE57FF3F2927E8B000212DC2 /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */; };
 		EE7819B0295A69E8008F607E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819AF295A69E8008F607E /* LoadingView.swift */; };
@@ -260,6 +262,8 @@
 		EE497A132940AF4C007E8579 /* EventsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsCoordinator.swift; sourceTree = "<group>"; };
 		EE497A152940B0EB007E8579 /* Pages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pages.swift; sourceTree = "<group>"; };
 		EE497A172940B183007E8579 /* TabbarItemFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarItemFactory.swift; sourceTree = "<group>"; };
+		EE4F820D29B8BE11004784A6 /* SkeletonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonCell.swift; sourceTree = "<group>"; };
+		EE4F820F29B8BF53004784A6 /* SkeletonLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonLoadable.swift; sourceTree = "<group>"; };
 		EE57FF3C2927E7E100212DC2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Localizable.strings; sourceTree = "<group>"; };
 		EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Strings+Generated.swift"; sourceTree = "<group>"; };
 		EE7819AF295A69E8008F607E /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
@@ -770,6 +774,7 @@
 		EE2B4124291413C80067BE4F /* TripsCells */ = {
 			isa = PBXGroup;
 			children = (
+				EE4F820C29B8BDF8004784A6 /* Skeleton */,
 				EEDAF554291C0F2200E6DDB9 /* AddTripCell.swift */,
 				EE2B4125291413EB0067BE4F /* TripCell.swift */,
 			);
@@ -793,6 +798,15 @@
 				EE910DB82957FAFA0094F5C8 /* SetVisible.swift */,
 			);
 			path = Tabbar;
+			sourceTree = "<group>";
+		};
+		EE4F820C29B8BDF8004784A6 /* Skeleton */ = {
+			isa = PBXGroup;
+			children = (
+				EE4F820D29B8BE11004784A6 /* SkeletonCell.swift */,
+				EE4F820F29B8BF53004784A6 /* SkeletonLoadable.swift */,
+			);
+			path = Skeleton;
 			sourceTree = "<group>";
 		};
 		EE57FF372927E6E400212DC2 /* ru.lproj */ = {
@@ -1261,6 +1275,7 @@
 			files = (
 				EEDAF557291C302500E6DDB9 /* SceneDelegate.swift in Sources */,
 				CE4CCCA1295863CB0057455D /* FloatingButton2.swift in Sources */,
+				EE4F820E29B8BE11004784A6 /* SkeletonCell.swift in Sources */,
 				EE910DC32958AE610094F5C8 /* FirebaseServiceAuth.swift in Sources */,
 				EED2A760294FCAF9003A9A1A /* StuffTableViewHeader.swift in Sources */,
 				EEA76C682951325E00250B06 /* MainCollectionHeader.swift in Sources */,
@@ -1320,6 +1335,7 @@
 				EEAC1D312952717800237331 /* NetworkService.swift in Sources */,
 				EE910DC92958B93A0094F5C8 /* LoadingViewController.swift in Sources */,
 				EE00AC14295601CD00FAFDCD /* DepartureLocationBuilder.swift in Sources */,
+				EE4F821029B8BF53004784A6 /* SkeletonLoadable.swift in Sources */,
 				EEDAF555291C0F2200E6DDB9 /* AddTripCell.swift in Sources */,
 				EEFA76F32935F53A00A0B8CA /* FirebaseManager.swift in Sources */,
 				EE00AC1D2956921100FAFDCD /* ImageRouteCell.swift in Sources */,

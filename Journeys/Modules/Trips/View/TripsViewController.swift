@@ -9,6 +9,11 @@ import UIKit
 
 // MARK: - TripsViewController
 
+enum TripsCellType {
+    case skeleton
+    case usual
+}
+
 final class TripsViewController: UIViewController {
     
     enum ScreenType {
@@ -82,12 +87,15 @@ final class TripsViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
         collectionView.alwaysBounceVertical = true
 
         collectionView.register(AddTripCell.self,
                                 forCellWithReuseIdentifier: "AddTripCell")
         collectionView.register(TripCell.self,
                                 forCellWithReuseIdentifier: "TripCell")
+        collectionView.register(SkeletonTripCell.self,
+                                forCellWithReuseIdentifier: "SkeletonTripCell")
     }
 
     private func makeConstraints() {
@@ -182,25 +190,39 @@ extension TripsViewController: UICollectionViewDataSource {
             }
             cell = addCell
         } else {
-            guard let tripCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "TripCell",
-                for: indexPath
-            ) as? TripCell else {
-                return cell
+            switch output.getCellType() {
+            case .skeleton:
+                collectionView.allowsSelection = false
+                guard let skeletonCell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: "SkeletonTripCell",
+                    for: indexPath
+                ) as? SkeletonTripCell else {
+                    return cell
+                }
+                cell = skeletonCell
+            case .usual:
+                collectionView.allowsSelection = true
+                guard let tripCell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: "TripCell",
+                    for: indexPath
+                ) as? TripCell else {
+                    return cell
+                }
+
+                guard let data = output.getCellData(for: indexPath.row) else {
+                    return UICollectionViewCell()
+                }
+                tripCell.configure(data: data,
+                                   delegate: self, indexPath: indexPath)
+                cell = tripCell
             }
-            
-            guard let data = output.getCellData(for: indexPath.row) else {
-                return UICollectionViewCell()
-            }
-            tripCell.configure(data: data,
-                               delegate: self, indexPath: indexPath)
-            cell = tripCell
         }
         return cell
     }
 }
 
 extension TripsViewController: TripsViewInput {
+    
     func endRefresh() {
         refreshControl.endRefreshing()
     }

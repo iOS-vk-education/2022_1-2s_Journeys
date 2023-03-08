@@ -44,5 +44,6 @@ protocol TripsViewOutput: AnyObject {
 
     func getSectionsCount() -> Int
     func getCellsCount(for section: Int) -> Int
+    func getCellType() -> TripsCellType
     func getCellData(for id: Int) -> TripCell.DisplayData?
 }

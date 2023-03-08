@@ -113,7 +113,6 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
         ref.getData(maxSize: maxSize) { (data, error) in
             if let error = error {
                 completion(.failure(error))
-                assertionFailure("Error while obtaining image")
                 return
             }
             if let imageData = data {
@@ -127,11 +126,9 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
         FBManager.firestore.collection("base_stuff").getDocuments { (snapshot, error) in
             if let error = error {
                 completion(.failure(error))
-                assertionFailure("Error while obtaining trips data")
                 return
             }
             guard let snapshot = snapshot else {
-                assertionFailure("No data found")
                 return
             }
             

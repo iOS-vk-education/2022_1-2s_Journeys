@@ -22,26 +22,32 @@ final class TripCell: UICollectionViewCell {
     private let picture: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = TripCellConstants.Picture.cornerRadius
+        imageView.image = UIImage()
         imageView.clipsToBounds = true
         return imageView
     }()
+    private let pictureLayer = CAGradientLayer()
+    
     private let bookmarkButton: UIButton = {
         let button = UIButton()
         button.imageView?.contentMode = .scaleAspectFill
         return button
     }()
+    
     private let editButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
         button.imageView?.contentMode = .scaleAspectFill
         return button
     }()
+    
     private let deleteButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "xmark"), for: .normal)
         button.imageView?.contentMode = .scaleAspectFill
         return button
     }()
+    
     private let datesLabel = UILabel()
     private let townsRouteLabel = UILabel()
     private var isInFavourites = Bool()
@@ -65,12 +71,17 @@ final class TripCell: UICollectionViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
+        pictureLayer.isHidden = false
         picture.image = nil
         bookmarkButton.setImage(nil, for: .normal)
         datesLabel.text = nil
         townsRouteLabel.text = nil
-
-        setupSubviews()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        pictureLayer.frame = CGRect(x: 0, y: 0, width: 311.0, height: 180.0)
+        pictureLayer.cornerRadius = picture.layer.cornerRadius
     }
 
     // MARK: Private functions
@@ -86,19 +97,25 @@ final class TripCell: UICollectionViewCell {
    }
 
     private func setupSubviews() {
-        contentView.addSubview(picture)
-        contentView.addSubview(bookmarkButton)
-        contentView.addSubview(editButton)
-        contentView.addSubview(deleteButton)
-        contentView.addSubview(datesLabel)
-        contentView.addSubview(townsRouteLabel)
-
+        
         bookmarkButton.addTarget(self, action: #selector(didTapBookmarkButton), for: .touchUpInside)
         editButton.addTarget(self, action: #selector(didTapEditButton), for: .touchUpInside)
         deleteButton.addTarget(self, action: #selector(didTapDeleteButton), for: .touchUpInside)
+        
+        setupSkeleton()
         setupColors()
         setupFonts()
         makeConstraints()
+    }
+    
+    func setupSkeleton() {
+        pictureLayer.startPoint = CGPoint(x: 0, y: 0.5)
+        pictureLayer.endPoint = CGPoint(x: 1, y: 0.5)
+        picture.layer.addSublayer(pictureLayer)
+        
+        let pictureGroup = makeAnimationGroup()
+        pictureGroup.beginTime = 1.0
+        pictureLayer.add(pictureGroup, forKey: "backgroundColor")
     }
 
     private func setupFonts() {
@@ -124,6 +141,13 @@ final class TripCell: UICollectionViewCell {
     }
 
     private func makeConstraints() {
+        contentView.addSubview(picture)
+        contentView.addSubview(bookmarkButton)
+        contentView.addSubview(editButton)
+        contentView.addSubview(deleteButton)
+        contentView.addSubview(datesLabel)
+        contentView.addSubview(townsRouteLabel)
+        
         picture.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(TripCellConstants.Picture.horisontalIndent)
             make.trailing.equalToSuperview().inset(TripCellConstants.Picture.horisontalIndent)
@@ -189,7 +213,10 @@ final class TripCell: UICollectionViewCell {
     }
     
     func configure(data: DisplayData, delegate: TripCellDelegate, indexPath: IndexPath) {
-        picture.image = data.picture ?? UIImage()
+        if let image = data.picture {
+            self.pictureLayer.isHidden = true
+            picture.image = image
+        }
         datesLabel.text = data.dates
         townsRouteLabel.text = data.route
         isInFavourites = data.isInFavourites
@@ -200,34 +227,37 @@ final class TripCell: UICollectionViewCell {
     }
 }
 
+extension TripCell: SkeletonLoadable {
+}
+
 private extension TripCell {
 
-    struct TripCellConstants {
+    enum TripCellConstants {
         static let horisontalIndentForAllSubviews: CGFloat = 16.0
-        struct Picture {
+        enum Picture {
             static let horisontalIndent: CGFloat = horisontalIndentForAllSubviews
             static let verticalIndent: CGFloat = 46.0
 
             static let cornerRadius: CGFloat = 15.0
         }
-        struct DatesLabel {
+        enum DatesLabel {
             static let leadingIndent: CGFloat = 12
             static let topIndent: CGFloat = 13.0
 
             static let minIndentFromBookmarkIcon: CGFloat = 16
         }
-        struct BookmarkButton {
+        enum BookmarkButton {
             static let trailingIndent: CGFloat = horisontalIndentForAllSubviews
             static let topIndent: CGFloat = DatesLabel.topIndent
 
             static let width: CGFloat = 23.0
             static let height: CGFloat = 23.0
         }
-        struct TownsRouteLabel {
+        enum TownsRouteLabel {
             static let horisontalIndent: CGFloat = horisontalIndentForAllSubviews
             static let bottomIndent: CGFloat = 17.0
         }
-        struct Cell {
+        enum Cell {
             static let borderRadius: CGFloat = 10.0
         }
     }
