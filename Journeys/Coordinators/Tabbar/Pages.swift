@@ -11,7 +11,7 @@ import UIKit
 enum TabBarPage: CaseIterable {
     case journeys
     case events
-    case account
+    case settings
 
     var pageTitle: String {
         switch self {
@@ -19,8 +19,8 @@ enum TabBarPage: CaseIterable {
             return L10n.journeys
         case .events:
             return L10n.events
-        case .account:
-            return L10n.account
+        case .settings:
+            return L10n.settings
         }
     }
 
@@ -30,7 +30,7 @@ enum TabBarPage: CaseIterable {
             return 0
         case .events:
             return 1
-        case .account:
+        case .settings:
             return 2
         }
     }
@@ -41,8 +41,8 @@ enum TabBarPage: CaseIterable {
             return "globe.europe.africa.fill"
         case .events:
             return "mappin.and.ellipse"
-        case .account:
-            return "person.fill"
+        case .settings:
+            return "gearshape"
         }
     }
 }

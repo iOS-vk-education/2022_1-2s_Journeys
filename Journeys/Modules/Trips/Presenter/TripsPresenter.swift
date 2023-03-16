@@ -227,7 +227,6 @@ extension TripsPresenter: TripsInteractorOutput {
                                                            image: image,
                                                            route: route))
                         count -= 1
-                        print(count)
                         if count == 0 {
                             strongSelf.didFinishObtainingData(trips: trips)
                         }

@@ -264,7 +264,7 @@ extension TripsViewController: TripsTransitionHandlerProtocol {
             return
         }
         placeholderViewController
-            .configure(with: PlaceHolderViewController.DisplayData(title: "Пока что маршрутов нет",
+            .configure(with: PlaceHolderViewController.DisplayData(title: L10n.noTrips,
                                                                    imageName: "TripsPlaceholder"))
         addChild(placeholderViewController)
         placeholderViewController.didMove(toParent: self)

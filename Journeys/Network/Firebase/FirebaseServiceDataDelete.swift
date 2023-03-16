@@ -19,11 +19,11 @@ extension FirebaseService: FirebaseServiceDeleteProtocol {
     // MARK: Delete data
     
     func deleteTripData(_ trip: Trip, completion: @escaping (Error?) -> Void) {
-        guard let userId = FBManager.auth.currentUser?.uid else {
+        guard let userId = firebaseManager.auth.currentUser?.uid else {
             return
         }
         guard let id = trip.id else { return }
-        FBManager.firestore.collection("trips").document(userId)
+        firebaseManager.firestore.collection("trips").document(userId)
             .collection("user_trips").document(id).delete { error in
                 if let error = error {
                     completion(error)
@@ -34,7 +34,7 @@ extension FirebaseService: FirebaseServiceDeleteProtocol {
     }
     
     func deleteStuffData(_ stuffId: String, baggageId: String, completion: @escaping (Error?) -> Void) {
-        FBManager.firestore.collection("baggage").document(baggageId)
+        firebaseManager.firestore.collection("baggage").document(baggageId)
             .collection("baggage_stuff").document(stuffId).delete { error in
             if let error = error {
                 completion(error)

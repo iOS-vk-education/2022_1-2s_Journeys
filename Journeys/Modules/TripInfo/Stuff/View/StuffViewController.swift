@@ -112,7 +112,7 @@ extension StuffViewController: UITableViewDelegate {
         }
 
         let editAction = UITableViewRowAction(style: .normal,
-                                              title: L10n.change) { [weak self] (action, indexPath) in
+                                              title: L10n.edit) { [weak self] (action, indexPath) in
             guard let strongSelf = self else { return }
             self?.output.handeleCellEdit(at: indexPath, tableView: self?.tableView)
         }

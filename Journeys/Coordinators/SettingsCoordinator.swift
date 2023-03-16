@@ -8,13 +8,14 @@
 import Foundation
 import UIKit
 import FirebaseAuth
+import SwiftUI
 
-final class AccountCoordinator: CoordinatorProtocol {
+final class SettingsCoordinator: CoordinatorProtocol {
 
     // MARK: Private Properties
 
     private let rootTabBarController: UITabBarController
-    private var navigationController = UINavigationController()
+    private var rootNavigationController = UINavigationController()
     private let tabBarItemFactory: TabBarItemFactoryProtocol
     private let firebaseService: FirebaseServiceProtocol
     
@@ -30,18 +31,18 @@ final class AccountCoordinator: CoordinatorProtocol {
 
     // TODO: start
     func start() {
-        let builder = AccountModuleBuilder()
-        let accountViewController = builder.build(output: self, firebaseService: firebaseService)
+        let builder = SettingsModuleBuilder()
+        let settingsViewController = builder.build(firebaseService: firebaseService, moduleOutput: self)
 
-        navigationController.setViewControllers([accountViewController], animated: false)
+        rootNavigationController.setViewControllers([settingsViewController], animated: false)
 
-        navigationController.tabBarItem = tabBarItemFactory.getTabBarItem(from: TabBarPage.account)
+        rootNavigationController.tabBarItem = tabBarItemFactory.getTabBarItem(from: TabBarPage.settings)
 
         var controllers = rootTabBarController.viewControllers
         if controllers == nil {
-            controllers = [navigationController]
+            controllers = [rootNavigationController]
         } else {
-            controllers?.append(navigationController)
+            controllers?.append(rootNavigationController)
         }
         rootTabBarController.setViewControllers(controllers, animated: true)
     }
@@ -51,7 +52,22 @@ final class AccountCoordinator: CoordinatorProtocol {
     }
 }
 
-extension AccountCoordinator: AccountModuleOutput {
+extension SettingsCoordinator: SettingsModuleOutput {
+    func settingsModuleWantsToOpenSettingsSubModule(type: SettingsViewType, animated: Bool) {
+        let settingsViewModel = SettingsViewModel(viewType: type)
+        let settingsView = SettingsView(viewModel: settingsViewModel)
+        let hosting = UIHostingController(rootView: settingsView)
+        hosting.view.backgroundColor = .clear
+        hosting.navigationItem.title = type.localized
+        let backButton = UIBarButtonItem()
+        backButton.title = ""
+        rootNavigationController.navigationBar.topItem?.backBarButtonItem = backButton
+//        rootNavigationController.navigationBar.tintColor = UIColor(asset: Asset.Colors.BaseColors.contrastToThemeColor)
+        rootNavigationController.pushViewController(hosting, animated: animated)
+    }
+}
+
+extension SettingsCoordinator: AccountModuleOutput {
     func logout() {
         Auth.auth().addIDTokenDidChangeListener { (auth, user) in
             if user == nil {
@@ -59,14 +75,14 @@ extension AccountCoordinator: AccountModuleOutput {
                 let viewController = builder.build(moduleType: .auth,
                                                    output: self,
                                                    firebaseService: self.firebaseService)
-                self.navigationController.setViewControllers([viewController], animated: false)
+                self.rootNavigationController.setViewControllers([viewController], animated: false)
             }
         }
     }
     
     func hideLoadingView() {
         DispatchQueue.main.async { [weak self] in
-            self?.navigationController.dismiss(animated: true)
+            self?.rootNavigationController.dismiss(animated: true)
         }
     }
     
@@ -78,11 +94,11 @@ extension AccountCoordinator: AccountModuleOutput {
         // Animate loadingVC with a fade in animation
         loadingVC.modalTransitionStyle = .crossDissolve
                
-        navigationController.present(loadingVC, animated: true)
+        rootNavigationController.present(loadingVC, animated: true)
     }
 }
 
-extension AccountCoordinator: AuthModuleOutput {
+extension SettingsCoordinator: AuthModuleOutput {
     func authModuleWantsToChangeModulenType(currentType: AuthPresenter.ModuleType) {
         let builder = AuthModuleBuilder()
         var authViewController: UIViewController
@@ -97,14 +113,14 @@ extension AccountCoordinator: AuthModuleOutput {
                                                firebaseService: firebaseService)
         }
         
-        navigationController.popViewController(animated: false)
-        navigationController.setViewControllers([authViewController], animated: true)
+        rootNavigationController.popViewController(animated: false)
+        rootNavigationController.setViewControllers([authViewController], animated: true)
     }
     
     func authModuleWantsToOpenTripsModule() {
         let builder = AccountModuleBuilder()
         let accountViewController = builder.build(output: self, firebaseService: firebaseService)
 
-        navigationController.setViewControllers([accountViewController], animated: false)
+        rootNavigationController.setViewControllers([accountViewController], animated: false)
     }
 }

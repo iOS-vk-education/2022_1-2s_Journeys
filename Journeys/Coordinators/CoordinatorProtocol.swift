@@ -12,3 +12,7 @@ protocol CoordinatorProtocol: AnyObject {
     func start()
     func finish()
 }
+
+protocol AppCoordinatorProtocol: CoordinatorProtocol {
+    func reload()
+}

@@ -1,0 +1,59 @@
+/* 
+  Localizable.strings
+  Journeys
+
+  Created by Сергей Адольевич on 18.11.2022.
+  
+*/
+
+// MARK: Main screen
+"NoTrips" = "So far there are no trips";
+
+"Add" = "New trip";
+"Trips" = "Trips";
+"Edit" = "Edit";
+
+// MARK: Route creation
+"Country" = "Страна";
+"Town" = "Город";
+"DepartureTown" = "Departure town";
+"ArrivalTown" = "Arrival town";
+"AddTown" = "Add town";
+"NewRoute" = "New route";
+"BlanckFields" = "Some fields are blank";
+"FillTheCountryAndTownFields" = "Fill the country and town fields";
+"SelectDates" = "Select dates";
+"BuildRoute" = "Build route";
+"Delete" = "Delete";
+"AddingTown" = "Adding town";
+
+// MARK: Tabbar
+"Journeys" = "Journeys";
+"Events" = "Events";
+"Settings" = "Settings";
+
+// MARK: Trip info
+"PlaceInfo" = "Place info";
+"Stuff" = "Stuff";
+"StuffList" = "Stuff list";
+"Packed" = "Packed";
+"Unpacked" = "Unpacked";
+"Weather" = "Weather";
+"Route" = "Route";
+"NoSelectedPlaces" = "No places to stay selected";
+"NoMeteoDataForPlacesOrDates" = "No meteo data for selected places or dates";
+
+// MARK: Settings
+
+"Notifications" = "Notifications";
+"Style" = "Style";
+"Language" = "Language";
+"Help" = "Help";
+"RateApp" = "Rate the app";
+"Information" = "Information";
+"Mail" = "Mail";
+"Telegram" = "Telegram";
+"style.system" = "System";
+"style.light" = "Light";
+"style.dark" = "Dark";
+"YouNeetToTurnTheApplicationNotificationOn" = "To turn on the notifications you need to allow them for Journeys app in the device settings (Settings → Journeys → Notifications → Allow notifications)";

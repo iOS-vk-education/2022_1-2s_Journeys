@@ -76,6 +76,7 @@ internal enum Asset {
     }
     internal enum Text {
       internal static let mainTextColor = ColorAsset(name: "MainTextColor")
+      internal static let secondaryTextColor = ColorAsset(name: "SecondaryTextColor")
     }
     internal enum Trips {
       internal static let tripsPlaceholder = ColorAsset(name: "TripsPlaceholder")

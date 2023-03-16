@@ -7,13 +7,13 @@
 import Foundation
 import UIKit
 
-class AppCoordinator: NSObject, CoordinatorProtocol {
+class AppCoordinator: NSObject, AppCoordinatorProtocol {
 
     var childCoordinators = [CoordinatorProtocol]()
     let tabBarController: UITabBarController
     weak var journeysCoordinatorInput: CoordinatorProtocol?
     weak var eventsCoordinatorInput: CoordinatorProtocol?
-    weak var accountCoordinatorInput: CoordinatorProtocol?
+    weak var settingsCoordinatorInput: CoordinatorProtocol?
     
     private var firebaseService: FirebaseServiceProtocol
 
@@ -39,6 +39,18 @@ class AppCoordinator: NSObject, CoordinatorProtocol {
 
     }
     
+    func reload() {
+        tabBarController.viewControllers = nil
+        childCoordinators.forEach { coordinator in
+            coordinator.start()
+            if let settingsCoordinator = coordinator as? SettingsCoordinator {
+                settingsCoordinator.settingsModuleWantsToOpenSettingsSubModule(type: .language, animated: false)
+            }
+        }
+
+        tabBarController.selectedIndex = 2
+    }
+    
     // MARK: Private
 
     private func getTabController(_ page: TabBarPage) {
@@ -56,12 +68,12 @@ class AppCoordinator: NSObject, CoordinatorProtocol {
             childCoordinators.append(eventsCoordinator)
             eventsCoordinatorInput = eventsCoordinator
 
-        case .account:
-            let accountCoordinator = AccountCoordinator(rootTabBarController: tabBarController,
+        case .settings:
+            let settingsCoordinator = SettingsCoordinator(rootTabBarController: tabBarController,
                                                         firebaseService: firebaseService)
-            accountCoordinator.start()
-            childCoordinators.append(accountCoordinator)
-            accountCoordinatorInput = accountCoordinator
+            settingsCoordinator.start()
+            childCoordinators.append(settingsCoordinator)
+            settingsCoordinatorInput = settingsCoordinator
         }
     }
 }

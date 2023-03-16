@@ -16,5 +16,6 @@ protocol FirebaseServiceProtocol: AnyObject,
 }
 
 class FirebaseService: FirebaseServiceProtocol {
-    let FBManager = FirebaseManager.shared
+    let firebaseManager = FirebaseManager.shared
+    
 }
