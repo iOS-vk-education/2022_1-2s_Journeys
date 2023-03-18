@@ -12,6 +12,7 @@
 "Add" = "New trip";
 "Trips" = "Trips";
 "Edit" = "Edit";
+"Saved" = "Saved";
 
 // MARK: Route creation
 "Country" = "Страна";
@@ -31,6 +32,7 @@
 "Journeys" = "Journeys";
 "Events" = "Events";
 "Settings" = "Settings";
+"Account" = "Account";
 
 // MARK: Trip info
 "PlaceInfo" = "Place info";
@@ -43,8 +45,22 @@
 "NoSelectedPlaces" = "No places to stay selected";
 "NoMeteoDataForPlacesOrDates" = "No meteo data for selected places or dates";
 
-// MARK: Settings
+// MARK: Account
+"AccountInfo" = "Account info";
+"StuffLists" = "Stuff lists";
+"Exit" = "Exit";
+"DeleteAccount" = "Delete account";
+"Save" = "Save";
+"PersonalInfo" = "Personal info";
+"LoginInfo" = "Login info";
+"Email" = "Email";
+"Password" = "Password";
+"NewPassword" = "New password";
+"FirstName" = "First name";
+"LastName" = "Last name";
 
+
+// MARK: Settings
 "Notifications" = "Notifications";
 "Style" = "Style";
 "Language" = "Language";
@@ -57,3 +73,11 @@
 "style.light" = "Light";
 "style.dark" = "Dark";
 "YouNeetToTurnTheApplicationNotificationOn" = "To turn on the notifications you need to allow them for Journeys app in the device settings (Settings → Journeys → Notifications → Allow notifications)";
+
+// MARK: Help
+"Message.Theme" = "Issue with Journeys IOS app";
+"Message.Text" = "Hello, ";
+
+// MARK: Auth
+"Auth" = "Auth";
+"Registration" = "Registration";

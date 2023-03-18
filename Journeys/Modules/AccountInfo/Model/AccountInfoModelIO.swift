@@ -1,5 +1,5 @@
 //
-//  AccountModelIO.swift
+//  AccountInfoModelIO.swift
 //  Journeys
 //
 //  Created by Сергей Адольевич on 25.12.2022.
@@ -7,15 +7,16 @@
 
 import Foundation
 
-protocol AccountModelInput: AnyObject {
+protocol AccountInfoModelInput: AnyObject {
     func saveEmail(email: String, newEmail: String, password: String)
     func savePassword(email: String, password: String, newPassword: String)
     func saveEmailAndPassword(email: String, newEmail: String, password: String, newPassword: String)
     func signOut()
-    func getUserData() -> User?
+    func getUserData()
 }
 
-protocol AccountModelOutput: AnyObject {
+protocol AccountInfoModelOutput: AnyObject {
+    func didObtainUserData(data: User)
     func didRecieveError(error: Error)
     func saveSuccesfull()
 }

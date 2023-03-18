@@ -9,18 +9,11 @@ import UIKit
 
 // MARK: - AuthViewController
 
-final class AuthViewController: UIViewController {
+final class AuthViewController: ViewControllerWithDimBackground {
     
-
-    var output: AuthViewOutput!
+    // MARK: Private properties
     
-    private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 8
-        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collection.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        return collection
-    }()
+    private lazy var tableView: UITableView = .init(frame: CGRect.zero, style: .insetGrouped)
     
     private lazy var continueButton: UIButton = {
         let button = UIButton()
@@ -40,24 +33,21 @@ final class AuthViewController: UIViewController {
         return button
     }()
     
-    private let backgroundView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
-        return view
-    }()
-
+    // MARK: Public properties
+    
+    var output: AuthViewOutput?
+    
     // MARK: Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tabBarController?.tabBar.items?.forEach { $0.isEnabled = false }
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
-        title = output.getTitle()
+        title = output?.title()
         setupView()
     }
     
     private func setupView() {
-        view.addSubview(backgroundView)
         view.addSubview(continueButton)
         view.addSubview(changeScreenTypeButton)
         
@@ -66,36 +56,31 @@ final class AuthViewController: UIViewController {
         view.addGestureRecognizer(tap)
         
         navigationItem.setHidesBackButton(true, animated: false)
-        changeScreenTypeButton.setTitle(output.getButtonName(), for: .normal)
+        changeScreenTypeButton.setTitle(output?.buttonName(), for: .normal)
         
-        setupCollectionView()
+        setupTableView()
         makeConstraints()
     }
     
-    private func setupCollectionView() {
-        view.addSubview(collectionView)
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.isScrollEnabled = false
-        collectionView.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
+    private func setupTableView() {
+        view.addSubview(tableView)
+        tableView.delegate = self
+        tableView.dataSource = self
 
-        collectionView.register(AccountCell.self,
-                                forCellWithReuseIdentifier: "AccountCell")
-
+        tableView.allowsSelection = false
+        tableView.backgroundColor = backgroundView.backgroundColor
+        tableView.separatorColor = tableView.backgroundColor
+        registerCell()
+    }
+    
+    private func registerCell() {
+        tableView.register(AccountInfoCell.self, forCellReuseIdentifier: "AccountInfoCell")
     }
 
     private func makeConstraints() {
-        backgroundView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.bottom.equalToSuperview()
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-        }
-        
-        let height = output.getCellsCount() * 60
-        collectionView.snp.makeConstraints { make in
+        tableView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.height.equalTo(height)
+            make.height.equalTo(150)
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
         }
@@ -103,7 +88,7 @@ final class AuthViewController: UIViewController {
         continueButton.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(20)
             make.trailing.equalToSuperview().inset(20)
-            make.top.equalTo(collectionView.snp.bottom).offset(10)
+            make.top.equalTo(tableView.snp.bottom).offset(10)
             make.height.equalTo(50)
         }
         
@@ -121,37 +106,47 @@ final class AuthViewController: UIViewController {
     
     @objc
     private func didTapContimueButton() {
-        output.didTapContinueButton()
+        output?.didTapContinueButton()
     }
     
     @objc
     private func didTapChangeScreenTypeButton() {
-        output.didTapChangeScreenTypeButton()
+        output?.didTapChangeScreenTypeButton()
     }
 }
 
-extension AuthViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.layer.frame.width - 40, height: 50)
+extension AuthViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        return
     }
 }
 
-extension AuthViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        output.getCellsCount()
+extension AuthViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        Constants.Cells.height
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AccountCell",
-                                                               for: indexPath) as? AccountCell else {
-            return UICollectionViewCell()
+    func numberOfSections(in tableView: UITableView) -> Int {
+        1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        output?.numberOfRows(in: section) ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "AccountInfoCell",
+                                                       for: indexPath) as? AccountInfoCell else {
+            return UITableViewCell()
         }
-        guard let data = output.getCellsDisplaydata(for: indexPath) else {
-            return UICollectionViewCell()
+        let displayData = output?.displayData(for: indexPath)
+        if let displayData {
+            cell.configure(data: displayData)
         }
-        cell.configure(data: data)
+        cell.separatorInset = UIEdgeInsets.zero
+        if indexPath.section == 0 {
+            cell.selectionStyle = .none
+        }
         return cell
     }
 }
@@ -170,11 +165,21 @@ extension AuthViewController: AuthViewInput {
     }
     
     func getCellsValues() {
-        guard let emailCell = collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as? AccountCell
+        guard let emailCell = tableView.cellForRow(at: IndexPath(item: 0, section: 0)) as? AccountInfoCell
         else { return }
-        guard let passwordCell = collectionView.cellForItem(at: IndexPath(item: 1, section: 0)) as? AccountCell
+        guard let passwordCell = tableView.cellForRow(at: IndexPath(item: 1, section: 0)) as? AccountInfoCell
         else { return }
-        output.setCellsValues(email: emailCell.getTextFieldValue(), password: passwordCell.getTextFieldValue())
+        output?.setCellsValues(email: emailCell.getTextFieldValue(), password: passwordCell.getTextFieldValue())
+    }
+}
+private extension AuthViewController {
+    enum Constants {
+        static let backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
+        static let tableViewHorizontalInsets: CGFloat = 20
+        enum Cells {
+            static let cornerRadius: CGFloat = 15
+            static let height: CGFloat = 52
+        }
     }
 }
 

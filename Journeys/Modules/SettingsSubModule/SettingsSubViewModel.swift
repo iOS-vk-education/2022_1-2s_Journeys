@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import UIKit
+import SwiftUI
 
 final class SettingsViewModel: ObservableObject {
     @Published var viewType: SettingsViewType
@@ -18,6 +19,7 @@ final class SettingsViewModel: ObservableObject {
     @Published var selectedLanguage: Language = .selectedLanguage
 
     @Published var selectedStyle: Theme = .current
+    
 
     init(viewType: SettingsViewType) {
         self.viewType = viewType

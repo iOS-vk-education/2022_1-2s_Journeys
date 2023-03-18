@@ -47,7 +47,6 @@ final class EventsCoordinator: CoordinatorProtocol {
     
     func openTapToAddButtonViewController() {
         let eventsViewController = TapToAddButtonViewController()
-        //let eventsViewController = AddingEventViewController()
         eventsViewController.moduleOutput = self
         navigationController.pushViewController(eventsViewController, animated: true)
     }

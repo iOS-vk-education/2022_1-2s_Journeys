@@ -33,21 +33,27 @@ extension AuthPresenter: AuthModuleInput {
 }
 
 extension AuthPresenter: AuthViewOutput {
-    func getButtonName() -> String {
+    
+    func title() -> String {
         switch moduleType {
         case .auth:
-            return "Регистрация"
+            return L10n.auth
         case .registration:
-            return "Авторизация"
+            return L10n.registration
         }
     }
     
-    func didTapContinueButton() {
-        view?.getCellsValues()
+    func buttonName() -> String {
+        switch moduleType {
+        case .auth:
+            return L10n.registration
+        case .registration:
+            return L10n.auth
+        }
     }
     
-    func didTapChangeScreenTypeButton() {
-        moduleOutput.authModuleWantsToChangeModulenType(currentType: moduleType)
+    func numberOfRows(in section: Int) -> Int {
+        return 2
     }
     
     func setCellsValues(email: String?, password: String?) {
@@ -69,26 +75,21 @@ extension AuthPresenter: AuthViewOutput {
         }
     }
     
-    func getTitle() -> String {
-        switch moduleType {
-        case .auth:
-            return "Авторизация"
-        case .registration:
-            return "Регистрация"
-        }
-    }
-    
-    func getCellsCount() -> Int {
-        2
-    }
-    
-    func getCellsDisplaydata(for indexPath: IndexPath) -> AccountCell.Displaydata? {
+    func displayData(for indexPath: IndexPath) -> AccountInfoCell.DisplayData? {
         if indexPath.row == 0 {
-            return AccountCell.Displaydata(text: "", placeHolder: "Email", keyboardType: .emailAddress, secure: false)
+            return AccountInfoCell.DisplayData(text: nil, placeHolder: "Email", keyboardType: .emailAddress, secure: false)
         } else if indexPath.row == 1 {
-            return AccountCell.Displaydata(text: "", placeHolder: "Пароль", keyboardType: .default, secure: true)
+            return AccountInfoCell.DisplayData(text: nil, placeHolder: "Пароль", keyboardType: .default, secure: true)
         }
         return nil
+    }
+    
+    func didTapContinueButton() {
+        view?.getCellsValues()
+    }
+    
+    func didTapChangeScreenTypeButton() {
+        moduleOutput.authModuleWantsToChangeModulenType(currentType: moduleType)
     }
 }
 

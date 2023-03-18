@@ -12,6 +12,7 @@
 "Add" = "Добавить";
 "Trips" = "Поездки";
 "Edit" = "Редактировать";
+"Saved" = "Избранное";
 
 // MARK: Route creation
 "Country" = "Страна";
@@ -31,6 +32,7 @@
 "Journeys" = "Путешествия";
 "Events" = "Мероприятия";
 "Settings" = "Настройки";
+"Account" = "Аккаунт";
 
 // MARK: Trip info
 "PlaceInfo" = "Общая информация";
@@ -42,6 +44,20 @@
 "Route" = "Маршрут";
 "NoSelectedPlaces" = "Не выбрано мест пребывания";
 "NoMeteoDataForPlacesOrDates" = "Нет метео данных для выбранных городов или дат";
+
+// MARK: Account
+"AccountInfo" = "Данные аккаунта";
+"StuffLists" = "Списки вещей";
+"Exit" = "Выход";
+"DeleteAccount" = "Удалить аккаунт";
+"Save" = "Сохранить";
+"PersonalInfo" = "Личная информация";
+"LoginInfo" = "Информация для входа";
+"Email" = "Email";
+"Password" = "Пароль";
+"NewPassword" = "Новый пароль";
+"FirstName" = "Имя";
+"LastName" = "Фамилия";
 
 // MARK: Settings
 "Notifications" = "Уведомления";
@@ -56,3 +72,11 @@
 "style.light" = "Светлая тема";
 "style.dark" = "Темная тема";
 "YouNeetToTurnTheApplicationNotificationOn" = "Чтобы включить уведомления, разрешите их для приложения Journeys в настройках устройства (Настройки → Journeys → Уведомления → Допуск уведомлений)";
+
+// MARK: Help
+"Message.Theme" = "Проблема с IOS приложением Journeys";
+"Message.Text" = "Здравствуйте, ";
+
+// MARK: Auth
+"Auth" = "Авторизация";
+"Registration" = "Регистрация";

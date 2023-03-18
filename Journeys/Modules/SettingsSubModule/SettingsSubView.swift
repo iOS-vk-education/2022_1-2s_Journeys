@@ -57,19 +57,18 @@ struct SettingsView: View {
     @ViewBuilder
     var body: some View {
         if viewModel.viewType == .help {
-            TrackableScrollView(.vertical,
-                                showIndicators: false,
-                                contentOffset: $scrollViewContentOffset) {
-                Spacer()
-                    .frame(height: 16)
-                LazyVStack(spacing: Constants.padding) {
-                    helpView.padding(.horizontal, Constants.padding)
-                    Spacer()
-                        .frame(height: 16)
-                }
-            }
-            .background(backgroundColor, ignoresSafeAreaEdges: .all)
-
+//            TrackableScrollView(.vertical,
+//                                showIndicators: false,
+//                                contentOffset: $scrollViewContentOffset) {
+//                Spacer()
+//                    .frame(height: 16)
+//                LazyVStack(spacing: Constants.padding) {
+//                    helpView.padding(.horizontal, Constants.padding)
+//                    Spacer()
+//                        .frame(height: 16)
+//                }
+//            }
+//            .background(backgroundColor, ignoresSafeAreaEdges: .all)
         } else {
             List {
                 mainView

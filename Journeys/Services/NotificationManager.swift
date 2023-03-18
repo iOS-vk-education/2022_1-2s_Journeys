@@ -20,8 +20,15 @@ protocol NotificationsManagerProtocol {
 // MARK: - NotificationsManager
 
 final class NotificationsManager: NotificationsManagerProtocol {
+    
+    static let shared = NotificationsManager()
+    
     private enum Constants {
         static let key = "jrns.notifications.is.enabled"
+    }
+    
+    private init() {
+        
     }
     
     func hasUserEnabledNotificationsAtIOSLevel(completion: @escaping (Bool) -> Void) {

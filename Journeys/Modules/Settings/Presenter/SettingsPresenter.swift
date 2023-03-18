@@ -21,9 +21,8 @@ final class SettingsPresenter {
 
     private let interactor: SettingsInteractorInput
     private let router: SettingsRouterInput
-    private let displayDataFactory: SettingsDisplayDataFactory
     private let appRateManager: AppRateManagerProtocol
-    private let notificationManager: NotificationsManagerProtocol
+    private let notificationManager: NotificationsManagerProtocol = NotificationsManager.shared
     
     private var hasUserEnabledNotifications: Bool?
 
@@ -31,29 +30,20 @@ final class SettingsPresenter {
 
     init(interactor: SettingsInteractorInput,
          router: SettingsRouterInput,
-         displayDataFactory: SettingsDisplayDataFactory,
          appRateManager: AppRateManagerProtocol,
-         notificationManager: NotificationsManagerProtocol,
          moduleOutput: SettingsModuleOutput) {
         self.interactor = interactor
         self.router = router
-        self.displayDataFactory = displayDataFactory
         self.appRateManager = appRateManager
-        self.notificationManager = notificationManager
         self.moduleOutput = moduleOutput
     }
-}
-
-// MARK: - SettingsModuleInput
-
-extension SettingsPresenter: SettingsModuleInput {
 }
 
 // MARK: SettingsViewOutput
 
 extension SettingsPresenter: SettingsViewOutput {
-    func viewDidAppear() {
-        notificationManager.hasUserEnabledNotifications() { [weak self] result in
+    func viewWillAppear() {
+        notificationManager.hasUserEnabledNotificationsAtIOSLevel() { [weak self] result in
             self?.hasUserEnabledNotifications = result
             self?.view?.reloadView()
         }
@@ -61,11 +51,12 @@ extension SettingsPresenter: SettingsViewOutput {
     
     func getDisplayData(for indexPath: IndexPath) -> SettingsCell.DisplayData {
         let row = indexPath.section == 0 ? 0 : indexPath.row + 1
-        let cellType = SettingsCell.CellType.allCases[row]
+        let cellType = SettingsCell.CellType.Settings.allCases[row]
+        let displayDataFactory = SettingsDisplayDataFactory()
         if cellType == .notifications {
-            return displayDataFactory.displayData(for: cellType, switchValue: hasUserEnabledNotifications)
+            return displayDataFactory.settingsDisplayData(for: cellType, switchValue: hasUserEnabledNotifications)
         }
-        return displayDataFactory.displayData(for: cellType)
+        return displayDataFactory.settingsDisplayData(for: cellType)
     }
     
     func getFooterText(for section: Int) -> String? {
@@ -82,10 +73,15 @@ extension SettingsPresenter: SettingsViewOutput {
         case .rate:
             appRateManager.explicitlyRateApplication()
             view?.deselectCell(indexPath)
-
-        case .help, .info, .language, .style:
+        case .help:
+            view?.openMailView()
+        case .info, .language, .style:
             moduleOutput?.settingsModuleWantsToOpenSettingsSubModule(type: setting, animated: true)
         }
+    }
+    
+    func didTapBackBarButton() {
+        moduleOutput?.settingsModuleWantsToBeClosed()
     }
 }
 
@@ -104,4 +100,9 @@ extension SettingsPresenter: SettingsCellDelegate {
     func switchValueWasTapped(_ value: Bool, completion: @escaping (Bool) -> Void) {
         notificationManager.toggleNotifications(isOn: value, completion: completion)
     }
+}
+
+// MARK: - SettingsModuleInput
+
+extension SettingsPresenter: SettingsModuleInput {
 }

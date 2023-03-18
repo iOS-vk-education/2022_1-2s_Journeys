@@ -1,5 +1,5 @@
 //
-//  AccountCell.swift
+//  AccountInfoCell.swift
 //  Journeys
 //
 //  Created by Сергей Адольевич on 25.12.2022.
@@ -9,8 +9,8 @@ import Foundation
 import UIKit
 
 
-final class AccountCell: UICollectionViewCell {
-    struct Displaydata {
+final class AccountInfoCell: UITableViewCell {
+    struct DisplayData {
         let text: String?
         let placeHolder: String
         let keyboardType: UIKeyboardType
@@ -18,47 +18,60 @@ final class AccountCell: UICollectionViewCell {
     }
     
     enum CellType {
-        case login
-        case password
+        enum PersonalInfo: CaseIterable {
+            case firstName
+            case lastName
+            
+            var placeholder: String {
+                switch self {
+                case .firstName: return  L10n.firstName
+                case .lastName: return L10n.lastName
+                default: return ""
+                }
+            }
+        }
+        enum LoginInfo: CaseIterable {
+            case email
+            case pasword
+            case newPassword
+            
+            var placeholder: String {
+                switch self {
+                case .email: return  L10n.email
+                case .pasword: return L10n.password
+                case .newPassword: return L10n.newPassword
+                default: return ""
+                }
+            }
+        }
     }
     
     // MARK: Private properties
 
     private let textField = UITextField()
-
+    
     // MARK: Lifecycle
 
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupCell()
+        super.init(coder: NSCoder())
         setupSubviews()
     }
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupCell()
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupSubviews()
     }
-
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         textField.text = nil
         textField.placeholder = nil
+        textField.isSecureTextEntry = false
         setupSubviews()
     }
 
     // MARK: Private functions
-
-    private func setupCell() {
-       layer.cornerRadius = 10
-       layer.masksToBounds = false
-
-       layer.shadowRadius = 3.0
-       layer.shadowColor = UIColor.black.cgColor
-       layer.shadowOpacity = 0.1
-       layer.shadowOffset = CGSize(width: 0, height: 2)
-   }
-
+    
     private func setupSubviews() {
         contentView.addSubview(textField)
         
@@ -90,7 +103,7 @@ final class AccountCell: UICollectionViewCell {
         return textField.text
     }
     
-    func configure(data: Displaydata) {
+    func configure(data: DisplayData) {
         textField.text = data.text
         textField.placeholder = data.placeHolder
         textField.keyboardType = data.keyboardType
@@ -101,7 +114,7 @@ final class AccountCell: UICollectionViewCell {
     }
 }
 
-extension AccountCell: UITextFieldDelegate {
+extension AccountInfoCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true

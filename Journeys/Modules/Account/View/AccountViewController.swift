@@ -2,179 +2,149 @@
 //  AccountViewController.swift
 //  Journeys
 //
-//  Created by Nastya Ischenko on 07/12/2022.
+//  Created by Nastya Ischenko on 18/03/2023.
 //
 
 import UIKit
 
 // MARK: - AccountViewController
 
-final class AccountViewController: UIViewController {
-    
-    var output: AccountViewOutput!
-    
-    private lazy var emailLabel: UILabel = {
-        let label = UILabel()
-        if let email: String = output.getUserEmail() {
-            label.text = "Текущий Email: \(email)"
+final class AccountViewController: ViewControllerWithDimBackground {
+
+    // MARK: Private properties
+
+    private enum Constants {
+        static let backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
+        static let tableViewHorizontalInsets: CGFloat = 20
+        enum Cells {
+            static let cornerRadius: CGFloat = 15
+            static let height: CGFloat = 52
         }
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 17, weight: .medium)
-        label.numberOfLines = 0
-        return label
-    }()
-    
-    private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 8
-        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collection.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        return collection
-    }()
-    
-    private lazy var saveFloatingButton: FloatingButton = {
-        let button = FloatingButton()
-        button.backgroundColor = UIColor(asset: Asset.Colors.BaseColors.contrastToThemeColor)
-        button.configure(title: "Сохранить")
-        button.addTarget(self, action: #selector(didTapSaveButton), for: .touchUpInside)
-        return button
-    }()
-    
-    private lazy var exitButton: UIButton = {
-        let button = UIButton()
-        button.tintColor = .none
-        button.setTitleColor(UIColor(asset: Asset.Colors.Placeholder.placeholderColor), for: .normal)
-        button.setTitle("Выход", for: .normal)
-        button.addTarget(self, action: #selector(didTapExitButton), for: .touchUpInside)
-        return button
-    }()
-    
+    }
+
+    private lazy var tableView: UITableView = .init(frame: CGRect.zero, style: .insetGrouped)
+
+    var output: AccountViewOutput?
+
     // MARK: Lifecycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
-        title = "Аккаунт"
         setupView()
     }
-    
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let selectedIndexPath = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: selectedIndexPath, animated: animated)
+        }
+    }
+
+    // MARK: Private methods
+
     private func setupView() {
-        view.addSubview(emailLabel)
-        view.addSubview(saveFloatingButton)
-        view.addSubview(exitButton)
+        view.addSubview(tableView)
+        view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-        
-        navigationItem.setHidesBackButton(true, animated: false)
-        
-        setupCollectionView()
-        makeConstraints()
-    }
-    
-    private func setupCollectionView() {
-        view.addSubview(collectionView)
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.isScrollEnabled = false
-        collectionView.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
+        title = L10n.account
 
-        collectionView.register(AccountCell.self,
-                                forCellWithReuseIdentifier: "AccountCell")
-
+        setupTableView()
+        setupConstrains()
     }
 
-    private func makeConstraints() {
-        let height = output.getCellsCount() * 60
-        collectionView.snp.makeConstraints { make in
+    private func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+
+        tableView.backgroundColor = backgroundView.backgroundColor
+        tableView.separatorColor = tableView.backgroundColor
+        registerCell()
+    }
+
+    private func setupConstrains() {
+        tableView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.height.equalTo(height)
+            make.height.equalTo(250)
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
         }
-        
-        emailLabel.snp.makeConstraints { make in
-//            make.top.equalToSuperview().inset(100)
-            make.leading.equalToSuperview().inset(20)
-            make.trailing.equalToSuperview().inset(20)
-            make.bottom.equalTo(collectionView.snp.top).offset(-30)
-        }
-        
-        exitButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.width.equalTo(120)
-            make.top.equalTo(collectionView.snp.bottom).offset(20)
-            make.height.equalTo(30)
-        }
-        
-        saveFloatingButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(20)
-            make.trailing.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().inset(20)
-            make.height.equalTo(40)
-        }
     }
-    
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
-    }
-    
-    @objc
-    private func didTapSaveButton() {
-        output.didTapSaveButton()
-    }
-    
-    @objc
-    private func didTapExitButton() {
-        output.didTapExitButton()
+
+    private func registerCell() {
+        tableView.register(SettingsCell.self, forCellReuseIdentifier: "SettingsCell")
     }
 }
 
-extension AccountViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.layer.frame.width - 40, height: 50)
+// MARK: UITableViewDelegate
+
+extension AccountViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        output?.didSelectCell(at: indexPath)
     }
 }
 
-extension AccountViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        output.getCellsCount()
+// MARK: UITableViewDataSource
+
+extension AccountViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        Constants.Cells.height
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AccountCell",
-                                                               for: indexPath) as? AccountCell else {
-            return UICollectionViewCell()
+    func numberOfSections(in tableView: UITableView) -> Int {
+        1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        output?.numberOfRows(in: section) ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 80
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView.init(frame: CGRect.init(x: 0,
+                                                        y: 0,
+                                                        width: tableView.bounds.width - Constants.tableViewHorizontalInsets * 2,
+                                                        height: 80))
+        
+        let label = UILabel()
+        label.frame = CGRect.init(x: 0, y: 0, width: headerView.frame.width, height: headerView.frame.height)
+        label.text = output?.username()
+        label.font = .systemFont(ofSize: 17)
+        label.textColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
+        label.textAlignment = .center
+        
+        headerView.addSubview(label)
+        
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell",
+                                                       for: indexPath) as? SettingsCell else {
+            return UITableViewCell()
         }
-        guard let data = output.getCellsDisplaydata(for: indexPath) else {
-            return UICollectionViewCell()
+        let displayData = output?.displayData(for: indexPath)
+        if let displayData {
+            cell.configure(displayData: displayData)
         }
-        cell.configure(data: data)
+        cell.separatorInset = UIEdgeInsets.zero
+        if indexPath.section == 0 {
+            cell.selectionStyle = .none
+        }
         return cell
     }
 }
 
 extension AccountViewController: AccountViewInput {
-    func showAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title,
-                                      message: message,
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ок", style: .default))
-        present(alert, animated: true)
+    func reloadView() {
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
     
-    func getCellsValues() {
-        guard let newEmailCell = collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as? AccountCell
-        else { return }
-        guard let passwordCell = collectionView.cellForItem(at: IndexPath(item: 1, section: 0)) as? AccountCell
-        else { return }
-        guard let newPasswordCell = collectionView.cellForItem(at: IndexPath(item: 2, section: 0)) as? AccountCell
-        else { return }
-        output.setCellsValues(newEmail: newEmailCell.getTextFieldValue(),
-                              password: passwordCell.getTextFieldValue(),
-                              newPassword: newPasswordCell.getTextFieldValue())
+    func deselectCell(_ indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

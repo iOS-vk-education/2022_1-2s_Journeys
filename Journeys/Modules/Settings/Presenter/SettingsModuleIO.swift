@@ -15,4 +15,5 @@ protocol SettingsModuleInput: AnyObject {
 
 protocol SettingsModuleOutput: AnyObject {
     func settingsModuleWantsToOpenSettingsSubModule(type: SettingsViewType, animated: Bool)
+    func settingsModuleWantsToBeClosed()
 }

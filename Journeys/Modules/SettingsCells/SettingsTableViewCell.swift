@@ -18,12 +18,19 @@ protocol SettingsCellDelegate: AnyObject {
 // MARK: - SettingsTableViewCell
 
 final class SettingsCell: UITableViewCell {
-    enum CellType: CaseIterable {
-        case notifications
-        case style
-        case language
-        case help
-        case rate
+    enum CellType {
+        enum Settings: CaseIterable {
+            case notifications
+            case style
+            case language
+            case help
+            case rate
+        }
+        enum Account: CaseIterable {
+            case accountInfo
+            case stuffLists
+            case settings
+        }
     }
 
     struct DisplayData {
@@ -34,6 +41,7 @@ final class SettingsCell: UITableViewCell {
         enum ImageType {
             case switchType(Bool)
             case chevronType
+            case usual
         }
         
         internal init(title: String,
@@ -57,31 +65,6 @@ final class SettingsCell: UITableViewCell {
     private let settingSwitch = UISwitch()
     private let subtitle = UILabel()
     weak var delegate: SettingsCellDelegate?
-
-    private enum Constants {
-        enum Title {
-            static let leadingIndent: CGFloat = 20
-        }
-
-        enum Chevron {
-            static let height: CGFloat = 18
-            static let width: CGFloat = 9
-            static let trailingIndent: CGFloat = 16
-            static let image: UIImage? = UIImage(systemName: "chevron.forward")?
-                .withTintColor(UIColor(asset: Asset.Colors.BaseColors.contrastToThemeColor)!)
-        }
-
-        enum Subtitle {
-            static let trailingIndentFromChevron: CGFloat = 8
-            static let fontSize: CGFloat = 15
-        }
-
-        enum Switch {
-            static let height: CGFloat = 31
-            static let width: CGFloat = 51
-            static let trailingIndent: CGFloat = 16
-        }
-    }
 
     // MARK: Lifecycle
 
@@ -169,7 +152,7 @@ final class SettingsCell: UITableViewCell {
 
     // MARK: Public methods
 
-    func configure(displayData: DisplayData, delegate: SettingsCellDelegate) {
+    func configure(displayData: DisplayData, delegate: SettingsCellDelegate? = nil) {
         title.text = displayData.title
         subtitle.text = nil
         self.delegate = delegate
@@ -182,6 +165,35 @@ final class SettingsCell: UITableViewCell {
             settingSwitch.isHidden = false
             chevronImageView.isHidden = true
             settingSwitch.isOn = switchValue
+        case .usual:
+            chevronImageView.isHidden = true
+        }
+    }
+}
+
+private extension SettingsCell {
+    enum Constants {
+        enum Title {
+            static let leadingIndent: CGFloat = 20
+        }
+
+        enum Chevron {
+            static let height: CGFloat = 18
+            static let width: CGFloat = 9
+            static let trailingIndent: CGFloat = 16
+            static let image: UIImage? = UIImage(systemName: "chevron.forward")?
+                .withTintColor(UIColor(asset: Asset.Colors.BaseColors.contrastToThemeColor)!)
+        }
+
+        enum Subtitle {
+            static let trailingIndentFromChevron: CGFloat = 8
+            static let fontSize: CGFloat = 15
+        }
+
+        enum Switch {
+            static let height: CGFloat = 31
+            static let width: CGFloat = 51
+            static let trailingIndent: CGFloat = 16
         }
     }
 }

@@ -2,7 +2,7 @@
 //  AccountPresenter.swift
 //  Journeys
 //
-//  Created by Nastya Ischenko on 07/12/2022.
+//  Created by Nastya Ischenko on 18/03/2023.
 //
 
 import Foundation
@@ -10,104 +10,54 @@ import Foundation
 // MARK: - AccountPresenter
 
 final class AccountPresenter {
-    // MARK: - Public Properties
-
-    weak var view: AccountViewInput?
-    var model: AccountModelInput?
-    weak var moduleOutout: AccountModuleOutput?
-
-    private func showLoadingView() {
-        moduleOutout?.showLoadingView()
-    }
     
-    private func hideLoadingView() {
-        moduleOutout?.hideLoadingView()
+    // MARK: - Public Properties
+    weak var view: AccountViewInput?
+    weak var moduleOutput: AccountModuleOutput?
+    
+    // MARK: - Private Properties
+    private let displayDataFactory = SettingsDisplayDataFactory()
+    private let firebaseService: FirebaseServiceProtocol
+    
+    init(firebaseService: FirebaseServiceProtocol,
+         moduleOutput: AccountModuleOutput) {
+        self.firebaseService = firebaseService
+        self.moduleOutput = moduleOutput
     }
+
 }
 
 extension AccountPresenter: AccountModuleInput {
 }
 
 extension AccountPresenter: AccountViewOutput {
-    func getUserEmail() -> String? {
-        model?.getUserData()?.email
+    func username() -> String {
+        return "Петр Степаныч"
     }
     
-    func didTapSaveButton() {
-        view?.getCellsValues()
-    }
-    
-    func didTapExitButton() {
-        model?.signOut()
-        moduleOutout?.logout()
+    func displayData(for indexPath: IndexPath) -> SettingsCell.DisplayData? {
+        guard SettingsCell.CellType.Account.allCases.indices.contains(indexPath.row) else { return nil }
+        let cellType = SettingsCell.CellType.Account.allCases[indexPath.row]
+        return displayDataFactory.accountDisplayData(for: cellType)
     }
 
-    func setCellsValues(newEmail: String?, password: String?, newPassword: String?) {
-        guard let email = model?.getUserData()?.email else {
-            view?.showAlert(title: "Ошибка", message: "Возникли проблемы с вашим Email адресом, перезайдите в аккаунт")
-            return
-        }
-        guard let password else {
-            view?.showAlert(title: "Ошибка", message: "Введите текущий пароль для смены данных")
-            return
-        }
-        if let newEmail {
-            if let newPassword {
-                model?.saveEmailAndPassword(email: email,
-                                           newEmail: newEmail,
-                                           password: password,
-                                           newPassword: newPassword)
-                showLoadingView()
-                return
-            } else {
-                model?.saveEmail(email: email, newEmail: newEmail, password: password)
-                showLoadingView()
-                return
-            }
-        }
-        if let newPassword {
-            model?.savePassword(email: email, password: password, newPassword: newPassword)
-            showLoadingView()
-            return
-        }
-        view?.showAlert(title: "Ошибка", message: "Заполните поля для изменения данных")
-    }
-    
-    func getCellsCount() -> Int {
-        3
-    }
-    
-    func getCellsDisplaydata(for indexPath: IndexPath) -> AccountCell.Displaydata? {
-        switch indexPath.row {
-        case 0:
-            return AccountCell.Displaydata(text: "",
-                                           placeHolder: "Новый Email",
-                                           keyboardType: .default,
-                                           secure: false)
-        case 1:
-            return AccountCell.Displaydata(text: "",
-                                           placeHolder: "Пароль",
-                                           keyboardType: .default,
-                                           secure: true)
-        case 2:
-            return AccountCell.Displaydata(text: "",
-                                           placeHolder: "Новый пароль",
-                                           keyboardType: .default,
-                                           secure: true)
+    func didSelectCell(at indexPath: IndexPath) {
+        guard SettingsCell.CellType.Account.allCases.indices.contains(indexPath.row) else { return }
+        let nextPage = SettingsCell.CellType.Account.allCases[indexPath.row]
+        switch nextPage {
+        case .accountInfo:
+            moduleOutput?.accountModuleWantsToOpenAccountInfoModule()
+        case .stuffLists:
+            moduleOutput?.accountModuleWantsToOpenStuffListsModule()
+        case .settings:
+            moduleOutput?.accountModuleWantsToOpenSettingsModule()
         default:
-            return nil
+            break
         }
-    }
-}
-
-extension AccountPresenter: AccountModelOutput {
-    func didRecieveError(error: Error) {
-        hideLoadingView()
-        view?.showAlert(title: "Error", message: error.localizedDescription)
+        view?.deselectCell(indexPath)
     }
     
-    func saveSuccesfull() {
-        hideLoadingView()
-        view?.showAlert(title: "Данные сохранены", message: "Данные успешно сохранены")
+    func numberOfRows(in section: Int) -> Int {
+        return SettingsCell.CellType.Account.allCases.count
     }
 }

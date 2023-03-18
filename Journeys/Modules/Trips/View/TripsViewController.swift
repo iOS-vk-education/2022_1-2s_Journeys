@@ -72,7 +72,7 @@ final class TripsViewController: UIViewController {
                                              action: #selector(didTapBackButton))
             
             navigationItem.leftBarButtonItem = buttonItem
-            title = "Избранное"
+            title = L10n.saved
         }
     }
 

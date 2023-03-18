@@ -10,19 +10,15 @@ import Foundation
 // MARK: - SettingsDisplayDataFactory
 
 final class SettingsDisplayDataFactory {
+    
     // MARK: Private
-
-    private let notificationsManager: NotificationsManagerProtocol
-
-    // MARK: Lifecycle
-
-    init(notificationsManager: NotificationsManagerProtocol) {
-        self.notificationsManager = notificationsManager
-    }
-
+    
+    private let notificationsManager: NotificationsManagerProtocol = NotificationsManager.shared
+    
     // MARK: Public
-
-    func displayData(for type: SettingsCell.CellType, switchValue: Bool? = nil) -> SettingsCell.DisplayData {
+    
+    func settingsDisplayData(for type: SettingsCell.CellType.Settings,
+                             switchValue: Bool? = nil) -> SettingsCell.DisplayData {
         switch type {
         case .notifications:
             return SettingsCell.DisplayData(title: L10n.notifications,
@@ -44,7 +40,26 @@ final class SettingsDisplayDataFactory {
                                             type: .chevronType)
         default:
             return SettingsCell.DisplayData(title: "",
+                                            type: .usual)
+        }
+    }
+    func accountDisplayData(for type: SettingsCell.CellType.Account,
+                             switchValue: Bool? = nil) -> SettingsCell.DisplayData {
+        
+        switch type {
+        case .accountInfo:
+            return SettingsCell.DisplayData(title: L10n.accountInfo,
                                             type: .chevronType)
+        case .stuffLists:
+            return SettingsCell.DisplayData(title: L10n.stuffLists,
+                                            type: .usual)
+        case .settings:
+            return SettingsCell.DisplayData(title: L10n.settings,
+                                            type: .chevronType)
+        default:
+            return SettingsCell.DisplayData(title: "",
+                                            type: .usual)
         }
     }
 }
+

@@ -14,7 +14,8 @@ protocol SettingsViewOutput: AnyObject {
     func getDisplayData(for indexPath: IndexPath) -> SettingsCell.DisplayData
     func getFooterText(for section: Int) -> String?
     func didSelectCell(at indexPath: IndexPath)
-    func viewDidAppear()
+    func viewWillAppear()
+    func didTapBackBarButton()
 }
 
 // MARK: - SettingsViewInput
@@ -22,4 +23,5 @@ protocol SettingsViewOutput: AnyObject {
 protocol SettingsViewInput: AnyObject {
     func deselectCell(_ indexPath: IndexPath)
     func reloadView()
+    func openMailView()
 }

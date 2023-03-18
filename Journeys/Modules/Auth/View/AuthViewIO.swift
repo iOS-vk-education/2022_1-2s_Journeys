@@ -19,10 +19,11 @@ protocol AuthViewInput: AnyObject {
 // MARK: - Auth ViewOutput
 
 protocol AuthViewOutput: AnyObject {
-    func getTitle() -> String
-    func getCellsCount() -> Int
-    func getCellsDisplaydata(for indexPath: IndexPath) -> AccountCell.Displaydata?
-    func getButtonName() -> String
+    func title() -> String
+    func displayData(for indexPath: IndexPath) -> AccountInfoCell.DisplayData?
+    func buttonName() -> String
+    
+    func numberOfRows(in section: Int) -> Int
     
     func didTapContinueButton()
     func didTapChangeScreenTypeButton()
