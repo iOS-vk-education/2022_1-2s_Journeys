@@ -58,6 +58,9 @@
 "NewPassword" = "Новый пароль";
 "FirstName" = "Имя";
 "LastName" = "Фамилия";
+"ConfirmPassword" = "Подствердите пароль";
+"ResetPassword" = "Сбросить пароль";
+"Continue" = "Продолжить";
 
 // MARK: Settings
 "Notifications" = "Уведомления";
@@ -80,3 +83,14 @@
 // MARK: Auth
 "Auth" = "Авторизация";
 "Registration" = "Регистрация";
+
+// MARK: Alerts
+"Alerts.Titles.Success" = "Успех";
+"Alerts.Messages.PasswordResetDone" = "Письмо для сброса пароля было направлено на указанный адрес электронной почты";
+"Alerts.Actions.Ok" = "Ок";
+"Alerts.Actions.Next" = "Далее";
+"Alerts.Actions.Delete" = "Удалить";
+"Alerts.Titles.DeleteAccount" = "Удалить аккаунт";
+"Alerts.Messages.DeleteAccount" = "Чтобы подтвердить удаление аккаунта, введите пароль";
+"Alerts.Messages.AccountWasDeleted" = "Аккаунт успешно удален";
+"Alerts.Messages.EnterYourPassword" = "Введите пароль";

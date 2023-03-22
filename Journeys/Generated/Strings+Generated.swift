@@ -28,6 +28,10 @@ public enum L10n {
   public static var blanckFields: String { return L10n.tr("Localizable", "BlanckFields") }
   /// Построить маршрут
   public static var buildRoute: String { return L10n.tr("Localizable", "BuildRoute") }
+  /// Подствердите пароль
+  public static var confirmPassword: String { return L10n.tr("Localizable", "ConfirmPassword") }
+  /// Продолжить
+  public static var `continue`: String { return L10n.tr("Localizable", "Continue") }
   /// Страна
   public static var country: String { return L10n.tr("Localizable", "Country") }
   /// Удалить
@@ -86,6 +90,8 @@ public enum L10n {
   public static var rateApp: String { return L10n.tr("Localizable", "RateApp") }
   /// Регистрация
   public static var registration: String { return L10n.tr("Localizable", "Registration") }
+  /// Сбросить пароль
+  public static var resetPassword: String { return L10n.tr("Localizable", "ResetPassword") }
   /// Маршрут
   public static var route: String { return L10n.tr("Localizable", "Route") }
   /// Сохранить
@@ -116,6 +122,33 @@ public enum L10n {
   public static var weather: String { return L10n.tr("Localizable", "Weather") }
   /// Чтобы включить уведомления, разрешите их для приложения Journeys в настройках устройства (Настройки → Journeys → Уведомления → Допуск уведомлений)
   public static var youNeetToTurnTheApplicationNotificationOn: String { return L10n.tr("Localizable", "YouNeetToTurnTheApplicationNotificationOn") }
+
+  public enum Alerts {
+    public enum Actions {
+      /// Удалить
+      public static var delete: String { return L10n.tr("Localizable", "Alerts.Actions.Delete") }
+      /// Далее
+      public static var next: String { return L10n.tr("Localizable", "Alerts.Actions.Next") }
+      /// Ок
+      public static var ok: String { return L10n.tr("Localizable", "Alerts.Actions.Ok") }
+    }
+    public enum Messages {
+      /// Аккаунт успешно удален
+      public static var accountWasDeleted: String { return L10n.tr("Localizable", "Alerts.Messages.AccountWasDeleted") }
+      /// Чтобы подтвердить удаление аккаунта, введите пароль
+      public static var deleteAccount: String { return L10n.tr("Localizable", "Alerts.Messages.DeleteAccount") }
+      /// Введите пароль
+      public static var enterYourPassword: String { return L10n.tr("Localizable", "Alerts.Messages.EnterYourPassword") }
+      /// Письмо для сброса пароля было направлено на указанный адрес электронной почты
+      public static var passwordResetDone: String { return L10n.tr("Localizable", "Alerts.Messages.PasswordResetDone") }
+    }
+    public enum Titles {
+      /// Удалить аккаунт
+      public static var deleteAccount: String { return L10n.tr("Localizable", "Alerts.Titles.DeleteAccount") }
+      /// Успех
+      public static var success: String { return L10n.tr("Localizable", "Alerts.Titles.Success") }
+    }
+  }
 
   public enum Message {
     /// Здравствуйте, 

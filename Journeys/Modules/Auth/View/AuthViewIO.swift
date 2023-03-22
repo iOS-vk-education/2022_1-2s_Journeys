@@ -6,19 +6,26 @@
 //
 
 import Foundation
+import UIKit
 
 
 // MARK: - Auth ViewInput
 
 protocol AuthViewInput: AnyObject {
-    func getCellsValues()
-    func showAlert(title: String, message: String)
+    func cellsValues()
+    func showAlert(title: String,
+                   message: String,
+                   textFieldPlaceholder: String?)
     func showTabbar()
+    func hideResetPasswordButton()
+    func showResetPasswordButton()
+    func reload()
 }
 
 // MARK: - Auth ViewOutput
 
 protocol AuthViewOutput: AnyObject {
+    func viewDidLoad()
     func title() -> String
     func displayData(for indexPath: IndexPath) -> AccountInfoCell.DisplayData?
     func buttonName() -> String
@@ -27,6 +34,9 @@ protocol AuthViewOutput: AnyObject {
     
     func didTapContinueButton()
     func didTapChangeScreenTypeButton()
+    func didTapResetPasswordButton()
     
-    func setCellsValues(email: String?, password: String?)
+    func emailForReset(_ email: String?)
+    
+    func authData(email: String?, password: String?, confirmPassword: String?)
 }

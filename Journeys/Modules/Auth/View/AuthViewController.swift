@@ -13,6 +13,12 @@ final class AuthViewController: ViewControllerWithDimBackground {
     
     // MARK: Private properties
     
+    private lazy var viewTitle: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 20, weight: .medium)
+        return label
+    }()
+    
     private lazy var tableView: UITableView = .init(frame: CGRect.zero, style: .insetGrouped)
     
     private lazy var continueButton: UIButton = {
@@ -33,6 +39,16 @@ final class AuthViewController: ViewControllerWithDimBackground {
         return button
     }()
     
+    private lazy var resetPasswordButton: UIButton = {
+        let button = UIButton()
+        button.tintColor = .none
+        button.setTitleColor(.red, for: .normal)
+        button.setTitle(L10n.resetPassword, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 12)
+        button.addTarget(self, action: #selector(didTapResetPasswordButton), for: .touchUpInside)
+        return button
+    }()
+    
     // MARK: Public properties
     
     var output: AuthViewOutput?
@@ -41,21 +57,31 @@ final class AuthViewController: ViewControllerWithDimBackground {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        output?.viewDidLoad()
         tabBarController?.tabBar.items?.forEach { $0.isEnabled = false }
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
-        title = output?.title()
+        addSubViews()
         setupView()
     }
     
-    private func setupView() {
+    // MARK: Private properties
+    private func addSubViews() {
+        view.addSubview(viewTitle)
+        view.addSubview(tableView)
         view.addSubview(continueButton)
         view.addSubview(changeScreenTypeButton)
+        view.addSubview(resetPasswordButton)
+    }
+    
+    private func setupView() {
+        viewTitle.text = output?.title()
+        viewTitle.textAlignment = .center
+        viewTitle.textColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
         
-        navigationItem.setHidesBackButton(true, animated: false)
         changeScreenTypeButton.setTitle(output?.buttonName(), for: .normal)
         
         setupTableView()
@@ -63,13 +89,18 @@ final class AuthViewController: ViewControllerWithDimBackground {
     }
     
     private func setupTableView() {
-        view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
 
+        tableView.isScrollEnabled = false
         tableView.allowsSelection = false
         tableView.backgroundColor = backgroundView.backgroundColor
         tableView.separatorColor = tableView.backgroundColor
+        tableView.sectionFooterHeight = 0
+        tableView.sectionHeaderHeight = 0
+        var frame = CGRect.zero
+        frame.size.height = .leastNormalMagnitude
+        tableView.tableHeaderView = UIView(frame: frame)
         registerCell()
     }
     
@@ -78,26 +109,54 @@ final class AuthViewController: ViewControllerWithDimBackground {
     }
 
     private func makeConstraints() {
+        
+        viewTitle.snp.makeConstraints { make in
+            make.bottom.equalTo(tableView.snp.top).offset(-Constants.Title.bottomIndent)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(Constants.Title.height)
+            make.width.equalToSuperview()
+        }
+        
+        var tableViewHeight: CGFloat = tableView.tableHeaderView?.frame.height ?? 0
+        for section in 0..<tableView.numberOfSections {
+            tableViewHeight += CGFloat(tableView.numberOfRows(inSection: section)) * Constants.Cells.height
+        }
         tableView.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.height.equalTo(150)
+            make.centerY.equalToSuperview().offset(Constants.TableView.verticalIndent)
+            make.height.equalTo(tableViewHeight)
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
         }
         
+        resetPasswordButton.snp.makeConstraints { make in
+            make.trailing.equalTo(tableView.snp.trailing)
+            make.width.equalTo(Constants.ResetPasswordButton.width)
+            make.top.equalTo(tableView.snp.bottom).offset(Constants.ResetPasswordButton.topIndent)
+            make.height.equalTo(Constants.ResetPasswordButton.height)
+        }
+        
         continueButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(20)
-            make.trailing.equalToSuperview().inset(20)
-            make.top.equalTo(tableView.snp.bottom).offset(10)
-            make.height.equalTo(50)
+            make.leading.equalToSuperview().inset(Constants.ContinueButton.horisontalIndent)
+            make.trailing.equalToSuperview().inset(Constants.ContinueButton.horisontalIndent)
+            make.top.equalTo(tableView.snp.bottom).offset(Constants.ContinueButton.topIndent)
+            make.height.equalTo(Constants.ContinueButton.height)
         }
         
         changeScreenTypeButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.width.equalTo(120)
-            make.top.equalTo(continueButton.snp.bottom).offset(30)
-            make.height.equalTo(30)
+            make.width.equalTo(Constants.ChangeModuleTypeButton.width)
+            make.top.equalTo(continueButton.snp.bottom).offset(Constants.ChangeModuleTypeButton.topIndent)
+            make.height.equalTo(Constants.ChangeModuleTypeButton.height)
         }
+    }
+    
+    
+    private func prepareForReload() {
+        viewTitle.snp.removeConstraints()
+        tableView.snp.removeConstraints()
+        continueButton.snp.removeConstraints()
+        changeScreenTypeButton.snp.removeConstraints()
+        resetPasswordButton.snp.removeConstraints()
     }
     
     @objc func dismissKeyboard() {
@@ -112,6 +171,11 @@ final class AuthViewController: ViewControllerWithDimBackground {
     @objc
     private func didTapChangeScreenTypeButton() {
         output?.didTapChangeScreenTypeButton()
+    }
+    
+    @objc
+    private func didTapResetPasswordButton() {
+        output?.didTapResetPasswordButton()
     }
 }
 
@@ -152,33 +216,91 @@ extension AuthViewController: UITableViewDataSource {
 }
 
 extension AuthViewController: AuthViewInput {
+    func reload() {
+        DispatchQueue.main.async { [weak self] in
+            self?.prepareForReload()
+            self?.output?.viewDidLoad()
+            self?.tableView.reloadData()
+            self?.setupView()
+        }
+    }
+    
+    func hideResetPasswordButton() {
+        resetPasswordButton.isHidden = true
+    }
+    
+    func showResetPasswordButton() {
+        resetPasswordButton.isHidden = false
+    }
+    
     func showTabbar() {
         tabBarController?.tabBar.items?.forEach { $0.isEnabled = true }
     }
     
-    func showAlert(title: String, message: String) {
+    func showAlert(title: String,
+                   message: String,
+                   textFieldPlaceholder: String? = nil) {
         let alert = UIAlertController(title: title,
                                       message: message,
                                       preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ок", style: .default))
+        if let textFieldPlaceholder {
+            alert.addTextField { (textField) in
+                textField.placeholder = textFieldPlaceholder
+            }
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            alert.addAction(UIAlertAction(title: "Next", style: .default){ [weak self, weak alert] (_) in
+                guard let textField = alert?.textFields?[0],
+                      let self else { return }
+                self.output?.emailForReset(textField.text)
+            })
+        } else {
+            alert.addAction(UIAlertAction(title: "Ok", style: .default))
+        }
         present(alert, animated: true)
     }
     
-    func getCellsValues() {
-        guard let emailCell = tableView.cellForRow(at: IndexPath(item: 0, section: 0)) as? AccountInfoCell
+    func cellsValues() {
+        guard let newEmailCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? AccountInfoCell
         else { return }
-        guard let passwordCell = tableView.cellForRow(at: IndexPath(item: 1, section: 0)) as? AccountInfoCell
+        guard let passwordCell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? AccountInfoCell
         else { return }
-        output?.setCellsValues(email: emailCell.getTextFieldValue(), password: passwordCell.getTextFieldValue())
+        let confirmPasswordCell = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? AccountInfoCell
+        output?.authData(email: newEmailCell.getTextFieldValue(),
+                         password: passwordCell.getTextFieldValue(),
+                         confirmPassword: confirmPasswordCell?.getTextFieldValue())
     }
 }
 private extension AuthViewController {
     enum Constants {
-        static let backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
-        static let tableViewHorizontalInsets: CGFloat = 20
+        enum Title {
+            static let bottomIndent: CGFloat = 30
+            static let height: CGFloat = 30
+        }
+        
+        enum TableView {
+            static let horizontalInsets: CGFloat = 20
+            static let verticalIndent: CGFloat = -50
+            static let height: CGFloat = 225
+        }
         enum Cells {
             static let cornerRadius: CGFloat = 15
             static let height: CGFloat = 52
+        }
+        
+        enum ContinueButton {
+            static let horisontalIndent: CGFloat = TableView.horizontalInsets
+            static let topIndent: CGFloat = 30
+            static let height: CGFloat = 50
+        }
+        enum ChangeModuleTypeButton {
+            static let topIndent: CGFloat = 30
+            static let width: CGFloat = 180
+            static let height: CGFloat = 30
+        }
+        enum ResetPasswordButton {
+            static let topIndent: CGFloat = 5
+            static let width: CGFloat = 180
+            static let height: CGFloat = 20
         }
     }
 }

@@ -34,12 +34,14 @@ final class AccountInfoCell: UITableViewCell {
             case email
             case pasword
             case newPassword
+            case confirmPassword
             
             var placeholder: String {
                 switch self {
                 case .email: return  L10n.email
                 case .pasword: return L10n.password
                 case .newPassword: return L10n.newPassword
+                case .confirmPassword: return L10n.confirmPassword
                 default: return ""
                 }
             }

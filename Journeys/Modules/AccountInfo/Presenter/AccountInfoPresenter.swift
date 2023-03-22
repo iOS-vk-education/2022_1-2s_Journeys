@@ -29,13 +29,13 @@ final class AccountInfoPresenter {
     weak var moduleOutout: AccountInfoModuleOutput?
     
     private var userData: User?
-
+    
     private func showLoadingView() {
-        moduleOutout?.showLoadingView()
+        view?.showLoadingView()
     }
     
     private func hideLoadingView() {
-        moduleOutout?.hideLoadingView()
+        view?.hideLoadingView()
     }
 }
 
@@ -62,11 +62,12 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
     
     func didTapExitButton() {
         model?.signOut()
-        moduleOutout?.logout()
     }
     
     func didTapDeleteAccountButton() {
-        print("Delete acc")
+        view?.showAlert(title: L10n.Alerts.Titles.deleteAccount,
+                        message: L10n.Alerts.Messages.deleteAccount,
+                        textFieldPlaceholder: L10n.Alerts.Messages.enterYourPassword)
     }
     
     func displayData(for indexPath: IndexPath) -> AccountInfoCell.DisplayData? {
@@ -105,11 +106,15 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
 
     func setCellsValues(newEmail: String?, password: String?, newPassword: String?) {
         guard let email = userData?.email else {
-            view?.showAlert(title: "Ошибка", message: "Возникли проблемы с вашим Email адресом, перезайдите в аккаунт")
+            view?.showAlert(title: "Ошибка",
+                            message: "Возникли проблемы с вашим Email адресом, перезайдите в аккаунт",
+                            textFieldPlaceholder: nil)
             return
         }
         guard let password else {
-            view?.showAlert(title: "Ошибка", message: "Введите текущий пароль для смены данных")
+            view?.showAlert(title: "Ошибка",
+                            message: "Введите текущий пароль для смены данных",
+                            textFieldPlaceholder: nil)
             return
         }
         if let newEmail {
@@ -131,7 +136,19 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
             showLoadingView()
             return
         }
-        view?.showAlert(title: "Ошибка", message: "Заполните поля для изменения данных")
+        view?.showAlert(title: "Ошибка",
+                        message: "Заполните поля для изменения данных",
+                        textFieldPlaceholder: nil)
+    }
+    
+    func deleteAccount(with passwordApprove: String?) {
+        guard let passwordApprove else {
+            view?.showAlert(title: "Enter your password",
+                            message: "Account was not deleted, pleace try again",
+                            textFieldPlaceholder: nil)
+            return
+        }
+        model?.deleteAccount(with: passwordApprove)
     }
 }
 
@@ -143,11 +160,22 @@ extension AccountInfoPresenter: AccountInfoModelOutput {
     
     func didRecieveError(error: Error) {
         hideLoadingView()
-        view?.showAlert(title: "Error", message: error.localizedDescription)
+        view?.showAlert(title: "Error",
+                        message: error.localizedDescription,
+                        textFieldPlaceholder: nil)
     }
     
     func saveSuccesfull() {
         hideLoadingView()
-        view?.showAlert(title: "Данные сохранены", message: "Данные успешно сохранены")
+        view?.showAlert(title: "Данные сохранены",
+                        message: "Данные успешно сохранены",
+                        textFieldPlaceholder: nil)
     }
+    
+    func deleteSuccesfull() {
+        view?.showAlert(title:  L10n.Alerts.Titles.success,
+                        message: L10n.Alerts.Messages.accountWasDeleted,
+                        textFieldPlaceholder: nil)
+    }
+    
 }

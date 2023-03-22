@@ -40,6 +40,8 @@ final class AccountInfoViewController: ViewControllerWithDimBackground {
         return button
     }()
     
+    private let loadingView = LoadingView()
+    
     // MARK: public properties
     
     var output: AccountInfoViewOutput?
@@ -52,6 +54,14 @@ final class AccountInfoViewController: ViewControllerWithDimBackground {
         title = L10n.accountInfo
         setupView()
     }
+    
+    // MARK: Public functions
+    
+    func reload() {
+        output?.viewDidLoad()
+    }
+    
+    // MARK: Private properties
     
     private func setupView() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
@@ -83,6 +93,13 @@ final class AccountInfoViewController: ViewControllerWithDimBackground {
         tableView.allowsSelection = false
         tableView.backgroundColor = backgroundView.backgroundColor
         tableView.separatorColor = tableView.backgroundColor
+        tableView.isScrollEnabled = false
+        tableView.sectionFooterHeight = 0
+        tableView.sectionHeaderHeight = Constants.TableView.sectionHeaderHeight
+        
+        var frame = CGRect.zero
+        frame.size.height = .leastNormalMagnitude
+        tableView.tableHeaderView = UIView(frame: frame)
         registerCell()
     }
     
@@ -96,32 +113,37 @@ final class AccountInfoViewController: ViewControllerWithDimBackground {
         view.addSubview(exitButton)
         view.addSubview(deleteAccountButton)
         
+        var tableViewHeight: CGFloat = tableView.tableHeaderView?.frame.height ?? 0
+        for section in 0..<tableView.numberOfSections {
+            tableViewHeight += CGFloat(tableView.numberOfRows(inSection: section)) * Constants.Cells.height
+            tableViewHeight += Constants.TableView.sectionHeaderHeight
+        }
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(Constants.TableView.topInset)
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
-            make.height.equalTo(380)
+            make.height.equalTo(tableViewHeight)
         }
         
         exitButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.width.equalTo(120)
-            make.top.equalTo(tableView.snp.bottom).offset(30)
-            make.height.equalTo(30)
+            make.top.equalTo(tableView.snp.bottom).offset(Constants.ExitButton.topOffsetFromTableView)
+            make.width.equalTo(Constants.ExitButton.width)
+            make.height.equalTo(Constants.ExitButton.height)
         }
         
         deleteAccountButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.width.equalTo(200)
-            make.top.equalTo(exitButton.snp.bottom).offset(20)
-            make.height.equalTo(30)
+            make.top.equalTo(exitButton.snp.bottom).offset(Constants.DeleteAccountButton.topOffsetFromTableView)
+            make.width.equalTo(Constants.DeleteAccountButton.width)
+            make.height.equalTo(Constants.DeleteAccountButton.height)
         }
         
         saveFloatingButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.width.equalToSuperview().inset(Constants.tableViewHorizontalInsets)
-            make.bottom.equalToSuperview().inset(20)
-            make.height.equalTo(40)
+            make.bottom.equalToSuperview().inset(Constants.SaveFloatingaButton.bottonInset)
+            make.width.equalToSuperview().inset(Constants.SaveFloatingaButton.horisontslInsets)
+            make.height.equalTo(Constants.SaveFloatingaButton.height)
         }
     }
     
@@ -158,6 +180,7 @@ extension AccountInfoViewController: UITableViewDelegate {
 }
 
 extension AccountInfoViewController: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         output?.header(for: section)
     }
@@ -198,11 +221,26 @@ extension AccountInfoViewController: AccountInfoViewInput {
         }
     }
     
-    func showAlert(title: String, message: String) {
+    func showAlert(title: String,
+                   message: String,
+                   textFieldPlaceholder: String?) {
         let alert = UIAlertController(title: title,
                                       message: message,
                                       preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ок", style: .default))
+        if let textFieldPlaceholder {
+            alert.addTextField { (textField) in
+                textField.placeholder = textFieldPlaceholder
+                textField.isSecureTextEntry = true
+            }
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            alert.addAction(UIAlertAction(title: "Delete", style: .destructive){ [weak self, weak alert] (_) in
+                guard let textField = alert?.textFields?[0],
+                      let self else { return }
+                self.output?.deleteAccount(with: textField.text ?? "")
+            })
+        } else {
+            alert.addAction(UIAlertAction(title: "Ok", style: .default))
+        }
         present(alert, animated: true)
     }
     
@@ -217,15 +255,52 @@ extension AccountInfoViewController: AccountInfoViewInput {
                                password: passwordCell.getTextFieldValue(),
                                newPassword: newPasswordCell.getTextFieldValue())
     }
+    
+    func showLoadingView() {
+        view.addSubview(loadingView)
+        loadingView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+        }
+        view.bringSubviewToFront(loadingView)
+    }
+    
+    func hideLoadingView() {
+        DispatchQueue.main.async { [weak self] in
+            self?.loadingView.removeFromSuperview()
+        }
+    }
 }
 
 private extension AccountInfoViewController {
     enum Constants {
         static let backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
-        static let tableViewHorizontalInsets: CGFloat = 20
+        enum TableView {
+            static let horizontalInsets: CGFloat = 20
+            static let sectionHeaderHeight: CGFloat = 50
+            static let topInset: CGFloat = 10
+        }
         enum Cells {
             static let cornerRadius: CGFloat = 15
             static let height: CGFloat = 52
+        }
+        
+        enum ExitButton {
+            static let topOffsetFromTableView: CGFloat = 20
+            static let width: CGFloat = 120
+            static let height: CGFloat = 30
+        }
+        enum DeleteAccountButton {
+            static let topOffsetFromTableView: CGFloat = 30
+            static let width: CGFloat = 200
+            static let height: CGFloat = 30
+        }
+        enum SaveFloatingaButton {
+            static let bottonInset: CGFloat = 20
+            static let horisontslInsets: CGFloat = TableView.horizontalInsets * 2
+            static let height: CGFloat = 40
         }
     }
 }

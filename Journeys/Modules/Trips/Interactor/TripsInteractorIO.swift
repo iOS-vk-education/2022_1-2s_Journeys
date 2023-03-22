@@ -20,7 +20,7 @@ protocol TripsInteractorInput: AnyObject {
     
     func storeTripData(trip: Trip, completion: @escaping () -> Void)
     
-    func deleteTrip(_ trip: Trip)
+    func deleteTrip(_ trip: TripWithRouteAndImage)
 }
 
 // MARK: - TripsInteractorOutput

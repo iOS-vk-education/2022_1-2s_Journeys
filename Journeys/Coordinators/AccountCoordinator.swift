@@ -19,12 +19,16 @@ final class AccountCoordinator: CoordinatorProtocol {
     private var navigationController = UINavigationController()
     private let tabBarItemFactory: TabBarItemFactoryProtocol
     private let firebaseService: FirebaseServiceProtocol
+    private var appCoordinator: AppCoordinatorProtocol
     
     // MARK: Lifecycle
 
-    init(rootTabBarController: UITabBarController, firebaseService: FirebaseServiceProtocol) {
+    init(rootTabBarController: UITabBarController,
+         firebaseService: FirebaseServiceProtocol,
+         appCoordinator: AppCoordinatorProtocol) {
         self.rootTabBarController = rootTabBarController
         self.firebaseService = firebaseService
+        self.appCoordinator = appCoordinator
         tabBarItemFactory = TabBarItemFactory()
     }
 
@@ -32,6 +36,8 @@ final class AccountCoordinator: CoordinatorProtocol {
 
     // TODO: start
     func start() {
+        authListener()
+        
         let builder = AccountModuleBuilder()
         let accountViewController = builder.build(firebaseService: firebaseService, moduleOutput: self)
 
@@ -50,6 +56,19 @@ final class AccountCoordinator: CoordinatorProtocol {
 
     // TODO: finish
     func finish() {
+    }
+    
+    private func authListener() {
+        Auth.auth().addIDTokenDidChangeListener { (auth, user) in
+            if user == nil {
+                let builder = AuthModuleBuilder()
+                let viewController = builder.build(moduleType: .auth,
+                                                   output: self,
+                                                   firebaseService: self.firebaseService)
+                viewController.isModalInPresentation = true
+                self.navigationController.present(viewController, animated: true)
+            }
+        }
     }
 }
 
@@ -96,57 +115,14 @@ extension AccountCoordinator: AccountInfoModuleOutput {
     func accountInfoModuleWantToBeClosed() {
         self.navigationController.popViewController(animated: true)
     }
-    
-    func logout() {
-        Auth.auth().addIDTokenDidChangeListener { (auth, user) in
-            if user == nil {
-                let builder = AuthModuleBuilder()
-                let viewController = builder.build(moduleType: .auth,
-                                                   output: self,
-                                                   firebaseService: self.firebaseService)
-                self.navigationController.setViewControllers([viewController], animated: false)
-            }
-        }
-    }
-    
-    func hideLoadingView() {
-        DispatchQueue.main.async { [weak self] in
-            self?.navigationController.dismiss(animated: true)
-        }
-    }
-    
-    func showLoadingView() {
-        let loadingVC = LoadingViewController()
-        loadingVC.modalPresentationStyle = .overCurrentContext
-        loadingVC.modalTransitionStyle = .crossDissolve
-               
-        navigationController.present(loadingVC, animated: true)
-    }
 }
 
 extension AccountCoordinator: AuthModuleOutput {
-    func authModuleWantsToChangeModulenType(currentType: AuthPresenter.ModuleType) {
-        let builder = AuthModuleBuilder()
-        var authViewController: UIViewController
-        switch currentType {
-        case .auth:
-            authViewController = builder.build(moduleType: .registration,
-                                               output: self,
-                                               firebaseService: firebaseService)
-        case .registration:
-            authViewController = builder.build(moduleType: .auth,
-                                               output: self,
-                                               firebaseService: firebaseService)
-        }
-        
-        navigationController.popViewController(animated: false)
-        navigationController.setViewControllers([authViewController], animated: true)
-    }
     
-    func authModuleWantsToOpenTripsModule() {
-        let builder = AccountInfoModuleBuilder()
-        let accountInfoViewController = builder.build(output: self, firebaseService: firebaseService)
-
-        navigationController.setViewControllers([accountInfoViewController], animated: false)
+    func authModuleWantsToBeClosed() {
+        navigationController.dismiss(animated: true)
+        guard let accountInfoView = navigationController.viewControllers.last as? AccountInfoViewController
+        else { return }
+        accountInfoView.reload()
     }
 }

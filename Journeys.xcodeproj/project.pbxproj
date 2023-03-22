@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		093861F1C840A5A7EA2ABBB0 /* TripsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551FBB3C3A6EBAA3F5825F1E /* TripsViewController.swift */; };
 		0D122BF4678B9ACCF7152904 /* StuffModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E74D8C9B14C64D7AAB903E4C /* StuffModel.swift */; };
 		0D551CEF2951738A00A4151E /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D551CEE2951738A00A4151E /* Place.swift */; };
 		0D551CF12951739C00A4151E /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D551CF02951739C00A4151E /* Trip.swift */; };
@@ -191,6 +190,7 @@
 		EEFA76DB292C5E7E00A0B8CA /* CalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76DA292C5E7E00A0B8CA /* CalendarCell.swift */; };
 		EEFA76EE292D2A4E00A0B8CA /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76ED292D2A4E00A0B8CA /* UINavigationController.swift */; };
 		EEFA76F32935F53A00A0B8CA /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76F22935F53A00A0B8CA /* FirebaseManager.swift */; };
+		EEFF30EC29CA0D5800D9F907 /* TripsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFF30EB29CA0D5800D9F907 /* TripsViewController.swift */; };
 		EFC46B44DC715D0AB5B01639 /* PlaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F037949A48EAF01CF6644F /* PlaceModel.swift */; };
 		F85D180AC31F83D70AABFF62 /* PlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8185A5807AF85BC79DA25C /* PlaceViewController.swift */; };
 		F92CACD193BE48A33A52A5DC /* TripsRouterInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABAFF6132B4BF34FF1262AA /* TripsRouterInput.swift */; };
@@ -213,7 +213,6 @@
 		5253B8F56E3A045DA66C8792 /* AuthViewIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AuthViewIO.swift; sourceTree = "<group>"; };
 		5363B31E1ED6703B3D86E86D /* StuffViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StuffViewController.swift; sourceTree = "<group>"; };
 		53804FD41C66428E14ED39A0 /* StuffViewIO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StuffViewIO.swift; sourceTree = "<group>"; };
-		551FBB3C3A6EBAA3F5825F1E /* TripsViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsViewController.swift; sourceTree = "<group>"; };
 		576394A4C2AE62D504A2F0DC /* AuthModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
 		5BA436A4B3FCE02A38140270 /* AccountPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountPresenter.swift; sourceTree = "<group>"; };
 		5DCF52A88CB7F707C1A6390B /* TripInfoViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripInfoViewController.swift; sourceTree = "<group>"; };
@@ -387,6 +386,7 @@
 		EEFA76DA292C5E7E00A0B8CA /* CalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCell.swift; sourceTree = "<group>"; };
 		EEFA76ED292D2A4E00A0B8CA /* UINavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
 		EEFA76F22935F53A00A0B8CA /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
+		EEFF30EB29CA0D5800D9F907 /* TripsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TripsViewController.swift; sourceTree = "<group>"; };
 		F4A76FCB7DE71B4D0835960C /* PlaceBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlaceBuilder.swift; sourceTree = "<group>"; };
 		FABAFF6132B4BF34FF1262AA /* TripsRouterInput.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsRouterInput.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -538,8 +538,8 @@
 		7CB85C2A924F631A5E5F14EA /* View */ = {
 			isa = PBXGroup;
 			children = (
+				EEFF30EB29CA0D5800D9F907 /* TripsViewController.swift */,
 				196CCEF28890034F45E73055 /* TripsViewIO.swift */,
-				551FBB3C3A6EBAA3F5825F1E /* TripsViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1490,7 +1490,6 @@
 				EEA76C5F2951325E00250B06 /* PlacesInfoModuleIO.swift in Sources */,
 				91819FAFB33A7ABB47EAB8B0 /* TripsViewIO.swift in Sources */,
 				EE02E53B294FFA5C002BE87E /* StuffDisplayData.swift in Sources */,
-				093861F1C840A5A7EA2ABBB0 /* TripsViewController.swift in Sources */,
 				EED2A75E294FB874003A9A1A /* StuffCell.swift in Sources */,
 				EEA76C692951325E00250B06 /* PlacesInfoViewController.swift in Sources */,
 				EEA76C612951325E00250B06 /* WeatherCollectionHeader.swift in Sources */,
@@ -1499,13 +1498,13 @@
 				EEFA76D1292BEAAC00A0B8CA /* UITextField.swift in Sources */,
 				91819FAFB33A7ABB47EAB8B0 /* TripsViewIO.swift in Sources */,
 				EEFA76CB292BE88F00A0B8CA /* RouteViewIO.swift in Sources */,
-				093861F1C840A5A7EA2ABBB0 /* TripsViewController.swift in Sources */,
 				EEFA76CF292BE93500A0B8CA /* RouteCell.swift in Sources */,
 				EE910DD5295A28AA0094F5C8 /* WeatherPlaceNoDataPlaceholder.swift in Sources */,
 				EE30C7262943E89200A9DCF6 /* FirebaseServiceDataObtain.swift in Sources */,
 				C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */,
 				EEAC1D35295271E400237331 /* Coordinates.swift in Sources */,
 				EE7819B5295A8629008F607E /* PlaceholderDisplayData.swift in Sources */,
+				EEFF30EC29CA0D5800D9F907 /* TripsViewController.swift in Sources */,
 				EEF01CB029C5C20400A63519 /* ViewControllerWithDimBackground.swift in Sources */,
 				EEA76C622951325E00250B06 /* WeatherCell.swift in Sources */,
 				EE2B4126291413EC0067BE4F /* TripCell.swift in Sources */,

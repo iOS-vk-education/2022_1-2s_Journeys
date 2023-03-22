@@ -14,12 +14,26 @@ final class AuthPresenter {
     enum ModuleType {
         case auth
         case registration
+        
+        var stringValue: String {
+            switch self {
+            case .auth: return  L10n.auth
+            case .registration: return L10n.registration
+            }
+        }
+        
+        var otherModule: String {
+            switch self {
+            case .auth: return  L10n.registration
+            case .registration: return L10n.auth
+            }
+        }
     }
     
     // MARK: - Public Properties
 
     weak var view: AuthViewInput?
-    var model: AuthModelInput!
+    var model: AuthModelInput?
     weak var moduleOutput: AuthModuleOutput!
     
     private var moduleType: ModuleType
@@ -34,72 +48,106 @@ extension AuthPresenter: AuthModuleInput {
 
 extension AuthPresenter: AuthViewOutput {
     
-    func title() -> String {
-        switch moduleType {
-        case .auth:
-            return L10n.auth
-        case .registration:
-            return L10n.registration
+    func viewDidLoad() {
+        if moduleType == .registration {
+            view?.hideResetPasswordButton()
+        } else {
+            view?.showResetPasswordButton()
         }
+    }
+    
+    func title() -> String {
+        moduleType.stringValue
     }
     
     func buttonName() -> String {
-        switch moduleType {
-        case .auth:
-            return L10n.registration
-        case .registration:
-            return L10n.auth
-        }
+        moduleType.otherModule
     }
     
     func numberOfRows(in section: Int) -> Int {
-        return 2
+        switch moduleType {
+        case .registration: return AccountInfoCell.CellType.LoginInfo.allCases.count - 1
+        case .auth: return AccountInfoCell.CellType.LoginInfo.allCases.count - 2
+        }
     }
     
-    func setCellsValues(email: String?, password: String?) {
+    func authData(email: String?, password: String?, confirmPassword: String? = nil) {
+        if moduleType == .registration {
+            guard password == confirmPassword else {
+                view?.showAlert(title: "Ошибка", message: "Пароли не совпадают", textFieldPlaceholder: nil)
+                return
+            }
+        }
         guard let email,
               let password else {
-            switch moduleType {
-            case .auth:
-                view?.showAlert(title: "Ошибка", message: "Заполните все поля для авторизации!")
-            case .registration:
-                view?.showAlert(title: "Ошибка", message: "Заполните все поля для регистрации")
-            }
+            view?.showAlert(title: "Ошибка",
+                            message: "Заполните все поля для авторизации",
+                            textFieldPlaceholder: nil)
             return
         }
         switch moduleType {
         case .auth:
-            model.login(email: email, password: password)
+            model?.login(email: email, password: password)
         case .registration:
-            model.createAccount(email: email, password: password)
+            model?.createAccount(email: email, password: password)
         }
     }
     
     func displayData(for indexPath: IndexPath) -> AccountInfoCell.DisplayData? {
-        if indexPath.row == 0 {
-            return AccountInfoCell.DisplayData(text: nil, placeHolder: "Email", keyboardType: .emailAddress, secure: false)
-        } else if indexPath.row == 1 {
-            return AccountInfoCell.DisplayData(text: nil, placeHolder: "Пароль", keyboardType: .default, secure: true)
+        //skip newPassword cell
+        let row = indexPath.row == 2 ? 3 : indexPath.row
+        guard AccountInfoCell.CellType.LoginInfo.allCases.indices.contains(row) else { return nil }
+        let cellType = AccountInfoCell.CellType.LoginInfo.allCases[row]
+        let displayDataFactory = AccountInfoCellDisplayDataFactory()
+        if cellType == .email {
+            return displayDataFactory.loginInfoDisplayData(for: cellType)
         }
-        return nil
+        return displayDataFactory.loginInfoDisplayData(for: cellType)
     }
     
     func didTapContinueButton() {
-        view?.getCellsValues()
+        view?.cellsValues()
     }
     
     func didTapChangeScreenTypeButton() {
-        moduleOutput.authModuleWantsToChangeModulenType(currentType: moduleType)
+        switch moduleType {
+        case .auth: moduleType = .registration
+        case .registration: moduleType = .auth
+        }
+        view?.reload()
+    }
+    
+    func didTapResetPasswordButton() {
+        view?.showAlert(title: "Reset",
+                        message: "Enter your email",
+                        textFieldPlaceholder: "Enter email")
+    }
+    
+    func emailForReset(_ email: String?) {
+        guard let email else {
+            view?.showAlert(title: "Ошибка",
+                            message: "Email не заполнен",
+                            textFieldPlaceholder: nil)
+            return
+        }
+        model?.resetPassword(for: email)
+        
     }
 }
 
 extension AuthPresenter: AuthModelOutput {
     func didRecieveError(error: Error) {
-        view?.showAlert(title: "Error", message: "\(error.localizedDescription)")
+        view?.showAlert(title: "Error", message: "\(error.localizedDescription)", textFieldPlaceholder: nil)
     }
     
     func authSuccesfull() {
         view?.showTabbar()
-        moduleOutput.authModuleWantsToOpenTripsModule()
+        moduleOutput.authModuleWantsToBeClosed()
+    }
+    
+    func resetSuccesfull(for email: String) {
+        view?.showAlert(title: L10n.Alerts.Titles.success,
+                        message: "\(L10n.Alerts.Messages.passwordResetDone) (\(email))",
+                        textFieldPlaceholder: nil)
     }
 }

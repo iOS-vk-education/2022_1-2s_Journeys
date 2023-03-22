@@ -19,9 +19,9 @@ final class AccountInfoCellDisplayDataFactory {
         case .email:
             return AccountInfoCell.DisplayData(text: value,
                                                placeHolder: type.placeholder,
-                                               keyboardType: .default,
+                                               keyboardType: .emailAddress,
                                                secure: false)
-        case .pasword, .newPassword:
+        case .pasword, .newPassword, .confirmPassword:
             return AccountInfoCell.DisplayData(text: value,
                                                placeHolder: type.placeholder,
                                                keyboardType: .default,

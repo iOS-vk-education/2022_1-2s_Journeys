@@ -15,9 +15,14 @@ final class AccountInfoModel {
     init(firebaseService: FirebaseServiceProtocol) {
         self.firebaseService = firebaseService
     }
+    
+    private func deleteAccountRelatedInfo(completion: @escaping (Error?) -> Void) {
+        firebaseService.deleteAccountRelatedData(completion: completion)
+    }
 }
 
 extension AccountInfoModel: AccountInfoModelInput {
+    
     func getUserData() {
         guard let userData = firebaseService.obtainUserData() else { return }
         output.didObtainUserData(data: userData)
@@ -124,4 +129,14 @@ extension AccountInfoModel: AccountInfoModelInput {
         }
     }
     
+    func deleteAccount(with password: String) {
+        firebaseService.deleteAccount(with: password) { [weak self] error in
+            guard let error else {
+                self?.output.deleteSuccesfull()
+                return
+            }
+            self?.output.didRecieveError(error: error)
+        }
+    }
 }
+

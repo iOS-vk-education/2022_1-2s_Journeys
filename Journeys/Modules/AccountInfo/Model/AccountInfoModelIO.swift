@@ -13,10 +13,12 @@ protocol AccountInfoModelInput: AnyObject {
     func saveEmailAndPassword(email: String, newEmail: String, password: String, newPassword: String)
     func signOut()
     func getUserData()
+    func deleteAccount(with password: String)
 }
 
 protocol AccountInfoModelOutput: AnyObject {
     func didObtainUserData(data: User)
     func didRecieveError(error: Error)
     func saveSuccesfull()
+    func deleteSuccesfull()
 }

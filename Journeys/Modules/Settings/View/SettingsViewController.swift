@@ -185,6 +185,7 @@ extension SettingsViewController: SettingsViewInput {
             UIApplication.shared.open(emailUrl)
         }
     }
+    
     private func createEmailUrl(to: String, subject: String, body: String) -> URL? {
         let subjectEncoded = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         let bodyEncoded = body.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!

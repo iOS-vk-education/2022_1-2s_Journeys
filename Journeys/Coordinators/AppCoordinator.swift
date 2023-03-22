@@ -6,6 +6,7 @@
 //
 import Foundation
 import UIKit
+import FirebaseAuth
 
 class AppCoordinator: NSObject, AppCoordinatorProtocol {
 
@@ -26,8 +27,6 @@ class AppCoordinator: NSObject, AppCoordinatorProtocol {
 
     func start() {
         tabBarController.delegate = self
-        
-        // TODO: Add color
         tabBarController.tabBar.tintColor = UIColor(asset: Asset.Colors.Icons.iconsColor)
         TabBarPage.allCases.forEach {
             getTabController($0)
@@ -70,7 +69,8 @@ class AppCoordinator: NSObject, AppCoordinatorProtocol {
 
         case .account:
             let accountCoordinator = AccountCoordinator(rootTabBarController: tabBarController,
-                                                        firebaseService: firebaseService)
+                                                        firebaseService: firebaseService,
+                                                        appCoordinator: self)
             accountCoordinator.start()
             childCoordinators.append(accountCoordinator)
             accountCoordinatorInput = accountCoordinator

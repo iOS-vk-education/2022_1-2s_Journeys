@@ -194,7 +194,7 @@ extension TripsPresenter: TripsViewOutput {
             return
         }
         cellToDeleteIndexPath = cellIndexPath
-        interactor.deleteTrip(Trip(tripWithOtherData: tripsData[cellIndexPath.row]))
+        interactor.deleteTrip(tripsData[cellIndexPath.row])
     }
     
     func didTapBackBarButton() {

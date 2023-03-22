@@ -13,8 +13,5 @@ protocol AccountInfoModuleInput: AnyObject {
 // MARK: - Account ModuleOutput
 
 protocol AccountInfoModuleOutput: AnyObject {
-    func showLoadingView()
-    func hideLoadingView()
-    func logout()
     func accountInfoModuleWantToBeClosed()
 }
