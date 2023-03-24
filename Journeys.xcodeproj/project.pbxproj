@@ -66,7 +66,6 @@
 		CE7F42DB295B34E8000CBA63 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE7F42DA295B34E7000CBA63 /* GoogleService-Info.plist */; };
 		D2F0BC3358339956DDE22244 /* StuffViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5363B31E1ED6703B3D86E86D /* StuffViewController.swift */; };
 		D3B3547A919CA12361A3822A /* TripInfoModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902CF0A08A2306F0D3CE65D9 /* TripInfoModuleIO.swift */; };
-		EE00ABFE2953B2AE00FAFDCD /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE00ABFD2953B2AE00FAFDCD /* UILabel.swift */; };
 		EE00AC002955E0D900FAFDCD /* LocationModelIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE00ABFF2955E0D900FAFDCD /* LocationModelIO.swift */; };
 		EE00AC12295601CD00FAFDCD /* DepartureLocationModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE00AC07295601CC00FAFDCD /* DepartureLocationModuleIO.swift */; };
 		EE00AC13295601CD00FAFDCD /* DepartureLocationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE00AC08295601CD00FAFDCD /* DepartureLocationPresenter.swift */; };
@@ -258,7 +257,6 @@
 		E483DF62B28C4DBC30739F6A /* TripsBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsBuilder.swift; sourceTree = "<group>"; };
 		E74D8C9B14C64D7AAB903E4C /* StuffModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StuffModel.swift; sourceTree = "<group>"; };
 		EC8D65328FD3C306119E7802 /* TripsInteractor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsInteractor.swift; sourceTree = "<group>"; };
-		EE00ABFD2953B2AE00FAFDCD /* UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabel.swift; sourceTree = "<group>"; };
 		EE00ABFF2955E0D900FAFDCD /* LocationModelIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModelIO.swift; sourceTree = "<group>"; };
 		EE00AC07295601CC00FAFDCD /* DepartureLocationModuleIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepartureLocationModuleIO.swift; sourceTree = "<group>"; };
 		EE00AC08295601CD00FAFDCD /* DepartureLocationPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepartureLocationPresenter.swift; sourceTree = "<group>"; };
@@ -714,16 +712,6 @@
 			path = Trips;
 			sourceTree = "<group>";
 		};
-		EE00ABFC2953B2A100FAFDCD /* Extencions */ = {
-			isa = PBXGroup;
-			children = (
-				EE00ABFD2953B2AE00FAFDCD /* UILabel.swift */,
-				EE7968FB29B9317600F777FE /* Theme+Userdefaults.swift */,
-				EE79132029C33F64002629E3 /* UIWindow.swift */,
-			);
-			path = Extencions;
-			sourceTree = "<group>";
-		};
 		EE00AC02295601CC00FAFDCD /* DepartureLocation */ = {
 			isa = PBXGroup;
 			children = (
@@ -802,11 +790,10 @@
 				EE7968FD29B9342400F777FE /* SwiftUI+Common */,
 				EE7968F429B92F3F00F777FE /* Services */,
 				CE7F42DA295B34E7000CBA63 /* GoogleService-Info.plist */,
-				EE00ABFC2953B2A100FAFDCD /* Extencions */,
 				EEAC1D462952914000237331 /* Formatters */,
 				EE30C72C2943FB4200A9DCF6 /* Errors */,
 				EEFA76F12935F52400A0B8CA /* Network */,
-				EE29EBF029186D4B008ECFF8 /* Extencions */,
+				EE29EBF029186D4B008ECFF8 /* Extensions */,
 				EE02E53E2950D9EA002BE87E /* Models */,
 				EE0AF951291301C500EC52D3 /* Modules */,
 				EE29EBF62919151A008ECFF8 /* Coordinators */,
@@ -855,14 +842,16 @@
 			path = Generated;
 			sourceTree = "<group>";
 		};
-		EE29EBF029186D4B008ECFF8 /* Extencions */ = {
+		EE29EBF029186D4B008ECFF8 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				EE7968FB29B9317600F777FE /* Theme+Userdefaults.swift */,
+				EE79132029C33F64002629E3 /* UIWindow.swift */,
 				EEF01CAF29C5C20300A63519 /* ViewControllerWithDimBackground.swift */,
 				EEFA76D0292BEAAC00A0B8CA /* UITextField.swift */,
 				EEFA76ED292D2A4E00A0B8CA /* UINavigationController.swift */,
 			);
-			path = Extencions;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		EE29EBF62919151A008ECFF8 /* Coordinators */ = {
@@ -1597,7 +1586,6 @@
 				EEAC1D482952914000237331 /* DateFormatter.swift in Sources */,
 				EEA76C652951325E00250B06 /* ShortRouteCell.swift in Sources */,
 				50505393A370F99E10E3F864 /* TripInfoViewIO.swift in Sources */,
-				EE00ABFE2953B2AE00FAFDCD /* UILabel.swift in Sources */,
 				EE910DBB29588F420094F5C8 /* AccountInfoModelIO.swift in Sources */,
 				4F445FB920C9EB3384DA16BA /* TripInfoViewController.swift in Sources */,
 				EE7968EC29B92DEE00F777FE /* SettingsViewIO.swift in Sources */,
