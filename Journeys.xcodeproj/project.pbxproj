@@ -320,11 +320,11 @@
 		EEFA76C5292BE88F00A0B8CA /* RouteViewIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteViewIO.swift; sourceTree = "<group>"; };
 		EEFA76C6292BE88F00A0B8CA /* RouteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteViewController.swift; sourceTree = "<group>"; };
 		EEFA76CE292BE93500A0B8CA /* RouteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteCell.swift; sourceTree = "<group>"; };
-		EEFA76D0292BEAAC00A0B8CA /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
+		EEFA76D0292BEAAC00A0B8CA /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UITextField.swift; path = ../Extencions/UITextField.swift; sourceTree = "<group>"; };
 		EEFA76D2292BED6000A0B8CA /* RouteDisplayDataFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteDisplayDataFactory.swift; sourceTree = "<group>"; };
 		EEFA76D8292C4EF300A0B8CA /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
 		EEFA76DA292C5E7E00A0B8CA /* CalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCell.swift; sourceTree = "<group>"; };
-		EEFA76ED292D2A4E00A0B8CA /* UINavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
+		EEFA76ED292D2A4E00A0B8CA /* UINavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UINavigationController.swift; path = ../Extencions/UINavigationController.swift; sourceTree = "<group>"; };
 		EEFA76F22935F53A00A0B8CA /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		F4A76FCB7DE71B4D0835960C /* PlaceBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlaceBuilder.swift; sourceTree = "<group>"; };
 		FABAFF6132B4BF34FF1262AA /* TripsRouterInput.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsRouterInput.swift; sourceTree = "<group>"; };
@@ -616,12 +616,14 @@
 			path = Trips;
 			sourceTree = "<group>";
 		};
-		EE00ABFC2953B2A100FAFDCD /* Extencions */ = {
+		EE00ABFC2953B2A100FAFDCD /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				EEFA76D0292BEAAC00A0B8CA /* UITextField.swift */,
+				EEFA76ED292D2A4E00A0B8CA /* UINavigationController.swift */,
 				EE00ABFD2953B2AE00FAFDCD /* UILabel.swift */,
 			);
-			path = Extencions;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		EE00AC02295601CC00FAFDCD /* DepartureLocation */ = {
@@ -700,11 +702,10 @@
 			isa = PBXGroup;
 			children = (
 				CE7F42DA295B34E7000CBA63 /* GoogleService-Info.plist */,
-				EE00ABFC2953B2A100FAFDCD /* Extencions */,
+				EE00ABFC2953B2A100FAFDCD /* Extensions */,
 				EEAC1D462952914000237331 /* Formatters */,
 				EE30C72C2943FB4200A9DCF6 /* Errors */,
 				EEFA76F12935F52400A0B8CA /* Network */,
-				EE29EBF029186D4B008ECFF8 /* Extencions */,
 				EE02E53E2950D9EA002BE87E /* Models */,
 				EE0AF951291301C500EC52D3 /* Modules */,
 				EE29EBF62919151A008ECFF8 /* Coordinators */,
@@ -747,15 +748,6 @@
 				EE157F472926B39A00A56157 /* XCAssets+Generated.swift */,
 			);
 			path = Generated;
-			sourceTree = "<group>";
-		};
-		EE29EBF029186D4B008ECFF8 /* Extencions */ = {
-			isa = PBXGroup;
-			children = (
-				EEFA76D0292BEAAC00A0B8CA /* UITextField.swift */,
-				EEFA76ED292D2A4E00A0B8CA /* UINavigationController.swift */,
-			);
-			path = Extencions;
 			sourceTree = "<group>";
 		};
 		EE29EBF62919151A008ECFF8 /* Coordinators */ = {

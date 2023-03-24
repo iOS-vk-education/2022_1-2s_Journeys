@@ -15,11 +15,6 @@ enum TripsCellType {
 }
 
 final class TripsViewController: UIViewController {
-    
-    enum ScreenType {
-        case usual
-        case saved
-    }
 
     // MARK: Private properties
     private lazy var collectionView: UICollectionView = {
@@ -39,7 +34,6 @@ final class TripsViewController: UIViewController {
 
     // MARK: Public properties
     var output: TripsViewOutput!
-    var tripsViewControllerType: ScreenType?
 
     // MARK: Lifecycle
     override func viewDidLoad() {
@@ -61,8 +55,8 @@ final class TripsViewController: UIViewController {
         navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
         navigationItem.setHidesBackButton(true, animated: false)
 
-        switch output.getScreenType() {
-        case .usual:
+        switch output.getTripsType() {
+        case .all:
             let buttonItem = UIBarButtonItem(image: UIImage(systemName: "bookmark"),
                                              style: .plain,
                                              target: self,
@@ -152,8 +146,8 @@ extension TripsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
-        switch output.getScreenType() {
-        case .usual:
+        switch output.getTripsType() {
+        case .all:
             if section == 0 {
                 return UIEdgeInsets(top: 30, left: 0, bottom: 8, right: 0)
             } else {

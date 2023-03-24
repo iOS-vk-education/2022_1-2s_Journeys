@@ -8,6 +8,11 @@
 import Foundation
 import UIKit
 
+enum TripsType {
+    case saved
+    case all
+}
+
 struct Trip {
     
     let id: String?
@@ -106,7 +111,7 @@ struct TripWithRouteAndImage {
         self.isInfavourites = isInfavourites
     }
     
-    init(trip: Trip, image: UIImage? = nil, route: Route) {
+    init(trip: Trip, route: Route, image: UIImage? = nil) {
         self.id = trip.id
         self.imageURLString = route.imageURLString
         self.image = image

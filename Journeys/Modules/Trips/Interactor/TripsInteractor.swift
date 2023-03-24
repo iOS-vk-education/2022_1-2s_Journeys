@@ -21,23 +21,11 @@ final class TripsInteractor {
 }
 
 extension TripsInteractor: TripsInteractorInput {
-    func obtainTripsDataFromSever() {
-        FBService.obtainTrips { [weak self] result in
+    func obtainTripsDataFromSever(type: TripsType) {
+        FBService.obtainTrips(type: type) { [weak self] result in
             guard let strongSelf = self else { return }
             switch result {
-            case .failure(let error):
-                strongSelf.output?.didRecieveError(error: .obtainDataError)
-            case .success(let trips):
-                strongSelf.output?.didFetchTripsData(data: trips)
-            }
-        }
-    }
-    
-    func obtainSavedTripsDataFromServer() {
-        FBService.obtainSavedTrips { [weak self] result in
-            guard let strongSelf = self else { return }
-            switch result {
-            case .failure(let error):
+            case .failure:
                 strongSelf.output?.didRecieveError(error: .obtainDataError)
             case .success(let trips):
                 strongSelf.output?.didFetchTripsData(data: trips)

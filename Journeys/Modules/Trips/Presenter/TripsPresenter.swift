@@ -26,21 +26,21 @@ final class TripsPresenter {
     
     private var cellToDeleteIndexPath: IndexPath?
     
-    private var tripsViewControllerType: TripsViewController.ScreenType
+    private var tripsType: TripsType
 
     //MARK: Lifecycle
 
     init(interactor: TripsInteractorInput,
          router: TripsRouterInput,
-         tripsViewControllerType: TripsViewController.ScreenType) {
+         tripsType: TripsType) {
         self.interactor = interactor
         self.router = router
-        self.tripsViewControllerType = tripsViewControllerType
+        self.tripsType = tripsType
     }
     
     private func loadTripsData() {
-        switch tripsViewControllerType {
-        case .usual:
+        switch tripsType {
+        case .all:
             interactor.obtainTripsDataFromSever()
         case .saved :
             interactor.obtainSavedTripsDataFromServer()
@@ -110,8 +110,8 @@ extension TripsPresenter: TripsViewOutput {
         PlaceholderDisplayDataFactory().displayData()
     }
     
-    func getScreenType() -> TripsViewController.ScreenType {
-        tripsViewControllerType
+    func getTripsType() -> TripsType {
+        tripsType
     }
     
     func getCellData(for row: Int) -> TripCell.DisplayData? {
@@ -126,8 +126,8 @@ extension TripsPresenter: TripsViewOutput {
     
     func getCellsCount(for section: Int) -> Int {
         if section == 0 {
-            switch tripsViewControllerType {
-            case .usual:
+            switch tripsType {
+            case .all:
                 return 1
             case .saved:
                 return 0
@@ -171,7 +171,7 @@ extension TripsPresenter: TripsViewOutput {
         interactor.storeTripData(trip: Trip(tripWithOtherData: tripsData[indexPath.row])) { [weak self] in
             guard let self else { return }
             self.view?.changeIsSavedCellStatus(at: indexPath, status: self.tripsData[indexPath.row].isInfavourites)
-            if self.tripsViewControllerType == .saved {
+            if self.tripsType == .saved {
                 self.tripsData.remove(at: indexPath.row)
                 self.view?.deleteItem(at: indexPath)
             }
