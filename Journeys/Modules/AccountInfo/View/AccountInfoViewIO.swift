@@ -18,6 +18,8 @@ protocol AccountInfoViewInput: AnyObject {
                    textFieldPlaceholder: String?)
     func showLoadingView()
     func hideLoadingView()
+    
+    func clearCellsTextFields(in section: Int)
 }
 
 // MARK: - AccountInfo ViewOutput
@@ -36,5 +38,5 @@ protocol AccountInfoViewOutput: AnyObject {
     
     func deleteAccount(with passwordApprove: String?)
     
-    func setCellsValues(newEmail: String?, password: String?, newPassword: String?)
+    func setCellsValues(newEmail: String?, password: String?, newPassword: String?, confirmPassword: String?)
 }

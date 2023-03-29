@@ -251,9 +251,12 @@ extension AccountInfoViewController: AccountInfoViewInput {
         else { return }
         guard let newPasswordCell = tableView.cellForRow(at: IndexPath(item: 2, section: section)) as? AccountInfoCell
         else { return }
+        guard let confirmPassword = tableView.cellForRow(at: IndexPath(item: 3, section: section)) as? AccountInfoCell
+        else { return }
         output?.setCellsValues(newEmail: newEmailCell.getTextFieldValue(),
                                password: passwordCell.getTextFieldValue(),
-                               newPassword: newPasswordCell.getTextFieldValue())
+                               newPassword: newPasswordCell.getTextFieldValue(),
+                               confirmPassword: confirmPassword.getTextFieldValue())
     }
     
     func showLoadingView() {
@@ -271,6 +274,18 @@ extension AccountInfoViewController: AccountInfoViewInput {
         DispatchQueue.main.async { [weak self] in
             self?.loadingView.removeFromSuperview()
         }
+    }
+    
+    func clearCellsTextFields(in section: Int) {
+        guard let passwordCell = tableView.cellForRow(at: IndexPath(item: 1, section: section)) as? AccountInfoCell
+        else { return }
+        guard let newPasswordCell = tableView.cellForRow(at: IndexPath(item: 2, section: section)) as? AccountInfoCell
+        else { return }
+        guard let confirmPassword = tableView.cellForRow(at: IndexPath(item: 3, section: section)) as? AccountInfoCell
+        else { return }
+        passwordCell.clearTextField()
+        newPasswordCell.clearTextField()
+        confirmPassword.clearTextField()
     }
 }
 

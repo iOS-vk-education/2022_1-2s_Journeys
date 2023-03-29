@@ -19,16 +19,14 @@ final class AccountCoordinator: CoordinatorProtocol {
     private var navigationController = UINavigationController()
     private let tabBarItemFactory: TabBarItemFactoryProtocol
     private let firebaseService: FirebaseServiceProtocol
-    private var appCoordinator: AppCoordinatorProtocol
+
     
     // MARK: Lifecycle
 
     init(rootTabBarController: UITabBarController,
-         firebaseService: FirebaseServiceProtocol,
-         appCoordinator: AppCoordinatorProtocol) {
+         firebaseService: FirebaseServiceProtocol) {
         self.rootTabBarController = rootTabBarController
         self.firebaseService = firebaseService
-        self.appCoordinator = appCoordinator
         tabBarItemFactory = TabBarItemFactory()
     }
 
@@ -59,7 +57,8 @@ final class AccountCoordinator: CoordinatorProtocol {
     }
     
     private func authListener() {
-        Auth.auth().addIDTokenDidChangeListener { (auth, user) in
+        Auth.auth().addIDTokenDidChangeListener { [weak self] (auth, user) in
+            guard let self else { return }
             if user == nil {
                 let builder = AuthModuleBuilder()
                 let viewController = builder.build(moduleType: .auth,

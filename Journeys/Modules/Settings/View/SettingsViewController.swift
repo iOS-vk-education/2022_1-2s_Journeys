@@ -50,9 +50,6 @@ final class SettingsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         output?.viewWillAppear()
-        if let selectedIndexPath = tableView.indexPathForSelectedRow {
-            tableView.deselectRow(at: selectedIndexPath, animated: animated)
-        }
     }
 
     // MARK: Private methods
@@ -84,6 +81,7 @@ final class SettingsViewController: UIViewController {
 
         tableView.backgroundColor = view.backgroundColor
         tableView.separatorColor = tableView.backgroundColor
+        tableView.isScrollEnabled = false
         setupTableViewConstrains()
         registerCell()
     }
@@ -95,7 +93,7 @@ final class SettingsViewController: UIViewController {
     }
 
     private func registerCell() {
-        tableView.register(SettingsCell.self, forCellReuseIdentifier: "SettingsCell")
+        tableView.register(SettingsCell.self, forCellReuseIdentifier: SettingsCell.reuseIdentifier)
     }
     
     @objc
@@ -110,6 +108,7 @@ extension SettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard indexPath.section != 0 else { return }
         output?.didSelectCell(at: indexPath)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
@@ -137,7 +136,7 @@ extension SettingsViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell",
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingsCell.reuseIdentifier,
                                                        for: indexPath) as? SettingsCell else {
             return UITableViewCell()
         }
@@ -187,8 +186,9 @@ extension SettingsViewController: SettingsViewInput {
     }
     
     private func createEmailUrl(to: String, subject: String, body: String) -> URL? {
-        let subjectEncoded = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-        let bodyEncoded = body.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        guard let subjectEncoded = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+              let bodyEncoded = body.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        else { return nil }
         
         let gmailUrl = URL(string: "googlegmail://co?to=\(to)&subject=\(subjectEncoded)&body=\(bodyEncoded)")
         let outlookUrl = URL(string: "ms-outlook://compose?to=\(to)&subject=\(subjectEncoded)&body=\(bodyEncoded)")

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 class ViewControllerWithDimBackground: UIViewController {
-    // MARK: Private properties
+    // MARK: Public properties
     
     let backgroundView: UIView = {
         let view = UIView()

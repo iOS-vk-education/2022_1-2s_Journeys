@@ -24,7 +24,8 @@ final class SettingsPresenter {
     private let appRateManager: AppRateManagerProtocol
     private let notificationManager: NotificationsManagerProtocol = NotificationsManager.shared
     
-    private var hasUserEnabledNotifications: Bool?
+    private var areNotificationsEnabledAtIOSLevel: Bool?
+    private var areNotificationsEnabled: Bool?
 
     // MARK: Lifecycle
 
@@ -43,9 +44,16 @@ final class SettingsPresenter {
 
 extension SettingsPresenter: SettingsViewOutput {
     func viewWillAppear() {
-        notificationManager.hasUserEnabledNotificationsAtIOSLevel() { [weak self] result in
-            self?.hasUserEnabledNotifications = result
-            self?.view?.reloadView()
+        notificationManager.areNotificationsEnabledAtIOSLevel { [weak self] result in
+            self?.areNotificationsEnabledAtIOSLevel = result
+            if result {
+                self?.notificationManager.hasUserEnabledNotifications { [weak self] result in
+                    self?.areNotificationsEnabled = result
+                    self?.view?.reloadView()
+                }
+            } else {
+                self?.areNotificationsEnabled = false
+            }
         }
     }
     
@@ -54,14 +62,14 @@ extension SettingsPresenter: SettingsViewOutput {
         let cellType = SettingsCell.CellType.Settings.allCases[row]
         let displayDataFactory = SettingsDisplayDataFactory()
         if cellType == .notifications {
-            return displayDataFactory.settingsDisplayData(for: cellType, switchValue: hasUserEnabledNotifications)
+            return displayDataFactory.settingsDisplayData(for: cellType, switchValue: areNotificationsEnabled)
         }
         return displayDataFactory.settingsDisplayData(for: cellType)
     }
     
     func getFooterText(for section: Int) -> String? {
         guard section == 0 else { return nil }
-        if hasUserEnabledNotifications != true {
+        if areNotificationsEnabledAtIOSLevel != true {
             return L10n.youNeetToTurnTheApplicationNotificationOn
         }
         return nil
@@ -93,11 +101,11 @@ extension SettingsPresenter: SettingsInteractorOutput {
 // MARK: SettingsTableViewCellDelegate
 
 extension SettingsPresenter: SettingsCellDelegate {
-    func isAlertSwitchEnabled(completion: @escaping (Bool) -> Void) {
-        notificationManager.hasUserEnabledNotificationsAtIOSLevel(completion: completion)
+    func isAlertSwitchEnabled() -> Bool? {
+        areNotificationsEnabledAtIOSLevel
     }
     
-    func switchValueWasTapped(_ value: Bool, completion: @escaping (Bool) -> Void) {
+    func switchWasTapped(_ value: Bool, completion: @escaping (Bool) -> Void) {
         notificationManager.toggleNotifications(isOn: value, completion: completion)
     }
 }

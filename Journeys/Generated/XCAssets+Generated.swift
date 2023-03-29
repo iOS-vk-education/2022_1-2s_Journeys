@@ -51,6 +51,7 @@ internal enum Asset {
       internal static let iconsColor = ColorAsset(name: "IconsColor")
       internal static let tappedIconsColor = ColorAsset(name: "TappedIconsColor")
     }
+    internal static let launchScreen = ColorAsset(name: "LaunchScreen")
     internal enum Placeholder {
       internal static let placeholderColor = ColorAsset(name: "PlaceholderColor")
     }

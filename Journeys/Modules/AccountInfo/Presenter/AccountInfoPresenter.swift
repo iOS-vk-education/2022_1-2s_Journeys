@@ -11,7 +11,7 @@ import Foundation
 
 final class AccountInfoPresenter {
     enum Sections: Int, CaseIterable {
-        case personalInfo = 0
+        case personalInfo
         case loginInfo
         
         var stringValue: String {
@@ -29,6 +29,30 @@ final class AccountInfoPresenter {
     weak var moduleOutout: AccountInfoModuleOutput?
     
     private var userData: User?
+    
+    private struct ChangeUserData {
+        var needToChangePassword: Bool = false
+        var needToChangeEmail: Bool = false
+        
+        enum ThingsToChange {
+            case password
+            case email
+            case emailAndPassword
+            case nothing
+        }
+        
+        func thingsToChange() -> ThingsToChange {
+            if needToChangeEmail && needToChangePassword {
+                return ThingsToChange.emailAndPassword
+            } else if needToChangeEmail {
+                return ThingsToChange.email
+            } else if needToChangePassword {
+                return ThingsToChange.password
+            } else {
+                return ThingsToChange.nothing
+            }
+        }
+    }
     
     private func showLoadingView() {
         view?.showLoadingView()
@@ -71,11 +95,11 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
     }
     
     func displayData(for indexPath: IndexPath) -> AccountInfoCell.DisplayData? {
-        guard Sections.allCases.indices.contains(indexPath.section) else { return nil }
+        guard Sections.allCases.count > indexPath.section else { return nil }
         let section = Sections.allCases[indexPath.section]
         switch section {
         case .loginInfo:
-            guard AccountInfoCell.CellType.LoginInfo.allCases.indices.contains(indexPath.row) else { return nil }
+            guard AccountInfoCell.CellType.LoginInfo.allCases.count > indexPath.row else { return nil }
             let cellType = AccountInfoCell.CellType.LoginInfo.allCases[indexPath.row]
             let displayDataFactory = AccountInfoCellDisplayDataFactory()
             if cellType == .email {
@@ -83,7 +107,7 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
             }
             return displayDataFactory.loginInfoDisplayData(for: cellType)
         case .personalInfo:
-            guard AccountInfoCell.CellType.PersonalInfo.allCases.indices.contains(indexPath.row) else { return nil }
+            guard AccountInfoCell.CellType.PersonalInfo.allCases.count > indexPath.row else { return nil }
             let cellType = AccountInfoCell.CellType.PersonalInfo.allCases[indexPath.row]
             let displayDataFactory = AccountInfoCellDisplayDataFactory()
             return displayDataFactory.personalInfoDisplayData(for: cellType, value: "Data")
@@ -96,7 +120,7 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
         Sections.allCases.count
     }
     func numberOfRows(in section: Int) -> Int? {
-        guard Sections.allCases.indices.contains(section) else { return nil }
+        guard Sections.allCases.count > section else { return nil }
         let section = Sections.allCases[section]
         switch section {
         case .loginInfo: return AccountInfoCell.CellType.LoginInfo.allCases.count
@@ -104,7 +128,7 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
         }
     }
 
-    func setCellsValues(newEmail: String?, password: String?, newPassword: String?) {
+    func setCellsValues(newEmail: String?, password: String?, newPassword: String?, confirmPassword: String?) {
         guard let email = userData?.email else {
             view?.showAlert(title: "Ошибка",
                             message: "Возникли проблемы с вашим Email адресом, перезайдите в аккаунт",
@@ -117,28 +141,40 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
                             textFieldPlaceholder: nil)
             return
         }
-        if let newEmail {
-            if let newPassword {
-                model?.saveEmailAndPassword(email: email,
-                                           newEmail: newEmail,
-                                           password: password,
-                                           newPassword: newPassword)
-                showLoadingView()
-                return
-            } else {
-                model?.saveEmail(email: email, newEmail: newEmail, password: password)
-                showLoadingView()
+        
+        var changeUserData = ChangeUserData()
+        if let newPassword {
+            guard confirmPassword == newPassword else {
+                view?.showAlert(title: "Ошибка",
+                                message: "Новые пароли не совпадают!",
+                                textFieldPlaceholder: nil)
                 return
             }
+            changeUserData.needToChangePassword = true
         }
-        if let newPassword {
-            model?.savePassword(email: email, password: password, newPassword: newPassword)
-            showLoadingView()
+        
+        if newEmail != nil && newEmail != email {
+            changeUserData.needToChangeEmail = true
+        }
+        
+        
+        switch changeUserData.thingsToChange() {
+        case .email:
+            model?.saveEmail(email: email, newEmail: newEmail ?? "", password: password)
+        case .password:
+            model?.savePassword(email: email, password: password, newPassword: newPassword ?? "")
+        case .emailAndPassword:
+            model?.saveEmailAndPassword(email: email,
+                                        newEmail: newEmail ?? "",
+                                        password: password,
+                                        newPassword: newPassword ?? "")
+        case .nothing:
+            return
+        default:
             return
         }
-        view?.showAlert(title: "Ошибка",
-                        message: "Заполните поля для изменения данных",
-                        textFieldPlaceholder: nil)
+        showLoadingView()
+        return
     }
     
     func deleteAccount(with passwordApprove: String?) {
@@ -170,10 +206,11 @@ extension AccountInfoPresenter: AccountInfoModelOutput {
         view?.showAlert(title: "Данные сохранены",
                         message: "Данные успешно сохранены",
                         textFieldPlaceholder: nil)
+        view?.clearCellsTextFields(in: Sections.loginInfo.rawValue)
     }
     
     func deleteSuccesfull() {
-        view?.showAlert(title:  L10n.Alerts.Titles.success,
+        view?.showAlert(title: L10n.Alerts.Titles.success,
                         message: L10n.Alerts.Messages.accountWasDeleted,
                         textFieldPlaceholder: nil)
     }

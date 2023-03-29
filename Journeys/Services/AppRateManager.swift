@@ -47,8 +47,6 @@ final class AppRateManager: AppRateManagerProtocol {
         if let nextPossibleRateDate = Calendar.current.date(byAdding: dayToAdd, to: lastRateDate),
            Date() > nextPossibleRateDate {
             explicitlyRateApplication()
-        } else {
-            // Do nothing
         }
     }
 }

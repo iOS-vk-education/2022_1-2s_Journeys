@@ -5,7 +5,6 @@
 //  Created by Анастасия Ищенко on 10.03.2023.
 //
 
-import Foundation
 import SwiftUI
 
 struct RoundedCornersShape: Shape {

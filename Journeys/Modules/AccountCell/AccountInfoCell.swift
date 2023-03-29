@@ -98,6 +98,10 @@ final class AccountInfoCell: UITableViewCell {
         }
     }
     
+    func clearTextField() {
+        textField.text = nil
+    }
+    
     func getTextFieldValue() -> String? {
         if textField.text?.count == 0 {
             return nil

@@ -96,12 +96,9 @@ extension AuthPresenter: AuthViewOutput {
     func displayData(for indexPath: IndexPath) -> AccountInfoCell.DisplayData? {
         //skip newPassword cell
         let row = indexPath.row == 2 ? 3 : indexPath.row
-        guard AccountInfoCell.CellType.LoginInfo.allCases.indices.contains(row) else { return nil }
+        guard AccountInfoCell.CellType.LoginInfo.allCases.count > row else { return nil }
         let cellType = AccountInfoCell.CellType.LoginInfo.allCases[row]
         let displayDataFactory = AccountInfoCellDisplayDataFactory()
-        if cellType == .email {
-            return displayDataFactory.loginInfoDisplayData(for: cellType)
-        }
         return displayDataFactory.loginInfoDisplayData(for: cellType)
     }
     

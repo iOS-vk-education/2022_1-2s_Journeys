@@ -36,13 +36,13 @@ extension AccountPresenter: AccountViewOutput {
     }
     
     func displayData(for indexPath: IndexPath) -> SettingsCell.DisplayData? {
-        guard SettingsCell.CellType.Account.allCases.indices.contains(indexPath.row) else { return nil }
+        guard SettingsCell.CellType.Account.allCases.count > indexPath.row else { return nil }
         let cellType = SettingsCell.CellType.Account.allCases[indexPath.row]
         return displayDataFactory.accountDisplayData(for: cellType)
     }
 
     func didSelectCell(at indexPath: IndexPath) {
-        guard SettingsCell.CellType.Account.allCases.indices.contains(indexPath.row) else { return }
+        guard SettingsCell.CellType.Account.allCases.count > indexPath.row else { return }
         let nextPage = SettingsCell.CellType.Account.allCases[indexPath.row]
         switch nextPage {
         case .accountInfo:

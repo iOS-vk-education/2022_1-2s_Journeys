@@ -11,8 +11,8 @@ import UIKit
 // MARK: - SettingsTableViewCellDelegate
 
 protocol SettingsCellDelegate: AnyObject {
-    func switchValueWasTapped(_ value: Bool, completion: @escaping (Bool) -> Void)
-    func isAlertSwitchEnabled(completion: @escaping (Bool) -> Void)
+    func switchWasTapped(_ value: Bool, completion: @escaping (Bool) -> Void)
+    func isAlertSwitchEnabled() -> Bool?
 }
 
 // MARK: - SettingsTableViewCell
@@ -36,9 +36,9 @@ final class SettingsCell: UITableViewCell {
     struct DisplayData {
         let title: String
         let subtitle: String?
-        let type: ImageType
+        let type: CellType
 
-        enum ImageType {
+        enum CellType {
             case switchType(Bool)
             case chevronType
             case usual
@@ -46,7 +46,7 @@ final class SettingsCell: UITableViewCell {
         
         internal init(title: String,
                       subtitle: String? = nil,
-                      type: DisplayData.ImageType) {
+                      type: DisplayData.CellType) {
             self.title = title
             self.subtitle = subtitle
             self.type = type
@@ -64,6 +64,9 @@ final class SettingsCell: UITableViewCell {
     }()
     private let settingSwitch = UISwitch()
     private let subtitle = UILabel()
+    
+    // MARK: - Public Properties
+    static let reuseIdentifier = "SettingsCell"
     weak var delegate: SettingsCellDelegate?
 
     // MARK: Lifecycle
@@ -97,7 +100,7 @@ final class SettingsCell: UITableViewCell {
         title.textColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
         subtitle.textColor = UIColor(asset: Asset.Colors.Text.secondaryTextColor)
         subtitle.font.withSize(Constants.Subtitle.fontSize)
-        settingSwitch.addTarget(self, action: #selector(switchValueWasTapped), for: .valueChanged)
+        settingSwitch.addTarget(self, action: #selector(switchWasTapped), for: .touchUpInside)
         settingSwitch.preferredStyle = .automatic
         
         
@@ -106,16 +109,13 @@ final class SettingsCell: UITableViewCell {
     }
     
     private func setupSwitch() {
-        delegate?.isAlertSwitchEnabled { [weak self] result in
-            DispatchQueue.main.async {
-                self?.settingSwitch.isEnabled = result
-            }
-        }
+        guard let result = delegate?.isAlertSwitchEnabled() else { return }
+        settingSwitch.isEnabled = result
     }
 
     @objc
-    private func switchValueWasTapped() {
-        delegate?.switchValueWasTapped(settingSwitch.isOn) { [weak self] result in
+    private func switchWasTapped() {
+        delegate?.switchWasTapped(settingSwitch.isOn) { [weak self] result in
             DispatchQueue.main.async {
                 self?.settingSwitch.setOn(result, animated: true)
             }

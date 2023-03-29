@@ -13,15 +13,6 @@ final class AccountViewController: ViewControllerWithDimBackground {
 
     // MARK: Private properties
 
-    private enum Constants {
-        static let backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
-        static let tableViewHorizontalInsets: CGFloat = 20
-        enum Cells {
-            static let cornerRadius: CGFloat = 15
-            static let height: CGFloat = 52
-        }
-    }
-
     private lazy var tableView: UITableView = .init(frame: CGRect.zero, style: .insetGrouped)
 
     var output: AccountViewOutput?
@@ -31,13 +22,6 @@ final class AccountViewController: ViewControllerWithDimBackground {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if let selectedIndexPath = tableView.indexPathForSelectedRow {
-            tableView.deselectRow(at: selectedIndexPath, animated: animated)
-        }
     }
 
     // MARK: Private methods
@@ -58,20 +42,31 @@ final class AccountViewController: ViewControllerWithDimBackground {
 
         tableView.backgroundColor = backgroundView.backgroundColor
         tableView.separatorColor = tableView.backgroundColor
+        
+        var frame = CGRect.zero
+        frame.size.height = .leastNormalMagnitude
+        tableView.tableHeaderView = UIView(frame: frame)
+        tableView.isScrollEnabled = false
+        
         registerCell()
     }
 
     private func setupConstrains() {
+        var tableViewHeight: CGFloat = tableView.tableHeaderView?.frame.height ?? 0
+        for section in 0..<tableView.numberOfSections {
+            tableViewHeight += CGFloat(tableView.numberOfRows(inSection: section)) * Constants.Cells.height
+            tableViewHeight += Constants.tableViewSectionHeaderHeight
+        }
         tableView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.height.equalTo(250)
+            make.height.equalTo(tableViewHeight)
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
         }
     }
 
     private func registerCell() {
-        tableView.register(SettingsCell.self, forCellReuseIdentifier: "SettingsCell")
+        tableView.register(SettingsCell.self, forCellReuseIdentifier: SettingsCell.reuseIdentifier)
     }
 }
 
@@ -80,6 +75,7 @@ final class AccountViewController: ViewControllerWithDimBackground {
 extension AccountViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         output?.didSelectCell(at: indexPath)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
@@ -90,16 +86,12 @@ extension AccountViewController: UITableViewDataSource {
         Constants.Cells.height
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        1
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         output?.numberOfRows(in: section) ?? 0
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 80
+        Constants.tableViewSectionHeaderHeight
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -121,7 +113,7 @@ extension AccountViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell",
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingsCell.reuseIdentifier,
                                                        for: indexPath) as? SettingsCell else {
             return UITableViewCell()
         }
@@ -146,5 +138,17 @@ extension AccountViewController: AccountViewInput {
     
     func deselectCell(_ indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+private extension AccountViewController {
+    enum Constants {
+        static let backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
+        static let tableViewHorizontalInsets: CGFloat = 20
+        static let tableViewSectionHeaderHeight: CGFloat = 80
+        enum Cells {
+            static let cornerRadius: CGFloat = 15
+            static let height: CGFloat = 52
+        }
     }
 }

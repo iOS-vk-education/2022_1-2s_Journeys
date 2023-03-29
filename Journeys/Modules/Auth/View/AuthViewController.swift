@@ -27,7 +27,7 @@ final class AuthViewController: ViewControllerWithDimBackground {
         button.layer.cornerRadius = 10
         button.layer.masksToBounds = false
         button.setTitle("Продолжить", for: .normal)
-        button.addTarget(self, action: #selector(didTapContimueButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didTapContinueButton), for: .touchUpInside)
         return button
     }()
     
@@ -164,7 +164,7 @@ final class AuthViewController: ViewControllerWithDimBackground {
     }
     
     @objc
-    private func didTapContimueButton() {
+    private func didTapContinueButton() {
         output?.didTapContinueButton()
     }
     
@@ -180,18 +180,11 @@ final class AuthViewController: ViewControllerWithDimBackground {
 }
 
 extension AuthViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        return
-    }
 }
 
 extension AuthViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         Constants.Cells.height
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

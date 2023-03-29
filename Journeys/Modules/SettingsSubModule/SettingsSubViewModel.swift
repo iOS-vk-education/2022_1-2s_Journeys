@@ -33,7 +33,6 @@ final class SettingsViewModel: ObservableObject {
     func languageDidChange(_ language: Language) {
         let localizationSystem = LocalizationSystem.sharedInstance
         localizationSystem.setLanguage(languageCode: language.languageCode)
-        print(localizationSystem.getLanguage())
         selectedLanguage = language
         let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
         sceneDelegate?.coordinator?.reload()
