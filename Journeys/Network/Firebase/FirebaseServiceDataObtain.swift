@@ -32,10 +32,10 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
         switch type {
         case .all:
             query = FBManager.firestore.collection("trips")
-                .document(userId).collection("user_trips").whereField("is_saved", isEqualTo: true)
+                .document(userId).collection("user_trips")
         case .saved:
             query = FBManager.firestore.collection("trips")
-                .document(userId).collection("user_trips")
+                .document(userId).collection("user_trips").whereField("is_saved", isEqualTo: true)
         default:
             break
         }

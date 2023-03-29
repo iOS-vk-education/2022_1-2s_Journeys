@@ -26,6 +26,8 @@ final class TripCell: UICollectionViewCell {
         imageView.clipsToBounds = true
         return imageView
     }()
+    
+    private let pictureEmptyViewForSceletonLayer = UIView()
     private let pictureLayer = CAGradientLayer()
     
     private let bookmarkButton: UIButton = {
@@ -49,7 +51,11 @@ final class TripCell: UICollectionViewCell {
     }()
     
     private let datesLabel = UILabel()
-    private let townsRouteLabel = UILabel()
+    private let datesLayer = CAGradientLayer()
+    
+    private let routeLabel = UILabel()
+    private let routeLayer = CAGradientLayer()
+    
     private var isInFavourites = Bool()
     private var delegate: TripCellDelegate!
     
@@ -72,19 +78,16 @@ final class TripCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         pictureLayer.isHidden = false
+        routeLayer.isHidden = false
+        datesLayer.isHidden = false
         picture.image = nil
         bookmarkButton.setImage(nil, for: .normal)
         datesLabel.text = nil
-        townsRouteLabel.text = nil
+        routeLabel.text = nil
         
-        setupSkeleton()
+        setAllSubviewsAlphaToZero()
     }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        pictureLayer.frame = CGRect(x: 0, y: 0, width: 311.0, height: 180.0)
-        pictureLayer.cornerRadius = picture.layer.cornerRadius
-    }
+
 
     // MARK: Private functions
 
@@ -104,31 +107,44 @@ final class TripCell: UICollectionViewCell {
         editButton.addTarget(self, action: #selector(didTapEditButton), for: .touchUpInside)
         deleteButton.addTarget(self, action: #selector(didTapDeleteButton), for: .touchUpInside)
         
-        setupSkeleton()
         setupColors()
         setupFonts()
         makeConstraints()
+        
+        makeSkeletonConstraints()
+        setupSkeleton()
+        
+        setAllSubviewsAlphaToZero()
     }
     
-    func setupSkeleton() {
+    func makeSkeletonConstraints() {
+        contentView.addSubview(pictureEmptyViewForSceletonLayer)
+        pictureEmptyViewForSceletonLayer.snp.makeConstraints { make in
+            make.edges.equalTo(picture.snp.edges)
+        }
+        pictureEmptyViewForSceletonLayer.layer.addSublayer(pictureLayer)
+        pictureLayer.frame = CGRect(x: 0, y: 0, width: 311.0, height: 180.0)
+        pictureLayer.cornerRadius = picture.layer.cornerRadius
+    }
+    
+    private func setupSkeleton() {
         pictureLayer.startPoint = CGPoint(x: 0, y: 0.5)
         pictureLayer.endPoint = CGPoint(x: 1, y: 0.5)
-        picture.layer.addSublayer(pictureLayer)
         
         let pictureGroup = makeAnimationGroup()
-        pictureGroup.beginTime = 1.0
+        pictureGroup.beginTime = 0.0
         pictureLayer.add(pictureGroup, forKey: "backgroundColor")
     }
 
     private func setupFonts() {
         datesLabel.font = UIFont.systemFont(ofSize: 17.0, weight: .medium)
-        townsRouteLabel.font = UIFont.systemFont(ofSize: 17.0, weight: .medium)
+        routeLabel.font = UIFont.systemFont(ofSize: 17.0, weight: .medium)
     }
 
     private func setupColors() {
         backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         datesLabel.textColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
-        townsRouteLabel.textColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
+        routeLabel.textColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
         bookmarkButton.tintColor = UIColor(asset: Asset.Colors.Icons.iconsColor)
         editButton.tintColor = UIColor(asset: Asset.Colors.Icons.iconsColor)
         deleteButton.tintColor = UIColor(asset: Asset.Colors.Icons.iconsColor)
@@ -148,7 +164,7 @@ final class TripCell: UICollectionViewCell {
         contentView.addSubview(editButton)
         contentView.addSubview(deleteButton)
         contentView.addSubview(datesLabel)
-        contentView.addSubview(townsRouteLabel)
+        contentView.addSubview(routeLabel)
         
         picture.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(TripCellConstants.Picture.horisontalIndent)
@@ -184,11 +200,30 @@ final class TripCell: UICollectionViewCell {
             make.top.equalToSuperview().inset(TripCellConstants.DatesLabel.topIndent)
         }
 
-        townsRouteLabel.snp.makeConstraints { make in
+        routeLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(TripCellConstants.TownsRouteLabel.horisontalIndent)
             make.trailing.equalToSuperview().inset(TripCellConstants.TownsRouteLabel.horisontalIndent)
             make.bottom.equalToSuperview().inset(TripCellConstants.TownsRouteLabel.bottomIndent)
         }
+    }
+    
+    private func setAllSubviewsAlphaToZero() {
+        picture.alpha = 0
+        bookmarkButton.alpha = 0
+        deleteButton.alpha = 0
+        editButton.alpha = 0
+        editButton.alpha = 0
+        datesLabel.alpha = 0
+        routeLabel.alpha = 0
+    }
+    
+    private func setSubviewsAlphaToOne() {
+        bookmarkButton.alpha = 1
+        deleteButton.alpha = 1
+        editButton.alpha = 1
+        editButton.alpha = 1
+        datesLabel.alpha = 1
+        routeLabel.alpha = 1
     }
 
     func changeIsSavedStatus(status: Bool) {
@@ -217,15 +252,40 @@ final class TripCell: UICollectionViewCell {
     func configure(data: DisplayData, delegate: TripCellDelegate, indexPath: IndexPath) {
         if let image = data.picture {
             self.pictureLayer.isHidden = true
-            picture.image = image
+            self.picture.image = image
+            UIView.animate(
+                withDuration: 0.5,
+                animations: { [weak self] in
+                    self?.picture.alpha = 1
+                })
         }
+        
         datesLabel.text = data.dates
-        townsRouteLabel.text = data.route
+        routeLabel.text = data.route
         isInFavourites = data.isInFavourites
         setBookmarkButtonImage()
         
+        datesLayer.isHidden = true
+        routeLayer.isHidden = true
+        
+        UIView.animate(
+            withDuration: 0.5,
+            animations: { [weak self] in
+                self?.setSubviewsAlphaToOne()
+            })
+        
         self.indexPath = indexPath
         self.delegate = delegate
+    }
+    
+    func setupImage(image: UIImage) {
+        self.pictureLayer.isHidden = true
+        self.picture.image = image
+        UIView.animate(
+            withDuration: 0.5,
+            animations: { [weak self] in
+                self?.picture.alpha = 1
+            })
     }
 }
 

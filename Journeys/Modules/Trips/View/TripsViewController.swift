@@ -31,6 +31,9 @@ final class TripsViewController: UIViewController {
     
     private let loadingView = LoadingView()
     private var placeholderView = UIView()
+    private lazy var cellsType: TripsCellType = {
+        output.getCellType()
+    }()
 
     // MARK: Public properties
     var output: TripsViewOutput!
@@ -47,8 +50,8 @@ final class TripsViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        output.viewDidLoad()
         super.viewWillAppear(animated)
+        output.viewWillAppear()
     }
 
     private func setupNavBar() {
@@ -135,7 +138,6 @@ extension TripsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
         output.didSelectCell(at: indexPath)
-        collectionView.deselectItem(at: indexPath, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -161,6 +163,18 @@ extension TripsViewController: UICollectionViewDelegate {
             }
         }
     }
+    func collectionView(_ collectionView: UICollectionView,
+                        willDisplay cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
+        if indexPath.section != 0 {
+            cell.alpha = 0
+            UIView.animate(
+                withDuration: 0.2,
+                animations: {
+                    cell.alpha = 1
+                })
+        }
+    }
 }
 
 extension TripsViewController: UICollectionViewDataSource {
@@ -182,34 +196,33 @@ extension TripsViewController: UICollectionViewDataSource {
             ) as? AddTripCell else {
                 return cell
             }
-            cell = addCell
-        } else {
-            switch output.getCellType() {
-            case .skeleton:
-                collectionView.allowsSelection = false
-                guard let skeletonCell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: "SkeletonTripCell",
-                    for: indexPath
-                ) as? SkeletonTripCell else {
-                    return cell
-                }
-                cell = skeletonCell
-            case .usual:
-                collectionView.allowsSelection = true
-                guard let tripCell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: "TripCell",
-                    for: indexPath
-                ) as? TripCell else {
-                    return cell
-                }
-
-                guard let data = output.getCellData(for: indexPath.row) else {
-                    return UICollectionViewCell()
-                }
-                tripCell.configure(data: data,
-                                   delegate: self, indexPath: indexPath)
-                cell = tripCell
+            return addCell
+        }
+        switch cellsType {
+        case .skeleton:
+            guard let skeletonCell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "SkeletonTripCell",
+                for: indexPath
+            ) as? SkeletonTripCell else {
+                return cell
             }
+            cell = skeletonCell
+        case .usual:
+            guard let tripCell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "TripCell",
+                for: indexPath
+            ) as? TripCell else {
+                return cell
+            }
+            
+            guard let data = output.getCellData(for: indexPath.row) else {
+                return cell
+            }
+            tripCell.configure(data: data,
+                               delegate: self, indexPath: indexPath)
+            cell = tripCell
+        default:
+            break
         }
         return cell
     }
@@ -218,7 +231,9 @@ extension TripsViewController: UICollectionViewDataSource {
 extension TripsViewController: TripsViewInput {
     
     func endRefresh() {
-        refreshControl.endRefreshing()
+        DispatchQueue.main.async { [weak self] in
+            self?.refreshControl.endRefreshing()
+        }
     }
     
     func showAlert(title: String, message: String, actionTitle: String) {
@@ -246,7 +261,9 @@ extension TripsViewController: TripsViewInput {
     
     func reloadData() {
         DispatchQueue.main.async { [weak self] in
-            self?.collectionView.reloadData()
+            guard let self else { return }
+            self.cellsType = self.output.getCellType()
+            self.collectionView.reloadData()
         }
     }
     
@@ -268,6 +285,14 @@ extension TripsViewController: TripsViewInput {
     func hideLoadingView() {
         DispatchQueue.main.async { [weak self] in
             self?.loadingView.removeFromSuperview()
+        }
+    }
+    
+    func setupCellImage(at indexpath: IndexPath, image: UIImage) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            guard let cell = self.collectionView.cellForItem(at: indexpath) as? TripCell else { return }
+            cell.setupImage(image: image)
         }
     }
 }
