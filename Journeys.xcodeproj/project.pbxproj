@@ -128,6 +128,7 @@
 		EE79690129B9342400F777FE /* TrackableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7968FE29B9342400F777FE /* TrackableScrollView.swift */; };
 		EE79690229B9342400F777FE /* RoundedCornerShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7968FF29B9342400F777FE /* RoundedCornerShape.swift */; };
 		EE79690329B9342400F777FE /* KeyboardHeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE79690029B9342400F777FE /* KeyboardHeight.swift */; };
+		EE821F0029D8CFD00052B66A /* CurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE821EFF29D8CFD00052B66A /* CurrencyView.swift */; };
 		EE910DB12957CBC30094F5C8 /* AccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DB02957CBC30094F5C8 /* AccountCell.swift */; };
 		EE910DB72957EF9D0094F5C8 /* AuthModelIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DB62957EF9D0094F5C8 /* AuthModelIO.swift */; };
 		EE910DB92957FAFA0094F5C8 /* SetVisible.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DB82957FAFA0094F5C8 /* SetVisible.swift */; };
@@ -314,6 +315,7 @@
 		EE7968FE29B9342400F777FE /* TrackableScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackableScrollView.swift; sourceTree = "<group>"; };
 		EE7968FF29B9342400F777FE /* RoundedCornerShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedCornerShape.swift; sourceTree = "<group>"; };
 		EE79690029B9342400F777FE /* KeyboardHeight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardHeight.swift; sourceTree = "<group>"; };
+		EE821EFF29D8CFD00052B66A /* CurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyView.swift; sourceTree = "<group>"; };
 		EE910DB02957CBC30094F5C8 /* AccountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCell.swift; sourceTree = "<group>"; };
 		EE910DB62957EF9D0094F5C8 /* AuthModelIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModelIO.swift; sourceTree = "<group>"; };
 		EE910DB82957FAFA0094F5C8 /* SetVisible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetVisible.swift; sourceTree = "<group>"; };
@@ -946,6 +948,14 @@
 			path = "SwiftUI+Common";
 			sourceTree = "<group>";
 		};
+		EE821EFE29D8CFBE0052B66A /* CurrencyView */ = {
+			isa = PBXGroup;
+			children = (
+				EE821EFF29D8CFD00052B66A /* CurrencyView.swift */,
+			);
+			path = CurrencyView;
+			sourceTree = "<group>";
+		};
 		EE910DAF2957CBB10094F5C8 /* AccountCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1009,6 +1019,7 @@
 		EEA76C4C2951325E00250B06 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				EE821EFE29D8CFBE0052B66A /* CurrencyView */,
 				EEA76C4D2951325E00250B06 /* Cells */,
 				EEA76C5A2951325E00250B06 /* MainCollectionHeader.swift */,
 				EEA76C5B2951325E00250B06 /* PlacesInfoViewController.swift */,
@@ -1486,6 +1497,7 @@
 				CE4CCC9D2956B6170057455D /* AddingEventViewController.swift in Sources */,
 				EE30C72E2943FB5500A9DCF6 /* ErrorsHandler.swift in Sources */,
 				EEFA76C9292BE88F00A0B8CA /* RouteBuilder.swift in Sources */,
+				EE821F0029D8CFD00052B66A /* CurrencyView.swift in Sources */,
 				EE7968E529B92DEE00F777FE /* SettingsSubView.swift in Sources */,
 				EEFA76CC292BE88F00A0B8CA /* RouteViewController.swift in Sources */,
 				EE00AC13295601CD00FAFDCD /* DepartureLocationPresenter.swift in Sources */,
