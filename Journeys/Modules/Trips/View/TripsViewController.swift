@@ -58,7 +58,7 @@ final class TripsViewController: UIViewController {
         navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
         navigationItem.setHidesBackButton(true, animated: false)
 
-        switch output.getTripsType() {
+        switch output.tripsType {
         case .all:
             let buttonItem = UIBarButtonItem(image: UIImage(systemName: "bookmark"),
                                              style: .plain,
@@ -148,7 +148,7 @@ extension TripsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
-        switch output.getTripsType() {
+        switch output.tripsType {
         case .all:
             if section == 0 {
                 return UIEdgeInsets(top: 30, left: 0, bottom: 8, right: 0)
@@ -169,12 +169,13 @@ extension TripsViewController: UICollectionViewDelegate {
         if indexPath.section != 0 {
             cell.alpha = 0
             UIView.animate(
-                withDuration: 0.2,
+                withDuration: 0.5,
                 animations: {
                     cell.alpha = 1
                 })
         }
     }
+    
 }
 
 extension TripsViewController: UICollectionViewDataSource {
@@ -288,11 +289,11 @@ extension TripsViewController: TripsViewInput {
         }
     }
     
-    func setupCellImage(at indexpath: IndexPath, image: UIImage) {
+    func setupCellImage(at indexPath: IndexPath, image: UIImage) {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
-            guard let cell = self.collectionView.cellForItem(at: indexpath) as? TripCell else { return }
-            cell.setupImage(image: image)
+            guard let cell = self.collectionView.cellForItem(at: indexPath) as? TripCell else { return }
+            cell.setupImage(image)
         }
     }
 }

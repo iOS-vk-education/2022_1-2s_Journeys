@@ -15,8 +15,23 @@ final class TripsInteractor {
     weak var output: TripsInteractorOutput?
     let FBService: FirebaseServiceProtocol
     
+    private let dataLoadQueue = DispatchQueue.global()
+    private let dataLoadDispatchGroup = DispatchGroup()
+    
     internal init(firebaseService: FirebaseServiceProtocol) {
         self.FBService = firebaseService
+    }
+    
+    private func obtainRouteDataFromSever(with identifier: String,
+                                          completion: @escaping (Result <Route, Error>)-> Void){
+        FBService.obtainRoute(with: identifier) { result in
+            switch result {
+            case .failure(let error):
+                completion(.failure(error))
+            case .success(let route):
+                completion(.success(route))
+            }
+        }
     }
 }
 
@@ -28,19 +43,50 @@ extension TripsInteractor: TripsInteractorInput {
             case .failure:
                 strongSelf.output?.didRecieveError(error: .obtainDataError)
             case .success(let trips):
-                strongSelf.output?.didFetchTripsData(data: trips)
+                strongSelf.obtainRoutesDataFromServer(for: trips)
             }
         }
     }
     
-    func obtainRouteDataFromSever(with identifier: String,
-                                  completion: @escaping (Result <Route, Error>)-> Void){
-        FBService.obtainRoute(with: identifier) { result in
+    func obtainRoutesDataFromServer(for trips: [Trip]) {
+        var tripsWithRoute: [TripWithRouteAndImage] = []
+        guard !trips.isEmpty else {
+            output?.noTripsFetched()
+            return
+        }
+        
+        for trip in trips {
+            dataLoadDispatchGroup.enter()
+            dataLoadQueue.async(group: dataLoadDispatchGroup) { [weak self] in
+                guard let self else { return }
+                self.obtainRouteDataFromSever(with: trip.routeId) { result in
+                    switch result {
+                    case .failure:
+                        self.output?.didRecieveError(error: .obtainDataError)
+                        self.dataLoadDispatchGroup.leave()
+                    case .success(let route):
+                        tripsWithRoute.append(TripWithRouteAndImage(trip: trip,
+                                                                    route: route))
+                        self.dataLoadDispatchGroup.leave()
+                    }
+                }
+            }
+        }
+        dataLoadDispatchGroup.notify(queue: dataLoadQueue) { [weak self] in
+            self?.output?.didFetchTripsData(trips: tripsWithRoute)
+        }
+    }
+    
+    func loadImage(for route: Route, completion: @escaping (UIImage) -> Void) {
+        guard let imageURL = route.imageURLString else { return }
+        guard !imageURL.isEmpty else { return }
+        obtainTripImageFromServer(withURL: imageURL) { [weak self] result in
+            guard let strongSelf = self else { return }
             switch result {
-            case .failure(let error):
-                completion(.failure(error))
-            case .success(let route):
-                completion(.success(route))
+            case .failure:
+                strongSelf.output?.didRecieveError(error: .obtainDataError)
+            case .success(let image):
+                completion(image)
             }
         }
     }

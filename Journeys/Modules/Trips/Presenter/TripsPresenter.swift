@@ -18,18 +18,15 @@ final class TripsPresenter {
 
     // MARK: - Private Properties
 
-    private let interactor: TripsInteractorInput
-    private let router: TripsRouterInput
+    private let interactor: TripsInteractorInput?
+    private let router: TripsRouterInput?
     
     private var dataIsLoaded: Bool = false
     private var tripsData: [TripWithRouteAndImage] = []
     
     private var cellToDeleteIndexPath: IndexPath?
     
-    private var tripsType: TripsType
-    
-    private let dataLoadQueue = DispatchQueue.global()
-    private let dataLoadDispatchGroup = DispatchGroup()
+    private(set) var tripsType: TripsType
 
     //MARK: Lifecycle
 
@@ -42,8 +39,9 @@ final class TripsPresenter {
     }
     
     private func loadTripsData() {
+        hidePlaceholder()
         dataIsLoaded = false
-        interactor.obtainTripsDataFromSever(type: tripsType)
+        interactor?.obtainTripsDataFromSever(type: tripsType)
     }
     
     private func tripDisplayData(trip: TripWithRouteAndImage) -> TripCell.DisplayData? {
@@ -79,11 +77,17 @@ final class TripsPresenter {
     }
     
     private func embedRPlaceholder() {
-        router.embedPlaceholder()
+        router?.embedPlaceholder()
     }
     
     private func hidePlaceholder() {
-        router.hidePlaceholder()
+        router?.hidePlaceholder()
+    }
+    
+    private func reloadView() {
+        view?.reloadData()
+        hideLoadingView()
+        view?.endRefresh()
     }
 }
 
@@ -105,10 +109,6 @@ extension TripsPresenter: TripsViewOutput {
     
     func placeholderDisplayData() -> PlaceHolderViewController.DisplayData {
         PlaceholderDisplayDataFactory().displayData()
-    }
-    
-    func getTripsType() -> TripsType {
-        tripsType
     }
     
     func getCellData(for row: Int) -> TripCell.DisplayData? {
@@ -168,7 +168,7 @@ extension TripsPresenter: TripsViewOutput {
     func didTapCellBookmarkButton(at indexPath: IndexPath) {
         guard tripsData.indices.contains(indexPath.row) else { return }
         tripsData[indexPath.row].isInfavourites.toggle()
-        interactor.storeTripData(trip: Trip(tripWithOtherData: tripsData[indexPath.row])) { [weak self] in
+        interactor?.storeTripData(trip: Trip(tripWithOtherData: tripsData[indexPath.row])) { [weak self] in
             guard let self else { return }
             self.view?.changeIsSavedCellStatus(at: indexPath, status: self.tripsData[indexPath.row].isInfavourites)
             if self.tripsType == .saved {
@@ -206,7 +206,7 @@ extension TripsPresenter: TripsViewOutput {
             return
         }
         cellToDeleteIndexPath = cellIndexPath
-        interactor.deleteTrip(Trip(tripWithOtherData: tripsData[cellIndexPath.row]))
+        interactor?.deleteTrip(Trip(tripWithOtherData: tripsData[cellIndexPath.row]))
     }
     
     func didTapBackBarButton() {
@@ -219,67 +219,27 @@ extension TripsPresenter: TripsViewOutput {
 }
 
 extension TripsPresenter: TripsInteractorOutput {
-    func didFetchTripsData(data: [Trip]) {
-        var trips: [TripWithRouteAndImage] = []
-        guard !data.isEmpty else {
-            view?.reloadData()
-            hideLoadingView()
-            view?.endRefresh()
-            dataIsLoaded = true
-            embedRPlaceholder()
-            return
-        }
-        
-        for trip in data {
-            dataLoadDispatchGroup.enter()
-            dataLoadQueue.async(group: dataLoadDispatchGroup) { [weak self] in
-                guard let self else { return }
-                self.interactor.obtainRouteDataFromSever(with: trip.routeId) { result in
-                    switch result {
-                    case .failure:
-                        self.didRecieveError(error: .obtainDataError)
-                        self.dataLoadDispatchGroup.leave()
-                    case .success(let route):
-                        trips.append(TripWithRouteAndImage(trip: trip,
-                                                           route: route))
-                        self.dataLoadDispatchGroup.leave()
-                    }
-                }
-            }
-        }
-        dataLoadDispatchGroup.notify(queue: dataLoadQueue) { [weak self] in
-            self?.dataIsLoaded = true
-            self?.didFinishObtainingTextData(trips: trips)
-        }
+    func noTripsFetched() {
+        dataIsLoaded = true
+        tripsData = []
+        reloadView()
+        embedRPlaceholder()
     }
     
-    func didFinishObtainingTextData(trips: [TripWithRouteAndImage]) {
+    func didFetchTripsData(trips: [TripWithRouteAndImage]) {
+        dataIsLoaded = true
+        
         tripsData = trips
         tripsData.sort(by: {$0.dateChanged.timeIntervalSinceNow > $1.dateChanged.timeIntervalSinceNow})
-        view?.reloadData()
         
-        view?.endRefresh()
-        hideLoadingView()
+        reloadView()
+        
         for index in tripsData.indices {
-            loadImage(for: tripsData[index].route) { [weak self] image in
+            interactor?.loadImage(for: tripsData[index].route) { [weak self] image in
                 guard let self else { return }
                 guard self.tripsData.count > index else { return }
                 self.tripsData[index].image = image
                 self.view?.setupCellImage(at: IndexPath(row: index, section: 1), image: image)
-            }
-        }
-    }
-    
-    func loadImage(for route: Route, completion: @escaping (UIImage) -> Void) {
-        guard let imageURL = route.imageURLString else { return }
-        guard !imageURL.isEmpty else { return }
-        interactor.obtainTripImageFromServer(withURL: imageURL) { [weak self] result in
-            guard let strongSelf = self else { return }
-            switch result {
-            case .failure:
-                strongSelf.didRecieveError(error: .obtainDataError)
-            case .success(let image):
-                completion(image)
             }
         }
     }

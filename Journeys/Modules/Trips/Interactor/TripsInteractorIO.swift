@@ -12,10 +12,9 @@ import UIKit
 
 protocol TripsInteractorInput: AnyObject {
     func obtainTripsDataFromSever(type: TripsType)
-    func obtainRouteDataFromSever(with identifier: String,
-                                  completion: @escaping (Result <Route, Error>) -> Void)
     func obtainTripImageFromServer(withURL imageURLString: String,
-                                   completion: @escaping (Result <UIImage, Error>) -> Void)
+                                   completion: @escaping (Result <UIImage, Error>)-> Void)
+    func loadImage(for route: Route, completion: @escaping (UIImage) -> Void)
     
     func storeTripData(trip: Trip, completion: @escaping () -> Void)
     
@@ -26,6 +25,7 @@ protocol TripsInteractorInput: AnyObject {
 
 protocol TripsInteractorOutput: AnyObject {
     func didRecieveError(error: Errors)
-    func didFetchTripsData(data: [Trip])
+    func didFetchTripsData(trips: [TripWithRouteAndImage])
+    func noTripsFetched()
     func didDeleteTrip()
 }

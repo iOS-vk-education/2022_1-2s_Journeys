@@ -24,17 +24,18 @@ protocol TripsViewInput: AnyObject {
     func hideLoadingView()
     func changeIsSavedCellStatus(at indexPath: IndexPath, status: Bool)
     
-    func setupCellImage(at indexpath: IndexPath, image: UIImage)
+    func setupCellImage(at indexPath: IndexPath, image: UIImage)
 }
 
 // MARK: - Trips ViewOutput
 
 protocol TripsViewOutput: AnyObject {
+    var tripsType: TripsType { get }
+    
     func viewWillAppear()
     func refreshView()
     
     func placeholderDisplayData() -> PlaceHolderViewController.DisplayData
-    func getTripsType() -> TripsType
     func didSelectCell(at indexpath: IndexPath)
     func didTapCellBookmarkButton(at indexPath: IndexPath)
     func didTapEditButton(at indexPath: IndexPath)

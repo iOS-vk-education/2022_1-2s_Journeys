@@ -27,7 +27,7 @@ final class TripCell: UICollectionViewCell {
         return imageView
     }()
     
-    private let pictureEmptyViewForSceletonLayer = UIView()
+    private let pictureEmptyViewForSkeletonLayer = UIView()
     private let pictureLayer = CAGradientLayer()
     
     private let bookmarkButton: UIButton = {
@@ -118,11 +118,11 @@ final class TripCell: UICollectionViewCell {
     }
     
     func makeSkeletonConstraints() {
-        contentView.addSubview(pictureEmptyViewForSceletonLayer)
-        pictureEmptyViewForSceletonLayer.snp.makeConstraints { make in
+        contentView.addSubview(pictureEmptyViewForSkeletonLayer)
+        pictureEmptyViewForSkeletonLayer.snp.makeConstraints { make in
             make.edges.equalTo(picture.snp.edges)
         }
-        pictureEmptyViewForSceletonLayer.layer.addSublayer(pictureLayer)
+        pictureEmptyViewForSkeletonLayer.layer.addSublayer(pictureLayer)
         pictureLayer.frame = CGRect(x: 0, y: 0, width: 311.0, height: 180.0)
         pictureLayer.cornerRadius = picture.layer.cornerRadius
     }
@@ -251,13 +251,7 @@ final class TripCell: UICollectionViewCell {
     
     func configure(data: DisplayData, delegate: TripCellDelegate, indexPath: IndexPath) {
         if let image = data.picture {
-            self.pictureLayer.isHidden = true
-            self.picture.image = image
-            UIView.animate(
-                withDuration: 0.5,
-                animations: { [weak self] in
-                    self?.picture.alpha = 1
-                })
+            setupImage(image)
         }
         
         datesLabel.text = data.dates
@@ -278,7 +272,7 @@ final class TripCell: UICollectionViewCell {
         self.delegate = delegate
     }
     
-    func setupImage(image: UIImage) {
+    func setupImage(_ image: UIImage) {
         self.pictureLayer.isHidden = true
         self.picture.image = image
         UIView.animate(

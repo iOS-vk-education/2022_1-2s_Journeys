@@ -35,7 +35,6 @@ class SkeletonTripCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupCell()
         setup()
         layout()
