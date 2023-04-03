@@ -277,15 +277,16 @@ extension AccountInfoViewController: AccountInfoViewInput {
     }
     
     func clearCellsTextFields(in section: Int) {
-        guard let passwordCell = tableView.cellForRow(at: IndexPath(item: 1, section: section)) as? AccountInfoCell
-        else { return }
-        guard let newPasswordCell = tableView.cellForRow(at: IndexPath(item: 2, section: section)) as? AccountInfoCell
-        else { return }
-        guard let confirmPassword = tableView.cellForRow(at: IndexPath(item: 3, section: section)) as? AccountInfoCell
-        else { return }
-        passwordCell.clearTextField()
-        newPasswordCell.clearTextField()
-        confirmPassword.clearTextField()
+        if let passwordCell = tableView.cellForRow(at: IndexPath(item: 1, section: section)) as? AccountInfoCell {
+            passwordCell.clearTextField()
+        }
+        if let newPasswordCell = tableView.cellForRow(at: IndexPath(item: 2, section: section)) as? AccountInfoCell {
+            newPasswordCell.clearTextField()
+        }
+        
+        if let confirmPassword = tableView.cellForRow(at: IndexPath(item: 3, section: section)) as? AccountInfoCell {
+            confirmPassword.clearTextField()
+        }
     }
 }
 

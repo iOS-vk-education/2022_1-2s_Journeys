@@ -8,6 +8,11 @@
 
 // MARK: - AccountInfoModel
 
+enum UserData {
+    case email
+    case password
+}
+
 final class AccountInfoModel {
     private let firebaseService: FirebaseServiceProtocol
     weak var output: AccountInfoModelOutput!
@@ -22,6 +27,9 @@ final class AccountInfoModel {
 }
 
 extension AccountInfoModel: AccountInfoModelInput {
+    func userEmail() -> String? {
+        firebaseService.obtainUserData()?.email
+    }
     
     func getUserData() {
         guard let userData = firebaseService.obtainUserData() else { return }
@@ -37,35 +45,8 @@ extension AccountInfoModel: AccountInfoModelInput {
             }
         }
     }
-    func saveEmail(email: String, password: String) {
-        firebaseService.login(email: email, password: password) { [weak self] result in
-            guard let self else { return }
-            switch result {
-            case .failure(let error):
-                self.output.didRecieveError(error: error)
-            case .success:
-                self.firebaseService.updateUserEmail(email: email, password: password) { error in
-                    if let error {
-                        self.output.didRecieveError(error: error)
-                        return
-                    }
-                    self.output.saveSuccesfull()
-                }
-            }
-        }
-    }
     
-    func saveNewPassword(email: String, password: String, newPassword: String) {
-        firebaseService.updateUserPassword(email: email, password: password, newPassword: password) { [weak self] error in
-            if let error {
-                self?.output.didRecieveError(error: error)
-                return
-            }
-            self?.output.saveSuccesfull()
-        }
-    }
-    
-    func saveEmail(email: String, newEmail: String, password: String) {
+    func saveEmail(email: String, newEmail: String, password: String, completion: (() -> Void)?) {
         firebaseService.login(email: email, password: password) { [weak self] result in
             guard let self else { return }
             switch result {
@@ -77,7 +58,8 @@ extension AccountInfoModel: AccountInfoModelInput {
                         self.output.didRecieveError(error: error)
                         return
                     }
-                    self.output.saveSuccesfull()
+                    self.output.saveSuccesfull(for: .email)
+                    if let completion { completion() }
                 }
             }
         }
@@ -97,33 +79,7 @@ extension AccountInfoModel: AccountInfoModelInput {
                         self.output.didRecieveError(error: error)
                         return
                     }
-                    self.output.saveSuccesfull()
-                }
-            }
-        }
-    }
-    
-    func saveEmailAndPassword(email: String, newEmail: String, password: String, newPassword: String) {
-        firebaseService.login(email: email, password: password) { [weak self] result in
-            guard let self else { return }
-            switch result {
-            case .failure(let error):
-                self.output.didRecieveError(error: error)
-            case .success:
-                self.firebaseService.updateUserEmail(email: newEmail, password: password) { error in
-                    if let error {
-                        self.output.didRecieveError(error: error)
-                        return
-                    }
-                    self.firebaseService.updateUserPassword(email: newEmail,
-                                                            password: password,
-                                                            newPassword: newPassword) { error in
-                        if let error {
-                            self.output.didRecieveError(error: error)
-                            return
-                        }
-                        self.output.saveSuccesfull()
-                    }
+                    self.output.saveSuccesfull(for: .password)
                 }
             }
         }

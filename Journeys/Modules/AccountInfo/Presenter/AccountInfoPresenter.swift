@@ -30,30 +30,6 @@ final class AccountInfoPresenter {
     
     private var userData: User?
     
-    private struct ChangeUserData {
-        var needToChangePassword: Bool = false
-        var needToChangeEmail: Bool = false
-        
-        enum ThingsToChange {
-            case password
-            case email
-            case emailAndPassword
-            case nothing
-        }
-        
-        func thingsToChange() -> ThingsToChange {
-            if needToChangeEmail && needToChangePassword {
-                return ThingsToChange.emailAndPassword
-            } else if needToChangeEmail {
-                return ThingsToChange.email
-            } else if needToChangePassword {
-                return ThingsToChange.password
-            } else {
-                return ThingsToChange.nothing
-            }
-        }
-    }
-    
     private func showLoadingView() {
         view?.showLoadingView()
     }
@@ -142,7 +118,36 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
             return
         }
         
-        var changeUserData = ChangeUserData()
+        saveUsersEmail(currentEmail: email, newEmail: newEmail, password: password) { [weak self] newEmail in
+            self?.saveUsersPassword(email: newEmail,
+                                    password: password,
+                                    newPassword: newPassword,
+                                    confirmPassword: confirmPassword)
+        }
+        saveUsersPassword(email: email,
+                          password: password,
+                          newPassword: newPassword,
+                          confirmPassword: confirmPassword)
+        showLoadingView()
+    }
+    
+    func saveUsersEmail(currentEmail: String,
+                        newEmail: String?,
+                        password: String,
+                        completion: @escaping (String) -> Void) {
+        if let newEmail, newEmail != currentEmail {
+            model?.saveEmail(email: currentEmail, newEmail: newEmail, password: password) { [weak self] in
+                guard let self else { return }
+                self.userData?.email = newEmail
+                completion(newEmail)
+            }
+        }
+    }
+    
+    func saveUsersPassword(email: String,
+                           password: String,
+                           newPassword: String?,
+                           confirmPassword: String?) {
         if let newPassword {
             guard confirmPassword == newPassword else {
                 view?.showAlert(title: "Ошибка",
@@ -150,33 +155,10 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
                                 textFieldPlaceholder: nil)
                 return
             }
-            changeUserData.needToChangePassword = true
+            model?.savePassword(email: email, password: password, newPassword: newPassword)
         }
-        
-        if newEmail != nil && newEmail != email {
-            changeUserData.needToChangeEmail = true
-        }
-        
-        
-        switch changeUserData.thingsToChange() {
-        case .email:
-            model?.saveEmail(email: email, newEmail: newEmail ?? "", password: password)
-        case .password:
-            model?.savePassword(email: email, password: password, newPassword: newPassword ?? "")
-        case .emailAndPassword:
-            model?.saveEmailAndPassword(email: email,
-                                        newEmail: newEmail ?? "",
-                                        password: password,
-                                        newPassword: newPassword ?? "")
-        case .nothing:
-            return
-        default:
-            return
-        }
-        showLoadingView()
-        return
     }
-    
+
     func deleteAccount(with passwordApprove: String?) {
         guard let passwordApprove else {
             view?.showAlert(title: "Enter your password",
@@ -201,11 +183,22 @@ extension AccountInfoPresenter: AccountInfoModelOutput {
                         textFieldPlaceholder: nil)
     }
     
-    func saveSuccesfull() {
+    func saveSuccesfull(for data: UserData) {
         hideLoadingView()
-        view?.showAlert(title: "Данные сохранены",
-                        message: "Данные успешно сохранены",
-                        textFieldPlaceholder: nil)
+        switch data {
+        case .password:
+            view?.showAlert(title: "Пароль сохранен",
+                            message: "Пароль обновлен",
+                            textFieldPlaceholder: nil)
+        case .email:
+            view?.showAlert(title: "Email сохранен",
+                            message: "Адрес электронной почты  обновлен",
+                            textFieldPlaceholder: nil)
+        default:
+            view?.showAlert(title: "Данные сохранены",
+                            message: "Данные успешно сохранены",
+                            textFieldPlaceholder: nil)
+        }
         view?.clearCellsTextFields(in: Sections.loginInfo.rawValue)
     }
     
