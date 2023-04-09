@@ -15,20 +15,23 @@ final class EventsCoordinator: CoordinatorProtocol {
     private let rootTabBarController: UITabBarController
     private var navigationController = UINavigationController()
     private let tabBarItemFactory: TabBarItemFactoryProtocol
+    private let firebaseService: FirebaseServiceProtocol
     
     // MARK: Lifecycle
     
-    init(rootTabBarController: UITabBarController) {
+    let lock = NSLock()
+    private let loadingViewGroup = DispatchGroup()
+    init(rootTabBarController: UITabBarController, firebaseService: FirebaseServiceProtocol) {
         self.rootTabBarController = rootTabBarController
+        self.firebaseService = firebaseService
         tabBarItemFactory = TabBarItemFactory()
     }
-    
     // MARK: Public Methods
-    
     func start() {
-        let eventsViewController = EventsViewController()
-        eventsViewController.moduleOutput = self
-        navigationController.setViewControllers([eventsViewController], animated: false)
+        let eventsModuleBuilder = EventsModuleBuilder()
+        
+        let eventsViewController = eventsModuleBuilder.build(output: self)
+        navigationController.pushViewController(eventsViewController, animated: true)
         
         navigationController.tabBarItem = tabBarItemFactory.getTabBarItem(from: TabBarPage.events)
         
@@ -44,10 +47,17 @@ final class EventsCoordinator: CoordinatorProtocol {
     // TODO: finish
     func finish() {
     }
+}
+
+extension EventsCoordinator: EventsModuleOutput {
+    func usualEventsModuleWantsToOpenAddEventVC() {
+        let eventsViewController = SuggestionViewController()
+        eventsViewController.moduleOutput = self
+        navigationController.pushViewController(eventsViewController, animated: true)
+    }
     
     func openTapToAddButtonViewController() {
         let eventsViewController = TapToAddButtonViewController()
-        //let eventsViewController = AddingEventViewController()
         eventsViewController.moduleOutput = self
         navigationController.pushViewController(eventsViewController, animated: true)
     }
@@ -60,13 +70,13 @@ final class EventsCoordinator: CoordinatorProtocol {
     
     func openAddingEventViewController() {
         let eventsViewController = AddingEventViewController()
-        eventsViewController.moduleOutput = self
+        //eventsViewController.output = self
         navigationController.pushViewController(eventsViewController, animated: true)
     }
     
     func openEventViewController() {
-        let eventsViewController = EventsViewController()
-        eventsViewController.moduleOutput = self
-        navigationController.pushViewController(eventsViewController, animated: true)
+//        let eventsViewController = EventsPresenter(output: self)
+//        eventsViewController.moduleOutput = self
+//        navigationController.pushViewController(eventsViewController, animated: true)
     }
 }

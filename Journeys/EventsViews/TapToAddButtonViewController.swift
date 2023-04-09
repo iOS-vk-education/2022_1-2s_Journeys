@@ -46,12 +46,16 @@ class TapToAddButtonViewController: UIViewController, UIPopoverPresentationContr
                             cameraCallback: nil)
         //button.autoSetDimensions(to: .init(width: 200, height: 200))
         button.autoSetDimension(.height, toSize: 1000)
+        let cameraPosition = button.mapWindow.map.cameraPosition
+        print(button.mapWindow.map.cameraPosition.target.latitude)
+        print(button.mapWindow.map.cameraPosition.target.longitude)
+        print("========")
         return button
         
     }()
     
     lazy var placemarkOnAdding: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "placemark.png"))
+        let imageView = UIImageView(image: UIImage(named: "Group 3.png"))
         imageView.clipsToBounds = true
         return imageView
     }()
@@ -108,17 +112,10 @@ class TapToAddButtonViewController: UIViewController, UIPopoverPresentationContr
     }
     
     func coordinats() {
-        //var center = nextCameraPosition.azimuth
-       // if let center = mapOnAdding.center {
-        print("Центр: В: \(mapOnAdding.centerXAnchor) L: \(mapOnAdding.centerYAnchor)")
+        let lat = mapOnAdding.mapWindow.map.visibleRegion
+        let lon = mapOnAdding.mapWindow.map.cameraPosition.target.longitude
+        print("Центр: В: \(mapOnAdding.mapWindow.map.cameraPosition.target.latitude) L: \(mapOnAdding.centerYAnchor)")
     }
-    
-    
-//    private func setupGestures() {
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(logout))
-//        tapGesture.numberOfTapsRequired = 1
-//        specifyAdress.addGestureRecognizer(tapGesture)
-//    }
 
     private func setupSpecifyButton() {
         specifyAdress.addTarget(self, action: #selector(didTapSpecifyAdressButton), for: .touchUpInside)
@@ -133,5 +130,20 @@ class TapToAddButtonViewController: UIViewController, UIPopoverPresentationContr
     @objc
     private func didTapBackButton() {
         print("Back button was tapped")
+    }
+}
+
+private extension TapToAddButtonViewController {
+
+    struct SpecifyAdressConstants {
+        static let height = 40.0
+        static let width = 40.0
+        static let cornerRadius = 10.0
+        static let borderWidth = 1.0
+        
+        struct Constraints {
+            static let right = 20.0
+            static let top = 89.0
+        }
     }
 }

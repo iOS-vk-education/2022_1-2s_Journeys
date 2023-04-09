@@ -51,7 +51,8 @@ class AppCoordinator: NSObject, CoordinatorProtocol {
             journeysCoordinatorInput = journeysCoordinator
 
         case .events:
-            let eventsCoordinator = EventsCoordinator(rootTabBarController: tabBarController)
+            let eventsCoordinator = EventsCoordinator(rootTabBarController: tabBarController,
+                                                      firebaseService: firebaseService)
             eventsCoordinator.start()
             childCoordinators.append(eventsCoordinator)
             eventsCoordinatorInput = eventsCoordinator

@@ -6,36 +6,49 @@
 //
 
 import Foundation
+import FirebaseFirestore
+
+//struct Adress {
+//    let id: String
+//    var coordinates: GeoPoint
+//    internal init(coordinates: GeoPoint, id: String) {
+//        self.coordinates = coordinates
+//        self.id = id
+//    }
+//    init?(dictionary: [String: Any], id: String) {
+//        guard
+//        let coordinates = dictionary[CodingKeys.coordinates.rawValue] as? GeoPoint,
+//            let id = dictionary[CodingKeys.id.rawValue] as? String
+//        else {
+//            return nil
+//        }
+//        self.coordinates = coordinates
+//        self.id = id
+//    }
+//    func toDictionary() -> [String: Any] {
+//        var dictionary: [String: Any] = [:]
+//        dictionary[CodingKeys.coordinates.rawValue] = coordinates
+//        dictionary[CodingKeys.id.rawValue] = id
+//        return dictionary
+//    }
+//    enum CodingKeys: String {
+//        case coordinates
+//        case id
+//    }
+//}
 
 struct Adress {
-    var latitude: Double
-    var longtitude: Double
+    let id: String
+    let coordinates: GeoPoint
     
-    internal init( latitude: Double, longtitude: Double) {
-        self.latitude = latitude
-        self.longtitude = longtitude
-    }
-    
-    init?(from dictionary: [String: Any]) {
+    init?(dict: [String: Any], id: String) {
         guard
-        let latitude = dictionary[CodingKeys.latitude.rawValue] as? Double,
-        let longtitude = dictionary[CodingKeys.latitude.rawValue] as? Double
+            let coordinates = dict["coordinates"] as? GeoPoint
         else {
             return nil
         }
-        self.latitude = latitude
-        self.longtitude = longtitude
-    }
-    
-    func toDictionary() -> [String: Any] {
-        var dictionary: [String: Any] = [:]
-        dictionary[CodingKeys.latitude.rawValue] = latitude
-        dictionary[CodingKeys.longtitude.rawValue] = longtitude
-        return dictionary
-    }
-    
-    enum CodingKeys: String {
-        case latitude
-        case longtitude
+        
+        self.id = id
+        self.coordinates = coordinates
     }
 }

@@ -23,6 +23,10 @@ internal typealias AssetImageTypeAlias = ImageAsset.Image
 internal enum Asset {
   internal enum Assets {
     internal static let accentColor = ColorAsset(name: "AccentColor")
+    internal static let addIcon = ImageAsset(name: "AddIcon")
+    internal enum PlacemarkIcons {
+      internal static let defaultPlacemark = ImageAsset(name: "DefaultPlacemark")
+    }
     internal enum TripCell {
       internal static let tripCellImage1 = ImageAsset(name: "TripCellImage1")
       internal static let tripCellImage2 = ImageAsset(name: "TripCellImage2")
@@ -62,6 +66,7 @@ internal enum Asset {
         internal static let dateColor = ColorAsset(name: "dateColor")
       }
     }
+    internal static let searchBar = ColorAsset(name: "SearchBar")
     internal enum SpecifyAdress {
       internal static let buttonSpecifyAdress = ColorAsset(name: "ButtonSpecifyAdress")
       internal static let photoButton = ColorAsset(name: "photoButton")
@@ -75,6 +80,7 @@ internal enum Asset {
       }
     }
     internal enum Text {
+      internal static let addressTextColor = ColorAsset(name: "AddressTextColor")
       internal static let mainTextColor = ColorAsset(name: "MainTextColor")
     }
     internal enum Trips {

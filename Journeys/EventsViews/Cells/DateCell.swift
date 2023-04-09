@@ -1,18 +1,18 @@
 //
-//  CalendarCell.swift
+//  DateCell.swift
 //  Journeys
 //
-//  Created by Сергей Адольевич on 22.11.2022.
+//  Created by Ангелина Решетникова on 25.03.2023.
 //
 
 import Foundation
 import UIKit
 import FSCalendar
 
-final class CalendarCell: UITableViewCell {
+final class DateCell: UICollectionViewCell {
     struct DisplayData {
-        let arrivalDate: Date?
-        let departureDate: Date?
+        let startDate: Date?
+        let finishDate: Date?
     }
     
     // MARK: - Private Properties
@@ -22,7 +22,7 @@ final class CalendarCell: UITableViewCell {
     private var lastDate: Date?
     private var datesRange: [Date]?
     
-    var delegate: CalendarCellDeledate?
+    var delegate: DateCellDeledate?
     
     // MARK: Lifecycle
     
@@ -31,14 +31,14 @@ final class CalendarCell: UITableViewCell {
         backgroundColor =  UIColor(asset: Asset.Colors.Background.brightColor)
     }
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
     }
-    
     override func prepareForReuse() {
         super.prepareForReuse()
+        delegate = nil
     }
-
+    
     func setupViews() {
         let calendarFrame = CGRect(x: contentView.frame.minX + 10,
                                    y: contentView.frame.minY + 10,
@@ -49,7 +49,7 @@ final class CalendarCell: UITableViewCell {
         calendar.dataSource = self
         calendar.delegate = self
         calendar.allowsMultipleSelection = true
-        
+
         calendar.appearance.headerTitleColor = UIColor(asset: Asset.Colors.Calendar.header)
         calendar.appearance.weekdayTextColor = UIColor(asset: Asset.Colors.Calendar.header)
         calendar.appearance.titleDefaultColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
@@ -60,13 +60,13 @@ final class CalendarCell: UITableViewCell {
         return datesRange
     }
     
-    func counfigure(displayData: DisplayData, delegate: CalendarCellDeledate) {
+    func counfigure(displayData: DisplayData, delegate: DateCellDeledate) {
         setupViews()
         self.delegate = delegate
-        guard let arrivalDate = displayData.arrivalDate,
-              let departureDate = displayData.departureDate else { return }
+        guard let arrivalDate = displayData.startDate,
+              let departureDate = displayData.finishDate else { return }
         datesRange = datesRange(from: arrivalDate, to: departureDate)
-        selectDates(from: displayData.arrivalDate, to: displayData.departureDate)
+        selectDates(from: displayData.startDate, to: displayData.finishDate)
     }
     
     fileprivate lazy var dateFormatter1: DateFormatter = {
@@ -76,10 +76,10 @@ final class CalendarCell: UITableViewCell {
     }()
 }
 
-extension CalendarCell: FSCalendarDataSource, FSCalendarDelegateAppearance {
+extension DateCell: FSCalendarDataSource, FSCalendarDelegateAppearance {
 }
 
-extension CalendarCell: FSCalendarDelegate {
+extension DateCell: FSCalendarDelegate {
     func datesRange(from: Date, to: Date) -> [Date] {
         if from > to { return [Date]() }
         var tempDate = from
@@ -156,6 +156,6 @@ extension CalendarCell: FSCalendarDelegate {
     }
 }
 
-protocol CalendarCellDeledate: AnyObject {
+protocol DateCellDeledate: AnyObject {
     func selectedDateRange(range: [Date])
 }

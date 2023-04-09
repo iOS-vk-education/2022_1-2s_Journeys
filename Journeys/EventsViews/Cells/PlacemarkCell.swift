@@ -11,8 +11,6 @@ import SnapKit
 
 struct PlacemarkCellDisplayData {
     let placeholder: String
-    let text : String
-    let isInFavourites: Bool
 }
 
 final class PlacemarkCell: UICollectionViewCell {
@@ -90,8 +88,6 @@ final class PlacemarkCell: UICollectionViewCell {
         
         func configure(data: PlacemarkCellDisplayData, delegate: PlacemarkCellDelegate) {
             inputField.placeholder = data.placeholder
-            inputField.text = data.text
-            isInFavourites = data.isInFavourites
             self.delegate = delegate
         }
     

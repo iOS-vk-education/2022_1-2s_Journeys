@@ -17,6 +17,7 @@ final class AddressCell: UICollectionViewCell {
     
     private let inputField: UILabel = {
         let inpField = UILabel()
+        inpField.font = .boldSystemFont(ofSize: 17)
         return inpField
     }()
     
@@ -53,7 +54,6 @@ final class AddressCell: UICollectionViewCell {
     
     private func setupSubviews() {
         contentView.addSubview(inputField)
-        
         setupColors()
         makeConstraints()
     }

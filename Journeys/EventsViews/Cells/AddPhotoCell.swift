@@ -28,11 +28,11 @@ final class ImageEventCell: UICollectionViewCell {
     }()
     
     private let addPhotoButton: UIButton = {
-        let inpField = UIButton()
-        inpField.backgroundColor = UIColor(asset: Asset.Colors.SpecifyAdress.photoButton)
-        inpField.layer.cornerRadius = 10
-        inpField.setImage(UIImage(systemName: "photo.on.rectangle.angled")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
-        return inpField
+        let addPhotoButton = UIButton()
+        addPhotoButton.backgroundColor = UIColor(asset: Asset.Colors.SpecifyAdress.photoButton)
+        addPhotoButton.layer.cornerRadius = 10
+        addPhotoButton.setImage(UIImage(systemName: "photo.on.rectangle.angled")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
+        return addPhotoButton
     }()
     
     
@@ -110,7 +110,7 @@ final class ImageEventCell: UICollectionViewCell {
         self.delegate = delegate
     }
     
-    func configure2(image: UIImage) {
+    func configureSetImage(image: UIImage) {
         addPhotoButton.setImage(image, for: .normal)
     }
     func returnPhoto() {
