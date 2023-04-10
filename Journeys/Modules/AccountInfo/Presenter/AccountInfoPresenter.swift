@@ -117,34 +117,35 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
                             textFieldPlaceholder: nil)
             return
         }
-        
-        saveUsersEmail(currentEmail: email, newEmail: newEmail, password: password) { [weak self] newEmail in
-            self?.saveUsersPassword(email: newEmail,
-                                    password: password,
-                                    newPassword: newPassword,
-                                    confirmPassword: confirmPassword)
+        if let newEmail, newEmail != email {
+            saveUsersEmail(currentEmail: email, newEmail: newEmail, password: password) { [weak self] newEmail in
+                self?.saveUsersPasswordIfNeeded(email: newEmail,
+                                                password: password,
+                                                newPassword: newPassword,
+                                                confirmPassword: confirmPassword)
+            }
+        } else {
+            saveUsersPasswordIfNeeded(email: email,
+                                      password: password,
+                                      newPassword: newPassword,
+                                      confirmPassword: confirmPassword)
         }
-        saveUsersPassword(email: email,
-                          password: password,
-                          newPassword: newPassword,
-                          confirmPassword: confirmPassword)
         showLoadingView()
     }
     
     func saveUsersEmail(currentEmail: String,
-                        newEmail: String?,
+                        newEmail: String,
                         password: String,
                         completion: @escaping (String) -> Void) {
-        if let newEmail, newEmail != currentEmail {
-            model?.saveEmail(email: currentEmail, newEmail: newEmail, password: password) { [weak self] in
-                guard let self else { return }
-                self.userData?.email = newEmail
-                completion(newEmail)
-            }
+        model?.saveEmail(email: currentEmail, newEmail: newEmail, password: password) { [weak self] in
+            guard let self else { return }
+            self.userData?.email = newEmail
+            completion(newEmail)
         }
+        
     }
     
-    func saveUsersPassword(email: String,
+    func saveUsersPasswordIfNeeded(email: String,
                            password: String,
                            newPassword: String?,
                            confirmPassword: String?) {

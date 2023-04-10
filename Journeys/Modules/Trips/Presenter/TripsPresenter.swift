@@ -234,7 +234,7 @@ extension TripsPresenter: TripsInteractorOutput {
         
         reloadView()
         
-        for index in tripsData.indices {
+        for index in 0..<tripsData.count {
             interactor.loadImage(for: tripsData[index].route) { [weak self] image in
                 guard let self else { return }
                 guard self.tripsData.count > index else { return }

@@ -24,17 +24,17 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
     // MARK: Obtarin data
     
     func obtainTrips(type: TripsType, completion: @escaping (Result<[Trip], Error>) -> Void){
-        guard let userId = FBManager.auth.currentUser?.uid else {
+        guard let userId = firebaseManager.auth.currentUser?.uid else {
             return
         }
         
         let query: Query?
         switch type {
         case .all:
-            query = FBManager.firestore.collection("trips")
+            query = firebaseManager.firestore.collection("trips")
                 .document(userId).collection("user_trips")
         case .saved:
-            query = FBManager.firestore.collection("trips")
+            query = firebaseManager.firestore.collection("trips")
                 .document(userId).collection("user_trips").whereField("is_saved", isEqualTo: true)
         default:
             break

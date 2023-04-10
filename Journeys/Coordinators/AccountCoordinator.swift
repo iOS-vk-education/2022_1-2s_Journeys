@@ -117,7 +117,6 @@ extension AccountCoordinator: AccountInfoModuleOutput {
 }
 
 extension AccountCoordinator: AuthModuleOutput {
-    
     func authModuleWantsToBeClosed() {
         navigationController.dismiss(animated: true)
         guard let accountInfoView = navigationController.viewControllers.last as? AccountInfoViewController

@@ -59,7 +59,7 @@ extension AccountInfoModel: AccountInfoModelInput {
                         return
                     }
                     self.output.saveSuccesfull(for: .email)
-                    if let completion { completion() }
+                    completion?()
                 }
             }
         }

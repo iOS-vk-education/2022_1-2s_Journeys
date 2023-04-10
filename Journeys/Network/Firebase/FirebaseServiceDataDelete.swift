@@ -28,21 +28,6 @@ extension FirebaseService: FirebaseServiceDeleteProtocol {
     }
     
     func deleteTrips(uid: String, completion: @escaping (Error?) -> Void) {
-        obtainTrips { [weak self] result in
-            guard let self else { return }
-            switch result {
-            case .failure(let error):
-                completion(error)
-            case .success(let trips):
-                for trip in trips {
-                    self.deleteRouteData(routeId: trip.routeId) { error in
-                        completion(error)
-                    }
-                    self.deleteBaggage(baggageId: trip.baggageId)
-                }
-                self.deleteUserData(uid: uid)
-            }
-        }
         // TODO: implement trips data deletion
     }
     

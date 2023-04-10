@@ -142,27 +142,3 @@ extension JourneysCoordinator: TripInfoModuleOutput {
         navigationController.popToViewController(navigationController.viewControllers[0], animated: true)
     }
 }
-
-extension JourneysCoordinator: AuthModuleOutput {
-    func authModuleWantsToChangeModulenType(currentType: AuthPresenter.ModuleType) {
-        let builder = AuthModuleBuilder()
-        var authViewController: UIViewController
-        switch currentType {
-        case .auth:
-            authViewController = builder.build(moduleType: .registration,
-                                               output: self,
-                                               firebaseService: firebaseService)
-        case .registration:
-            authViewController = builder.build(moduleType: .auth,
-                                               output: self,
-                                               firebaseService: firebaseService)
-        }
-        
-        navigationController.popViewController(animated: false)
-        navigationController.setViewControllers([authViewController], animated: true)
-    }
-    
-    func authModuleWantsToOpenTripsModule() {
-        self.navigationController.popViewController(animated: true)
-    }
-}

@@ -299,7 +299,6 @@
 		EE497A172940B183007E8579 /* TabbarItemFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarItemFactory.swift; sourceTree = "<group>"; };
 		EE4F820D29B8BE11004784A6 /* SkeletonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonCell.swift; sourceTree = "<group>"; };
 		EE4F820F29B8BF53004784A6 /* SkeletonLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonLoadable.swift; sourceTree = "<group>"; };
-		EE57FF3C2927E7E100212DC2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Localizable.strings; sourceTree = "<group>"; };
 		EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Strings+Generated.swift"; sourceTree = "<group>"; };
 		EE7819AF295A69E8008F607E /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		EE7819B2295A8441008F607E /* TripsPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsPlaceholder.swift; sourceTree = "<group>"; };
@@ -717,16 +716,6 @@
 			path = Trips;
 			sourceTree = "<group>";
 		};
-		EE00ABFC2953B2A100FAFDCD /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				EE92866229CDDBAB00853998 /* UINavigationController.swift */,
-				EE92866329CDDBAB00853998 /* UITextField.swift */,
-				EE00ABFD2953B2AE00FAFDCD /* UILabel.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
 		EE00AC02295601CC00FAFDCD /* DepartureLocation */ = {
 			isa = PBXGroup;
 			children = (
@@ -805,11 +794,7 @@
 				EE7968FD29B9342400F777FE /* SwiftUI+Common */,
 				EE7968F429B92F3F00F777FE /* Services */,
 				CE7F42DA295B34E7000CBA63 /* GoogleService-Info.plist */,
-				EEAC1D462952914000237331 /* Formatters */,
-				EE30C72C2943FB4200A9DCF6 /* Errors */,
-				EEFA76F12935F52400A0B8CA /* Network */,
 				EE29EBF029186D4B008ECFF8 /* Extensions */,
-				EE00ABFC2953B2A100FAFDCD /* Extensions */,
 				EEAC1D462952914000237331 /* Formatters */,
 				EE30C72C2943FB4200A9DCF6 /* Errors */,
 				EEFA76F12935F52400A0B8CA /* Network */,
@@ -864,11 +849,11 @@
 		EE29EBF029186D4B008ECFF8 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				EE92866229CDDBAB00853998 /* UINavigationController.swift */,
+				EE92866329CDDBAB00853998 /* UITextField.swift */,
 				EE7968FB29B9317600F777FE /* Theme+Userdefaults.swift */,
 				EE79132029C33F64002629E3 /* UIWindow.swift */,
 				EEF01CAF29C5C20300A63519 /* ViewControllerWithDimBackground.swift */,
-				EEFA76D0292BEAAC00A0B8CA /* UITextField.swift */,
-				EEFA76ED292D2A4E00A0B8CA /* UINavigationController.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
