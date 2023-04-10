@@ -63,6 +63,10 @@ internal enum Asset {
         internal static let dateColor = ColorAsset(name: "dateColor")
       }
     }
+    internal enum Skeleton {
+      internal static let dark = ColorAsset(name: "dark")
+      internal static let light = ColorAsset(name: "light")
+    }
     internal enum SpecifyAdress {
       internal static let buttonSpecifyAdress = ColorAsset(name: "ButtonSpecifyAdress")
       internal static let photoButton = ColorAsset(name: "photoButton")
