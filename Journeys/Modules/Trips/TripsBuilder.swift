@@ -12,13 +12,13 @@ import UIKit
 final class TripsModuleBuilder {
     func build(firebaseService: FirebaseServiceProtocol,
                output: TripsModuleOutput,
-               tripsViewControllerType: TripsViewController.ScreenType = TripsViewController.ScreenType.usual) -> UIViewController {
+               tripsType: TripsType = .all) -> UIViewController {
         let viewController = TripsViewController()
         let interactor = TripsInteractor(firebaseService: firebaseService)
         let router = TripsRouter(viewController)
         let presenter = TripsPresenter(interactor: interactor,
                                        router: router,
-                                       tripsViewControllerType: tripsViewControllerType)
+                                       tripsType: tripsType)
         
         presenter.moduleOutput = output
         interactor.output = presenter

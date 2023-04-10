@@ -61,20 +61,6 @@ final class JourneysCoordinator: CoordinatorProtocol {
     // TODO: finish
     func finish() {
     }
-    
-//    func hideLoadingView() {
-//        DispatchQueue.main.async {
-//            self.navigationController.dismiss(animated: true)
-//        }
-//    }
-//    
-//    func showLoadingView() {
-//        let loadingVC = LoadingViewController()
-//        loadingVC.modalPresentationStyle = .overCurrentContext
-//
-//        loadingVC.modalTransitionStyle = .crossDissolve
-//        navigationController.present(loadingVC, animated: true)
-//    }
 }
 
 // MARK: TripsModuleOutput
@@ -83,7 +69,9 @@ extension JourneysCoordinator: TripsModuleOutput {
     
     func usualTripsModuleWantsToOpenSavedTrips() {
         let builder = TripsModuleBuilder()
-        let newRouteViewController = builder.build(firebaseService: firebaseService, output: self, tripsViewControllerType: .saved)
+        let newRouteViewController = builder.build(firebaseService: firebaseService,
+                                                   output: self,
+                                                   tripsType: .saved)
         navigationController.pushViewController(newRouteViewController, animated: true)
     }
     
@@ -163,7 +151,6 @@ extension JourneysCoordinator: PlaceModuleOutput {
 
 extension JourneysCoordinator: TripInfoModuleOutput {
     func tripInfoModuleWantsToClose() {
-//        navigationController.popViewController(animated: true)
         navigationController.popToViewController(navigationController.viewControllers[0], animated: true)
     }
 }
@@ -188,12 +175,6 @@ extension JourneysCoordinator: AuthModuleOutput {
     }
     
     func authModuleWantsToOpenTripsModule() {
-//        let builder = TripsModuleBuilder()
-//        let tripsViewController = builder.build(firebaseService: firebaseService,
-//                                                output: self)
-////        self.navigationController.viewControllers.remove(at: 0)
-////        navigationController.pushViewController(tripsViewController, animated: true)
         self.navigationController.popViewController(animated: true)
-//        self.navigationController.setViewControllers([tripsViewController], animated: true)
     }
 }

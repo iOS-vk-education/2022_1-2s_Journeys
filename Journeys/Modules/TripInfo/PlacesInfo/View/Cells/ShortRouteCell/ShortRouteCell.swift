@@ -49,11 +49,7 @@ final class ShortRouteCell: UICollectionViewCell {
             make.bottom.equalToSuperview()
         }
     }
-    
-    func getLabelLinesCount() -> Int {
-        routeLabel.calculateMaxLines()
-    }
-    
+
     func configure(data: DisplayData) {
         self.routeLabel.text = data.route
     }

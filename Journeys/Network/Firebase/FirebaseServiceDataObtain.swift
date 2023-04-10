@@ -13,8 +13,7 @@ import FirebaseAuth
 protocol FirebaseServiceObtainProtocol {
     func obtainTrip(with identifier: String, completion: @escaping (Result<Trip, Error>) -> Void)
     func obtainRoute(with identifier: String, completion: @escaping (Result<Route, Error>) -> Void)
-    func obtainTrips(completion: @escaping (Result<[Trip], Error>) -> Void)
-    func obtainSavedTrips(completion: @escaping (Result<[Trip], Error>) -> Void)
+    func obtainTrips(type: TripsType, completion: @escaping (Result<[Trip], Error>) -> Void)
     func obtainTripImage(for imageURLString: String, completion: @escaping (Result<UIImage, Error>) -> Void)
     func obtainBaseStuff(completion: @escaping (Result<[BaseStuff], Error>) -> Void)
     func obtainBaggage(baggageId: String, completion: @escaping (Result<[Stuff], Error>) -> Void)
@@ -24,48 +23,42 @@ protocol FirebaseServiceObtainProtocol {
 extension FirebaseService: FirebaseServiceObtainProtocol {
     // MARK: Obtarin data
     
-    func obtainTrips(completion: @escaping (Result<[Trip], Error>) -> Void){
+    func obtainTrips(type: TripsType, completion: @escaping (Result<[Trip], Error>) -> Void){
         guard let userId = FBManager.auth.currentUser?.uid else {
             return
         }
-        FBManager.firestore.collection("trips")
-            .document(userId).collection("user_trips").getDocuments { (snapshot, error) in
-                if let error = error {
-                    completion(.failure(error))
-                    assertionFailure("Error while obtaining trips data")
-                    return
-                }
-                guard let documents = snapshot?.documents else {
-                    completion(.failure(FBError.noData))
-                    return
-                }
-                
-                var trips = documents.compactMap { Trip(from: $0.data(), id: $0.documentID) }
-                trips.sort(by: {$0.dateChanged.timeIntervalSinceNow > $1.dateChanged.timeIntervalSinceNow})
-                completion(.success(trips))
-            }
-    }
-    
-    func obtainSavedTrips(completion: @escaping (Result<[Trip], Error>) -> Void){
-        guard let userId = FBManager.auth.currentUser?.uid else {
+        
+        let query: Query?
+        switch type {
+        case .all:
+            query = FBManager.firestore.collection("trips")
+                .document(userId).collection("user_trips")
+        case .saved:
+            query = FBManager.firestore.collection("trips")
+                .document(userId).collection("user_trips").whereField("is_saved", isEqualTo: true)
+        default:
+            break
+        }
+        
+        guard let query else {
+            assertionFailure("Error while creating query")
             return
         }
-        FBManager.firestore.collection("trips")
-            .document(userId).collection("user_trips").whereField("is_saved", isEqualTo: true).getDocuments { (snapshot, error) in
-                if let error = error {
-                    completion(.failure(error))
-                    assertionFailure("Error while obtaining trips data")
-                    return
-                }
-                guard let documents = snapshot?.documents else {
-                    completion(.failure(FBError.noData))
-                    return
-                }
-                
-                var trips = documents.compactMap { Trip(from: $0.data(), id: $0.documentID) }
-                trips.sort(by: {$0.dateChanged.timeIntervalSinceNow > $1.dateChanged.timeIntervalSinceNow})
-                completion(.success(trips))
+        query.getDocuments { (snapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+                assertionFailure("Error while obtaining trips data")
+                return
             }
+            guard let documents = snapshot?.documents else {
+                completion(.failure(FBError.noData))
+                return
+            }
+            
+            var trips = documents.compactMap { Trip(from: $0.data(), id: $0.documentID) }
+            trips.sort(by: {$0.dateChanged.timeIntervalSinceNow > $1.dateChanged.timeIntervalSinceNow})
+            completion(.success(trips))
+        }
     }
     
     func obtainTrip(with identifier: String, completion: @escaping (Result<Trip, Error>) -> Void) {
@@ -113,7 +106,6 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
         ref.getData(maxSize: maxSize) { (data, error) in
             if let error = error {
                 completion(.failure(error))
-                assertionFailure("Error while obtaining image")
                 return
             }
             if let imageData = data {
@@ -127,11 +119,9 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
         FBManager.firestore.collection("base_stuff").getDocuments { (snapshot, error) in
             if let error = error {
                 completion(.failure(error))
-                assertionFailure("Error while obtaining trips data")
                 return
             }
             guard let snapshot = snapshot else {
-                assertionFailure("No data found")
                 return
             }
             

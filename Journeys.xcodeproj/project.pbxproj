@@ -98,6 +98,8 @@
 		EE497A142940AF4C007E8579 /* EventsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE497A132940AF4C007E8579 /* EventsCoordinator.swift */; };
 		EE497A162940B0EB007E8579 /* Pages.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE497A152940B0EB007E8579 /* Pages.swift */; };
 		EE497A182940B183007E8579 /* TabbarItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE497A172940B183007E8579 /* TabbarItemFactory.swift */; };
+		EE4F820E29B8BE11004784A6 /* SkeletonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4F820D29B8BE11004784A6 /* SkeletonCell.swift */; };
+		EE4F821029B8BF53004784A6 /* SkeletonLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4F820F29B8BF53004784A6 /* SkeletonLoadable.swift */; };
 		EE57FF3D2927E7E100212DC2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE57FF3B2927E7E100212DC2 /* Localizable.strings */; };
 		EE57FF3F2927E8B000212DC2 /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */; };
 		EE7819B0295A69E8008F607E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819AF295A69E8008F607E /* LoadingView.swift */; };
@@ -117,6 +119,8 @@
 		EE910DC92958B93A0094F5C8 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DC82958B93A0094F5C8 /* LoadingViewController.swift */; };
 		EE910DCD295913860094F5C8 /* NoPlacesForWeatherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DCC295913860094F5C8 /* NoPlacesForWeatherCell.swift */; };
 		EE910DD5295A28AA0094F5C8 /* WeatherPlaceNoDataPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DD4295A28AA0094F5C8 /* WeatherPlaceNoDataPlaceholder.swift */; };
+		EE92866429CDDBAB00853998 /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE92866229CDDBAB00853998 /* UINavigationController.swift */; };
+		EE92866529CDDBAB00853998 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE92866329CDDBAB00853998 /* UITextField.swift */; };
 		EEA76C5E2951325E00250B06 /* PlacesInfoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C482951325E00250B06 /* PlacesInfoPresenter.swift */; };
 		EEA76C5F2951325E00250B06 /* PlacesInfoModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C492951325E00250B06 /* PlacesInfoModuleIO.swift */; };
 		EEA76C602951325E00250B06 /* PlacesInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C4B2951325E00250B06 /* PlacesInfoModel.swift */; };
@@ -153,11 +157,9 @@
 		EEFA76CB292BE88F00A0B8CA /* RouteViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76C5292BE88F00A0B8CA /* RouteViewIO.swift */; };
 		EEFA76CC292BE88F00A0B8CA /* RouteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76C6292BE88F00A0B8CA /* RouteViewController.swift */; };
 		EEFA76CF292BE93500A0B8CA /* RouteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76CE292BE93500A0B8CA /* RouteCell.swift */; };
-		EEFA76D1292BEAAC00A0B8CA /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76D0292BEAAC00A0B8CA /* UITextField.swift */; };
 		EEFA76D3292BED6000A0B8CA /* RouteDisplayDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76D2292BED6000A0B8CA /* RouteDisplayDataFactory.swift */; };
 		EEFA76D9292C4EF300A0B8CA /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76D8292C4EF300A0B8CA /* LocationCell.swift */; };
 		EEFA76DB292C5E7E00A0B8CA /* CalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76DA292C5E7E00A0B8CA /* CalendarCell.swift */; };
-		EEFA76EE292D2A4E00A0B8CA /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76ED292D2A4E00A0B8CA /* UINavigationController.swift */; };
 		EEFA76F32935F53A00A0B8CA /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76F22935F53A00A0B8CA /* FirebaseManager.swift */; };
 		EFC46B44DC715D0AB5B01639 /* PlaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F037949A48EAF01CF6644F /* PlaceModel.swift */; };
 		F85D180AC31F83D70AABFF62 /* PlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8185A5807AF85BC79DA25C /* PlaceViewController.swift */; };
@@ -260,6 +262,8 @@
 		EE497A132940AF4C007E8579 /* EventsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsCoordinator.swift; sourceTree = "<group>"; };
 		EE497A152940B0EB007E8579 /* Pages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pages.swift; sourceTree = "<group>"; };
 		EE497A172940B183007E8579 /* TabbarItemFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarItemFactory.swift; sourceTree = "<group>"; };
+		EE4F820D29B8BE11004784A6 /* SkeletonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonCell.swift; sourceTree = "<group>"; };
+		EE4F820F29B8BF53004784A6 /* SkeletonLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonLoadable.swift; sourceTree = "<group>"; };
 		EE57FF3C2927E7E100212DC2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Localizable.strings; sourceTree = "<group>"; };
 		EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Strings+Generated.swift"; sourceTree = "<group>"; };
 		EE7819AF295A69E8008F607E /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
@@ -279,6 +283,8 @@
 		EE910DC82958B93A0094F5C8 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		EE910DCC295913860094F5C8 /* NoPlacesForWeatherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoPlacesForWeatherCell.swift; sourceTree = "<group>"; };
 		EE910DD4295A28AA0094F5C8 /* WeatherPlaceNoDataPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherPlaceNoDataPlaceholder.swift; sourceTree = "<group>"; };
+		EE92866229CDDBAB00853998 /* UINavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
+		EE92866329CDDBAB00853998 /* UITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
 		EEA76C482951325E00250B06 /* PlacesInfoPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesInfoPresenter.swift; sourceTree = "<group>"; };
 		EEA76C492951325E00250B06 /* PlacesInfoModuleIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesInfoModuleIO.swift; sourceTree = "<group>"; };
 		EEA76C4B2951325E00250B06 /* PlacesInfoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesInfoModel.swift; sourceTree = "<group>"; };
@@ -316,11 +322,9 @@
 		EEFA76C5292BE88F00A0B8CA /* RouteViewIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteViewIO.swift; sourceTree = "<group>"; };
 		EEFA76C6292BE88F00A0B8CA /* RouteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteViewController.swift; sourceTree = "<group>"; };
 		EEFA76CE292BE93500A0B8CA /* RouteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteCell.swift; sourceTree = "<group>"; };
-		EEFA76D0292BEAAC00A0B8CA /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
 		EEFA76D2292BED6000A0B8CA /* RouteDisplayDataFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteDisplayDataFactory.swift; sourceTree = "<group>"; };
 		EEFA76D8292C4EF300A0B8CA /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
 		EEFA76DA292C5E7E00A0B8CA /* CalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCell.swift; sourceTree = "<group>"; };
-		EEFA76ED292D2A4E00A0B8CA /* UINavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
 		EEFA76F22935F53A00A0B8CA /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		F4A76FCB7DE71B4D0835960C /* PlaceBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlaceBuilder.swift; sourceTree = "<group>"; };
 		FABAFF6132B4BF34FF1262AA /* TripsRouterInput.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsRouterInput.swift; sourceTree = "<group>"; };
@@ -612,12 +616,14 @@
 			path = Trips;
 			sourceTree = "<group>";
 		};
-		EE00ABFC2953B2A100FAFDCD /* Extencions */ = {
+		EE00ABFC2953B2A100FAFDCD /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				EE92866229CDDBAB00853998 /* UINavigationController.swift */,
+				EE92866329CDDBAB00853998 /* UITextField.swift */,
 				EE00ABFD2953B2AE00FAFDCD /* UILabel.swift */,
 			);
-			path = Extencions;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		EE00AC02295601CC00FAFDCD /* DepartureLocation */ = {
@@ -696,11 +702,10 @@
 			isa = PBXGroup;
 			children = (
 				CE7F42DA295B34E7000CBA63 /* GoogleService-Info.plist */,
-				EE00ABFC2953B2A100FAFDCD /* Extencions */,
+				EE00ABFC2953B2A100FAFDCD /* Extensions */,
 				EEAC1D462952914000237331 /* Formatters */,
 				EE30C72C2943FB4200A9DCF6 /* Errors */,
 				EEFA76F12935F52400A0B8CA /* Network */,
-				EE29EBF029186D4B008ECFF8 /* Extencions */,
 				EE02E53E2950D9EA002BE87E /* Models */,
 				EE0AF951291301C500EC52D3 /* Modules */,
 				EE29EBF62919151A008ECFF8 /* Coordinators */,
@@ -745,15 +750,6 @@
 			path = Generated;
 			sourceTree = "<group>";
 		};
-		EE29EBF029186D4B008ECFF8 /* Extencions */ = {
-			isa = PBXGroup;
-			children = (
-				EEFA76D0292BEAAC00A0B8CA /* UITextField.swift */,
-				EEFA76ED292D2A4E00A0B8CA /* UINavigationController.swift */,
-			);
-			path = Extencions;
-			sourceTree = "<group>";
-		};
 		EE29EBF62919151A008ECFF8 /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
@@ -770,6 +766,7 @@
 		EE2B4124291413C80067BE4F /* TripsCells */ = {
 			isa = PBXGroup;
 			children = (
+				EE4F820C29B8BDF8004784A6 /* Skeleton */,
 				EEDAF554291C0F2200E6DDB9 /* AddTripCell.swift */,
 				EE2B4125291413EB0067BE4F /* TripCell.swift */,
 			);
@@ -793,6 +790,15 @@
 				EE910DB82957FAFA0094F5C8 /* SetVisible.swift */,
 			);
 			path = Tabbar;
+			sourceTree = "<group>";
+		};
+		EE4F820C29B8BDF8004784A6 /* Skeleton */ = {
+			isa = PBXGroup;
+			children = (
+				EE4F820D29B8BE11004784A6 /* SkeletonCell.swift */,
+				EE4F820F29B8BF53004784A6 /* SkeletonLoadable.swift */,
+			);
+			path = Skeleton;
 			sourceTree = "<group>";
 		};
 		EE57FF372927E6E400212DC2 /* ru.lproj */ = {
@@ -1261,6 +1267,7 @@
 			files = (
 				EEDAF557291C302500E6DDB9 /* SceneDelegate.swift in Sources */,
 				CE4CCCA1295863CB0057455D /* FloatingButton2.swift in Sources */,
+				EE4F820E29B8BE11004784A6 /* SkeletonCell.swift in Sources */,
 				EE910DC32958AE610094F5C8 /* FirebaseServiceAuth.swift in Sources */,
 				EED2A760294FCAF9003A9A1A /* StuffTableViewHeader.swift in Sources */,
 				EEA76C682951325E00250B06 /* MainCollectionHeader.swift in Sources */,
@@ -1271,8 +1278,10 @@
 				EEDAF553291C05B300E6DDB9 /* JourneysCoordinator.swift in Sources */,
 				EE57FF3F2927E8B000212DC2 /* Strings+Generated.swift in Sources */,
 				EE497A142940AF4C007E8579 /* EventsCoordinator.swift in Sources */,
+				EE92866429CDDBAB00853998 /* UINavigationController.swift in Sources */,
 				EE7819B9295B1705008F607E /* EmptyViewController.swift in Sources */,
 				CE4CCC97295693310057455D /* TapToAddButtonViewController.swift in Sources */,
+				EE92866529CDDBAB00853998 /* UITextField.swift in Sources */,
 				EEA76C6A2951325E00250B06 /* PlacesInfoViewIO.swift in Sources */,
 				EEA76C632951325E00250B06 /* WeatherCellDisplayDataFactory.swift in Sources */,
 				EE910DC12958AE520094F5C8 /* FirebaseServiceDataDelete.swift in Sources */,
@@ -1299,7 +1308,6 @@
 				EEA76C612951325E00250B06 /* WeatherCollectionHeader.swift in Sources */,
 				EEA76C602951325E00250B06 /* PlacesInfoModel.swift in Sources */,
 				EE00AC18295601CD00FAFDCD /* DepartureLocationViewIO.swift in Sources */,
-				EEFA76D1292BEAAC00A0B8CA /* UITextField.swift in Sources */,
 				91819FAFB33A7ABB47EAB8B0 /* TripsViewIO.swift in Sources */,
 				EEFA76CB292BE88F00A0B8CA /* RouteViewIO.swift in Sources */,
 				093861F1C840A5A7EA2ABBB0 /* TripsViewController.swift in Sources */,
@@ -1320,6 +1328,7 @@
 				EEAC1D312952717800237331 /* NetworkService.swift in Sources */,
 				EE910DC92958B93A0094F5C8 /* LoadingViewController.swift in Sources */,
 				EE00AC14295601CD00FAFDCD /* DepartureLocationBuilder.swift in Sources */,
+				EE4F821029B8BF53004784A6 /* SkeletonLoadable.swift in Sources */,
 				EEDAF555291C0F2200E6DDB9 /* AddTripCell.swift in Sources */,
 				EEFA76F32935F53A00A0B8CA /* FirebaseManager.swift in Sources */,
 				EE00AC1D2956921100FAFDCD /* ImageRouteCell.swift in Sources */,
@@ -1353,7 +1362,6 @@
 				EE157F482926B39A00A56157 /* XCAssets+Generated.swift in Sources */,
 				EEFA76CA292BE88F00A0B8CA /* RouteModel.swift in Sources */,
 				877628B20E359D76C0F8AAE7 /* PlaceViewIO.swift in Sources */,
-				EEFA76EE292D2A4E00A0B8CA /* UINavigationController.swift in Sources */,
 				EE910DBD29589AD10094F5C8 /* User.swift in Sources */,
 				EE00AC1A29561F7C00FAFDCD /* StoreNewTrip.swift in Sources */,
 				F85D180AC31F83D70AABFF62 /* PlaceViewController.swift in Sources */,
