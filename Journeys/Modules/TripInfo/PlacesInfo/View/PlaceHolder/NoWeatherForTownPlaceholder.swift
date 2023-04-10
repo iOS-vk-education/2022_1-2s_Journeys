@@ -1,17 +1,17 @@
 //
-//  TripsPlaceholder.swift
+//  NoWeatherForTownPlaceholder.swift
 //  Journeys
 //
-//  Created by Сергей Адольевич on 27.12.2022.
+//  Created by Сергей Адольевич on 10.04.2023.
 //
 
 import Foundation
 import UIKit
 import SnapKit
 
-// MARK: - TripsPlaceholderViewController
+// MARK: - NoWeatherForTownPlaceholderView
 
-final class TripsPlaceholderViewController: UIViewController {
+final class NoWeatherForTownPlaceholderView: UIView {
     // MARK: Private properties
 
     private let titleLabel = UILabel()
@@ -44,9 +44,15 @@ final class TripsPlaceholderViewController: UIViewController {
     }
 
     // MARK: Lifecycle
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupImage()
+        setupTitleLabel()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
         setupImage()
         setupTitleLabel()
     }
@@ -63,7 +69,7 @@ final class TripsPlaceholderViewController: UIViewController {
     private func setupTitleLabel() {
         titleLabel.font = UIFont.boldSystemFont(ofSize: Constants.FontSizes.titleLabelFontSize)
         titleLabel.textColor = UIColor(asset: Asset.Colors.Trips.tripsPlaceholder)
-        view.addSubview(titleLabel)
+        addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(image.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
@@ -72,7 +78,7 @@ final class TripsPlaceholderViewController: UIViewController {
     }
 
     private func setupImage() {
-        view.addSubview(image)
+        addSubview(image)
         image.contentMode = .scaleAspectFit
         image.tintColor = UIColor(asset: Asset.Colors.Trips.tripsPlaceholder)
         image.snp.makeConstraints { make in

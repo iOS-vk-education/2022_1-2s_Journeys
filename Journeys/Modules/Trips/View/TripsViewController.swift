@@ -254,17 +254,22 @@ extension TripsViewController: TripsViewInput {
             self?.loadingView.removeFromSuperview()
         }
     }
+    
+    func changeIsSavedCellStatus(at indexPath: IndexPath, status: Bool) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? TripCell else { return }
+        cell.changeIsSavedStatus(status: status)
+    }
 }
 
-extension TripsViewController: TripsTransitionHandlerProtocol {
+extension TripsViewController: TransitionHandlerProtocol {
     func embedPlaceholder(_ viewController: UIViewController) {
-        guard let placeholderViewController = viewController as? PlaceHolderViewController else { return }
+        guard let placeholderViewController = viewController as? TripsPlaceholderViewController else { return }
 
         guard placeholderView.isHidden == true else {
             return
         }
         placeholderViewController
-            .configure(with: PlaceHolderViewController.DisplayData(title: L10n.noTrips,
+            .configure(with: TripsPlaceholderViewController.DisplayData(title: L10n.noTrips,
                                                                    imageName: "TripsPlaceholder"))
         addChild(placeholderViewController)
         placeholderViewController.didMove(toParent: self)
@@ -281,11 +286,6 @@ extension TripsViewController: TripsTransitionHandlerProtocol {
     
     func hidePlaceholder() {
         placeholderView.isHidden = true
-    }
-    
-    func changeIsSavedCellStatus(at indexPath: IndexPath, status: Bool) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? TripCell else { return }
-        cell.changeIsSavedStatus(status: status)
     }
 }
 

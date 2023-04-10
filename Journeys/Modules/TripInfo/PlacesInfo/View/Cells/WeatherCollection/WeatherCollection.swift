@@ -12,7 +12,7 @@ import SnapKit
 final class WeatherCollection: UICollectionViewCell {
     struct DisplayData {
         let town: String
-//        let cellsCount: Int
+        let cellsCount: Int
     }
 
     var collectionIndexPath: IndexPath?
@@ -45,6 +45,7 @@ final class WeatherCollection: UICollectionViewCell {
         addSubview(collectionView)
         addSubview(townNameView)
 
+        placeholderView.isHidden = true
         setupCollectionView()
         setupConstraints()
         collectionView.showsHorizontalScrollIndicator = false
@@ -81,6 +82,9 @@ final class WeatherCollection: UICollectionViewCell {
         self.collectionIndexPath = indexPath
         townNameView.configure(title: data.town)
         self.delegate = delegate
+        if data.cellsCount == 0 {
+            embedPlaceholder(NoWeatherForTownPlaceholderView())
+        }
     }
 }
 
@@ -110,6 +114,32 @@ extension WeatherCollection: UICollectionViewDataSource {
         }
         cell.configure(data: data)
         return cell
+    }
+}
+
+extension WeatherCollection {
+    func embedPlaceholder(_ viewController: UIView) {
+        guard let placeholderViewController = viewController as? NoWeatherForTownPlaceholderView else { return }
+
+        guard placeholderView.isHidden == true else {
+            return
+        }
+        placeholderViewController
+            .configure(with: NoWeatherForTownPlaceholderView.DisplayData(title: L10n.noTrips,
+                                                                            imageName: "TripsPlaceholder"))
+        placeholderView = placeholderViewController
+        collectionView.addSubview(placeholderView)
+        placeholderView.isHidden = false
+        placeholderView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.height.equalTo(100)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+        }
+    }
+    
+    func hidePlaceholder() {
+        placeholderView.isHidden = true
     }
 }
 

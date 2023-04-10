@@ -21,16 +21,17 @@ protocol PlacesInfoViewInput: AnyObject {
 protocol PlacesInfoViewOutput: AnyObject {
     func viewDidLoad()
 
-    func isEmptyCellNeed() -> Bool
-    func getEmptyCellData() -> String
+    func sectionsCount() -> Int
+    func mainCollectionCellsCount(for section: Int) -> Int
+    func getWeatherCollectionCellsCount(for collectionIndexPath: IndexPath) -> Int
+    func mainCollectionCellType(for indexPath: IndexPath) -> PlacesInfoPresenter.CellsType?
+    
+    func getRoutelData() -> ShortRouteCell.DisplayData?
+    func getWeatherCollectionDisplayData(_ row: Int) -> WeatherCollection.DisplayData?
+    func getWeatherCollectionCellDisplayData(collectionRow: Int, cellRow: Int) -> WeatherCell.DisplayData?
+
     func getHeaderText(for indexpath: IndexPath) -> String
     func getRouteCellHeight() -> CGFloat
-    func getRoutelData() -> ShortRouteCell.DisplayData?
-    func getMainCollectionCellsCount(for section: Int) -> Int
-    
-    func getWeatherCollectionDisplayData(_ row: Int) -> WeatherCollection.DisplayData?
-    func getWeatherCollectionCellsCount(for collectionIndexPath: IndexPath) -> Int
-    func getWeatherCollectionCellDisplayData(collectionRow: Int, cellRow: Int) -> WeatherCell.DisplayData?
     
     func didTapExitButton()
 }

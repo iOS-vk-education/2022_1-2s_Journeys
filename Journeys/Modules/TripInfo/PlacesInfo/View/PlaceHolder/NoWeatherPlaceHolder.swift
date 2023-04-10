@@ -1,17 +1,17 @@
 //
-//  TripsPlaceholder.swift
+//  NoWeatherPlaceHolder.swift
 //  Journeys
 //
-//  Created by Сергей Адольевич on 27.12.2022.
+//  Created by Сергей Адольевич on 10.04.2023.
 //
 
 import Foundation
 import UIKit
 import SnapKit
 
-// MARK: - TripsPlaceholderViewController
+// MARK: - NoWeatherPlaceHolderViewController
 
-final class TripsPlaceholderViewController: UIViewController {
+final class NoWeatherPlaceHolderViewController: UIViewController {
     // MARK: Private properties
 
     private let titleLabel = UILabel()

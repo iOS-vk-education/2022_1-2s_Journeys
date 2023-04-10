@@ -40,6 +40,10 @@ struct Location: Decodable {
         return dictionary
     }
     
+    func toString() -> String {
+        return country + " " + city
+    }
+    
     enum CodingKeys: String, CodingKey {
         case country
         case city

@@ -1,5 +1,5 @@
 //
-//  PlacesIngoPresenter.swift
+//  PlacesInfoPresenter.swift
 //  Journeys
 //
 //  Created by Nastya Ischenko on 14/12/2022.
@@ -10,43 +10,45 @@ import UIKit
 // MARK: - PlacesIngoPresenter
 
 final class PlacesInfoPresenter {
+    enum CellsType: Int, CaseIterable {
+        case route
+        case weather
+        case currency
+    }
+    
     // MARK: - Public Properties
 
     weak var view: PlacesInfoViewInput?
-    var model: PlacesInfoModel!
+    private let interactor: PlacesInfoInteractorInput
+    private let router: PlacesInfoRouterInput
     weak var moduleOutput: PlacesInfoModuleOutput?
     private var route: Route
     private var weather: [WeatherWithLocation] = []
-    private var loadedeWeather: [WeatherWithLocation] = []
     
-    private var weatherLocationsCount: Int?
-    private var isAnyPlacesWithWeather: Bool = false
-    private var isAnyPlaces: Bool = false
     private var isDataLoaded: Bool = false
-    private var dataToLoadCount: Int
+    private var locationsWithoutCoordinatesList: [Location] = []
     
-    private var noWeather: Bool = false
-    private var isWeatherAlertShown: Bool = false
     
-    init(route: Route) {
+    init(interactor: PlacesInfoInteractorInput,
+         router: PlacesInfoRouterInput,
+         route: Route) {
+        self.interactor = interactor
+        self.router = router
         self.route = route
-        if route.places.count > 0 {
-            isAnyPlaces = true
-        }
-        dataToLoadCount = route.places.count
     }
     
     private func sortWeather() {
         var sortedWeather: [WeatherWithLocation] = []
         for place in route.places {
-            for curWeather in loadedeWeather {
+            for curWeather in weather {
                 if curWeather.location.city == place.location.city &&
                     curWeather.location.country == place.location.country {
                     sortedWeather.append(curWeather)
+                    break
                 }
             }
         }
-        loadedeWeather = sortedWeather
+        weather = sortedWeather
     }
     
     private func showLoadingView() {
@@ -67,15 +69,21 @@ final class PlacesInfoPresenter {
         return array
     }
     
-    private func dataLoaded() {
-        sortWeather()
-        weather = loadedeWeather
-        view?.reloadData()
-        if noWeather && !isWeatherAlertShown {
-            isWeatherAlertShown = true
-            view?.showAlert(title: "Погода на 15 дней", message: "Journeys может показывать погоду только на 15 ближайших дней")
+    private func showNoCoordinatesAlert() {
+        let locationsWithoutCoordinatesString: String = locationsWithoutCoordinatesList.compactMap( { $0.toString() } ).joined(separator: ", ")
+        view?.showAlert(title: "Неизвестное место", message: "К сожалению, мы не смогли найти места из вашего маршрута: \(locationsWithoutCoordinatesString)")
+    }
+    
+    private func embedRPlaceholder() {
+        DispatchQueue.main.async { [weak self] in
+            self?.router.embedPlaceholder()
         }
-        hideLoadingView()
+    }
+    
+    private func hidePlaceholder() {
+        DispatchQueue.main.async { [weak self] in
+            self?.router.hidePlaceholder()
+        }
     }
 }
 
@@ -85,77 +93,50 @@ extension PlacesInfoPresenter: PlacesInfoModuleInput {
 extension PlacesInfoPresenter: PlacesInfoViewOutput {
     func viewDidLoad() {
         showLoadingView()
-        for place in route.places {
-            let currentDate = Date()
-            var dateComponent = DateComponents()
-            dateComponent.day = 15
-            if let futureDate = Calendar.current.date(byAdding: dateComponent, to: currentDate) {
-                if place.arrive < futureDate {
-                    if place.depart > futureDate {
-                        let newPlace = Place(location: place.location, arrive: place.arrive, depart: futureDate)
-                        model.getWeatherData(for: newPlace)
-                        noWeather = true
-                    } else {
-                        model.getWeatherData(for: place)
-                    }
-                } else {
-                    noWeather = true
-                    dataToLoadCount -= 1
-                    if dataToLoadCount == 0 {
-                        isDataLoaded = true
-                        dataLoaded()
-                    }
-                }
-            }
+        interactor.weatherData(for: route)
+    }
+    
+    func sectionsCount() -> Int {
+        CellsType.allCases.count
+    }
+    
+    func mainCollectionCellsCount(for section: Int) -> Int {
+        guard isDataLoaded else { return 0 }
+        guard CellsType.allCases.count > section else { return 0 }
+        let section = CellsType.allCases[section]
+        switch section {
+        case .route, .currency: return 1
+        case .weather: return weather.count == 0 ? 1 : weather.count
+        default: return 0
         }
-    }
-    
-    func isEmptyCellNeed() -> Bool {
-        if !isAnyPlaces || !isAnyPlacesWithWeather {
-            return true
-        }
-        return false
-    }
-    
-    func getEmptyCellData() -> String {
-        if !isAnyPlaces {
-            return L10n.noSelectedPlaces
-        } else if !isAnyPlacesWithWeather && isDataLoaded {
-            return L10n.noMeteoDataForPlacesOrDates
-        }
-        return ""
-    }
-    
-    func getRouteCellHeight() -> CGFloat {
-        return 0.0
-    }
-    
-    func getMainCollectionCellsCount(for section: Int) -> Int {
-        if section == 0 {
-            return 1
-        } else if section == 1 {
-            if weather.count == 0 {
-                return 1
-            }
-            return weather.count
-        }
-        return 0
-    }
-    
-    func getWeatherCollectionDisplayData(_ row: Int) -> WeatherCollection.DisplayData? {
-        guard weather.indices.contains(row) == true else { return nil }
-        return WeatherCollection.DisplayData(town: weather[row].location.city)
     }
     
     func getWeatherCollectionCellsCount(for indexPath: IndexPath) -> Int {
+        guard isDataLoaded else { return 0 }
         guard weather.indices.contains(indexPath.row) == true else { return 0 }
         return weather[indexPath.row].weather.count
+    }
+    
+    func mainCollectionCellType(for indexPath: IndexPath) -> CellsType? {
+        guard isDataLoaded else { return nil }
+        guard CellsType.allCases.count > indexPath.section else { return nil }
+        return CellsType.allCases[indexPath.section]
+    }
+    
+    func getWeatherCollectionDisplayData(_ row: Int) -> WeatherCollection.DisplayData? {
+        guard isDataLoaded else { return nil }
+        guard weather.indices.contains(row) == true else { return nil }
+        return WeatherCollection.DisplayData(town: weather[row].location.city, cellsCount: weather[row].weather.count)
     }
     
     func getWeatherCollectionCellDisplayData(collectionRow: Int, cellRow: Int) -> WeatherCell.DisplayData? {
         guard weather.indices.contains(collectionRow) == true else { return nil }
         guard weather[collectionRow].weather.indices.contains(cellRow) == true else { return nil }
         return WeatherCellDisplayDataFactory().displayData(weather: weather[collectionRow].weather[cellRow])
+    }
+    
+    func getRouteCellHeight() -> CGFloat {
+        return 0.0
     }
     
     func getHeaderText(for indexpath: IndexPath) -> String {
@@ -183,34 +164,34 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
     }
 }
 
-extension PlacesInfoPresenter: PlacesInfoModelOutput {
-//    func noCoordunates() {
-//        dataToLoadCount -= 1
-//        if dataToLoadCount == 0 {
-//            isDataLoaded = true
-//            dataLoaded()
-//        }
-//    }
-    func noCoordunates() {
-        dataToLoadCount -= 1
-        if dataToLoadCount == 0 {
-            isDataLoaded = true
-            dataLoaded()
+extension PlacesInfoPresenter: PlacesInfoInteractorOutput {
+    func noWeatherForPlace(_ place: Place) {
+        
+    }
+    
+    func noPlacesInRoute() {
+        didFetchAllWeatherData()
+    }
+    
+    func didFetchAllWeatherData() {
+        isDataLoaded = true
+        sortWeather()
+        view?.reloadData()
+        hideLoadingView()
+        if !locationsWithoutCoordinatesList.isEmpty {
+            showNoCoordinatesAlert()
         }
     }
     
+    func noCoordunates(for location: Location) {
+        locationsWithoutCoordinatesList.append(location)
+    }
+    
     func didRecieveError(error: Error) {
-        dataToLoadCount -= 1
         view?.showAlert(title: "Ошибка", message: "Возникла ошибка при загрузке данных")
     }
     
     func didRecieveWeatherData(_ weatherData: WeatherWithLocation) {
-        self.loadedeWeather.append(weatherData)
-        isAnyPlacesWithWeather = true
-        dataToLoadCount -= 1
-        if dataToLoadCount == 0 {
-            isDataLoaded = true
-            dataLoaded()
-        }
+        weather.append(weatherData)
     }
 }

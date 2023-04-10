@@ -33,6 +33,7 @@ final class PlacesInfoViewController: UIViewController {
    }()
     
     private let loadingView = LoadingView()
+    private var placeholderView = UIView()
 
     // MARK: Lifecycle
 
@@ -44,7 +45,8 @@ final class PlacesInfoViewController: UIViewController {
 
     private func setupView() {
         view.addSubview(mainCollectionView)
-
+        placeholderView.isHidden = true
+        
         setupCollectionView()
         setupConstraints()
     }
@@ -59,6 +61,8 @@ final class PlacesInfoViewController: UIViewController {
                                     forCellWithReuseIdentifier: "ShortRouteCell")
         mainCollectionView.register(WeatherCollection.self,
                                     forCellWithReuseIdentifier: "WeatherCollection")
+        mainCollectionView.register(CurrencyCell.self,
+                                    forCellWithReuseIdentifier: "CurrencyCell")
         mainCollectionView.register(NoPlacesForWeatherCell.self,
                                     forCellWithReuseIdentifier: "NoPlacesForWeatherCell")
         mainCollectionView.register(MainCollectionHeader.self,
@@ -86,7 +90,7 @@ extension PlacesInfoViewController: UICollectionViewDelegate, UICollectionViewDe
 
 extension PlacesInfoViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        2
+        output?.sectionsCount() ?? 0
     }
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if let sectionHeader = mainCollectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "MainCollectionHeader", for: indexPath) as? MainCollectionHeader {
@@ -98,40 +102,45 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return output.getMainCollectionCellsCount(for: section)
+        return output.mainCollectionCellsCount(for: section)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var cell = UICollectionViewCell()
-        switch indexPath.section {
-        case 0:
+        guard let cellType = output?.mainCollectionCellType(for: indexPath) else { return cell }
+        switch cellType {
+        case .route:
             guard let routeCell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "ShortRouteCell",
-                                                                     for: indexPath) as? ShortRouteCell else {
+                                                                         for: indexPath) as? ShortRouteCell else {
                 return cell
             }
             guard let data = output.getRoutelData() else {
-                return UICollectionViewCell()
+                return cell
             }
             routeCell.configure(data: data)
             cell = routeCell
-        case 1:
-            if output.isEmptyCellNeed() {
-                guard let emptyCell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "NoPlacesForWeatherCell",
-                                                                         for: indexPath) as? NoPlacesForWeatherCell else {
-                    return UICollectionViewCell()
-                }
-                emptyCell.configure(text: output.getEmptyCellData())
-                return emptyCell
-            }
+        case .weather:
             guard let weatherCell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "WeatherCollection",
-                                                                       for: indexPath) as? WeatherCollection else {
+                                                                           for: indexPath) as? WeatherCollection else {
                 return cell
             }
             guard let data = output.getWeatherCollectionDisplayData(indexPath.row) else {
-                return UICollectionViewCell()
+                guard let noWeatherCell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "NoPlacesForWeatherCell",
+                                                                               for: indexPath) as? NoPlacesForWeatherCell else {
+                    return cell
+                }
+                noWeatherCell.configure(text: "Нет погоды :(")
+                return noWeatherCell
             }
             weatherCell.configure(data: data, delegate: self, indexPath: indexPath)
             cell = weatherCell
+        case .currency:
+            guard let currencyCell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "CurrencyCell",
+                                                                            for: indexPath) as? CurrencyCell else {
+                return cell
+            }
+            currencyCell.configure(displayData: CurrencyCell.DisplayData(title: "Kursk-Anapa", course: 10, currentCurrencyName: "RUB", localCurrencyName: "USD"))
+            cell = currencyCell
         default:
             return cell
         }
@@ -174,12 +183,31 @@ extension PlacesInfoViewController: PlacesInfoViewInput {
     }
 }
 
-private extension PlacesInfoViewController {
-    enum Constants {
-        static let contentBlocksSpacing: CGFloat = 30
-        enum RouteView {
-            static let horisontalSpacing: CGFloat = 20
+extension PlacesInfoViewController: TransitionHandlerProtocol {
+    func embedPlaceholder(_ viewController: UIViewController) {
+        guard let placeholderViewController = viewController as? NoWeatherPlaceHolderViewController else { return }
+
+        guard placeholderView.isHidden == true else {
+            return
         }
+        placeholderViewController
+            .configure(with: NoWeatherPlaceHolderViewController.DisplayData(title: L10n.noTrips,
+                                                                            imageName: "TripsPlaceholder"))
+        addChild(placeholderViewController)
+        placeholderViewController.didMove(toParent: self)
+        placeholderView = placeholderViewController.view
+        mainCollectionView.addSubview(placeholderView)
+        placeholderView.isHidden = false
+        placeholderView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.height.equalTo(100)
+            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
+            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
+        }
+    }
+    
+    func hidePlaceholder() {
+        placeholderView.isHidden = true
     }
 }
 
@@ -190,5 +218,15 @@ extension PlacesInfoViewController: WeatherCollectionDelegate {
     
     func getCellDisplayData(at collectionIndexPath: IndexPath, for indexpath: IndexPath) -> WeatherCell.DisplayData? {
         output.getWeatherCollectionCellDisplayData(collectionRow: collectionIndexPath.row, cellRow: indexpath.row)
+    }
+}
+
+
+private extension PlacesInfoViewController {
+    enum Constants {
+        static let contentBlocksSpacing: CGFloat = 30
+        enum RouteView {
+            static let horisontalSpacing: CGFloat = 20
+        }
     }
 }

@@ -30,7 +30,7 @@ protocol TripsViewOutput: AnyObject {
     func viewDidLoad()
     func refreshView()
     
-    func placeholderDisplayData() -> PlaceHolderViewController.DisplayData
+    func placeholderDisplayData() -> TripsPlaceholderViewController.DisplayData
     func getScreenType() -> TripsViewController.ScreenType
     func didSelectCell(at indexpath: IndexPath)
     func didTapCellBookmarkButton(at indexPath: IndexPath)

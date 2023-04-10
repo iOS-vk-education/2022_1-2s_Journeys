@@ -45,7 +45,7 @@ final class NoPlacesForWeatherCell: UICollectionViewCell {
     private func makeConstraints() {
         title.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
             make.height.equalTo(40)
 //            make.width.equalTo(UIScreen.main.bounds.width).offset(-40)
             make.width.equalTo(300)
