@@ -39,6 +39,7 @@ final class CurrencyCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13, weight: .light)
         label.textColor = UIColor(asset: Asset.Colors.Text.secondaryTextColor)
+        label.text = "Текущая валюта"
         return label
     }()
     private let currentCurrencyTextField: UITextField = {
@@ -48,23 +49,55 @@ final class CurrencyCell: UICollectionViewCell {
         textField.returnKeyType = UIReturnKeyType.done
         textField.clearButtonMode = UITextField.ViewMode.whileEditing
         textField.font = .systemFont(ofSize: 15, weight: .light)
+        
+        textField.text = "1.0"
         return textField
     }()
+    private let currentCurrencyNameLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 13)
+        label.textColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
+        return label
+    }()
     
-    private lazy var localCurrencyLabel: UILabel = currentCurrencyLabel
-    private lazy var localCurrencyTextField: UITextField = currentCurrencyTextField
+    
+    private lazy var localCurrencyLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 13, weight: .light)
+        label.textColor = UIColor(asset: Asset.Colors.Text.secondaryTextColor)
+        
+        label.text = "Местная валюта"
+        return label
+    }()
+    
+    private lazy var localCurrencyTextField: UITextField = {
+        let textField = UITextField()
+        textField.autocorrectionType = UITextAutocorrectionType.no
+        textField.returnKeyType = UIReturnKeyType.done
+        textField.clearButtonMode = UITextField.ViewMode.whileEditing
+        textField.font = .systemFont(ofSize: 15, weight: .light)
+        
+        textField.borderStyle = UITextField.BorderStyle.roundedRect
+        return textField
+    }()
+    private let localCurrencyNameLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 13)
+        label.textColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
+        return label
+    }()
+    
     
     private let arrowsImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "arrow.left.arrow.right",
                                   withConfiguration: UIImage.SymbolConfiguration(weight: .light))
+        imageView.tintColor = UIColor(asset: Asset.Colors.BaseColors.contrastToThemeColor)
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
     private var course: Decimal?
-    private var currentCurrencyName: String?
-    private var localCurrencyName: String?
     
     // MARK: Lifecycle
     
@@ -91,14 +124,13 @@ final class CurrencyCell: UICollectionViewCell {
         self.title.text = displayData.title
         self.course = displayData.course
         
-        self.currentCurrencyName = displayData.currentCurrencyName
-        self.localCurrencyName = displayData.currentCurrencyName
+        self.currentCurrencyNameLabel.text = displayData.currentCurrencyName
+        self.localCurrencyNameLabel.text = displayData.currentCurrencyName
     }
     
     private func setupView() {
         setupSubviews()
         makeConstraints()
-//        backgroundColor = .blue
     }
     
     private func setupSubviews() {
@@ -107,36 +139,34 @@ final class CurrencyCell: UICollectionViewCell {
         contentView.addSubview(localCurrencyLabel)
         contentView.addSubview(arrowsImageView)
         contentView.addSubview(currentCurrencyTextField)
+        currentCurrencyTextField.addSubview(currentCurrencyNameLabel)
         contentView.addSubview(localCurrencyTextField)
+        localCurrencyTextField.addSubview(localCurrencyNameLabel)
         
         currentCurrencyLabel.textAlignment = .center
         localCurrencyLabel.textAlignment = .center
-        
-        currentCurrencyLabel.text = "Текущая валюта"
-        localCurrencyLabel.text = "Местная валюта"
-        currentCurrencyTextField.text = "1.0"
     }
     
     private func makeConstraints() {
         title.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
+            make.centerX.equalToSuperview()
             make.top.equalToSuperview()
         }
         
         currentCurrencyLabel.snp.makeConstraints { make in
-            make.leading.equalTo(currentCurrencyTextField.snp.leading)
+            make.centerX.equalTo(currentCurrencyTextField.snp.centerX)
             make.top.equalTo(title.snp.bottom).offset(17)
         }
         currentCurrencyTextField.snp.makeConstraints { make in
             make.leading.equalToSuperview()
             make.top.equalTo(currentCurrencyLabel.snp.bottom).offset(5)
-            make.bottom.equalToSuperview()
+            make.height.equalTo(28)
             make.width.equalTo(136)
         }
-
-        currentCurrencyTextField.tintColor = .red
-        localCurrencyTextField.backgroundColor = .blue
+        currentCurrencyNameLabel.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(9)
+            make.centerY.equalToSuperview()
+        }
 
         arrowsImageView.snp.makeConstraints { make in
             make.leading.equalTo(currentCurrencyTextField.snp.trailing).offset(8)
@@ -146,15 +176,19 @@ final class CurrencyCell: UICollectionViewCell {
         }
 
         localCurrencyLabel.snp.makeConstraints { make in
-            make.leading.equalTo(localCurrencyTextField.snp.leading)
+            make.centerX.equalTo(localCurrencyTextField.snp.centerX)
             make.top.equalTo(currentCurrencyLabel.snp.top)
         }
-        
         localCurrencyTextField.snp.makeConstraints { make in
             make.leading.equalTo(arrowsImageView.snp.trailing).offset(8)
             make.top.equalTo(localCurrencyLabel.snp.bottom).offset(5)
-            make.bottom.equalToSuperview()
+            make.height.equalTo(28)
             make.width.equalTo(136)
+            make.trailing.equalToSuperview()
+        }
+        localCurrencyNameLabel.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(9)
+            make.centerY.equalToSuperview()
         }
     }
 }

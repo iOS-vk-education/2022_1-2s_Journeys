@@ -30,8 +30,8 @@ protocol PlacesInfoViewOutput: AnyObject {
     func getWeatherCollectionDisplayData(_ row: Int) -> WeatherCollection.DisplayData?
     func getWeatherCollectionCellDisplayData(collectionRow: Int, cellRow: Int) -> WeatherCell.DisplayData?
 
-    func getHeaderText(for indexpath: IndexPath) -> String
-    func getRouteCellHeight() -> CGFloat
+    func getHeaderText(for indexPath: IndexPath) -> String
+
     
     func didTapExitButton()
 }

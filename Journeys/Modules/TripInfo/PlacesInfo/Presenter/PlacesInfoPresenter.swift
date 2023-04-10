@@ -135,16 +135,16 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
         return WeatherCellDisplayDataFactory().displayData(weather: weather[collectionRow].weather[cellRow])
     }
     
-    func getRouteCellHeight() -> CGFloat {
-        return 0.0
-    }
-    
-    func getHeaderText(for indexpath: IndexPath) -> String {
-        switch indexpath.section {
-        case 0:
+    func getHeaderText(for indexPath: IndexPath) -> String {
+        guard CellsType.allCases.count > indexPath.section else { return "" }
+        let section = CellsType.allCases[indexPath.section]
+        switch section {
+        case .route:
             return L10n.route
-        case 1:
+        case .weather:
             return L10n.weather
+        case .currency:
+            return L10n.currency
         default:
             return ""
         }

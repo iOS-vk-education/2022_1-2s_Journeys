@@ -42,6 +42,7 @@
 "Route" = "Маршрут";
 "NoSelectedPlaces" = "Не выбрано мест пребывания";
 "NoMeteoDataForPlacesOrDates" = "Нет метео данных для выбранных городов или дат";
+"Currency" = "Валюта";
 
 // MARK: Settings
 "Notifications" = "Уведомления";

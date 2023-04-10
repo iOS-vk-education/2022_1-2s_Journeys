@@ -89,7 +89,7 @@ final class RouteViewController: UIViewController {
     private func didTapFloatingSaveButton() {
         output.didTapFloatingSaveButton()
     }
-    
+
     @objc
     private func didTapExitButton() {
         output.didTapExitButton()
@@ -104,7 +104,7 @@ extension RouteViewController: UITableViewDelegate {
         }
         return closure(tableView, indexPath)
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         guard let closure = output.didSelectRow(at: indexPath) else {
@@ -112,7 +112,7 @@ extension RouteViewController: UITableViewDelegate {
         }
         closure(self, tableView)
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
             return 140

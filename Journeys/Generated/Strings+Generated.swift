@@ -24,6 +24,8 @@ public enum L10n {
   public static var buildRoute: String { return L10n.tr("Localizable", "BuildRoute") }
   /// Страна
   public static var country: String { return L10n.tr("Localizable", "Country") }
+  /// Валюта
+  public static var currency: String { return L10n.tr("Localizable", "Currency") }
   /// Удалить
   public static var delete: String { return L10n.tr("Localizable", "Delete") }
   /// Город отправления
