@@ -18,8 +18,8 @@ final class TripsPresenter {
 
     // MARK: - Private Properties
 
-    private let interactor: TripsInteractorInput?
-    private let router: TripsRouterInput?
+    private let interactor: TripsInteractorInput
+    private let router: TripsRouterInput
     
     private var dataIsLoaded: Bool = false
     private var tripsData: [TripWithRouteAndImage] = []
@@ -41,7 +41,7 @@ final class TripsPresenter {
     private func loadTripsData() {
         hidePlaceholder()
         dataIsLoaded = false
-        interactor?.obtainTripsDataFromSever(type: tripsType)
+        interactor.obtainTripsDataFromSever(type: tripsType)
     }
     
     private func tripDisplayData(trip: TripWithRouteAndImage) -> TripCell.DisplayData? {
@@ -77,11 +77,11 @@ final class TripsPresenter {
     }
     
     private func embedRPlaceholder() {
-        router?.embedPlaceholder()
+        router.embedPlaceholder()
     }
     
     private func hidePlaceholder() {
-        router?.hidePlaceholder()
+        router.hidePlaceholder()
     }
     
     private func reloadView() {
@@ -168,7 +168,7 @@ extension TripsPresenter: TripsViewOutput {
     func didTapCellBookmarkButton(at indexPath: IndexPath) {
         guard tripsData.indices.contains(indexPath.row) else { return }
         tripsData[indexPath.row].isInfavourites.toggle()
-        interactor?.storeTripData(trip: Trip(tripWithOtherData: tripsData[indexPath.row])) { [weak self] in
+        interactor.storeTripData(trip: Trip(tripWithOtherData: tripsData[indexPath.row])) { [weak self] in
             guard let self else { return }
             self.view?.changeIsSavedCellStatus(at: indexPath, status: self.tripsData[indexPath.row].isInfavourites)
             if self.tripsType == .saved {
@@ -206,7 +206,7 @@ extension TripsPresenter: TripsViewOutput {
             return
         }
         cellToDeleteIndexPath = cellIndexPath
-        interactor?.deleteTrip(Trip(tripWithOtherData: tripsData[cellIndexPath.row]))
+        interactor.deleteTrip(Trip(tripWithOtherData: tripsData[cellIndexPath.row]))
     }
     
     func didTapBackBarButton() {
@@ -235,7 +235,7 @@ extension TripsPresenter: TripsInteractorOutput {
         reloadView()
         
         for index in tripsData.indices {
-            interactor?.loadImage(for: tripsData[index].route) { [weak self] image in
+            interactor.loadImage(for: tripsData[index].route) { [weak self] image in
                 guard let self else { return }
                 guard self.tripsData.count > index else { return }
                 self.tripsData[index].image = image

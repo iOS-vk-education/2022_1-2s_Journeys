@@ -63,12 +63,11 @@ extension TripsInteractor: TripsInteractorInput {
                     switch result {
                     case .failure:
                         self.output?.didRecieveError(error: .obtainDataError)
-                        self.dataLoadDispatchGroup.leave()
                     case .success(let route):
                         tripsWithRoute.append(TripWithRouteAndImage(trip: trip,
                                                                     route: route))
-                        self.dataLoadDispatchGroup.leave()
                     }
+                    self.dataLoadDispatchGroup.leave()
                 }
             }
         }
