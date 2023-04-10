@@ -22,6 +22,19 @@ final class TripsInteractor {
         self.FBService = firebaseService
     }
     
+    private func deleteImage(for imageURLString: String?) {
+        guard let imageURLString else {
+            output?.didRecieveError(error: .deleteDataError)
+            return
+        }
+        FBService.deleteTripImage(for: imageURLString) { [weak self] error in
+            guard let error else {
+                self?.output?.didDeleteTrip()
+                return
+            }
+            self?.output?.didRecieveError(error: .deleteDataError)
+        }
+    }
     private func obtainRouteDataFromSever(with identifier: String,
                                           completion: @escaping (Result <Route, Error>)-> Void){
         FBService.obtainRoute(with: identifier) { result in
@@ -34,6 +47,7 @@ final class TripsInteractor {
         }
     }
 }
+
 
 extension TripsInteractor: TripsInteractorInput {
     func obtainTripsDataFromSever(type: TripsType) {
@@ -114,13 +128,13 @@ extension TripsInteractor: TripsInteractorInput {
         }
     }
     
-    func deleteTrip(_ trip: Trip) {
-        FBService.deleteTripData(trip) { [weak self] error in
-            if error != nil {
-                self?.output?.didRecieveError(error: .deleteDataError)
-            } else {
-                self?.output?.didDeleteTrip()
+    func deleteTrip(_ trip: TripWithRouteAndImage) {
+        FBService.deleteTripData(Trip(tripWithOtherData: trip)) { [weak self] error in
+            guard let error else {
+                self?.deleteImage(for: trip.imageURLString)
+                return
             }
+            self?.output?.didRecieveError(error: .deleteDataError)
         }
     }
 }

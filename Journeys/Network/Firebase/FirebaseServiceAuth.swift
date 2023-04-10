@@ -10,6 +10,10 @@ import UIKit
 import FirebaseFirestore
 import FirebaseAuth
 
+enum AuthErrors: Error {
+    case accountTroubles
+}
+
 protocol FirebaseServiceAuthProtocol {
     func createUser(email: String,
                     password: String,
@@ -25,6 +29,8 @@ protocol FirebaseServiceAuthProtocol {
                             password: String,
                             newPassword: String,
                             completion: @escaping (Error?) -> Void)
+    func resetPassword(for email: String, completion: @escaping (Error?) -> Void)
+    func deleteAccount(with password: String, completion: @escaping (Error?) -> Void)
     func obtainUserData() -> User?
 }
 
@@ -33,7 +39,7 @@ extension FirebaseService: FirebaseServiceAuthProtocol {
     func createUser(email: String,
                     password: String,
                     completion: @escaping (Result<User, Error>) -> Void) {
-        FBManager.auth.createUser(withEmail: email, password: password) { result, error in
+        firebaseManager.auth.createUser(withEmail: email, password: password) { result, error in
             if let error {
                 completion(.failure(error))
             }
@@ -52,7 +58,7 @@ extension FirebaseService: FirebaseServiceAuthProtocol {
     func login(email: String,
                password: String,
                completion: @escaping (Result<User, Error>) -> Void) {
-        FBManager.auth.signIn(withEmail: email, password: password) { result, error in
+        firebaseManager.auth.signIn(withEmail: email, password: password) { result, error in
             if let error {
                 completion(.failure(error))
             }
@@ -70,7 +76,7 @@ extension FirebaseService: FirebaseServiceAuthProtocol {
     
     func signOut(completion: @escaping (Error?) -> Void) {
         do {
-            try FBManager.auth.signOut()
+            try firebaseManager.auth.signOut()
             completion(nil)
         } catch {
             completion(FBError.signOutError)
@@ -78,7 +84,7 @@ extension FirebaseService: FirebaseServiceAuthProtocol {
     }
     
     func obtainUserData() -> User? {
-        let user = FBManager.auth.currentUser
+        let user = firebaseManager.auth.currentUser
         if let user = user,
            let email = user.email {
             return User(email: email)
@@ -89,7 +95,7 @@ extension FirebaseService: FirebaseServiceAuthProtocol {
     // MARK: Store data
     
     func updateUserEmail(email: String, password: String, completion: @escaping (Error?) -> Void) {
-        FBManager.auth.currentUser?.updateEmail(to: email) { error in
+        firebaseManager.auth.currentUser?.updateEmail(to: email) { error in
             if let error {
                 completion(error)
                 return
@@ -108,12 +114,12 @@ extension FirebaseService: FirebaseServiceAuthProtocol {
             case .failure(let error):
                 completion(error)
             case .success(let user):
-                self.FBManager.auth.currentUser?.updateEmail(to: email) { error in
+                self.firebaseManager.auth.currentUser?.updateEmail(to: email) { error in
                     if let error {
                         completion(error)
                         return
                     }
-                    self.FBManager.auth.currentUser?.updatePassword(to: newPassword) { error in
+                    self.firebaseManager.auth.currentUser?.updatePassword(to: newPassword) { error in
                         if let error {
                             completion(error)
                             return
@@ -125,4 +131,28 @@ extension FirebaseService: FirebaseServiceAuthProtocol {
         }
     }
     
+    func resetPassword(for email: String, completion: @escaping (Error?) -> Void) {
+        firebaseManager.auth.sendPasswordReset(withEmail: email, completion: completion)
+    }
+    
+    func deleteAccount(with password: String, completion: @escaping (Error?) -> Void) {
+        guard let email = firebaseManager.auth.currentUser?.email else {
+            return
+        }
+        login(email: email,
+              password: password) { [weak self] result in
+            switch result {
+            case .failure(let error): completion(error)
+            case .success:
+                self?.firebaseManager.auth.currentUser?.delete(completion: completion)
+            }
+        }
+    }
+    
+    func checkPassword(password: String, completion: @escaping (Error?) -> Void) {
+        guard let email = firebaseManager.auth.currentUser?.email else { return }
+        firebaseManager.auth.signIn(withEmail: email, password: password) { _, error in
+            completion(error)
+        }
+    }
 }

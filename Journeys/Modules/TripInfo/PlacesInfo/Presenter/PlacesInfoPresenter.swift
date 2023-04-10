@@ -119,9 +119,9 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
     
     func getEmptyCellData() -> String {
         if !isAnyPlaces {
-            return "Не выбрано мест пребывания"
+            return L10n.noSelectedPlaces
         } else if !isAnyPlacesWithWeather && isDataLoaded {
-            return "Нет метео данных для выбранных городов или дат"
+            return L10n.noMeteoDataForPlacesOrDates
         }
         return ""
     }
@@ -161,9 +161,9 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
     func getHeaderText(for indexpath: IndexPath) -> String {
         switch indexpath.section {
         case 0:
-            return "Маршрут"
+            return L10n.route
         case 1:
-            return "Погода"
+            return L10n.weather
         default:
             return ""
         }

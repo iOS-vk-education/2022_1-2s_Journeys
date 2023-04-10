@@ -40,4 +40,14 @@ extension AuthModel: AuthModelInput {
             }
         }
     }
+    
+    func resetPassword(for email: String) {
+        firebaseService.resetPassword(for: email) { [weak self] error in
+            guard let error else {
+                self?.output.resetSuccesfull(for: email)
+                return
+            }
+            self?.output.didRecieveError(error: error)
+        }
+    }
 }

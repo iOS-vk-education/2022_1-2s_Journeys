@@ -65,7 +65,7 @@ extension DepartureLocationPresenter: DepartureLocationViewOutput {
               }
         guard let country = countryCell.getTextFieldValue(),
               let city = cityCell.getTextFieldValue() else {
-            view.showAlert(title: "Заполните данные", message: "Заполните поля страны и города")
+            view.showAlert(title: L10n.blanckFields, message: L10n.fillTheCountryAndTownFields)
             return
         }
         

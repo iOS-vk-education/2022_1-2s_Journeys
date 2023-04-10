@@ -24,17 +24,17 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
     // MARK: Obtarin data
     
     func obtainTrips(type: TripsType, completion: @escaping (Result<[Trip], Error>) -> Void){
-        guard let userId = FBManager.auth.currentUser?.uid else {
+        guard let userId = firebaseManager.auth.currentUser?.uid else {
             return
         }
         
         let query: Query?
         switch type {
         case .all:
-            query = FBManager.firestore.collection("trips")
+            query = firebaseManager.firestore.collection("trips")
                 .document(userId).collection("user_trips")
         case .saved:
-            query = FBManager.firestore.collection("trips")
+            query = firebaseManager.firestore.collection("trips")
                 .document(userId).collection("user_trips").whereField("is_saved", isEqualTo: true)
         default:
             break
@@ -62,10 +62,10 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
     }
     
     func obtainTrip(with identifier: String, completion: @escaping (Result<Trip, Error>) -> Void) {
-        guard let userId = FBManager.auth.currentUser?.uid else {
+        guard let userId = firebaseManager.auth.currentUser?.uid else {
             return
         }
-        FBManager.firestore.collection("trips").document(userId).collection("user_trips").document(identifier)
+        firebaseManager.firestore.collection("trips").document(userId).collection("user_trips").document(identifier)
             .getDocument() { (document, error) in
                 if let error = error {
                     completion(.failure(error))
@@ -101,7 +101,7 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
     }
     
     func obtainTripImage(for imageURLString: String, completion: @escaping (Result<UIImage, Error>) -> Void) {
-        let ref = FBManager.storage.reference(forURL: imageURLString)
+        let ref = firebaseManager.storage.reference(forURL: imageURLString)
         let maxSize = Int64(10 * 1024 * 1024)
         ref.getData(maxSize: maxSize) { (data, error) in
             if let error = error {
@@ -116,7 +116,7 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
     }
     
     func obtainBaseStuff(completion: @escaping (Result<[BaseStuff], Error>) -> Void) {
-        FBManager.firestore.collection("base_stuff").getDocuments { (snapshot, error) in
+        firebaseManager.firestore.collection("base_stuff").getDocuments { (snapshot, error) in
             if let error = error {
                 completion(.failure(error))
                 return
@@ -136,7 +136,7 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
     }
     
     func obtainBaggage(baggageId: String, completion: @escaping (Result<[Stuff], Error>) -> Void) {
-        FBManager.firestore.collection("baggage").document(baggageId).collection("baggage_stuff")
+        firebaseManager.firestore.collection("baggage").document(baggageId).collection("baggage_stuff")
             .getDocuments { (snapshot, error) in
                 if let error = error {
                     completion(.failure(error))
@@ -154,7 +154,7 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
     }
     
     func obtainBaggageData(baggageId: String, completion: @escaping (Result<Baggage, Error>) -> Void) {
-        FBManager.firestore.collection("baggage").document(baggageId).getDocument { (document, error) in
+        firebaseManager.firestore.collection("baggage").document(baggageId).getDocument { (document, error) in
             if let error = error {
                 completion(.failure(error))
                 assertionFailure("Error while obtaining trips data")

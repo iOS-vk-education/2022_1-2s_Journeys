@@ -35,7 +35,7 @@ final class TripInfoViewController: UIViewController {
     }()
 
     private func getSecmentControllItems() -> [String] {
-        ["Информация", "Вещи"]
+        [L10n.information, L10n.stuff]
     }
 
     var output: TripInfoViewOutput!

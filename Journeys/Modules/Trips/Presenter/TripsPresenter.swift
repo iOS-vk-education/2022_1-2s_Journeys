@@ -206,7 +206,7 @@ extension TripsPresenter: TripsViewOutput {
             return
         }
         cellToDeleteIndexPath = cellIndexPath
-        interactor.deleteTrip(Trip(tripWithOtherData: tripsData[cellIndexPath.row]))
+        interactor.deleteTrip(tripsData[cellIndexPath.row])
     }
     
     func didTapBackBarButton() {
@@ -234,7 +234,7 @@ extension TripsPresenter: TripsInteractorOutput {
         
         reloadView()
         
-        for index in tripsData.indices {
+        for index in 0..<tripsData.count {
             interactor.loadImage(for: tripsData[index].route) { [weak self] image in
                 guard let self else { return }
                 guard self.tripsData.count > index else { return }

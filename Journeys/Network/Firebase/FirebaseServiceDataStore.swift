@@ -22,14 +22,14 @@ protocol FirebaseServiceStoreProtocol {
 extension FirebaseService: FirebaseServiceStoreProtocol {
     
     func storeTripData(trip: Trip, completion: @escaping (Result<Trip, Error>) -> Void) {
-        guard let userId = FBManager.auth.currentUser?.uid else {
+        guard let userId = firebaseManager.auth.currentUser?.uid else {
             return
         }
         var ref: DocumentReference?
         if let id = trip.id {
-            ref = FBManager.firestore.collection("trips").document(userId).collection("user_trips").document(id)
+            ref = firebaseManager.firestore.collection("trips").document(userId).collection("user_trips").document(id)
         } else {
-            ref = FBManager.firestore.collection("trips").document(userId).collection("user_trips").document()
+            ref = firebaseManager.firestore.collection("trips").document(userId).collection("user_trips").document()
         }
         ref!.setData(trip.toDictionary()) { error in
             if let error = error {
@@ -45,9 +45,9 @@ extension FirebaseService: FirebaseServiceStoreProtocol {
     func storeRouteData(route: Route, completion: @escaping (Result<Route, Error>) -> Void) {
         var ref: DocumentReference?
         if let id = route.id {
-            ref = FBManager.firestore.collection("routes").document(id)
+            ref = firebaseManager.firestore.collection("routes").document(id)
         } else {
-            ref = FBManager.firestore.collection("routes").document()
+            ref = firebaseManager.firestore.collection("routes").document()
         }
         ref!.setData(route.toDictionary()) { error in
             if let error = error {
@@ -61,7 +61,7 @@ extension FirebaseService: FirebaseServiceStoreProtocol {
     }
     
     func storeTripImage(image: UIImage, completion: @escaping (Result<String, Error>) -> Void) {
-        let ref = FBManager.storage.reference(withPath: "trips_images/\(UUID().uuidString)")
+        let ref = firebaseManager.storage.reference(withPath: "trips_images/\(UUID().uuidString)")
         guard let imageData = image.jpegData(compressionQuality: 0.4) else {
             return
         }
@@ -82,7 +82,7 @@ extension FirebaseService: FirebaseServiceStoreProtocol {
     }
     
     func storeBaggageData(baggage: Baggage, completion: @escaping (Result<Baggage, Error>) -> Void) {
-        var ref: DocumentReference = FBManager.firestore.collection("baggage").document(baggage.id)
+        var ref: DocumentReference = firebaseManager.firestore.collection("baggage").document(baggage.id)
         ref.setData(baggage.toDictionary()) { error in
             let id = ref.documentID
             if let error = error {
@@ -98,10 +98,10 @@ extension FirebaseService: FirebaseServiceStoreProtocol {
     func storeStuffData(baggageId: String, stuff: Stuff, completion: @escaping (Result<Stuff, Error>) -> Void) {
         var ref: DocumentReference?
         if let id = stuff.id {
-            ref = FBManager.firestore.collection("baggage").document(baggageId)
+            ref = firebaseManager.firestore.collection("baggage").document(baggageId)
                 .collection("baggage_stuff").document(id)
         } else {
-            ref = FBManager.firestore.collection("baggage").document(baggageId)
+            ref = firebaseManager.firestore.collection("baggage").document(baggageId)
                 .collection("baggage_stuff").document()
         }
         ref!.setData(stuff.toDictionary()) { error in

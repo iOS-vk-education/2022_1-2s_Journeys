@@ -49,7 +49,7 @@ final class ShortRouteCell: UICollectionViewCell {
             make.bottom.equalToSuperview()
         }
     }
-
+    
     func configure(data: DisplayData) {
         self.routeLabel.text = data.route
     }

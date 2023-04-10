@@ -10,9 +10,11 @@ import Foundation
 protocol AuthModelInput: AnyObject {
     func createAccount(email: String, password: String)
     func login(email: String, password: String)
+    func resetPassword(for email: String)
 }
 
 protocol AuthModelOutput: AnyObject {
     func didRecieveError(error: Error)
     func authSuccesfull()
+    func resetSuccesfull(for email: String)
 }

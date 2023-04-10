@@ -1,0 +1,96 @@
+/*
+  Localizable.strings
+  Journeys
+
+  Created by Сергей Адольевич on 18.11.2022.
+  
+*/
+
+// MARK: Main screen
+"NoTrips" = "Пока что маршрутов нет";
+
+"Add" = "Добавить";
+"Trips" = "Поездки";
+"Edit" = "Редактировать";
+"Saved" = "Избранное";
+
+// MARK: Route creation
+"Country" = "Страна";
+"Town" = "Город";
+"DepartureTown" = "Город отправления";
+"ArrivalTown" = "Город прибытия";
+"AddTown" = "Добавить город";
+"BlanckFields" = "Некоторые поля не заполнены";
+"FillTheCountryAndTownFields" = "Заполните поля страны и города";
+"SelectDates" = "Выберите даты";
+"NewRoute" = "Новый маршрут";
+"BuildRoute" = "Построить маршрут";
+"Delete" = "Удалить";
+"AddingTown" = "Добавление маршрута";
+
+// MARK: Tabbar
+"Journeys" = "Путешествия";
+"Events" = "Мероприятия";
+"Settings" = "Настройки";
+"Account" = "Аккаунт";
+
+// MARK: Trip info
+"PlaceInfo" = "Общая информация";
+"Stuff" = "Вещи";
+"StuffList" = "Список вещей";
+"Packed" = "Собрано";
+"Unpacked" = "Не собрано";
+"Weather" = "Погода";
+"Route" = "Маршрут";
+"NoSelectedPlaces" = "Не выбрано мест пребывания";
+"NoMeteoDataForPlacesOrDates" = "Нет метео данных для выбранных городов или дат";
+
+// MARK: Account
+"AccountInfo" = "Данные аккаунта";
+"StuffLists" = "Списки вещей";
+"Exit" = "Выход";
+"DeleteAccount" = "Удалить аккаунт";
+"Save" = "Сохранить";
+"PersonalInfo" = "Личная информация";
+"LoginInfo" = "Информация для входа";
+"Email" = "Email";
+"Password" = "Пароль";
+"NewPassword" = "Новый пароль";
+"FirstName" = "Имя";
+"LastName" = "Фамилия";
+"ConfirmPassword" = "Подствердите пароль";
+"ResetPassword" = "Сбросить пароль";
+"Continue" = "Продолжить";
+
+// MARK: Settings
+"Notifications" = "Уведомления";
+"Style" = "Оформление";
+"Language" = "Язык";
+"Help" = "Поддержка";
+"RateApp" = "Оценить приложение";
+"Information" = "Информация";
+"Mail" = "Почта";
+"Telegram" = "Телеграм";
+"style.system" = "Как в системе";
+"style.light" = "Светлая тема";
+"style.dark" = "Темная тема";
+"YouNeetToTurnTheApplicationNotificationOn" = "Чтобы включить уведомления, разрешите их для приложения Journeys в настройках устройства (Настройки → Journeys → Уведомления → Допуск уведомлений)";
+
+// MARK: Help
+"Message.Theme" = "Проблема с IOS приложением Journeys";
+"Message.Text" = "Здравствуйте, ";
+
+// MARK: Auth
+"Auth" = "Авторизация";
+"Registration" = "Регистрация";
+
+// MARK: Alerts
+"Alerts.Titles.Success" = "Успех";
+"Alerts.Messages.PasswordResetDone" = "Письмо для сброса пароля было направлено на указанный адрес электронной почты";
+"Alerts.Actions.Ok" = "Ок";
+"Alerts.Actions.Next" = "Далее";
+"Alerts.Actions.Delete" = "Удалить";
+"Alerts.Titles.DeleteAccount" = "Удалить аккаунт";
+"Alerts.Messages.DeleteAccount" = "Чтобы подтвердить удаление аккаунта, введите пароль";
+"Alerts.Messages.AccountWasDeleted" = "Аккаунт успешно удален";
+"Alerts.Messages.EnterYourPassword" = "Введите пароль";
