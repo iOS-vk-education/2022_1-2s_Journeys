@@ -55,12 +55,13 @@ final class JourneysCoordinator: CoordinatorProtocol {
 
 extension JourneysCoordinator: TripsModuleOutput {
     
-    func usualTripsModuleWantsToOpenSavedTrips() {
+    func usualTripsModuleWantsToOpenSavedTrips(savedTrips: [TripWithRouteAndImage]) {
         let builder = TripsModuleBuilder()
-        let newRouteViewController = builder.build(firebaseService: firebaseService,
-                                                   output: self,
-                                                   tripsType: .saved)
-        navigationController.pushViewController(newRouteViewController, animated: true)
+        let tripsViewController = builder.build(firebaseService: firebaseService,
+                                                output: self,
+                                                tripsType: .saved,
+                                                tripsData: savedTrips)
+        navigationController.pushViewController(tripsViewController, animated: true)
     }
     
     func savedTripsModuleWantsToClose() {

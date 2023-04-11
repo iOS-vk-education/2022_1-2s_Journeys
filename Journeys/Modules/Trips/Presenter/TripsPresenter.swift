@@ -32,10 +32,14 @@ final class TripsPresenter {
 
     init(interactor: TripsInteractorInput,
          router: TripsRouterInput,
-         tripsType: TripsType) {
+         tripsType: TripsType,
+         tripsData: [TripWithRouteAndImage]? = nil) {
         self.interactor = interactor
         self.router = router
         self.tripsType = tripsType
+        if let tripsData {
+            self.tripsData = tripsData
+        }
     }
     
     private func loadTripsData() {
@@ -98,7 +102,13 @@ extension TripsPresenter: TripsModuleInput {
 
 extension TripsPresenter: TripsViewOutput {
     func viewWillAppear() {
-        loadTripsData()
+        switch tripsType {
+        case .all: loadTripsData()
+        case .saved:
+            if tripsData.contains { $0.image == nil } {
+                loadImagesForTrips()
+            }
+        }
     }
     
     func refreshView() {
@@ -130,7 +140,7 @@ extension TripsPresenter: TripsViewOutput {
                 return 0
             }
         }
-        if dataIsLoaded {
+        if dataIsLoaded || tripsType == .saved {
             if tripsData.count == 0 {
                 embedRPlaceholder()
             }
@@ -140,9 +150,8 @@ extension TripsPresenter: TripsViewOutput {
     }
     
     func getCellType() -> TripsCellType {
-        if dataIsLoaded {
-            return .usual
-        }
+        if tripsType == .saved { return .usual }
+        if dataIsLoaded { return .usual }
         return .skeleton
     }
     
@@ -214,7 +223,8 @@ extension TripsPresenter: TripsViewOutput {
     }
     
     func didTapSavedBarButton() {
-        moduleOutput.usualTripsModuleWantsToOpenSavedTrips()
+        let savedTrips = tripsData.filter { $0.isInfavourites }
+        moduleOutput.usualTripsModuleWantsToOpenSavedTrips(savedTrips: savedTrips)
     }
 }
 
@@ -234,6 +244,10 @@ extension TripsPresenter: TripsInteractorOutput {
         
         reloadView()
         
+        loadImagesForTrips()
+    }
+    
+    func loadImagesForTrips() {
         for index in 0..<tripsData.count {
             interactor.loadImage(for: tripsData[index].route) { [weak self] image in
                 guard let self else { return }
