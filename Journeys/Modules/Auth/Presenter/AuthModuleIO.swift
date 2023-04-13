@@ -13,6 +13,5 @@ protocol AuthModuleInput: AnyObject {
 // MARK: - Auth ModuleOutput
 
 protocol AuthModuleOutput: AnyObject {
-    func authModuleWantsToOpenTripsModule()
-    func authModuleWantsToChangeModulenType(currentType: AuthPresenter.ModuleType)
+    func authModuleWantsToBeClosed()
 }

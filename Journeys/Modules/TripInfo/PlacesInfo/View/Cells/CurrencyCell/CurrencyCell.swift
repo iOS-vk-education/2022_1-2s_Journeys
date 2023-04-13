@@ -42,12 +42,13 @@ final class CurrencyCell: UICollectionViewCell {
         label.text = "Текущая валюта"
         return label
     }()
-    private let currentCurrencyTextField: UITextField = {
+    private lazy var currentCurrencyTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = UITextField.BorderStyle.roundedRect
         textField.autocorrectionType = UITextAutocorrectionType.no
-        textField.returnKeyType = UIReturnKeyType.done
-        textField.clearButtonMode = UITextField.ViewMode.whileEditing
+        textField.keyboardType = .decimalPad
+        
+        
         textField.font = .systemFont(ofSize: 15, weight: .light)
         
         textField.text = "1.0"
@@ -60,7 +61,6 @@ final class CurrencyCell: UICollectionViewCell {
         return label
     }()
     
-    
     private lazy var localCurrencyLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13, weight: .light)
@@ -69,13 +69,11 @@ final class CurrencyCell: UICollectionViewCell {
         label.text = "Местная валюта"
         return label
     }()
-    
     private lazy var localCurrencyTextField: UITextField = {
         let textField = UITextField()
         textField.autocorrectionType = UITextAutocorrectionType.no
-        textField.returnKeyType = UIReturnKeyType.done
-        textField.clearButtonMode = UITextField.ViewMode.whileEditing
         textField.font = .systemFont(ofSize: 15, weight: .light)
+        textField.keyboardType = .decimalPad
         
         textField.borderStyle = UITextField.BorderStyle.roundedRect
         return textField
@@ -147,6 +145,7 @@ final class CurrencyCell: UICollectionViewCell {
         localCurrencyLabel.textAlignment = .center
     }
     
+    
     private func makeConstraints() {
         title.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -160,6 +159,7 @@ final class CurrencyCell: UICollectionViewCell {
         currentCurrencyTextField.snp.makeConstraints { make in
             make.leading.equalToSuperview()
             make.top.equalTo(currentCurrencyLabel.snp.bottom).offset(5)
+            make.bottom.equalToSuperview()
             make.height.equalTo(28)
             make.width.equalTo(136)
         }
@@ -183,6 +183,7 @@ final class CurrencyCell: UICollectionViewCell {
             make.leading.equalTo(arrowsImageView.snp.trailing).offset(8)
             make.top.equalTo(localCurrencyLabel.snp.bottom).offset(5)
             make.height.equalTo(28)
+            make.bottom.equalToSuperview()
             make.width.equalTo(136)
             make.trailing.equalToSuperview()
         }

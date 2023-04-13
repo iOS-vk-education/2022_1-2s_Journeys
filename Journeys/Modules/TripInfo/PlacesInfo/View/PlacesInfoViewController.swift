@@ -63,6 +63,8 @@ final class PlacesInfoViewController: UIViewController {
                                     forCellWithReuseIdentifier: "WeatherCollection")
         mainCollectionView.register(CurrencyCell.self,
                                     forCellWithReuseIdentifier: "CurrencyCell")
+        mainCollectionView.register(EventMapCell.self,
+                                    forCellWithReuseIdentifier: "EventMapCell")
         mainCollectionView.register(NoPlacesForWeatherCell.self,
                                     forCellWithReuseIdentifier: "NoPlacesForWeatherCell")
         mainCollectionView.register(MainCollectionHeader.self,
@@ -84,7 +86,7 @@ final class PlacesInfoViewController: UIViewController {
 
 extension PlacesInfoViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: mainCollectionView.frame.width, height: 25)
+        CGSize(width: mainCollectionView.frame.width, height: 25)
     }
 }
 
@@ -114,7 +116,7 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
                                                                          for: indexPath) as? ShortRouteCell else {
                 return cell
             }
-            guard let data = output.getRoutelData() else {
+            guard let data = output.routeData() else {
                 return cell
             }
             routeCell.configure(data: data)
@@ -139,8 +141,19 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
                                                                             for: indexPath) as? CurrencyCell else {
                 return cell
             }
-            currencyCell.configure(displayData: CurrencyCell.DisplayData(title: "Kursk-Anapa", course: 10, currentCurrencyName: "RUB", localCurrencyName: "USD"))
+            currencyCell.configure(displayData: CurrencyCell.DisplayData(title: "Kursk-Anapa",
+                                                                         course: 10,
+                                                                         currentCurrencyName: "RUB",
+                                                                         localCurrencyName: "USD"))
             cell = currencyCell
+        case .events:
+            guard let mapCell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "EventMapCell",
+                                                                            for: indexPath) as? EventMapCell else {
+                return cell
+            }
+            mapCell.configure(data: EventMapCell.DisplayData(latitude: 55.755864,
+                                                             longitude: 37.617698))
+            cell = mapCell
         default:
             return cell
         }

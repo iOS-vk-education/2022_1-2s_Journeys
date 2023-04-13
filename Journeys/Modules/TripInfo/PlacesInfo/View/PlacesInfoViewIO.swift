@@ -26,7 +26,7 @@ protocol PlacesInfoViewOutput: AnyObject {
     func getWeatherCollectionCellsCount(for collectionIndexPath: IndexPath) -> Int
     func mainCollectionCellType(for indexPath: IndexPath) -> PlacesInfoPresenter.CellsType?
     
-    func getRoutelData() -> ShortRouteCell.DisplayData?
+    func routeData() -> ShortRouteCell.DisplayData?
     func getWeatherCollectionDisplayData(_ row: Int) -> WeatherCollection.DisplayData?
     func getWeatherCollectionCellDisplayData(collectionRow: Int, cellRow: Int) -> WeatherCell.DisplayData?
 

@@ -26,13 +26,8 @@ protocol NetworkRequestFactoryProtocol {
 }
 
 final class NetworkRequestFactory: NetworkRequestFactoryProtocol {
-    
     private enum Constants {
-        enum Geocoding {
-            static let apiKey = "I//IsgmpQrbjs0vapG6ffg==3lc6InAZejkjUGbe"
-            static let baseURL = URL(string: "https://api.api-ninjas.com/v1/")!
-        }
-        enum Timezone {
+        enum ApiNinjas {
             static let apiKey = "I//IsgmpQrbjs0vapG6ffg==3lc6InAZejkjUGbe"
             static let baseURL = URL(string: "https://api.api-ninjas.com/v1/")!
         }
@@ -43,7 +38,7 @@ final class NetworkRequestFactory: NetworkRequestFactoryProtocol {
     }
     
     func getLocationCoordinates(city: String, country: String) -> URLRequest {
-        let requestURL = Constants.Geocoding.baseURL.appendingPathComponent("geocoding")
+        let requestURL = Constants.ApiNinjas.baseURL.appendingPathComponent("geocoding")
         var urlComponents = URLComponents(url: requestURL, resolvingAgainstBaseURL: false)
         urlComponents?.queryItems = [
             URLQueryItem(name: "city", value: city),
@@ -54,12 +49,12 @@ final class NetworkRequestFactory: NetworkRequestFactoryProtocol {
             return URLRequest(url: URL(string: "")!)
         }
         var request = URLRequest(url: url)
-        request.setValue(Constants.Geocoding.apiKey, forHTTPHeaderField: "X-Api-Key")
+        request.setValue(Constants.ApiNinjas.apiKey, forHTTPHeaderField: "X-Api-Key")
         return request
     }
     
     func getCoordinatesTimezone(_ coordinates: Coordinates) -> URLRequest {
-        let requestURL = Constants.Timezone.baseURL.appendingPathComponent("timezone")
+        let requestURL = Constants.ApiNinjas.baseURL.appendingPathComponent("timezone")
         var urlComponents = URLComponents(url: requestURL, resolvingAgainstBaseURL: false)
         urlComponents?.queryItems = [
             URLQueryItem(name: "lat", value: "\(coordinates.latitude)"),
@@ -70,8 +65,11 @@ final class NetworkRequestFactory: NetworkRequestFactoryProtocol {
             return URLRequest(url: URL(string: "")!)
         }
         var request = URLRequest(url: url)
-        request.setValue(Constants.Timezone.apiKey, forHTTPHeaderField: "X-Api-Key")
+        request.setValue(Constants.ApiNinjas.apiKey, forHTTPHeaderField: "X-Api-Key")
         return request
+    }
+    
+    func getCurrencyRate() {
     }
     
     func getWeatherRequestForCoordinates(_ coordinates: Coordinates,

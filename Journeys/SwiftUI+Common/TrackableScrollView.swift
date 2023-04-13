@@ -11,10 +11,10 @@ import SwiftUI
 // MARK: - TrackableScrollView
 
 public struct TrackableScrollView<Content>: View where Content: View {
-    let axes: Axis.Set
-    let showIndicators: Bool
-    @Binding var contentOffset: CGFloat
-    let content: Content
+    private let axes: Axis.Set
+    private let showIndicators: Bool
+    @Binding private var contentOffset: CGFloat
+    private let content: Content
 
     public init(_ axes: Axis.Set = .vertical, showIndicators: Bool = true, contentOffset: Binding<CGFloat>, @ViewBuilder content: () -> Content) {
         self.axes = axes

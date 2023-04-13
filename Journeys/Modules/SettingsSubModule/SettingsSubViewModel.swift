@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import UIKit
+import SwiftUI
 
 final class SettingsViewModel: ObservableObject {
     @Published var viewType: SettingsViewType
@@ -18,6 +19,7 @@ final class SettingsViewModel: ObservableObject {
     @Published var selectedLanguage: Language = .selectedLanguage
 
     @Published var selectedStyle: Theme = .current
+    
 
     init(viewType: SettingsViewType) {
         self.viewType = viewType
@@ -31,7 +33,6 @@ final class SettingsViewModel: ObservableObject {
     func languageDidChange(_ language: Language) {
         let localizationSystem = LocalizationSystem.sharedInstance
         localizationSystem.setLanguage(languageCode: language.languageCode)
-        print(localizationSystem.getLanguage())
         selectedLanguage = language
         let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
         sceneDelegate?.coordinator?.reload()

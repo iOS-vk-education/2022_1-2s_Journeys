@@ -69,7 +69,6 @@ enum Language: String, CaseIterable, Identifiable {
 
 enum Help: String, CaseIterable, Identifiable {
     case mail
-    case telegram
 
     var id: String {
         rawValue
@@ -79,8 +78,6 @@ enum Help: String, CaseIterable, Identifiable {
         switch self {
         case .mail:
             return L10n.mail
-        case .telegram:
-            return L10n.telegram
         }
     }
 }

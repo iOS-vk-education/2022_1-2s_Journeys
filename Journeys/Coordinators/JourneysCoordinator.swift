@@ -31,22 +31,10 @@ final class JourneysCoordinator: CoordinatorProtocol {
     // MARK: Public Methods
 
     func start() {
-        let loadingViewController = EmtyViewController()
-        navigationController.setViewControllers([loadingViewController], animated: false)
-        Auth.auth().addIDTokenDidChangeListener { (auth, user) in
-            if user == nil {
-                let builder = AuthModuleBuilder()
-                let viewController = builder.build(moduleType: .auth,
-                                                   output: self,
-                                                   firebaseService: self.firebaseService)
-                self.navigationController.setViewControllers([viewController], animated: false)
-            } else {
-                let builder = TripsModuleBuilder()
-                let viewController = builder.build(firebaseService: self.firebaseService, output: self)
-                
-                self.navigationController.setViewControllers([viewController], animated: false)
-            }
-        }
+        let builder = TripsModuleBuilder()
+        let viewController = builder.build(firebaseService: self.firebaseService, output: self)
+        
+        self.navigationController.setViewControllers([viewController], animated: false)
         navigationController.tabBarItem = tabBarItemFactory.getTabBarItem(from: TabBarPage.journeys)
         
         var controllers = rootTabBarController.viewControllers
@@ -61,30 +49,19 @@ final class JourneysCoordinator: CoordinatorProtocol {
     // TODO: finish
     func finish() {
     }
-    
-//    func hideLoadingView() {
-//        DispatchQueue.main.async {
-//            self.navigationController.dismiss(animated: true)
-//        }
-//    }
-//    
-//    func showLoadingView() {
-//        let loadingVC = LoadingViewController()
-//        loadingVC.modalPresentationStyle = .overCurrentContext
-//
-//        loadingVC.modalTransitionStyle = .crossDissolve
-//        navigationController.present(loadingVC, animated: true)
-//    }
 }
 
 // MARK: TripsModuleOutput
 
 extension JourneysCoordinator: TripsModuleOutput {
     
-    func usualTripsModuleWantsToOpenSavedTrips() {
+    func usualTripsModuleWantsToOpenSavedTrips(savedTrips: [TripWithRouteAndImage]) {
         let builder = TripsModuleBuilder()
-        let newRouteViewController = builder.build(firebaseService: firebaseService, output: self, tripsViewControllerType: .saved)
-        navigationController.pushViewController(newRouteViewController, animated: true)
+        let tripsViewController = builder.build(firebaseService: firebaseService,
+                                                output: self,
+                                                tripsType: .saved,
+                                                tripsData: savedTrips)
+        navigationController.pushViewController(tripsViewController, animated: true)
     }
     
     func savedTripsModuleWantsToClose() {
@@ -163,37 +140,6 @@ extension JourneysCoordinator: PlaceModuleOutput {
 
 extension JourneysCoordinator: TripInfoModuleOutput {
     func tripInfoModuleWantsToClose() {
-//        navigationController.popViewController(animated: true)
         navigationController.popToViewController(navigationController.viewControllers[0], animated: true)
-    }
-}
-
-extension JourneysCoordinator: AuthModuleOutput {
-    func authModuleWantsToChangeModulenType(currentType: AuthPresenter.ModuleType) {
-        let builder = AuthModuleBuilder()
-        var authViewController: UIViewController
-        switch currentType {
-        case .auth:
-            authViewController = builder.build(moduleType: .registration,
-                                               output: self,
-                                               firebaseService: firebaseService)
-        case .registration:
-            authViewController = builder.build(moduleType: .auth,
-                                               output: self,
-                                               firebaseService: firebaseService)
-        }
-        
-        navigationController.popViewController(animated: false)
-        navigationController.setViewControllers([authViewController], animated: true)
-    }
-    
-    func authModuleWantsToOpenTripsModule() {
-//        let builder = TripsModuleBuilder()
-//        let tripsViewController = builder.build(firebaseService: firebaseService,
-//                                                output: self)
-////        self.navigationController.viewControllers.remove(at: 0)
-////        navigationController.pushViewController(tripsViewController, animated: true)
-        self.navigationController.popViewController(animated: true)
-//        self.navigationController.setViewControllers([tripsViewController], animated: true)
     }
 }

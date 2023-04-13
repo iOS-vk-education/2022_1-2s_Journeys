@@ -10,6 +10,10 @@ import UIKit
 import FirebaseFirestore
 import FirebaseAuth
 
+enum AuthErrors: Error {
+    case accountTroubles
+}
+
 protocol FirebaseServiceAuthProtocol {
     func createUser(email: String,
                     password: String,
@@ -25,6 +29,8 @@ protocol FirebaseServiceAuthProtocol {
                             password: String,
                             newPassword: String,
                             completion: @escaping (Error?) -> Void)
+    func resetPassword(for email: String, completion: @escaping (Error?) -> Void)
+    func deleteAccount(with password: String, completion: @escaping (Error?) -> Void)
     func obtainUserData() -> User?
 }
 
@@ -125,4 +131,28 @@ extension FirebaseService: FirebaseServiceAuthProtocol {
         }
     }
     
+    func resetPassword(for email: String, completion: @escaping (Error?) -> Void) {
+        firebaseManager.auth.sendPasswordReset(withEmail: email, completion: completion)
+    }
+    
+    func deleteAccount(with password: String, completion: @escaping (Error?) -> Void) {
+        guard let email = firebaseManager.auth.currentUser?.email else {
+            return
+        }
+        login(email: email,
+              password: password) { [weak self] result in
+            switch result {
+            case .failure(let error): completion(error)
+            case .success:
+                self?.firebaseManager.auth.currentUser?.delete(completion: completion)
+            }
+        }
+    }
+    
+    func checkPassword(password: String, completion: @escaping (Error?) -> Void) {
+        guard let email = firebaseManager.auth.currentUser?.email else { return }
+        firebaseManager.auth.signIn(withEmail: email, password: password) { _, error in
+            completion(error)
+        }
+    }
 }

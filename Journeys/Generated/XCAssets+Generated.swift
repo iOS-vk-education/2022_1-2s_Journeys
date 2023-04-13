@@ -51,6 +51,7 @@ internal enum Asset {
       internal static let iconsColor = ColorAsset(name: "IconsColor")
       internal static let tappedIconsColor = ColorAsset(name: "TappedIconsColor")
     }
+    internal static let launchScreen = ColorAsset(name: "LaunchScreen")
     internal enum Placeholder {
       internal static let placeholderColor = ColorAsset(name: "PlaceholderColor")
     }
@@ -61,6 +62,10 @@ internal enum Asset {
       internal enum WeatherCell {
         internal static let dateColor = ColorAsset(name: "dateColor")
       }
+    }
+    internal enum Skeleton {
+      internal static let dark = ColorAsset(name: "dark")
+      internal static let light = ColorAsset(name: "light")
     }
     internal enum SpecifyAdress {
       internal static let buttonSpecifyAdress = ColorAsset(name: "ButtonSpecifyAdress")

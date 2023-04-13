@@ -14,6 +14,7 @@ final class PlacesInfoPresenter {
         case route
         case weather
         case currency
+        case events
     }
     
     // MARK: - Public Properties
@@ -101,11 +102,12 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
     }
     
     func mainCollectionCellsCount(for section: Int) -> Int {
-        guard isDataLoaded else { return 0 }
         guard CellsType.allCases.count > section else { return 0 }
+        if CellsType.allCases[section] == .route { return 1 }
+        guard isDataLoaded else { return 0 }
         let section = CellsType.allCases[section]
         switch section {
-        case .route, .currency: return 1
+        case .route, .currency, .events: return 1
         case .weather: return weather.count == 0 ? 1 : weather.count
         default: return 0
         }
@@ -118,8 +120,9 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
     }
     
     func mainCollectionCellType(for indexPath: IndexPath) -> CellsType? {
-        guard isDataLoaded else { return nil }
         guard CellsType.allCases.count > indexPath.section else { return nil }
+        if CellsType.allCases[indexPath.section] == .route { return .route }
+        guard isDataLoaded else { return nil }
         return CellsType.allCases[indexPath.section]
     }
     
@@ -145,17 +148,18 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
             return L10n.weather
         case .currency:
             return L10n.currency
+        case .events:
+            return L10n.events
         default:
             return ""
         }
     }
     
-    func getRoutelData() -> ShortRouteCell.DisplayData? {
+    func routeData() -> ShortRouteCell.DisplayData? {
         let arrow: String = " → "
-        var routeString: String = route.departureLocation.city
-        for place in route.places {
-            routeString += arrow + place.location.city
-        }
+        var routeString: String = route.departureLocation.city + arrow
+        routeString += route.places.compactMap( { $0.location.city } )
+            .joined(separator: arrow)
         return ShortRouteCell.DisplayData(route: routeString)
     }
     

@@ -6,6 +6,7 @@
 //
 import Foundation
 import UIKit
+import FirebaseAuth
 
 class AppCoordinator: NSObject, AppCoordinatorProtocol {
 
@@ -13,7 +14,7 @@ class AppCoordinator: NSObject, AppCoordinatorProtocol {
     let tabBarController: UITabBarController
     weak var journeysCoordinatorInput: CoordinatorProtocol?
     weak var eventsCoordinatorInput: CoordinatorProtocol?
-    weak var settingsCoordinatorInput: CoordinatorProtocol?
+    weak var accountCoordinatorInput: CoordinatorProtocol?
     
     private var firebaseService: FirebaseServiceProtocol
 
@@ -26,8 +27,6 @@ class AppCoordinator: NSObject, AppCoordinatorProtocol {
 
     func start() {
         tabBarController.delegate = self
-        
-        // TODO: Add color
         tabBarController.tabBar.tintColor = UIColor(asset: Asset.Colors.Icons.iconsColor)
         TabBarPage.allCases.forEach {
             getTabController($0)
@@ -43,8 +42,8 @@ class AppCoordinator: NSObject, AppCoordinatorProtocol {
         tabBarController.viewControllers = nil
         childCoordinators.forEach { coordinator in
             coordinator.start()
-            if let settingsCoordinator = coordinator as? SettingsCoordinator {
-                settingsCoordinator.settingsModuleWantsToOpenSettingsSubModule(type: .language, animated: false)
+            if let accountCoordinator = coordinator as? AccountCoordinator {
+                accountCoordinator.settingsModuleWantsToOpenSettingsSubModule(type: .language, animated: false)
             }
         }
 
@@ -68,12 +67,12 @@ class AppCoordinator: NSObject, AppCoordinatorProtocol {
             childCoordinators.append(eventsCoordinator)
             eventsCoordinatorInput = eventsCoordinator
 
-        case .settings:
-            let settingsCoordinator = SettingsCoordinator(rootTabBarController: tabBarController,
+        case .account:
+            let accountCoordinator = AccountCoordinator(rootTabBarController: tabBarController,
                                                         firebaseService: firebaseService)
-            settingsCoordinator.start()
-            childCoordinators.append(settingsCoordinator)
-            settingsCoordinatorInput = settingsCoordinator
+            accountCoordinator.start()
+            childCoordinators.append(accountCoordinator)
+            accountCoordinatorInput = accountCoordinator
         }
     }
 }

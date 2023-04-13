@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import MessageUI
 
 // MARK: - SettingsViewController
 
@@ -20,7 +21,7 @@ final class SettingsViewController: UIViewController {
 
     private enum Constants {
         static let backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
-        static let tableViewHorizontalInsets: CGFloat = 16
+        static let tableViewHorizontalInsets: CGFloat = 20
         enum Cells {
             static let cornerRadius: CGFloat = 15
             static let height: CGFloat = 52
@@ -45,17 +46,10 @@ final class SettingsViewController: UIViewController {
         super.viewDidLoad()
         setupView()
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        output?.viewDidAppear()
-    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let selectedIndexPath = tableView.indexPathForSelectedRow {
-            tableView.deselectRow(at: selectedIndexPath, animated: animated)
-        }
+        output?.viewWillAppear()
     }
 
     // MARK: Private methods
@@ -67,6 +61,19 @@ final class SettingsViewController: UIViewController {
 
         setupTableView()
     }
+    
+    private func setupNavBar() {
+        navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
+        navigationItem.setHidesBackButton(true, animated: false)
+        
+        let buttonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"),
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(didTapBackButton))
+        
+        navigationItem.leftBarButtonItem = buttonItem
+        title = L10n.saved
+    }
 
     private func setupTableView() {
         tableView.delegate = self
@@ -74,18 +81,24 @@ final class SettingsViewController: UIViewController {
 
         tableView.backgroundColor = view.backgroundColor
         tableView.separatorColor = tableView.backgroundColor
+        tableView.isScrollEnabled = false
         setupTableViewConstrains()
         registerCell()
     }
 
     private func setupTableViewConstrains() {
-        tableView.snp.makeConstraints { maker in
-            maker.edges.equalToSuperview()
+        tableView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
 
     private func registerCell() {
-        tableView.register(SettingsCell.self, forCellReuseIdentifier: "SettingsCell")
+        tableView.register(SettingsCell.self, forCellReuseIdentifier: SettingsCell.reuseIdentifier)
+    }
+    
+    @objc
+    private func didTapBackButton() {
+        output?.didTapBackBarButton()
     }
 }
 
@@ -95,6 +108,7 @@ extension SettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard indexPath.section != 0 else { return }
         output?.didSelectCell(at: indexPath)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
@@ -122,7 +136,7 @@ extension SettingsViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell",
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingsCell.reuseIdentifier,
                                                        for: indexPath) as? SettingsCell else {
             return UITableViewCell()
         }
@@ -150,5 +164,54 @@ extension SettingsViewController: SettingsViewInput {
     
     func deselectCell(_ indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func openMailView() {
+        let recipientEmail = "nastyaisc@gmail.com"
+        let subject = L10n.Message.theme
+        let body = L10n.Message.text
+        
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients([recipientEmail])
+            mail.setSubject(subject)
+            mail.setMessageBody(body, isHTML: false)
+            
+            present(mail, animated: true)
+        
+        } else if let emailUrl = createEmailUrl(to: recipientEmail, subject: subject, body: body) {
+            UIApplication.shared.open(emailUrl)
+        }
+    }
+    
+    private func createEmailUrl(to: String, subject: String, body: String) -> URL? {
+        guard let subjectEncoded = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+              let bodyEncoded = body.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        else { return nil }
+        
+        let gmailUrl = URL(string: "googlegmail://co?to=\(to)&subject=\(subjectEncoded)&body=\(bodyEncoded)")
+        let outlookUrl = URL(string: "ms-outlook://compose?to=\(to)&subject=\(subjectEncoded)&body=\(bodyEncoded)")
+        let yahooMail = URL(string: "ymail://mail/compose?to=\(to)&subject=\(subjectEncoded)&body=\(bodyEncoded)")
+        let sparkUrl = URL(string: "readdle-spark://compose?recipient=\(to)&subject=\(subjectEncoded)&body=\(bodyEncoded)")
+        let defaultUrl = URL(string: "mailto:\(to)?subject=\(subjectEncoded)&body=\(bodyEncoded)")
+        
+        if let gmailUrl = gmailUrl, UIApplication.shared.canOpenURL(gmailUrl) {
+            return gmailUrl
+        } else if let outlookUrl = outlookUrl, UIApplication.shared.canOpenURL(outlookUrl) {
+            return outlookUrl
+        } else if let yahooMail = yahooMail, UIApplication.shared.canOpenURL(yahooMail) {
+            return yahooMail
+        } else if let sparkUrl = sparkUrl, UIApplication.shared.canOpenURL(sparkUrl) {
+            return sparkUrl
+        }
+        
+        return defaultUrl
+    }
+}
+
+extension SettingsViewController: MFMailComposeViewControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
     }
 }

@@ -10,6 +10,10 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 public enum L10n {
+  /// Аккаунт
+  public static var account: String { return L10n.tr("Localizable", "Account") }
+  /// Данные аккаунта
+  public static var accountInfo: String { return L10n.tr("Localizable", "AccountInfo") }
   /// Добавить
   public static var add: String { return L10n.tr("Localizable", "Add") }
   /// Добавление маршрута
@@ -18,24 +22,38 @@ public enum L10n {
   public static var addTown: String { return L10n.tr("Localizable", "AddTown") }
   /// Город прибытия
   public static var arrivalTown: String { return L10n.tr("Localizable", "ArrivalTown") }
+  /// Авторизация
+  public static var auth: String { return L10n.tr("Localizable", "Auth") }
   /// Некоторые поля не заполнены
   public static var blanckFields: String { return L10n.tr("Localizable", "BlanckFields") }
   /// Построить маршрут
   public static var buildRoute: String { return L10n.tr("Localizable", "BuildRoute") }
+  /// Подствердите пароль
+  public static var confirmPassword: String { return L10n.tr("Localizable", "ConfirmPassword") }
+  /// Продолжить
+  public static var `continue`: String { return L10n.tr("Localizable", "Continue") }
   /// Страна
   public static var country: String { return L10n.tr("Localizable", "Country") }
   /// Валюта
   public static var currency: String { return L10n.tr("Localizable", "Currency") }
   /// Удалить
   public static var delete: String { return L10n.tr("Localizable", "Delete") }
+  /// Удалить аккаунт
+  public static var deleteAccount: String { return L10n.tr("Localizable", "DeleteAccount") }
   /// Город отправления
   public static var departureTown: String { return L10n.tr("Localizable", "DepartureTown") }
   /// Редактировать
   public static var edit: String { return L10n.tr("Localizable", "Edit") }
+  /// Email
+  public static var email: String { return L10n.tr("Localizable", "Email") }
   /// Мероприятия
   public static var events: String { return L10n.tr("Localizable", "Events") }
+  /// Выход
+  public static var exit: String { return L10n.tr("Localizable", "Exit") }
   /// Заполните поля страны и города
   public static var fillTheCountryAndTownFields: String { return L10n.tr("Localizable", "FillTheCountryAndTownFields") }
+  /// Имя
+  public static var firstName: String { return L10n.tr("Localizable", "FirstName") }
   /// Поддержка
   public static var help: String { return L10n.tr("Localizable", "Help") }
   /// Информация
@@ -44,8 +62,14 @@ public enum L10n {
   public static var journeys: String { return L10n.tr("Localizable", "Journeys") }
   /// Язык
   public static var language: String { return L10n.tr("Localizable", "Language") }
+  /// Фамилия
+  public static var lastName: String { return L10n.tr("Localizable", "LastName") }
+  /// Информация для входа
+  public static var loginInfo: String { return L10n.tr("Localizable", "LoginInfo") }
   /// Почта
   public static var mail: String { return L10n.tr("Localizable", "Mail") }
+  /// Новый пароль
+  public static var newPassword: String { return L10n.tr("Localizable", "NewPassword") }
   /// Новый маршрут
   public static var newRoute: String { return L10n.tr("Localizable", "NewRoute") }
   /// Нет метео данных для выбранных городов или дат
@@ -58,12 +82,24 @@ public enum L10n {
   public static var noTrips: String { return L10n.tr("Localizable", "NoTrips") }
   /// Собрано
   public static var packed: String { return L10n.tr("Localizable", "Packed") }
+  /// Пароль
+  public static var password: String { return L10n.tr("Localizable", "Password") }
+  /// Личная информация
+  public static var personalInfo: String { return L10n.tr("Localizable", "PersonalInfo") }
   /// Общая информация
   public static var placeInfo: String { return L10n.tr("Localizable", "PlaceInfo") }
   /// Оценить приложение
   public static var rateApp: String { return L10n.tr("Localizable", "RateApp") }
+  /// Регистрация
+  public static var registration: String { return L10n.tr("Localizable", "Registration") }
+  /// Сбросить пароль
+  public static var resetPassword: String { return L10n.tr("Localizable", "ResetPassword") }
   /// Маршрут
   public static var route: String { return L10n.tr("Localizable", "Route") }
+  /// Сохранить
+  public static var save: String { return L10n.tr("Localizable", "Save") }
+  /// Избранное
+  public static var saved: String { return L10n.tr("Localizable", "Saved") }
   /// Выберите даты
   public static var selectDates: String { return L10n.tr("Localizable", "SelectDates") }
   /// Настройки
@@ -72,6 +108,8 @@ public enum L10n {
   public static var stuff: String { return L10n.tr("Localizable", "Stuff") }
   /// Список вещей
   public static var stuffList: String { return L10n.tr("Localizable", "StuffList") }
+  /// Списки вещей
+  public static var stuffLists: String { return L10n.tr("Localizable", "StuffLists") }
   /// Оформление
   public static var style: String { return L10n.tr("Localizable", "Style") }
   /// Телеграм
@@ -86,6 +124,40 @@ public enum L10n {
   public static var weather: String { return L10n.tr("Localizable", "Weather") }
   /// Чтобы включить уведомления, разрешите их для приложения Journeys в настройках устройства (Настройки → Journeys → Уведомления → Допуск уведомлений)
   public static var youNeetToTurnTheApplicationNotificationOn: String { return L10n.tr("Localizable", "YouNeetToTurnTheApplicationNotificationOn") }
+
+  public enum Alerts {
+    public enum Actions {
+      /// Удалить
+      public static var delete: String { return L10n.tr("Localizable", "Alerts.Actions.Delete") }
+      /// Далее
+      public static var next: String { return L10n.tr("Localizable", "Alerts.Actions.Next") }
+      /// Ок
+      public static var ok: String { return L10n.tr("Localizable", "Alerts.Actions.Ok") }
+    }
+    public enum Messages {
+      /// Аккаунт успешно удален
+      public static var accountWasDeleted: String { return L10n.tr("Localizable", "Alerts.Messages.AccountWasDeleted") }
+      /// Чтобы подтвердить удаление аккаунта, введите пароль
+      public static var deleteAccount: String { return L10n.tr("Localizable", "Alerts.Messages.DeleteAccount") }
+      /// Введите пароль
+      public static var enterYourPassword: String { return L10n.tr("Localizable", "Alerts.Messages.EnterYourPassword") }
+      /// Письмо для сброса пароля было направлено на указанный адрес электронной почты
+      public static var passwordResetDone: String { return L10n.tr("Localizable", "Alerts.Messages.PasswordResetDone") }
+    }
+    public enum Titles {
+      /// Удалить аккаунт
+      public static var deleteAccount: String { return L10n.tr("Localizable", "Alerts.Titles.DeleteAccount") }
+      /// Успех
+      public static var success: String { return L10n.tr("Localizable", "Alerts.Titles.Success") }
+    }
+  }
+
+  public enum Message {
+    /// Здравствуйте, 
+    public static var text: String { return L10n.tr("Localizable", "Message.Text") }
+    /// Проблема с IOS приложением Journeys
+    public static var theme: String { return L10n.tr("Localizable", "Message.Theme") }
+  }
 
   public enum Style {
     /// Темная тема

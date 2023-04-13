@@ -50,10 +50,6 @@ final class ShortRouteCell: UICollectionViewCell {
         }
     }
     
-    func getLabelLinesCount() -> Int {
-        routeLabel.calculateMaxLines()
-    }
-    
     func configure(data: DisplayData) {
         self.routeLabel.text = data.route
     }
