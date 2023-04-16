@@ -10,7 +10,7 @@ import UIKit
 // MARK: - PlacesIngoPresenter
 
 final class PlacesInfoPresenter {
-    enum CellsType: Int, CaseIterable {
+    enum CellType: Int, CaseIterable {
         case route
         case weather
         case currency
@@ -26,8 +26,9 @@ final class PlacesInfoPresenter {
     private var route: Route
     private var weather: [WeatherWithLocation] = []
     
-    private var isDataLoaded: Bool = false
     private var locationsWithoutCoordinatesList: [Location] = []
+    private var placesWithGeoData: [PlaceWithGeoData] = []
+    private var locationsWithCurrencyRate: [LocationsWithCurrencyRate] = []
     
     
     init(interactor: PlacesInfoInteractorInput,
@@ -86,6 +87,22 @@ final class PlacesInfoPresenter {
             self?.router.hidePlaceholder()
         }
     }
+    
+    private func getCurrencies() {
+        guard let currentCurrencyCode = Locale.currency["US"]?.code else { return }
+        
+        var countryCodesDict: [String: [Location]] = [:]
+        for placeWithGeoData in placesWithGeoData {
+            if let currencyCode = Locale.currency[placeWithGeoData.countryCode]?.code {
+                if countryCodesDict[currencyCode] != nil {
+                    countryCodesDict[currencyCode]?.append(placeWithGeoData.place.location)
+                } else {
+                    countryCodesDict[currencyCode] = [placeWithGeoData.place.location]
+                }
+            }
+        }
+        interactor.currencyRate(for: countryCodesDict, currentCurrencyCode: currentCurrencyCode, amount: 1)
+    }
 }
 
 extension PlacesInfoPresenter: PlacesInfoModuleInput {
@@ -94,53 +111,20 @@ extension PlacesInfoPresenter: PlacesInfoModuleInput {
 extension PlacesInfoPresenter: PlacesInfoViewOutput {
     func viewDidLoad() {
         showLoadingView()
-        interactor.weatherData(for: route)
+        interactor.geoData(for: route)
     }
     
-    func sectionsCount() -> Int {
-        CellsType.allCases.count
+    func didTapExitButton() {
+        moduleOutput?.placesModuleWantsToClose()
     }
-    
-    func mainCollectionCellsCount(for section: Int) -> Int {
-        guard CellsType.allCases.count > section else { return 0 }
-        if CellsType.allCases[section] == .route { return 1 }
-        guard isDataLoaded else { return 0 }
-        let section = CellsType.allCases[section]
-        switch section {
-        case .route, .currency, .events: return 1
-        case .weather: return weather.count == 0 ? 1 : weather.count
-        default: return 0
-        }
-    }
-    
-    func getWeatherCollectionCellsCount(for indexPath: IndexPath) -> Int {
-        guard isDataLoaded else { return 0 }
-        guard weather.indices.contains(indexPath.row) == true else { return 0 }
-        return weather[indexPath.row].weather.count
-    }
-    
-    func mainCollectionCellType(for indexPath: IndexPath) -> CellsType? {
-        guard CellsType.allCases.count > indexPath.section else { return nil }
-        if CellsType.allCases[indexPath.section] == .route { return .route }
-        guard isDataLoaded else { return nil }
-        return CellsType.allCases[indexPath.section]
-    }
-    
-    func getWeatherCollectionDisplayData(_ row: Int) -> WeatherCollection.DisplayData? {
-        guard isDataLoaded else { return nil }
-        guard weather.indices.contains(row) == true else { return nil }
-        return WeatherCollection.DisplayData(town: weather[row].location.city, cellsCount: weather[row].weather.count)
-    }
-    
-    func getWeatherCollectionCellDisplayData(collectionRow: Int, cellRow: Int) -> WeatherCell.DisplayData? {
-        guard weather.indices.contains(collectionRow) == true else { return nil }
-        guard weather[collectionRow].weather.indices.contains(cellRow) == true else { return nil }
-        return WeatherCellDisplayDataFactory().displayData(weather: weather[collectionRow].weather[cellRow])
-    }
-    
-    func getHeaderText(for indexPath: IndexPath) -> String {
-        guard CellsType.allCases.count > indexPath.section else { return "" }
-        let section = CellsType.allCases[indexPath.section]
+}
+
+// MARK: work with MainCollectionView
+
+extension PlacesInfoPresenter {
+    func headerText(for indexPath: IndexPath) -> String {
+        guard CellType.allCases.count > indexPath.section else { return "" }
+        let section = CellType.allCases[indexPath.section]
         switch section {
         case .route:
             return L10n.route
@@ -155,7 +139,33 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
         }
     }
     
-    func routeData() -> ShortRouteCell.DisplayData? {
+    func sectionsCount() -> Int {
+        CellType.allCases.count
+    }
+    
+    func mainCollectionCellsCount(for section: Int) -> Int {
+        guard CellType.allCases.count > section else { return 0 }
+        if CellType.allCases[section] == .route { return 1 }
+        let section = CellType.allCases[section]
+        switch section {
+        case .route: return 1
+        case .weather:
+            return weather.count == 0 ? 1 : weather.count
+        case .currency:
+            return locationsWithCurrencyRate.count == 0 ? 1 : locationsWithCurrencyRate.count
+        case .events:
+            return placesWithGeoData.count == 0 ? 1 : placesWithGeoData.count
+        default: return 0
+        }
+    }
+    
+    func mainCollectionCellType(for indexPath: IndexPath) -> CellType? {
+        guard CellType.allCases.count > indexPath.section else { return nil }
+        if CellType.allCases[indexPath.section] == .route { return .route }
+        return CellType.allCases[indexPath.section]
+    }
+    
+    func routeCellDisplayData() -> ShortRouteCell.DisplayData? {
         let arrow: String = " → "
         var routeString: String = route.departureLocation.city + arrow
         routeString += route.places.compactMap( { $0.location.city } )
@@ -163,22 +173,83 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
         return ShortRouteCell.DisplayData(route: routeString)
     }
     
-    func didTapExitButton() {
-        moduleOutput?.placesModuleWantsToClose()
+    func weatherCollectionDisplayData(_ row: Int) -> WeatherCollection.DisplayData? {
+        guard weather.count > row  else { return nil }
+        return WeatherCollection.DisplayData(town: weather[row].location.city, cellsCount: weather[row].weather.count)
+    }
+    
+    func currencyCellDisplayData(for indexPath: IndexPath) -> CurrencyCell.DisplayData? {
+        guard locationsWithCurrencyRate.count > indexPath.row else { return nil }
+        let title = locationsWithCurrencyRate[indexPath.row]
+            .locations.compactMap( { $0.city } ).joined(separator: ", ")
+        let currencyRate = locationsWithCurrencyRate[indexPath.row].currencyRate
+        return CurrencyCell.DisplayData(title: title,
+                                        currentCurrencyAmount: String(currencyRate.oldAmount)
+            .replacingOccurrences(of: ".", with: ","),
+                                        localCurrencyAmount: String(currencyRate.newAmount)
+            .replacingOccurrences(of: ".", with: ","),
+                                        currentCurrencyName: currencyRate.oldCurrency,
+                                        localCurrencyName: currencyRate.newCurrency)
+    }
+    
+    func eventCellDisplayData(for indexPath: IndexPath) -> EventMapCell.DisplayData? {
+        guard placesWithGeoData.count > indexPath.row else { return nil }
+        let coordinates = placesWithGeoData[indexPath.row].coordinates
+        return EventMapCell.DisplayData(latitude: coordinates.latitude, longitude: coordinates.longitude)
+    }
+    
+    func didSelectItem(at indexPath: IndexPath) {
+        guard CellType.allCases.count > indexPath.section else { return }
+        guard CellType.allCases[indexPath.section] == .events else { return }
+        guard placesWithGeoData.count > indexPath.row else { return }
+        moduleOutput?.openEventsModule(with: placesWithGeoData[indexPath.row].coordinates)
+    }
+}
+
+// MARK: Work with weatherCollection
+
+extension PlacesInfoPresenter {
+    func weatherCollectionCellsCount(for indexPath: IndexPath) -> Int {
+        guard weather.indices.contains(indexPath.row) == true else { return 0 }
+        return weather[indexPath.row].weather.count
+    }
+    
+    func weatherCollectionCellDisplayData(collectionRow: Int, cellRow: Int) -> WeatherCell.DisplayData? {
+        guard weather.indices.contains(collectionRow) == true else { return nil }
+        guard weather[collectionRow].weather.indices.contains(cellRow) == true else { return nil }
+        return WeatherCellDisplayDataFactory().displayData(weather: weather[collectionRow].weather[cellRow])
     }
 }
 
 extension PlacesInfoPresenter: PlacesInfoInteractorOutput {
+    
+    func didFetchCurrencyRates(_ locationsWithCurrencyRate: [LocationsWithCurrencyRate]) {
+        self.locationsWithCurrencyRate = locationsWithCurrencyRate
+        view?.reloadData()
+        hideLoadingView()
+    }
+    
+    func didFetchGeoData(_ placesWithGeoData: [PlaceWithGeoData]) {
+        self.placesWithGeoData = placesWithGeoData
+        interactor.weatherData(placesWithGeoData: placesWithGeoData)
+        getCurrencies()
+        view?.reloadData()
+    }
+    
     func noWeatherForPlace(_ place: Place) {
         
     }
     
     func noPlacesInRoute() {
-        didFetchAllWeatherData()
+        view?.reloadData()
+        hideLoadingView()
+        if !locationsWithoutCoordinatesList.isEmpty {
+            showNoCoordinatesAlert()
+        }
     }
     
-    func didFetchAllWeatherData() {
-        isDataLoaded = true
+    func didFetchAllWeatherData(_ weather: [WeatherWithLocation]) {
+        self.weather = weather
         sortWeather()
         view?.reloadData()
         hideLoadingView()
@@ -194,8 +265,26 @@ extension PlacesInfoPresenter: PlacesInfoInteractorOutput {
     func didRecieveError(error: Error) {
         view?.showAlert(title: "Ошибка", message: "Возникла ошибка при загрузке данных")
     }
-    
-    func didRecieveWeatherData(_ weatherData: WeatherWithLocation) {
-        weather.append(weatherData)
+}
+
+extension PlacesInfoPresenter: CurrencyCellDelegate {
+    func didFinishEditingTextField(at indexPath: IndexPath,
+                                   text: String,
+                                   viewType: CurrencyView.ViewType) {
+        guard locationsWithCurrencyRate.count > indexPath.row else { return }
+        let amount = text.replacingOccurrences(of: ",",
+                                              with: ".").toFloat
+        let course = locationsWithCurrencyRate[indexPath.row].currencyRate
+        let result: Float?
+        switch viewType {
+        case .currentCurrency: result = course.newAmount / course.oldAmount * amount
+        case .localCurrency: result = course.oldAmount / course.newAmount * amount
+        default: break
+        }
+        guard let result else { return }
+        view?.changeCurrencyTextField(at: indexPath,
+                                      viewType: viewType,
+                                      to: String(format: "%.2f", result).replacingOccurrences(of: ".",
+                                                                                              with: ","))
     }
 }

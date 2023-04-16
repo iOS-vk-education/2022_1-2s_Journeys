@@ -1,0 +1,35 @@
+diff --git a/Journeys/Modules/TripInfo/PlacesInfo/View/Cells/EventMapCell/EventMapCell.swift b/Journeys/Modules/TripInfo/PlacesInfo/View/Cells/EventMapCell/EventMapCell.swift
+index 0c5992c..f07426d 100644
+--- a/Journeys/Modules/TripInfo/PlacesInfo/View/Cells/EventMapCell/EventMapCell.swift
++++ b/Journeys/Modules/TripInfo/PlacesInfo/View/Cells/EventMapCell/EventMapCell.swift
+@@ -75,10 +75,7 @@ final class EventMapCell: UICollectionViewCell {
+     
+     private func makeConstraints() {
+         map.snp.makeConstraints { make in
+-            make.centerY.equalToSuperview()
+-            make.centerX.equalToSuperview()
+-            make.width.equalToSuperview().offset(-40)
+-            make.height.equalTo(map.snp.width)
++            make.edges.equalToSuperview()
+         }
+         transparentView.snp.makeConstraints { make in
+             make.edges.equalTo(map.snp.edges)
+diff --git a/Journeys/Modules/TripInfo/PlacesInfo/View/PlacesInfoViewController.swift b/Journeys/Modules/TripInfo/PlacesInfo/View/PlacesInfoViewController.swift
+index 5a93932..1d47284 100644
+--- a/Journeys/Modules/TripInfo/PlacesInfo/View/PlacesInfoViewController.swift
++++ b/Journeys/Modules/TripInfo/PlacesInfo/View/PlacesInfoViewController.swift
+@@ -88,6 +88,14 @@ extension PlacesInfoViewController: UICollectionViewDelegate, UICollectionViewDe
+     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+         CGSize(width: mainCollectionView.frame.width, height: 25)
+     }
++
++    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
++        if indexPath.section == 3 {
++            return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.width)
++        } else {
++            return CGSize(width: collectionViewLayout.collectionViewContentSize.width, height: collectionViewLayout.collectionViewContentSize.height)
++        }
++    }
+ }
+ 
+ extension PlacesInfoViewController: UICollectionViewDataSource {

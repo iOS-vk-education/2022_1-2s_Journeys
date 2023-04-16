@@ -149,10 +149,11 @@
 		EE910DC32958AE610094F5C8 /* FirebaseServiceAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DC22958AE610094F5C8 /* FirebaseServiceAuth.swift */; };
 		EE910DC52958AE700094F5C8 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DC42958AE700094F5C8 /* FirebaseService.swift */; };
 		EE910DC92958B93A0094F5C8 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DC82958B93A0094F5C8 /* LoadingViewController.swift */; };
-		EE910DCD295913860094F5C8 /* NoPlacesForWeatherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DCC295913860094F5C8 /* NoPlacesForWeatherCell.swift */; };
+		EE910DCD295913860094F5C8 /* PlacesInfoPlaceholderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DCC295913860094F5C8 /* PlacesInfoPlaceholderCell.swift */; };
 		EE910DD5295A28AA0094F5C8 /* WeatherPlaceNoDataPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DD4295A28AA0094F5C8 /* WeatherPlaceNoDataPlaceholder.swift */; };
 		EE92866429CDDBAB00853998 /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE92866229CDDBAB00853998 /* UINavigationController.swift */; };
 		EE92866529CDDBAB00853998 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE92866329CDDBAB00853998 /* UITextField.swift */; };
+		EE9BC43629ECB15400091D6B /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9BC43529ECB15400091D6B /* String.swift */; };
 		EE9DDF8D29E47306002781C7 /* NoWeatherPlaceHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9DDF8C29E47306002781C7 /* NoWeatherPlaceHolder.swift */; };
 		EE9DDF9129E473C0002781C7 /* PlacesInfoRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9DDF9029E473C0002781C7 /* PlacesInfoRouter.swift */; };
 		EE9DDF9329E473CA002781C7 /* PlacesInfoRouterInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9DDF9229E473CA002781C7 /* PlacesInfoRouterInput.swift */; };
@@ -173,7 +174,7 @@
 		EEAC1D2C295260CB00237331 /* PlacesInfoInteractorIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D2B295260CB00237331 /* PlacesInfoInteractorIO.swift */; };
 		EEAC1D312952717800237331 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D2E2952717800237331 /* NetworkService.swift */; };
 		EEAC1D322952717800237331 /* NetworkRequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D2F2952717800237331 /* NetworkRequestFactory.swift */; };
-		EEAC1D35295271E400237331 /* Coordinates.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D34295271E400237331 /* Coordinates.swift */; };
+		EEAC1D35295271E400237331 /* GeoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D34295271E400237331 /* GeoData.swift */; };
 		EEAC1D3C29527A7000237331 /* WeatherForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D3729527A7000237331 /* WeatherForecast.swift */; };
 		EEAC1D4029527A7000237331 /* WeatherMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D3B29527A7000237331 /* WeatherMain.swift */; };
 		EEAC1D452952897F00237331 /* Timezone.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D442952897F00237331 /* Timezone.swift */; };
@@ -355,10 +356,11 @@
 		EE910DC22958AE610094F5C8 /* FirebaseServiceAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseServiceAuth.swift; sourceTree = "<group>"; };
 		EE910DC42958AE700094F5C8 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		EE910DC82958B93A0094F5C8 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
-		EE910DCC295913860094F5C8 /* NoPlacesForWeatherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoPlacesForWeatherCell.swift; sourceTree = "<group>"; };
+		EE910DCC295913860094F5C8 /* PlacesInfoPlaceholderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesInfoPlaceholderCell.swift; sourceTree = "<group>"; };
 		EE910DD4295A28AA0094F5C8 /* WeatherPlaceNoDataPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherPlaceNoDataPlaceholder.swift; sourceTree = "<group>"; };
 		EE92866229CDDBAB00853998 /* UINavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
 		EE92866329CDDBAB00853998 /* UITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
+		EE9BC43529ECB15400091D6B /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		EE9DDF8C29E47306002781C7 /* NoWeatherPlaceHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoWeatherPlaceHolder.swift; sourceTree = "<group>"; };
 		EE9DDF9029E473C0002781C7 /* PlacesInfoRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesInfoRouter.swift; sourceTree = "<group>"; };
 		EE9DDF9229E473CA002781C7 /* PlacesInfoRouterInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesInfoRouterInput.swift; sourceTree = "<group>"; };
@@ -379,7 +381,7 @@
 		EEAC1D2B295260CB00237331 /* PlacesInfoInteractorIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesInfoInteractorIO.swift; sourceTree = "<group>"; };
 		EEAC1D2E2952717800237331 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		EEAC1D2F2952717800237331 /* NetworkRequestFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkRequestFactory.swift; sourceTree = "<group>"; };
-		EEAC1D34295271E400237331 /* Coordinates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinates.swift; sourceTree = "<group>"; };
+		EEAC1D34295271E400237331 /* GeoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoData.swift; sourceTree = "<group>"; };
 		EEAC1D3729527A7000237331 /* WeatherForecast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherForecast.swift; sourceTree = "<group>"; };
 		EEAC1D3B29527A7000237331 /* WeatherMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherMain.swift; sourceTree = "<group>"; };
 		EEAC1D442952897F00237331 /* Timezone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timezone.swift; sourceTree = "<group>"; };
@@ -775,13 +777,13 @@
 			isa = PBXGroup;
 			children = (
 				EEAC1D432952896B00237331 /* NetworkModels */,
-				EE02E53F2950D9EA002BE87E /* Location.swift */,
 				EE02E5432950D9EA002BE87E /* Protocols.swift */,
 				EE02E5462950D9EA002BE87E /* Baggage.swift */,
 				EE02E5412950D9EA002BE87E /* Stuff.swift */,
 				EE02E5442950D9EA002BE87E /* Weather.swift */,
 				EE02E5452950D9EA002BE87E /* Route.swift */,
 				0D551CEE2951738A00A4151E /* Place.swift */,
+				EE02E53F2950D9EA002BE87E /* Location.swift */,
 				0D551CF02951739C00A4151E /* Trip.swift */,
 				EE910DBC29589AD10094F5C8 /* User.swift */,
 			);
@@ -875,6 +877,7 @@
 				EE79132029C33F64002629E3 /* UIWindow.swift */,
 				EEF01CAF29C5C20300A63519 /* ViewControllerWithDimBackground.swift */,
 				EE5B6DF629E83B1F00F0C79E /* Locale.swift */,
+				EE9BC43529ECB15400091D6B /* String.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1138,7 +1141,7 @@
 				EEA76C542951325E00250B06 /* ShortRouteCell */,
 				EEA76C4E2951325E00250B06 /* WeatherCollection */,
 				EEA76C562951325E00250B06 /* EventsCollection */,
-				EE910DCC295913860094F5C8 /* NoPlacesForWeatherCell.swift */,
+				EE910DCC295913860094F5C8 /* PlacesInfoPlaceholderCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1210,7 +1213,7 @@
 			isa = PBXGroup;
 			children = (
 				EEAC1D3629527A5B00237331 /* WeatherModels */,
-				EEAC1D34295271E400237331 /* Coordinates.swift */,
+				EEAC1D34295271E400237331 /* GeoData.swift */,
 				EEAC1D442952897F00237331 /* Timezone.swift */,
 				EE5B6DF429E8377B00F0C79E /* CurrencyRate.swift */,
 			);
@@ -1572,7 +1575,7 @@
 				EE30C7262943E89200A9DCF6 /* FirebaseServiceDataObtain.swift in Sources */,
 				C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */,
 				EEAE9EE929E5BDE8000ABC49 /* MapCell.swift in Sources */,
-				EEAC1D35295271E400237331 /* Coordinates.swift in Sources */,
+				EEAC1D35295271E400237331 /* GeoData.swift in Sources */,
 				EE7819B5295A8629008F607E /* PlaceholderDisplayData.swift in Sources */,
 				EEFF30EC29CA0D5800D9F907 /* TripsViewController.swift in Sources */,
 				EEF01CB029C5C20400A63519 /* ViewControllerWithDimBackground.swift in Sources */,
@@ -1678,6 +1681,7 @@
 				D3B3547A919CA12361A3822A /* TripInfoModuleIO.swift in Sources */,
 				EEAC1D4029527A7000237331 /* WeatherMain.swift in Sources */,
 				EE7968F129B92DEE00F777FE /* SettingsModuleBuilder.swift in Sources */,
+				EE9BC43629ECB15400091D6B /* String.swift in Sources */,
 				EED3516B29E4858200AF6159 /* NoWeatherForTownPlaceholder.swift in Sources */,
 				EEA76C672951325E00250B06 /* EventCell.swift in Sources */,
 				EE7968F029B92DEE00F777FE /* SettingsInteractorIO.swift in Sources */,
@@ -1688,7 +1692,7 @@
 				EEAC1D452952897F00237331 /* Timezone.swift in Sources */,
 				EE7968F829B92FE400F777FE /* LocalizationSystem.swift in Sources */,
 				A9DD1DEF7782DE6C939585EA /* TripInfoModel.swift in Sources */,
-				EE910DCD295913860094F5C8 /* NoPlacesForWeatherCell.swift in Sources */,
+				EE910DCD295913860094F5C8 /* PlacesInfoPlaceholderCell.swift in Sources */,
 				EEA76C642951325E00250B06 /* WeatherCollection.swift in Sources */,
 				A4F278F34637C60C2ED5A34D /* TripInfoBuilder.swift in Sources */,
 				EE7968EA29B92DEE00F777FE /* SettingsCellDisplayDataFactory.swift in Sources */,

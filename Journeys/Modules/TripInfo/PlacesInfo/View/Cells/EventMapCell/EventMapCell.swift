@@ -8,8 +8,7 @@
 import Foundation
 import UIKit
 import SnapKit
-import PureLayout
-import YandexMapsMobile
+import MapKit
 
 final class EventMapCell: UICollectionViewCell {
     
@@ -18,19 +17,9 @@ final class EventMapCell: UICollectionViewCell {
         let longitude: Double
     }
     
-    private let map: YMKMapView = {
-        let mapView = YMKMapView()
-//        mapView.mapWindow.map.move(
-//            with: YMKCameraPosition.init(target: YMKPoint(latitude: 55.76, longitude: 37.573856),
-//                                         zoom: 8, azimuth: 0, tilt: 0),
-//            animationType: YMKAnimation(type: YMKAnimationType.smooth, duration: 1),
-//            cameraCallback: nil)
-        mapView.layer.cornerRadius = 20
-        return mapView
-    }()
+    private var mapView = MKMapView()
     
     private let transparentView = UIView()
-    
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -44,52 +33,36 @@ final class EventMapCell: UICollectionViewCell {
         setupSubviews()
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        setupSubviews()
-    }
-    
     // MARK: Private functions
     
     private func setupCell() {
-        layer.cornerRadius = 10
+        layer.cornerRadius = 20
         layer.masksToBounds = false
-        
-        layer.shadowRadius = 3.0
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.1
-        layer.shadowOffset = CGSize(width: 0, height: 2)
     }
     
     private func setupSubviews() {
-        contentView.addSubview(map)
+        contentView.addSubview(mapView)
         contentView.addSubview(transparentView)
         
-        setupColors()
+        mapView.layer.cornerRadius = 20
+        
         makeConstraints()
     }
     
-    private func setupColors() {
-        backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
-    }
-    
     private func makeConstraints() {
-        map.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.width.equalToSuperview().offset(-40)
-            make.height.equalTo(map.snp.width)
+        mapView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
         transparentView.snp.makeConstraints { make in
-            make.edges.equalTo(map.snp.edges)
+            make.edges.equalTo(mapView.snp.edges)
         }
     }
     
     func configure(data: DisplayData) {
-        map.mapWindow.map.move(
-            with: YMKCameraPosition.init(target: YMKPoint(latitude: data.latitude, longitude: data.longitude), zoom: 8, azimuth: 0, tilt: 0),
-            animationType: YMKAnimation(type: YMKAnimationType.smooth, duration: 1),
-            cameraCallback: nil)
+        let location = CLLocationCoordinate2DMake(data.latitude, data.longitude)
+        let span = MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2)
+        let region = MKCoordinateRegion.init(center: location, span: span)
+        mapView.setRegion(region, animated: true)
     }
 }
 

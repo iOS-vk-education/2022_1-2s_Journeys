@@ -13,8 +13,8 @@ final class TripInfoPresenter {
     
     // MARK: - Public Properties
 
-    weak var view: TripInfoViewInput!
-    weak var moduleOutput: TripInfoModuleOutput!
+    weak var view: TripInfoViewInput?
+    weak var moduleOutput: TripInfoModuleOutput?
     
     private let firebaseService: FirebaseServiceProtocol
     private var firstPageIndex: Int
@@ -55,25 +55,22 @@ extension TripInfoPresenter: TripInfoViewOutput {
     }
     
     func didTapEvitButton() {
-        moduleOutput.tripInfoModuleWantsToClose()
+        moduleOutput?.tripInfoModuleWantsToClose()
     }
 }
 
 extension TripInfoPresenter: PlacesInfoModuleOutput {
-    func showLoadingView() {
-//        moduleOutput.showLoadingView()
-    }
-    func hideLoadingView() {
-//        moduleOutput.hideLoadingView()
+    func openEventsModule(with coordinates: Coordinates) {
+        moduleOutput?.openEventsModule(with: coordinates)
     }
     
     func placesModuleWantsToClose() {
-        moduleOutput.tripInfoModuleWantsToClose()
+        moduleOutput?.tripInfoModuleWantsToClose()
     }
 }
 
 extension TripInfoPresenter: StuffModuleOutput {
     func stuffModuleWantsToClose() {
-        moduleOutput.tripInfoModuleWantsToClose()
+        moduleOutput?.tripInfoModuleWantsToClose()
     }
 }

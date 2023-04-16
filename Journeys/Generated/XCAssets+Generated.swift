@@ -62,6 +62,7 @@ internal enum Asset {
       internal enum WeatherCell {
         internal static let dateColor = ColorAsset(name: "dateColor")
       }
+      internal static let currencyTextFieldBorder = ColorAsset(name: "currencyTextFieldBorder")
     }
     internal enum Skeleton {
       internal static let dark = ColorAsset(name: "dark")

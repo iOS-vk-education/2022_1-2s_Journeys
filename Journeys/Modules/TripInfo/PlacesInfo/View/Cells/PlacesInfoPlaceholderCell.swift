@@ -1,5 +1,5 @@
 //
-//  NoPlacesForWeatherCell.swift
+//  PlacesInfoPlaceholderCell.swift
 //  Journeys
 //
 //  Created by Анастасия Ищенко on 03.11.2022.
@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 
 
-final class NoPlacesForWeatherCell: UICollectionViewCell {
+final class PlacesInfoPlaceholderCell: UICollectionViewCell {
 
     // MARK: Private properties
 
@@ -45,9 +45,8 @@ final class NoPlacesForWeatherCell: UICollectionViewCell {
     private func makeConstraints() {
         title.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.centerY.equalToSuperview()
             make.height.equalTo(40)
-//            make.width.equalTo(UIScreen.main.bounds.width).offset(-40)
             make.width.equalTo(300)
         }
     }

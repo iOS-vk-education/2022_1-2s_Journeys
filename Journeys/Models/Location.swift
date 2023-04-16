@@ -49,3 +49,13 @@ struct Location: Decodable {
         case city
     }
 }
+
+struct LocationsWithCurrencyRate: Decodable {
+    var locations: [Location]
+    var currencyRate: CurrencyRate
+    
+    internal init(locations: [Location], currencyRate: CurrencyRate) {
+        self.locations = locations
+        self.currencyRate = currencyRate
+    }
+}

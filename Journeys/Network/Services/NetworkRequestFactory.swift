@@ -7,22 +7,16 @@
 
 import Foundation
 
-// Пример запроса:
-// https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
-
-enum HTTPRequestType: String {
-    case get = "GET"
-    case post = "POST"
-}
-
-
 protocol NetworkRequestFactoryProtocol {
-    func getLocationCoordinates(city: String, country: String) -> URLRequest
+    func getLocationData(city: String, country: String) -> URLRequest
     func getWeatherRequestForCoordinates(_ coordinates: Coordinates,
                                          timezone: Timezone,
                                          startDate: String,
                                          endDate: String) -> URLRequest
     func getCoordinatesTimezone(_ coordinates: Coordinates) -> URLRequest
+    func getCurrencyRate(from currentCurrency: String,
+                         to localCurrency: String,
+                         amount: Float) -> URLRequest
 }
 
 final class NetworkRequestFactory: NetworkRequestFactoryProtocol {
@@ -37,7 +31,7 @@ final class NetworkRequestFactory: NetworkRequestFactoryProtocol {
         }
     }
     
-    func getLocationCoordinates(city: String, country: String) -> URLRequest {
+    func getLocationData(city: String, country: String) -> URLRequest {
         let requestURL = Constants.ApiNinjas.baseURL.appendingPathComponent("geocoding")
         var urlComponents = URLComponents(url: requestURL, resolvingAgainstBaseURL: false)
         urlComponents?.queryItems = [
@@ -69,7 +63,23 @@ final class NetworkRequestFactory: NetworkRequestFactoryProtocol {
         return request
     }
     
-    func getCurrencyRate() {
+    func getCurrencyRate(from currentCurrency: String,
+                         to localCurrency: String,
+                         amount: Float) -> URLRequest {
+        let requestURL = Constants.ApiNinjas.baseURL.appendingPathComponent("convertcurrency")
+        var urlComponents = URLComponents(url: requestURL, resolvingAgainstBaseURL: false)
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "have", value: "\(currentCurrency)"),
+            URLQueryItem(name: "want", value: "\(localCurrency)"),
+            URLQueryItem(name: "amount", value: "\(amount)")
+        ]
+        guard let url = urlComponents?.url else {
+            assertionFailure("Something has gone wrong and URL could not be constructed!")
+            return URLRequest(url: URL(string: "")!)
+        }
+        var request = URLRequest(url: url)
+        request.setValue(Constants.ApiNinjas.apiKey, forHTTPHeaderField: "X-Api-Key")
+        return request
     }
     
     func getWeatherRequestForCoordinates(_ coordinates: Coordinates,

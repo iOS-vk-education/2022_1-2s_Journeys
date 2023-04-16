@@ -102,10 +102,11 @@ final class TripCell: UICollectionViewCell {
    }
 
     private func setupSubviews() {
-        
         bookmarkButton.addTarget(self, action: #selector(didTapBookmarkButton), for: .touchUpInside)
         editButton.addTarget(self, action: #selector(didTapEditButton), for: .touchUpInside)
         deleteButton.addTarget(self, action: #selector(didTapDeleteButton), for: .touchUpInside)
+        
+        picture.contentMode = .scaleAspectFill
         
         setupColors()
         setupFonts()

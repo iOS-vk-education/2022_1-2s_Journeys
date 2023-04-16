@@ -10,16 +10,21 @@ import Foundation
 // MARK: - PlacesInfoInteractorModuleInput
 
 protocol PlacesInfoInteractorInput: AnyObject {
-    func weatherData(for route: Route)
+    func weatherData(placesWithGeoData: [PlaceWithGeoData])
+    func geoData(for route: Route)
+    func currencyRate(for currenciesAndLocations: [String: [Location]],
+                      currentCurrencyCode: String,
+                      amount: Float)
 }
 
 // MARK: - PlacesInfoInteractorModuleOutput
 
 protocol PlacesInfoInteractorOutput: AnyObject {
-    func didRecieveWeatherData(_ weatherData: WeatherWithLocation)
     func didRecieveError(error: Error)
     func noCoordunates(for location: Location)
     func noWeatherForPlace(_ place: Place)
     func noPlacesInRoute()
-    func didFetchAllWeatherData()
+    func didFetchAllWeatherData(_ weather: [WeatherWithLocation])
+    func didFetchGeoData(_ placesWithGeoData: [PlaceWithGeoData])
+    func didFetchCurrencyRates(_ locationsWithCurrencyRate: [LocationsWithCurrencyRate])
 }

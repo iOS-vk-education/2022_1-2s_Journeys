@@ -19,7 +19,7 @@ enum SectionType {
 
 final class PlacesInfoViewController: UIViewController {
 
-    var output: PlacesInfoViewOutput!
+    var output: PlacesInfoViewOutput?
     
     private lazy var mainCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -39,13 +39,17 @@ final class PlacesInfoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        output.viewDidLoad()
+        output?.viewDidLoad()
         setupView()
     }
 
     private func setupView() {
         view.addSubview(mainCollectionView)
         placeholderView.isHidden = true
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
         
         setupCollectionView()
         setupConstraints()
@@ -65,13 +69,12 @@ final class PlacesInfoViewController: UIViewController {
                                     forCellWithReuseIdentifier: "CurrencyCell")
         mainCollectionView.register(EventMapCell.self,
                                     forCellWithReuseIdentifier: "EventMapCell")
-        mainCollectionView.register(NoPlacesForWeatherCell.self,
-                                    forCellWithReuseIdentifier: "NoPlacesForWeatherCell")
+        mainCollectionView.register(PlacesInfoPlaceholderCell.self,
+                                    forCellWithReuseIdentifier: "PlacesInfoPlaceholderCell")
         mainCollectionView.register(MainCollectionHeader.self,
                                     forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                     withReuseIdentifier: "MainCollectionHeader")
     }
-    
     
     private func setupConstraints() {
         mainCollectionView.snp.makeConstraints { make in
@@ -82,11 +85,36 @@ final class PlacesInfoViewController: UIViewController {
         }
         view.bringSubviewToFront(loadingView)
     }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
 
 extension PlacesInfoViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        CGSize(width: mainCollectionView.frame.width, height: 25)
+        CGSize(width: collectionView.frame.width, height: 25)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard let cellType = output?.mainCollectionCellType(for: indexPath)
+        else { return CGSize(width: 0.0, height: 0.0) }
+        let width = collectionView.bounds.width - 40
+        switch cellType {
+        case .route, .weather:
+            return CGSize(width: collectionViewLayout.collectionViewContentSize.width,
+                          height: collectionViewLayout.collectionViewContentSize.height)
+        case .currency:
+            return CGSize(width: width,
+                          height: 70)
+        case .events:
+            return CGSize(width: width,
+                          height: width * 2/3)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        output?.didSelectItem(at: indexPath)
     }
 }
 
@@ -97,14 +125,14 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if let sectionHeader = mainCollectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "MainCollectionHeader", for: indexPath) as? MainCollectionHeader {
             
-            sectionHeader.configure(title: output.getHeaderText(for: indexPath))
+            sectionHeader.configure(title: output?.headerText(for: indexPath) ?? "")
             return sectionHeader
         }
         return UICollectionReusableView()
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return output.mainCollectionCellsCount(for: section)
+        output?.mainCollectionCellsCount(for: section) ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -116,9 +144,9 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
                                                                          for: indexPath) as? ShortRouteCell else {
                 return cell
             }
-            guard let data = output.routeData() else {
-                return cell
-            }
+            guard let data = output?.routeCellDisplayData()
+            else { return placeHolderCell(for: indexPath, cellType: .route) }
+            
             routeCell.configure(data: data)
             cell = routeCell
         case .weather:
@@ -126,14 +154,9 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
                                                                            for: indexPath) as? WeatherCollection else {
                 return cell
             }
-            guard let data = output.getWeatherCollectionDisplayData(indexPath.row) else {
-                guard let noWeatherCell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "NoPlacesForWeatherCell",
-                                                                               for: indexPath) as? NoPlacesForWeatherCell else {
-                    return cell
-                }
-                noWeatherCell.configure(text: "Нет погоды :(")
-                return noWeatherCell
-            }
+            guard let data = output?.weatherCollectionDisplayData(indexPath.row)
+            else { return placeHolderCell(for: indexPath, cellType: .weather) }
+            
             weatherCell.configure(data: data, delegate: self, indexPath: indexPath)
             cell = weatherCell
         case .currency:
@@ -141,23 +164,47 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
                                                                             for: indexPath) as? CurrencyCell else {
                 return cell
             }
-            currencyCell.configure(displayData: CurrencyCell.DisplayData(title: "Kursk-Anapa",
-                                                                         course: 10,
-                                                                         currentCurrencyName: "RUB",
-                                                                         localCurrencyName: "USD"))
+            
+            guard let displatData = output?.currencyCellDisplayData(for: indexPath)
+            else { return placeHolderCell(for: indexPath, cellType: .currency) }
+            
+            let cellDelegate = output as? CurrencyCellDelegate
+            currencyCell.configure(displayData: displatData,
+                                   delegate: cellDelegate,
+                                   indexPath: indexPath)
             cell = currencyCell
         case .events:
             guard let mapCell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "EventMapCell",
-                                                                            for: indexPath) as? EventMapCell else {
+                                                                       for: indexPath) as? EventMapCell else {
                 return cell
             }
-            mapCell.configure(data: EventMapCell.DisplayData(latitude: 55.755864,
-                                                             longitude: 37.617698))
+            guard let displayData = output?.eventCellDisplayData(for: indexPath)
+            else { return placeHolderCell(for: indexPath, cellType: .events) }
+            
+            mapCell.configure(data: displayData)
             cell = mapCell
         default:
             return cell
         }
         return cell
+    }
+    
+    func placeHolderCell(for indexPath: IndexPath,
+                         cellType: PlacesInfoPresenter.CellType) -> UICollectionViewCell {
+        guard let placeholderCell =
+                mainCollectionView.dequeueReusableCell(withReuseIdentifier: "PlacesInfoPlaceholderCell",
+                                                       for: indexPath) as? PlacesInfoPlaceholderCell
+        else { return UICollectionViewCell() }
+        
+        var cellText: String = ""
+        switch cellType {
+        case .route: cellText = "Не получилось построить маршрут :("
+        case .weather: cellText = "Нет информации по погоде :("
+        case .currency: cellText = "Нет информации по валютам :("
+        case .events: cellText = "Нет информации по мероприятиям :("
+        }
+        placeholderCell.configure(text: cellText)
+        return placeholderCell
     }
 }
 
@@ -194,6 +241,11 @@ extension PlacesInfoViewController: PlacesInfoViewInput {
             self?.loadingView.removeFromSuperview()
         }
     }
+    
+    func changeCurrencyTextField(at indexPath: IndexPath, viewType: CurrencyView.ViewType, to text: String) {
+        guard let cell = mainCollectionView.cellForItem(at: indexPath) as? CurrencyCell else { return }
+        cell.setTextFieldText(to: text, viewType: viewType)
+    }
 }
 
 extension PlacesInfoViewController: TransitionHandlerProtocol {
@@ -226,11 +278,12 @@ extension PlacesInfoViewController: TransitionHandlerProtocol {
 
 extension PlacesInfoViewController: WeatherCollectionDelegate {
     func getNumberOfItemsInWeatherCollection(at collectionIndexPath: IndexPath) -> Int {
-        output.getWeatherCollectionCellsCount(for: collectionIndexPath)
+        output?.weatherCollectionCellsCount(for: collectionIndexPath) ?? 0
     }
     
     func getCellDisplayData(at collectionIndexPath: IndexPath, for indexpath: IndexPath) -> WeatherCell.DisplayData? {
-        output.getWeatherCollectionCellDisplayData(collectionRow: collectionIndexPath.row, cellRow: indexpath.row)
+        output?.weatherCollectionCellDisplayData(collectionRow: collectionIndexPath.row,
+                                                cellRow: indexpath.row)
     }
 }
 

@@ -14,34 +14,40 @@ final class PlacesInfoInteractor {
     private let networkService: NetworkServiceProtocol
     weak var output: PlacesInfoInteractorOutput!
     
-    private let dataLoadQueue = DispatchQueue.global()
-    private let dataLoadDispatchGroup = DispatchGroup()
+    private let geoDataLoadQueue = DispatchQueue.global()
+    private let geoDataLoadDispatchGroup = DispatchGroup()
+    
+    private let weatherDataLoadQueue = DispatchQueue.global()
+    private let weatherDataLoadDispatchGroup = DispatchGroup()
+    
+    private let currencyDataLoadQueue = DispatchQueue.global()
+    private let currencyDataLoadDispatchGroup = DispatchGroup()
     
     internal init() {
         self.requestFactory = NetworkRequestFactory()
         self.networkService = NetworkService(session: URLSession(configuration: .default))
     }
     
-    private func obtainWeatherDataFromServer(for place: Place) {
-        let request = requestFactory.getLocationCoordinates(city: place.location.city,
+    private func obtainGeoData(for place: Place, completion: @escaping (GeoData) -> Void) {
+        let request = requestFactory.getLocationData(city: place.location.city,
                                                             country: place.location.country)
         networkService.sendRequest(request) { [weak self] result in
             guard let self else { return }
             switch result {
             case .failure:
-                self.dataLoadDispatchGroup.leave()
+                self.geoDataLoadDispatchGroup.leave()
                 self.output.noCoordunates(for: place.location)
             case .success(let data):
                 do {
                     let decoder = JSONDecoder()
-                    let coordinatesMas = try decoder.decode([Coordinates].self, from: data)
-                    guard !coordinatesMas.isEmpty else {
-                        self.dataLoadDispatchGroup.leave()
+                    let geoDataMas = try decoder.decode([GeoData].self, from: data)
+                    guard !geoDataMas.isEmpty else {
+                        self.geoDataLoadDispatchGroup.leave()
                         self.output.noCoordunates(for: place.location)
                         return
                     }
-                    let coordinates = coordinatesMas[0]
-                    self.getTimezone(for: coordinates, place: place)
+                    let geoData = geoDataMas[0]
+                    completion(geoData)
                 } catch {
                     assertionFailure("\(error)")
                 }
@@ -49,47 +55,54 @@ final class PlacesInfoInteractor {
         }
     }
     
-    private func getTimezone(for coordinates: Coordinates, place: Place) {
-        let request = requestFactory.getCoordinatesTimezone(coordinates)
+    private func obtainTimezone(placeWithGeoData: PlaceWithGeoData,
+                                completion: @escaping (WeatherWithLocation) -> Void) {
+        let request = requestFactory.getCoordinatesTimezone(placeWithGeoData.coordinates)
         networkService.sendRequest(request) { [weak self] result in
             guard let self else { return }
             switch result {
             case .failure(let error):
-                self.dataLoadDispatchGroup.leave()
+                self.weatherDataLoadDispatchGroup.leave()
                 self.output.didRecieveError(error: error)
             case .success(let data):
                 do {
                     let decoder = JSONDecoder()
                     decoder.keyDecodingStrategy = .convertFromSnakeCase
                     let timezone = try decoder.decode(Timezone.self, from: data)
-                    self.getWeatherData(for: coordinates, timezone: timezone, place: place)
+                    self.obtainWeatherData(placeWithGeoData: placeWithGeoData,
+                                           timezone: timezone,
+                                           completion: completion)
                 } catch {
-                    self.dataLoadDispatchGroup.leave()
+                    self.weatherDataLoadDispatchGroup.leave()
                     assertionFailure("\(error)")
                 }
             }
         }
     }
     
-    private func getWeatherData(for coordinates: Coordinates, timezone: Timezone, place: Place) {
-        let request = requestFactory.getWeatherRequestForCoordinates(coordinates,
-                                                                     timezone: timezone,
-                                                                     startDate: DateFormatter.fullDateWithDash.string(from: place.arrive),
-                                                                     endDate: DateFormatter.fullDateWithDash.string(from: place.depart))
+    private func obtainWeatherData(placeWithGeoData: PlaceWithGeoData,
+                                   timezone: Timezone,
+                                   completion: @escaping (WeatherWithLocation) -> Void) {
+        let request = requestFactory
+            .getWeatherRequestForCoordinates(placeWithGeoData.coordinates,
+                                             timezone: timezone,
+                                             startDate: DateFormatter.fullDateWithDash.string(from: placeWithGeoData.place.arrive),
+                                             endDate: DateFormatter.fullDateWithDash.string(from: placeWithGeoData.place.depart))
         networkService.sendRequest(request) { [weak self] result in
             guard let self else { return }
             switch result {
             case .failure(let error):
-                self.dataLoadDispatchGroup.leave()
+                self.weatherDataLoadDispatchGroup.leave()
                 self.output.didRecieveError(error: error)
             case .success(let data):
                 do {
                     let decoder = JSONDecoder()
                     let forecast = try decoder.decode(WeatherForecast.self, from: data)
-                    let weather = self.generateWeatherData(from: forecast, location: place.location)
-                    self.output.didRecieveWeatherData(weather)
-                    self.dataLoadDispatchGroup.leave()
+                    let weather = self.generateWeatherData(from: forecast,
+                                                           location: placeWithGeoData.place.location)
+                    completion(weather)
                 } catch {
+                    self.weatherDataLoadDispatchGroup.leave()
                     assertionFailure("\(error)")
                 }
             }
@@ -108,12 +121,63 @@ final class PlacesInfoInteractor {
         }
         return WeatherWithLocation(location: location, weather: weatherList)
     }
+    
+    private func obtainCurrencyRate(from currentCurrency: String,
+                                    to localCurrency: String,
+                                    amount: Float, completion: @escaping (CurrencyRate) -> Void) {
+        let request = requestFactory.getCurrencyRate(from: currentCurrency,
+                                                     to: localCurrency,
+                                                     amount: amount)
+        networkService.sendRequest(request) { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .failure(let error):
+                self.currencyDataLoadDispatchGroup.leave()
+                self.output.didRecieveError(error: error)
+            case .success(let data):
+                do {
+                    let decoder = JSONDecoder()
+                    let currencyRate = try decoder.decode(CurrencyRate.self, from: data)
+                    completion(currencyRate)
+                } catch {
+                    self.currencyDataLoadDispatchGroup.leave()
+                    assertionFailure("\(error)")
+                }
+            }
+        }
+    }
 }
 
 extension PlacesInfoInteractor: PlacesInfoInteractorInput {
     
-    func weatherData(for route: Route) {
+    func geoData(for route: Route) {
         guard !route.places.isEmpty else {
+            output?.noPlacesInRoute()
+            return
+        }
+        
+        var placesWithGeoData: [PlaceWithGeoData] = []
+        for place in route.places {
+            geoDataLoadDispatchGroup.enter()
+            geoDataLoadQueue.async(group: geoDataLoadDispatchGroup) { [weak self] in
+                guard let self else { return }
+                self.obtainGeoData(for: place) { [weak self] geoData in
+                    guard let self else { return }
+                    let placeWithGeoData = PlaceWithGeoData(place: place,
+                                                            coordinates: Coordinates(from: geoData),
+                                                            countryCode: geoData.countryCode)
+                    placesWithGeoData.append(placeWithGeoData)
+                    self.geoDataLoadDispatchGroup.leave()
+                }
+            }
+        }
+        geoDataLoadDispatchGroup.notify(queue: geoDataLoadQueue) { [weak self] in
+            self?.output?.didFetchGeoData(placesWithGeoData)
+        }
+    }
+    
+    func weatherData(placesWithGeoData: [PlaceWithGeoData]) {
+        guard !placesWithGeoData.isEmpty else {
             output?.noPlacesInRoute()
             return
         }
@@ -123,25 +187,61 @@ extension PlacesInfoInteractor: PlacesInfoInteractorInput {
         dateComponent.day = 15
         guard let futureDate = Calendar.current.date(byAdding: dateComponent, to: currentDate) else { return }
         
-        for place in route.places {
-            dataLoadDispatchGroup.enter()
-            dataLoadQueue.async(group: dataLoadDispatchGroup) { [weak self] in
+        var weatherData: [WeatherWithLocation] = []
+        
+        for placeWithGeoData in placesWithGeoData {
+            weatherDataLoadDispatchGroup.enter()
+            weatherDataLoadQueue.async(group: weatherDataLoadDispatchGroup) { [weak self] in
                 guard let self else { return }
-                if place.arrive < futureDate {
-                    if place.depart > futureDate {
-                        let newPlace = Place(location: place.location, arrive: place.arrive, depart: futureDate)
-                        self.obtainWeatherDataFromServer(for: newPlace)
+                if placeWithGeoData.place.arrive < futureDate {
+                    if placeWithGeoData.place.depart > futureDate {
+                        let newPlace = PlaceWithGeoData(place: Place(location: placeWithGeoData.place.location,
+                                                                     arrive: placeWithGeoData.place.arrive,
+                                                                     depart: futureDate),
+                                                        coordinates: placeWithGeoData.coordinates,
+                                                        countryCode: placeWithGeoData.countryCode)
+                        self.obtainTimezone(placeWithGeoData: newPlace) { [weak self] weather in
+                            weatherData.append(weather)
+                            self?.weatherDataLoadDispatchGroup.leave()
+                        }
                     } else {
-                        self.obtainWeatherDataFromServer(for: place)
+                        self.obtainTimezone(placeWithGeoData: placeWithGeoData) {  [weak self] weather in
+                            weatherData.append(weather)
+                            self?.weatherDataLoadDispatchGroup.leave()
+                        }
                     }
                 } else {
-                    self.output.noWeatherForPlace(place)
-                    self.dataLoadDispatchGroup.leave()
+                    self.output.noWeatherForPlace(placeWithGeoData.place)
+                    self.weatherDataLoadDispatchGroup.leave()
                 }
             }
         }
-        dataLoadDispatchGroup.notify(queue: dataLoadQueue) { [weak self] in
-            self?.output?.didFetchAllWeatherData()
+        weatherDataLoadDispatchGroup.notify(queue: weatherDataLoadQueue) { [weak self] in
+            self?.output?.didFetchAllWeatherData(weatherData)
+        }
+    }
+    
+    func currencyRate(for currenciesAndLocations: [String: [Location]],
+                      currentCurrencyCode: String,
+                      amount: Float) {
+        var locationsWithCurrencyRateList: [LocationsWithCurrencyRate] = []
+        for (newCurrencyCode, locations) in currenciesAndLocations {
+            currencyDataLoadDispatchGroup.enter()
+            currencyDataLoadQueue.async(group: currencyDataLoadDispatchGroup) { [weak self] in
+                guard let self else { return }
+                self.obtainCurrencyRate(from: currentCurrencyCode,
+                                        to: newCurrencyCode,
+                                        amount: amount) { currencyRate in
+                    locationsWithCurrencyRateList
+                        .append(LocationsWithCurrencyRate(locations: locations,
+                                                          currencyRate: currencyRate))
+                    self.currencyDataLoadDispatchGroup.leave()
+                }
+            }
+        }
+        
+        currencyDataLoadDispatchGroup.notify(queue: currencyDataLoadQueue) { [weak self] in
+            self?.output.didFetchCurrencyRates(locationsWithCurrencyRateList)
         }
     }
 }

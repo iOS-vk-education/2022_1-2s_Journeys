@@ -14,6 +14,9 @@ protocol PlacesInfoViewInput: AnyObject {
     func showAlert(title: String, message: String)
     func showLoadingView()
     func hideLoadingView()
+    func changeCurrencyTextField(at indexPath: IndexPath,
+                                 viewType: CurrencyView.ViewType,
+                                 to text: String)
 }
 
 // MARK: - PlacesIngo ViewOutput
@@ -23,15 +26,19 @@ protocol PlacesInfoViewOutput: AnyObject {
 
     func sectionsCount() -> Int
     func mainCollectionCellsCount(for section: Int) -> Int
-    func getWeatherCollectionCellsCount(for collectionIndexPath: IndexPath) -> Int
-    func mainCollectionCellType(for indexPath: IndexPath) -> PlacesInfoPresenter.CellsType?
+    func weatherCollectionCellsCount(for collectionIndexPath: IndexPath) -> Int
+    func mainCollectionCellType(for indexPath: IndexPath) -> PlacesInfoPresenter.CellType?
     
-    func routeData() -> ShortRouteCell.DisplayData?
-    func getWeatherCollectionDisplayData(_ row: Int) -> WeatherCollection.DisplayData?
-    func getWeatherCollectionCellDisplayData(collectionRow: Int, cellRow: Int) -> WeatherCell.DisplayData?
+    func routeCellDisplayData() -> ShortRouteCell.DisplayData?
+    func weatherCollectionDisplayData(_ row: Int) -> WeatherCollection.DisplayData?
+    func currencyCellDisplayData(for indexPath: IndexPath) -> CurrencyCell.DisplayData?
+    func eventCellDisplayData(for indexPath: IndexPath) -> EventMapCell.DisplayData?
+    
+    func weatherCollectionCellDisplayData(collectionRow: Int, cellRow: Int) -> WeatherCell.DisplayData?
 
-    func getHeaderText(for indexPath: IndexPath) -> String
+    func headerText(for indexPath: IndexPath) -> String
 
+    func didSelectItem(at indexPath: IndexPath)
     
     func didTapExitButton()
 }
