@@ -176,7 +176,7 @@ extension RoutePresenter: RouteViewOutput {
         guard var route = route else {
             return nil
         }
-        if route.places.indices.contains(indexPath.row) {
+        if route.places.count > indexPath.row {
             route.places.remove(at: indexPath.row)
             arrivalCellsCount -= 1
         }

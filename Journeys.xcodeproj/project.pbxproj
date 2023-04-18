@@ -98,7 +98,6 @@
 		EE30C7242943DD4A00A9DCF6 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE30C7232943DD4A00A9DCF6 /* Errors.swift */; };
 		EE30C7262943E89200A9DCF6 /* FirebaseServiceDataObtain.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE30C7252943E89200A9DCF6 /* FirebaseServiceDataObtain.swift */; };
 		EE30C72B2943F28E00A9DCF6 /* RouteModelIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE30C72A2943F28E00A9DCF6 /* RouteModelIO.swift */; };
-		EE30C72E2943FB5500A9DCF6 /* ErrorsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE30C72D2943FB5400A9DCF6 /* ErrorsHandler.swift */; };
 		EE497A122940AF41007E8579 /* AccountCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE497A112940AF41007E8579 /* AccountCoordinator.swift */; };
 		EE497A142940AF4C007E8579 /* EventsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE497A132940AF4C007E8579 /* EventsCoordinator.swift */; };
 		EE497A162940B0EB007E8579 /* Pages.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE497A152940B0EB007E8579 /* Pages.swift */; };
@@ -304,7 +303,6 @@
 		EE30C7232943DD4A00A9DCF6 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		EE30C7252943E89200A9DCF6 /* FirebaseServiceDataObtain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseServiceDataObtain.swift; sourceTree = "<group>"; };
 		EE30C72A2943F28E00A9DCF6 /* RouteModelIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteModelIO.swift; sourceTree = "<group>"; };
-		EE30C72D2943FB5400A9DCF6 /* ErrorsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorsHandler.swift; sourceTree = "<group>"; };
 		EE497A112940AF41007E8579 /* AccountCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCoordinator.swift; sourceTree = "<group>"; };
 		EE497A132940AF4C007E8579 /* EventsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsCoordinator.swift; sourceTree = "<group>"; };
 		EE497A152940B0EB007E8579 /* Pages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pages.swift; sourceTree = "<group>"; };
@@ -909,7 +907,6 @@
 			isa = PBXGroup;
 			children = (
 				EE30C7232943DD4A00A9DCF6 /* Errors.swift */,
-				EE30C72D2943FB5400A9DCF6 /* ErrorsHandler.swift */,
 			);
 			path = Errors;
 			sourceTree = "<group>";
@@ -1622,7 +1619,6 @@
 				7BD7FBF6368C4ADCBC0B8866 /* TripsBuilder.swift in Sources */,
 				EEDAF55C291D5AF500E6DDB9 /* FloatingButton.swift in Sources */,
 				CE4CCC9D2956B6170057455D /* AddingEventViewController.swift in Sources */,
-				EE30C72E2943FB5500A9DCF6 /* ErrorsHandler.swift in Sources */,
 				EEFA76C9292BE88F00A0B8CA /* RouteBuilder.swift in Sources */,
 				EE821F0029D8CFD00052B66A /* CurrencyCell.swift in Sources */,
 				EE7968E529B92DEE00F777FE /* SettingsSubView.swift in Sources */,
@@ -1876,6 +1872,7 @@
 				DEVELOPMENT_TEAM = 7PH9Q6K5X2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Journeys/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -1886,7 +1883,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ru.noorganization.Journeys;
+				PRODUCT_BUNDLE_IDENTIFIER = "ru.noorganization.Journeys-Rolls";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1905,6 +1902,7 @@
 				DEVELOPMENT_TEAM = 7PH9Q6K5X2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Journeys/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -1915,7 +1913,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ru.noorganization.Journeys;
+				PRODUCT_BUNDLE_IDENTIFIER = "ru.noorganization.Journeys-Rolls";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
