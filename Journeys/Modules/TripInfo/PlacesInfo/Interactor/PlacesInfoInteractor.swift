@@ -17,7 +17,7 @@ final class PlacesInfoInteractor {
     private let geoDataLoadQueue = DispatchQueue.global()
     private let geoDataLoadDispatchGroup = DispatchGroup()
     
-    private let weatherDataLoadQueue = DispatchQueue.global()
+    private let weatherDataLoadQueue = DispatchQueue(label: "ru.journeys.weatherFethchQueue")
     private let weatherDataLoadDispatchGroup = DispatchGroup()
     
     private let currencyDataLoadQueue = DispatchQueue.global()
@@ -55,8 +55,8 @@ final class PlacesInfoInteractor {
         }
     }
     
-    private func obtainTimezone(placeWithGeoData: PlaceWithGeoData,
-                                completion: @escaping (WeatherWithLocation) -> Void) {
+    private func obtainWeather(placeWithGeoData: PlaceWithGeoData,
+                               completion: @escaping (WeatherWithLocation) -> Void) {
         let request = requestFactory.getCoordinatesTimezone(placeWithGeoData.coordinates)
         networkService.sendRequest(request) { [weak self] result in
             guard let self else { return }
@@ -108,7 +108,7 @@ final class PlacesInfoInteractor {
             }
         }
     }
-    
+
     private func generateWeatherData(from forecast: WeatherForecast, location: Location) -> WeatherWithLocation {
         var weatherList: [Weather] = []
         let dailyWeather = forecast.dailyWeather
@@ -200,12 +200,12 @@ extension PlacesInfoInteractor: PlacesInfoInteractorInput {
                                                                      depart: futureDate),
                                                         coordinates: placeWithGeoData.coordinates,
                                                         countryCode: placeWithGeoData.countryCode)
-                        self.obtainTimezone(placeWithGeoData: newPlace) { [weak self] weather in
+                        self.obtainWeather(placeWithGeoData: newPlace) { [weak self] weather in
                             weatherData.append(weather)
                             self?.weatherDataLoadDispatchGroup.leave()
                         }
                     } else {
-                        self.obtainTimezone(placeWithGeoData: placeWithGeoData) {  [weak self] weather in
+                        self.obtainWeather(placeWithGeoData: placeWithGeoData) {  [weak self] weather in
                             weatherData.append(weather)
                             self?.weatherDataLoadDispatchGroup.leave()
                         }
@@ -239,9 +239,23 @@ extension PlacesInfoInteractor: PlacesInfoInteractorInput {
                 }
             }
         }
-        
+
         currencyDataLoadDispatchGroup.notify(queue: currencyDataLoadQueue) { [weak self] in
             self?.output.didFetchCurrencyRates(locationsWithCurrencyRateList)
+        }
+    }
+    
+    func updateCurrencyRate(from oldCurrencyCode: String,
+                            to newCurrencyCode: String,
+                            amount: Float,
+                            completion: @escaping (CurrencyRate) -> Void) {
+        let updateCurrencyRateDispatchQueue = DispatchQueue(label: "ru.Journeys.updateCurrencyRateDispatchQueue")
+        updateCurrencyRateDispatchQueue.async {
+            self.obtainCurrencyRate(from: oldCurrencyCode,
+                               to: newCurrencyCode,
+                               amount: amount) { currencyRate in
+                completion(currencyRate)
+            }
         }
     }
 }

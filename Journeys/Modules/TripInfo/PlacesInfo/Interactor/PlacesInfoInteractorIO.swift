@@ -15,6 +15,10 @@ protocol PlacesInfoInteractorInput: AnyObject {
     func currencyRate(for currenciesAndLocations: [String: [Location]],
                       currentCurrencyCode: String,
                       amount: Float)
+    func updateCurrencyRate(from oldCurrencyCode: String,
+                            to newCurrencyCode: String,
+                            amount: Float,
+                            completion: @escaping (CurrencyRate) -> Void)
 }
 
 // MARK: - PlacesInfoInteractorModuleOutput

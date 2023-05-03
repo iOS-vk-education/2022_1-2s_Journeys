@@ -17,13 +17,23 @@ protocol PlacesInfoViewInput: AnyObject {
     func changeCurrencyTextField(at indexPath: IndexPath,
                                  viewType: CurrencyView.ViewType,
                                  to text: String)
+    func currencyAmountString(at indexPath: IndexPath,
+                              viewType: CurrencyView.ViewType) -> String?
+    func endRefresh()
+    
+    func showPickerView(touch: UITapGestureRecognizer, with selectedCurrencyIndex: Int)
+    func hidePickerView()
+    func updateCurrencyCell(at indexPath: IndexPath,
+                            displayData: CurrencyCell.DisplayData,
+                            localCurrencyAmount: String?)
 }
 
 // MARK: - PlacesIngo ViewOutput
 
 protocol PlacesInfoViewOutput: AnyObject {
     func viewDidLoad()
-
+    func refreshView()
+    
     func sectionsCount() -> Int
     func mainCollectionCellsCount(for section: Int) -> Int
     func weatherCollectionCellsCount(for collectionIndexPath: IndexPath) -> Int
@@ -41,4 +51,8 @@ protocol PlacesInfoViewOutput: AnyObject {
     func didSelectItem(at indexPath: IndexPath)
     
     func didTapExitButton()
+    
+    func pickerViewTitle(for row: Int) -> String?
+    func pickerViewRowsCount() -> Int
+    func didSelectNewCurrency(at row: Int)
 }

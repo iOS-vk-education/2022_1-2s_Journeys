@@ -13,6 +13,10 @@ protocol CurrencyCellDelegate: AnyObject {
     func didFinishEditingTextField(at indexPath: IndexPath,
                                    text: String,
                                    viewType: CurrencyView.ViewType)
+    func didTapCurrencyNameButton(touch: UITapGestureRecognizer,
+                                  at indexPath: IndexPath,
+                                  currentCurrency: String,
+                                  viewType: CurrencyView.ViewType)
 }
 
 final class CurrencyCell: UICollectionViewCell {
@@ -30,7 +34,6 @@ final class CurrencyCell: UICollectionViewCell {
     private var indexPath: IndexPath?
     
     // MARK: Private Properties
-    
     
     private let title: UILabel = {
         let label = UILabel()
@@ -71,15 +74,22 @@ final class CurrencyCell: UICollectionViewCell {
         currentCurrencyView.prepareForReuse()
     }
     
-    func setTextFieldText(to text: String, viewType: CurrencyView.ViewType) {
+    func textFieldValue(from viewType: CurrencyView.ViewType) -> String? {
         switch viewType {
-        case .currentCurrency: localCurrencyView.setTextFieldValue(to: text)
-        case .localCurrency: currentCurrencyView.setTextFieldValue(to: text)
+        case .currentCurrency: return currentCurrencyView.textFieldValue()
+        case .localCurrency: return localCurrencyView.textFieldValue()
         }
     }
     
-    func configure(displayData: DisplayData, delegate: CurrencyCellDelegate?, indexPath: IndexPath) {
-        self.title.text = displayData.title
+    func setTextFieldText(to text: String, viewType: CurrencyView.ViewType) {
+        switch viewType {
+        case .currentCurrency: currentCurrencyView.setTextFieldValue(to: text)
+        case .localCurrency: localCurrencyView.setTextFieldValue(to: text)
+        }
+    }
+    
+    func updateDisplayData(displayData: DisplayData) {
+        title.text = displayData.title
         
         currentCurrencyView.configure(data: CurrencyView
             .DisplayData(title: "Текущая валюта",
@@ -93,6 +103,10 @@ final class CurrencyCell: UICollectionViewCell {
                          currencyName: displayData.localCurrencyName),
                                     delegate: self,
                                     viewType: .localCurrency)
+    }
+    
+    func configure(displayData: DisplayData, delegate: CurrencyCellDelegate?, indexPath: IndexPath) {
+        updateDisplayData(displayData: displayData)
         self.delegate = delegate
         self.indexPath = indexPath
     }
@@ -147,6 +161,16 @@ extension CurrencyCell: UITextFieldDelegate {
 }
 
 extension CurrencyCell: CurrencyViewDelegate {
+    func didTapCurrencyNameButton(touch: UITapGestureRecognizer,
+                                  currentCurrency: String,
+                                  viewType: CurrencyView.ViewType) {
+        guard let indexPath else { return }
+        delegate?.didTapCurrencyNameButton(touch: touch,
+                                           at: indexPath,
+                                           currentCurrency: currentCurrency,
+                                           viewType: viewType)
+    }
+    
     func didFinishEditingTextField(text: String, viewType: CurrencyView.ViewType) {
         guard let indexPath else { return }
         delegate?.didFinishEditingTextField(at: indexPath, text: text, viewType: viewType)

@@ -29,4 +29,13 @@ struct WeatherWithLocation: Decodable {
         self.location = location
         self.weather = weather ?? []
     }
+    
+    func isMatchToPlace(_ place: Place) -> Bool {
+        if place.location == location
+            && DateFormatter.fullDateWithDash.string(from: place.arrive) == weather.first?.date
+            && DateFormatter.fullDateWithDash.string(from: place.depart) == weather.last?.date {
+            return true
+        }
+        return false
+    }
 }

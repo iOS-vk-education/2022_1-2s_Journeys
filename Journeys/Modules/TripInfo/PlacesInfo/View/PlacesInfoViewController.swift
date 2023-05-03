@@ -21,6 +21,13 @@ final class PlacesInfoViewController: UIViewController {
 
     var output: PlacesInfoViewOutput?
     
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Идет обновление...")
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        return refreshControl
+    }()
+    
     private lazy var mainCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 20
@@ -32,6 +39,15 @@ final class PlacesInfoViewController: UIViewController {
         return collectionView
    }()
     
+    private lazy var currenCurrencyPicker: UIPickerView = {
+        let picker = UIPickerView()
+        picker.dataSource = self
+        picker.delegate = self
+        picker.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
+        picker.layer.cornerRadius = 10
+        return picker
+    }()
+    
     private let loadingView = LoadingView()
     private var placeholderView = UIView()
 
@@ -42,9 +58,11 @@ final class PlacesInfoViewController: UIViewController {
         output?.viewDidLoad()
         setupView()
     }
-
+    
     private func setupView() {
         view.addSubview(mainCollectionView)
+        mainCollectionView.addSubview(currenCurrencyPicker)
+        currenCurrencyPicker.isHidden = true 
         placeholderView.isHidden = true
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
@@ -59,6 +77,7 @@ final class PlacesInfoViewController: UIViewController {
         mainCollectionView.delegate = self
         mainCollectionView.dataSource = self
 
+        mainCollectionView.addSubview(refreshControl)
         mainCollectionView.contentSize = CGSize(width: mainCollectionView.frame.width,
                                                 height: mainCollectionView.frame.height)
         mainCollectionView.register(ShortRouteCell.self,
@@ -86,8 +105,15 @@ final class PlacesInfoViewController: UIViewController {
         view.bringSubviewToFront(loadingView)
     }
     
-    @objc private func dismissKeyboard() {
+    @objc
+    private func refresh() {
+        output?.refreshView()
+    }
+    
+    @objc
+    private func dismissKeyboard() {
         view.endEditing(true)
+        currenCurrencyPicker.isHidden = true
     }
 }
 
@@ -102,8 +128,8 @@ extension PlacesInfoViewController: UICollectionViewDelegate, UICollectionViewDe
         let width = collectionView.bounds.width - 40
         switch cellType {
         case .route, .weather:
-            return CGSize(width: collectionViewLayout.collectionViewContentSize.width,
-                          height: collectionViewLayout.collectionViewContentSize.height)
+            return CGSize(width: width,
+                          height: collectionView.contentSize.height)
         case .currency:
             return CGSize(width: width,
                           height: 70)
@@ -137,7 +163,7 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var cell = UICollectionViewCell()
-        guard let cellType = output?.mainCollectionCellType(for: indexPath) else { return cell }
+        guard let cellType = output?.mainCollectionCellType(for: indexPath) else { return placeHolderCell(for: indexPath, cellType: .route) }
         switch cellType {
         case .route:
             guard let routeCell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "ShortRouteCell",
@@ -190,35 +216,54 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
     }
     
     func placeHolderCell(for indexPath: IndexPath,
-                         cellType: PlacesInfoPresenter.CellType) -> UICollectionViewCell {
+                         cellType: PlacesInfoPresenter.CellType?) -> UICollectionViewCell {
         guard let placeholderCell =
                 mainCollectionView.dequeueReusableCell(withReuseIdentifier: "PlacesInfoPlaceholderCell",
                                                        for: indexPath) as? PlacesInfoPlaceholderCell
         else { return UICollectionViewCell() }
         
         var cellText: String = ""
-        switch cellType {
-        case .route: cellText = "Не получилось построить маршрут :("
-        case .weather: cellText = "Нет информации по погоде :("
-        case .currency: cellText = "Нет информации по валютам :("
-        case .events: cellText = "Нет информации по мероприятиям :("
+        if let cellType {
+            switch cellType {
+            case .route: cellText = "Не получилось построить маршрут :("
+            case .weather: cellText = "Нет информации по погоде :("
+            case .currency: cellText = "Нет информации по валютам :("
+            case .events: cellText = "Нет информации по мероприятиям :("
+            }
+        } else {
+            cellText = "problems with data"
         }
         placeholderCell.configure(text: cellText)
         return placeholderCell
     }
 }
 
+extension PlacesInfoViewController: UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        output?.pickerViewRowsCount() ?? 0
+    }
+}
+
+extension PlacesInfoViewController: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        output?.didSelectNewCurrency(at: row)
+    }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        output?.pickerViewTitle(for: row)
+    }
+}
+
 extension PlacesInfoViewController: PlacesInfoViewInput {
-    func showAlert(title: String, message: String) {
-        DispatchQueue.main.async {
-            let alert = UIAlertController(title: title,
-                              message: message,
-                              preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+    func endRefresh() {
+        DispatchQueue.main.async { [weak self] in
+            self?.refreshControl.endRefreshing()
         }
     }
-
+    
     func reloadData() {
         DispatchQueue.main.async { [weak self] in
             self?.mainCollectionView.reloadData()
@@ -242,9 +287,53 @@ extension PlacesInfoViewController: PlacesInfoViewInput {
         }
     }
     
+    func showAlert(title: String, message: String) {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: title,
+                              message: message,
+                              preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
     func changeCurrencyTextField(at indexPath: IndexPath, viewType: CurrencyView.ViewType, to text: String) {
         guard let cell = mainCollectionView.cellForItem(at: indexPath) as? CurrencyCell else { return }
         cell.setTextFieldText(to: text, viewType: viewType)
+    }
+    
+    func showPickerView(touch: UITapGestureRecognizer, with selectedCurrencyIndex: Int) {
+        let touchLocation = touch.location(in: self.mainCollectionView)
+        let width = mainCollectionView.frame.width / 3
+        let height = width
+        currenCurrencyPicker.frame = CGRect(x: touchLocation.x - width / 2,
+                                            y: touchLocation.y,
+                                            width: width,
+                                            height: height)
+        currenCurrencyPicker.selectRow(selectedCurrencyIndex, inComponent: 0, animated: false)
+        currenCurrencyPicker.isHidden = false
+    }
+    
+    func hidePickerView() {
+        currenCurrencyPicker.isHidden = true
+    }
+    
+    func updateCurrencyCell(at indexPath: IndexPath,
+                            displayData: CurrencyCell.DisplayData,
+                            localCurrencyAmount: String?) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            guard let currencyCell = self.mainCollectionView.cellForItem(at: indexPath) as? CurrencyCell else { return }
+            currencyCell.updateDisplayData(displayData: displayData)
+            if let localCurrencyAmount {
+                currencyCell.setTextFieldText(to: localCurrencyAmount, viewType: .localCurrency)
+            }
+        }
+    }
+    
+    func currencyAmountString(at indexPath: IndexPath, viewType: CurrencyView.ViewType) -> String? {
+        guard let currencyCell = mainCollectionView.cellForItem(at: indexPath) as? CurrencyCell else { return nil }
+        return currencyCell.textFieldValue(from: .currentCurrency)
     }
 }
 

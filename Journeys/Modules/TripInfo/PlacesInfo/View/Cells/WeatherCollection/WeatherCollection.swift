@@ -163,9 +163,9 @@ class HorizontallyCenteredCollectionViewFlowLayout: UICollectionViewFlowLayout {
         guard let attributes = super.layoutAttributesForElements(in: rect) else { return nil }
         guard let collectionView = self.collectionView,
               let rightmostEdge = attributes.map({ $0.frame.maxX }).max() else { return attributes }
-        
         let contentWidth = rightmostEdge + self.sectionInset.right
         let margin = (collectionView.bounds.width - contentWidth) / 2
+//        collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 70)
         if margin > 0 {
             let newAttributes: [UICollectionViewLayoutAttributes]? = attributes
                 .compactMap {

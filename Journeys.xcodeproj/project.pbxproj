@@ -104,6 +104,7 @@
 		EE497A182940B183007E8579 /* TabbarItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE497A172940B183007E8579 /* TabbarItemFactory.swift */; };
 		EE4F820E29B8BE11004784A6 /* SkeletonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4F820D29B8BE11004784A6 /* SkeletonCell.swift */; };
 		EE4F821029B8BF53004784A6 /* SkeletonLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4F820F29B8BF53004784A6 /* SkeletonLoadable.swift */; };
+		EE570CAA2A02FBFD006E7077 /* CurrencyCellDisplayDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE570CA92A02FBFD006E7077 /* CurrencyCellDisplayDataFactory.swift */; };
 		EE57FF3D2927E7E100212DC2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE57FF3B2927E7E100212DC2 /* Localizable.strings */; };
 		EE57FF3F2927E8B000212DC2 /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */; };
 		EE5B6DF529E8377B00F0C79E /* CurrencyRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5B6DF429E8377B00F0C79E /* CurrencyRate.swift */; };
@@ -309,6 +310,7 @@
 		EE497A172940B183007E8579 /* TabbarItemFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarItemFactory.swift; sourceTree = "<group>"; };
 		EE4F820D29B8BE11004784A6 /* SkeletonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonCell.swift; sourceTree = "<group>"; };
 		EE4F820F29B8BF53004784A6 /* SkeletonLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonLoadable.swift; sourceTree = "<group>"; };
+		EE570CA92A02FBFD006E7077 /* CurrencyCellDisplayDataFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyCellDisplayDataFactory.swift; sourceTree = "<group>"; };
 		EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Strings+Generated.swift"; sourceTree = "<group>"; };
 		EE5B6DF429E8377B00F0C79E /* CurrencyRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRate.swift; sourceTree = "<group>"; };
 		EE5B6DF629E83B1F00F0C79E /* Locale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locale.swift; sourceTree = "<group>"; };
@@ -1033,6 +1035,7 @@
 			children = (
 				EE821EFF29D8CFD00052B66A /* CurrencyCell.swift */,
 				EE078ADE29E5AE18003173D8 /* CurrencyView.swift */,
+				EE570CA92A02FBFD006E7077 /* CurrencyCellDisplayDataFactory.swift */,
 			);
 			path = CurrencyCell;
 			sourceTree = "<group>";
@@ -1534,6 +1537,7 @@
 				EE497A142940AF4C007E8579 /* EventsCoordinator.swift in Sources */,
 				EE92866429CDDBAB00853998 /* UINavigationController.swift in Sources */,
 				EE7819B9295B1705008F607E /* EmptyViewController.swift in Sources */,
+				EE570CAA2A02FBFD006E7077 /* CurrencyCellDisplayDataFactory.swift in Sources */,
 				EE7968E829B92DEE00F777FE /* ThemeWindow.swift in Sources */,
 				EE7968EB29B92DEE00F777FE /* SettingsPresenter.swift in Sources */,
 				CE4CCC97295693310057455D /* TapToAddButtonViewController.swift in Sources */,

@@ -24,12 +24,13 @@ final class PlacesInfoPresenter {
     private let router: PlacesInfoRouterInput
     weak var moduleOutput: PlacesInfoModuleOutput?
     private var route: Route
-    private var weather: [WeatherWithLocation] = []
     
+    private var weather: [WeatherWithLocation] = []
     private var locationsWithoutCoordinatesList: [Location] = []
     private var placesWithGeoData: [PlaceWithGeoData] = []
     private var locationsWithCurrencyRate: [LocationsWithCurrencyRate] = []
     
+    private var indexPathForCellWithOpenedPicker: IndexPath?
     
     init(interactor: PlacesInfoInteractorInput,
          router: PlacesInfoRouterInput,
@@ -39,18 +40,57 @@ final class PlacesInfoPresenter {
         self.route = route
     }
     
-    private func sortWeather() {
-        var sortedWeather: [WeatherWithLocation] = []
-        for place in route.places {
-            for curWeather in weather {
-                if curWeather.location.city == place.location.city &&
-                    curWeather.location.country == place.location.country {
-                    sortedWeather.append(curWeather)
-                    break
+    private func sortWeather(_ weather: [WeatherWithLocation], completion: @escaping () -> ()) {
+        DispatchQueue.global().async { [weak self] in
+            guard let self else { return }
+            var sortedWeather: [WeatherWithLocation] = []
+            for place in self.route.places {
+                for curWeather in weather {
+                    if curWeather.isMatchToPlace(place) {
+                        sortedWeather.append(curWeather)
+                        break
+                    }
                 }
             }
+            self.weather = sortedWeather
+            completion()
         }
-        weather = sortedWeather
+    }
+    
+    private func sortGeoData(_ placesWithGeoData: [PlaceWithGeoData],
+                             completion: @escaping () -> ()) {
+        DispatchQueue.global().async { [weak self] in
+            guard let self else { return }
+            var sortedGeoData: [PlaceWithGeoData] = []
+            for place in self.route.places {
+                for placeWithGeoData in placesWithGeoData {
+                    if placeWithGeoData.place.location == place.location {
+                        sortedGeoData.append(placeWithGeoData)
+                        break
+                    }
+                }
+            }
+            self.placesWithGeoData = sortedGeoData
+            completion()
+        }
+    }
+    
+    private func sortCurrencyRate(_ locationsWithCurrencyRate: [LocationsWithCurrencyRate],
+                                  completion: @escaping () -> ()) {
+        DispatchQueue.global().async { [weak self] in
+            guard let self else { return }
+            var sortedCurrencyRate: [LocationsWithCurrencyRate] = []
+            for place in self.route.places {
+                for currencyRate in locationsWithCurrencyRate {
+                    if currencyRate.locations.first == place.location {
+                        sortedCurrencyRate.append(currencyRate)
+                        break
+                    }
+                }
+            }
+            self.locationsWithCurrencyRate = sortedCurrencyRate
+            completion()
+        }
     }
     
     private func showLoadingView() {
@@ -58,6 +98,12 @@ final class PlacesInfoPresenter {
     }
     private func hideLoadingView() {
         view?.hideLoadingView()
+    }
+    
+    private func reloadView() {
+        view?.reloadData()
+        hideLoadingView()
+        view?.endRefresh()
     }
 
     private func datesRange(from: Date, to: Date) -> [Date] {
@@ -72,7 +118,8 @@ final class PlacesInfoPresenter {
     }
     
     private func showNoCoordinatesAlert() {
-        let locationsWithoutCoordinatesString: String = locationsWithoutCoordinatesList.compactMap( { $0.toString() } ).joined(separator: ", ")
+        let locationsWithoutCoordinatesString: String = locationsWithoutCoordinatesList
+            .compactMap( { $0.toString() } ).joined(separator: ", ")
         view?.showAlert(title: "Неизвестное место", message: "К сожалению, мы не смогли найти места из вашего маршрута: \(locationsWithoutCoordinatesString)")
     }
     
@@ -88,9 +135,7 @@ final class PlacesInfoPresenter {
         }
     }
     
-    private func getCurrencies() {
-        guard let currentCurrencyCode = Locale.currency["US"]?.code else { return }
-        
+    private func getCurrencies(for currentCurrencyCode: String) {
         var countryCodesDict: [String: [Location]] = [:]
         for placeWithGeoData in placesWithGeoData {
             if let currencyCode = Locale.currency[placeWithGeoData.countryCode]?.code {
@@ -101,7 +146,9 @@ final class PlacesInfoPresenter {
                 }
             }
         }
-        interactor.currencyRate(for: countryCodesDict, currentCurrencyCode: currentCurrencyCode, amount: 1)
+        interactor.currencyRate(for: countryCodesDict,
+                                currentCurrencyCode: currentCurrencyCode,
+                                amount: 1)
     }
 }
 
@@ -111,6 +158,16 @@ extension PlacesInfoPresenter: PlacesInfoModuleInput {
 extension PlacesInfoPresenter: PlacesInfoViewOutput {
     func viewDidLoad() {
         showLoadingView()
+        interactor.geoData(for: route)
+    }
+    
+    func refreshView() {
+        weather = []
+        locationsWithoutCoordinatesList = []
+        placesWithGeoData = []
+        locationsWithCurrencyRate = []
+        
+        view?.reloadData()
         interactor.geoData(for: route)
     }
     
@@ -180,22 +237,15 @@ extension PlacesInfoPresenter {
     
     func currencyCellDisplayData(for indexPath: IndexPath) -> CurrencyCell.DisplayData? {
         guard locationsWithCurrencyRate.count > indexPath.row else { return nil }
-        let title = locationsWithCurrencyRate[indexPath.row]
-            .locations.compactMap( { $0.city } ).joined(separator: ", ")
-        let currencyRate = locationsWithCurrencyRate[indexPath.row].currencyRate
-        return CurrencyCell.DisplayData(title: title,
-                                        currentCurrencyAmount: String(currencyRate.oldAmount)
-            .replacingOccurrences(of: ".", with: ","),
-                                        localCurrencyAmount: String(currencyRate.newAmount)
-            .replacingOccurrences(of: ".", with: ","),
-                                        currentCurrencyName: currencyRate.oldCurrency,
-                                        localCurrencyName: currencyRate.newCurrency)
+        return CurrencyCellDisplayDataFactory().displayData(locationsWithCurrencyRate: locationsWithCurrencyRate[indexPath.row])
     }
     
     func eventCellDisplayData(for indexPath: IndexPath) -> EventMapCell.DisplayData? {
         guard placesWithGeoData.count > indexPath.row else { return nil }
         let coordinates = placesWithGeoData[indexPath.row].coordinates
-        return EventMapCell.DisplayData(latitude: coordinates.latitude, longitude: coordinates.longitude)
+        return EventMapCell.DisplayData(title: placesWithGeoData[indexPath.row].place.location.city,
+                                        latitude: coordinates.latitude,
+                                        longitude: coordinates.longitude)
     }
     
     func didSelectItem(at indexPath: IndexPath) {
@@ -221,19 +271,70 @@ extension PlacesInfoPresenter {
     }
 }
 
-extension PlacesInfoPresenter: PlacesInfoInteractorOutput {
-    
-    func didFetchCurrencyRates(_ locationsWithCurrencyRate: [LocationsWithCurrencyRate]) {
-        self.locationsWithCurrencyRate = locationsWithCurrencyRate
-        view?.reloadData()
-        hideLoadingView()
+// MARK: Work with picker view
+
+extension PlacesInfoPresenter {
+    func pickerViewTitle(for row: Int) -> String? {
+        guard Locale.commonISOCurrencyCodes.count > row else { return nil }
+        return Locale.commonISOCurrencyCodes[row]
     }
     
+    func pickerViewRowsCount() -> Int {
+        Locale.commonISOCurrencyCodes.count
+    }
+    
+    func didSelectNewCurrency(at row: Int) {
+        guard let cellIndexPath = indexPathForCellWithOpenedPicker,
+              Locale.commonISOCurrencyCodes.count > row,
+              locationsWithCurrencyRate.count > cellIndexPath.row else { return }
+        let newCurrency = locationsWithCurrencyRate[cellIndexPath.row].currencyRate.newCurrency
+        interactor.updateCurrencyRate(from: Locale.commonISOCurrencyCodes[row],
+                                      to: newCurrency,
+                                      amount: 1) { [weak self] currencyRate in
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                self.locationsWithCurrencyRate[cellIndexPath.row].currencyRate = currencyRate
+                var localCurrencyAmountString: String?
+                
+                if let currentCurrencyAmount = self.view?
+                    .currencyAmountString(at: cellIndexPath, viewType: .currentCurrency)?
+                    .replacingOccurrences(of: ",", with: ".").toFloat {
+                    
+                    let localCurrencyAmount = currentCurrencyAmount * self.locationsWithCurrencyRate[cellIndexPath.row].currencyRate.newAmount
+                    
+                    localCurrencyAmountString = String(localCurrencyAmount)
+                        .replacingOccurrences(of: ".", with: ",")
+                }
+                
+                self.view?.updateCurrencyCell(at: cellIndexPath,
+                                              displayData: CurrencyCellDisplayDataFactory().displayData(locationsWithCurrencyRate: self.locationsWithCurrencyRate[cellIndexPath.row]),
+                                              localCurrencyAmount: localCurrencyAmountString)
+            }
+        }
+    }
+}
+
+extension PlacesInfoPresenter: PlacesInfoInteractorOutput {
     func didFetchGeoData(_ placesWithGeoData: [PlaceWithGeoData]) {
-        self.placesWithGeoData = placesWithGeoData
-        interactor.weatherData(placesWithGeoData: placesWithGeoData)
-        getCurrencies()
-        view?.reloadData()
+        sortGeoData(placesWithGeoData) { [weak self] in
+            guard let self else { return }
+            if placesWithGeoData.count > 0 {
+                self.reloadView()
+                self.interactor.weatherData(placesWithGeoData: placesWithGeoData)
+                let locale = Locale.current
+                guard let currentCurrencyCode = locale.currencyCode else { return }
+                self.getCurrencies(for: currentCurrencyCode)
+            } else {
+                self.reloadView()
+            }
+        }
+    }
+    
+    func didFetchCurrencyRates(_ locationsWithCurrencyRate: [LocationsWithCurrencyRate]) {
+        sortCurrencyRate(locationsWithCurrencyRate) { [weak self] in
+            guard let self else { return }
+            self.reloadView()
+        }
     }
     
     func noWeatherForPlace(_ place: Place) {
@@ -241,20 +342,19 @@ extension PlacesInfoPresenter: PlacesInfoInteractorOutput {
     }
     
     func noPlacesInRoute() {
-        view?.reloadData()
-        hideLoadingView()
+        self.reloadView()
         if !locationsWithoutCoordinatesList.isEmpty {
             showNoCoordinatesAlert()
         }
     }
     
     func didFetchAllWeatherData(_ weather: [WeatherWithLocation]) {
-        self.weather = weather
-        sortWeather()
-        view?.reloadData()
-        hideLoadingView()
-        if !locationsWithoutCoordinatesList.isEmpty {
-            showNoCoordinatesAlert()
+        sortWeather(weather) { [weak self] in
+            guard let self else { return }
+            self.reloadView()
+            if !self.locationsWithoutCoordinatesList.isEmpty {
+                self.showNoCoordinatesAlert()
+            }
         }
     }
     
@@ -268,6 +368,23 @@ extension PlacesInfoPresenter: PlacesInfoInteractorOutput {
 }
 
 extension PlacesInfoPresenter: CurrencyCellDelegate {
+    func didTapCurrencyNameButton(touch: UITapGestureRecognizer,
+                                  at indexPath: IndexPath,
+                                  currentCurrency: String,
+                                  viewType: CurrencyView.ViewType) {
+        if viewType == .currentCurrency {
+            indexPathForCellWithOpenedPicker = indexPath
+            guard let index = Locale.commonISOCurrencyCodes
+                .firstIndex(where: { $0 == currentCurrency }) else {
+                view?.showPickerView(touch: touch,
+                                     with: 0)
+                return
+            }
+            view?.showPickerView(touch: touch,
+                                 with: index)
+        }
+    }
+    
     func didFinishEditingTextField(at indexPath: IndexPath,
                                    text: String,
                                    viewType: CurrencyView.ViewType) {
@@ -276,14 +393,20 @@ extension PlacesInfoPresenter: CurrencyCellDelegate {
                                               with: ".").toFloat
         let course = locationsWithCurrencyRate[indexPath.row].currencyRate
         let result: Float?
+        
+        var viewToChangeValueType: CurrencyView.ViewType
         switch viewType {
-        case .currentCurrency: result = course.newAmount / course.oldAmount * amount
-        case .localCurrency: result = course.oldAmount / course.newAmount * amount
+        case .currentCurrency:
+            viewToChangeValueType = .localCurrency
+            result = course.newAmount / course.oldAmount * amount
+        case .localCurrency:
+            viewToChangeValueType = .currentCurrency
+            result = course.oldAmount / course.newAmount * amount
         default: break
         }
         guard let result else { return }
         view?.changeCurrencyTextField(at: indexPath,
-                                      viewType: viewType,
+                                      viewType: viewToChangeValueType,
                                       to: String(format: "%.2f", result).replacingOccurrences(of: ".",
                                                                                               with: ","))
     }

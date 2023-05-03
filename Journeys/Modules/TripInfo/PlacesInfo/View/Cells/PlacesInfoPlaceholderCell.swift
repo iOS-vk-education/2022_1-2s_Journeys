@@ -34,6 +34,11 @@ final class PlacesInfoPlaceholderCell: UICollectionViewCell {
         contentView.isUserInteractionEnabled = true
         setupSubviews()
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        title.text = nil
+    }
 
     // MARK: Private functions
 

@@ -13,12 +13,19 @@ import MapKit
 final class EventMapCell: UICollectionViewCell {
     
     struct DisplayData {
+        let title: String
         let latitude: Double
         let longitude: Double
     }
     
-    private var mapView = MKMapView()
+    private let title: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 17, weight: .medium)
+        return label
+    }()
     
+    private let mapView = MKMapView()
     private let transparentView = UIView()
     
     required init?(coder: NSCoder) {
@@ -41,6 +48,7 @@ final class EventMapCell: UICollectionViewCell {
     }
     
     private func setupSubviews() {
+        contentView.addSubview(title)
         contentView.addSubview(mapView)
         contentView.addSubview(transparentView)
         
@@ -50,8 +58,15 @@ final class EventMapCell: UICollectionViewCell {
     }
     
     private func makeConstraints() {
+        title.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview()
+        }
         mapView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalTo(title.snp.bottom).offset(20)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
         transparentView.snp.makeConstraints { make in
             make.edges.equalTo(mapView.snp.edges)
@@ -59,6 +74,7 @@ final class EventMapCell: UICollectionViewCell {
     }
     
     func configure(data: DisplayData) {
+        title.text = data.title
         let location = CLLocationCoordinate2DMake(data.latitude, data.longitude)
         let span = MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2)
         let region = MKCoordinateRegion.init(center: location, span: span)

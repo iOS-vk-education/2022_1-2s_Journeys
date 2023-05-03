@@ -50,6 +50,12 @@ struct Location: Decodable {
     }
 }
 
+extension Location: Equatable {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.country == rhs.country && lhs.city == rhs.city ? true : false
+    }
+}
+
 struct LocationsWithCurrencyRate: Decodable {
     var locations: [Location]
     var currencyRate: CurrencyRate
