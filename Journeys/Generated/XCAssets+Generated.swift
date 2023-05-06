@@ -56,6 +56,10 @@ internal enum Asset {
       internal static let placeholderColor = ColorAsset(name: "PlaceholderColor")
     }
     internal enum PlacesInfo {
+      internal enum ProgressView {
+        internal static let background = ColorAsset(name: "background")
+        internal static let progress = ColorAsset(name: "progress")
+      }
       internal enum SectionHeader {
         internal static let background = ColorAsset(name: "background")
       }

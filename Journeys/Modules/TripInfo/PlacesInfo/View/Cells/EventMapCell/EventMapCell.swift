@@ -18,6 +18,7 @@ final class EventMapCell: UICollectionViewCell {
         let longitude: Double
     }
     
+    private let titleBackgroundView = UIView()
     private let title: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -40,6 +41,11 @@ final class EventMapCell: UICollectionViewCell {
         setupSubviews()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        title.text = nil
+    }
+    
     // MARK: Private functions
     
     private func setupCell() {
@@ -48,9 +54,11 @@ final class EventMapCell: UICollectionViewCell {
     }
     
     private func setupSubviews() {
-        contentView.addSubview(title)
+        contentView.addSubview(titleBackgroundView)
         contentView.addSubview(mapView)
         contentView.addSubview(transparentView)
+        
+        titleBackgroundView.addSubview(title)
         
         mapView.layer.cornerRadius = 20
         
@@ -58,9 +66,12 @@ final class EventMapCell: UICollectionViewCell {
     }
     
     private func makeConstraints() {
-        title.snp.makeConstraints { make in
+        titleBackgroundView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview()
+        }
+        title.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
         mapView.snp.makeConstraints { make in
             make.top.equalTo(title.snp.bottom).offset(20)
@@ -79,21 +90,5 @@ final class EventMapCell: UICollectionViewCell {
         let span = MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2)
         let region = MKCoordinateRegion.init(center: location, span: span)
         mapView.setRegion(region, animated: true)
-    }
-}
-
-private extension MapCell {
-    
-    struct MapCellConstants {
-        static let horisontalIndentForAllSubviews: CGFloat = 0
-        struct InputField {
-            static let horisontalIndent: CGFloat = horisontalIndentForAllSubviews
-            static let verticalIndent: CGFloat = horisontalIndentForAllSubviews
-            
-            static let cornerRadius: CGFloat = 0
-        }
-        struct Cell {
-            static let borderRadius: CGFloat = 0
-        }
     }
 }

@@ -82,9 +82,6 @@ final class WeatherCollection: UICollectionViewCell {
         self.collectionIndexPath = indexPath
         townNameView.configure(title: data.town)
         self.delegate = delegate
-        if data.cellsCount == 0 {
-            embedPlaceholder(NoWeatherForTownPlaceholderView())
-        }
     }
 }
 
@@ -117,32 +114,6 @@ extension WeatherCollection: UICollectionViewDataSource {
     }
 }
 
-extension WeatherCollection {
-    func embedPlaceholder(_ viewController: UIView) {
-        guard let placeholderViewController = viewController as? NoWeatherForTownPlaceholderView else { return }
-
-        guard placeholderView.isHidden == true else {
-            return
-        }
-        placeholderViewController
-            .configure(with: NoWeatherForTownPlaceholderView.DisplayData(title: L10n.noTrips,
-                                                                            imageName: "TripsPlaceholder"))
-        placeholderView = placeholderViewController
-        collectionView.addSubview(placeholderView)
-        placeholderView.isHidden = false
-        placeholderView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.height.equalTo(100)
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-        }
-    }
-    
-    func hidePlaceholder() {
-        placeholderView.isHidden = true
-    }
-}
-
 private extension WeatherCollection {
     enum Constants {
         enum SectionHeader {
@@ -165,7 +136,6 @@ class HorizontallyCenteredCollectionViewFlowLayout: UICollectionViewFlowLayout {
               let rightmostEdge = attributes.map({ $0.frame.maxX }).max() else { return attributes }
         let contentWidth = rightmostEdge + self.sectionInset.right
         let margin = (collectionView.bounds.width - contentWidth) / 2
-//        collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 70)
         if margin > 0 {
             let newAttributes: [UICollectionViewLayoutAttributes]? = attributes
                 .compactMap {

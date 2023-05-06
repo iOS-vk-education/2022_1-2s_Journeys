@@ -12,6 +12,20 @@ import UIKit
  Function programming inheritance.
  */
 
+//enum SkeletonLoadableViews {
+//    case view(UIView)
+//    case label(UILabel)
+//
+//    static func associatedViewValue() -> UIView? {
+//        switch
+//    }
+//}
+
+struct ViewWithLayer {
+    let view: UIView
+    let layer: CAGradientLayer
+}
+
 protocol SkeletonLoadable {}
 
 extension SkeletonLoadable {
@@ -41,6 +55,38 @@ extension SkeletonLoadable {
         }
 
         return group
+    }
+    
+    func configureSkeletons(views: [ViewWithLayer]) {
+        var animationGroups: [CAAnimationGroup] = []
+        for (index, view) in views.enumerated() {
+            view.layer.startPoint = CGPoint(x: 0, y: 0.5)
+            view.layer.endPoint = CGPoint(x: 1, y: 0.5)
+            view.view.layer.addSublayer(view.layer)
+            
+            if index == 0 {
+                let group = makeAnimationGroup()
+                group.beginTime = 0.0
+                view.layer.add(group, forKey: "backgroundColor")
+                animationGroups.append(group)
+            } else {
+                let group = makeAnimationGroup(previousGroup: animationGroups[index - 1])
+                view.layer.add(group, forKey: "backgroundColor")
+                animationGroups.append(group)
+            }
+        }
+    }
+    
+    func setAllSubviewsAlphaToZero(views: [UIView]) {
+        for view in views {
+            view.alpha = 0
+        }
+    }
+    
+    func setSubviewsAlphaToOne(views: [UIView]) {
+        for view in views {
+            view.alpha = 1
+        }
     }
     
 }

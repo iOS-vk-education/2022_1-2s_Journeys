@@ -76,6 +76,7 @@ final class PlacesInfoViewController: UIViewController {
     private func setupCollectionView() {
         mainCollectionView.delegate = self
         mainCollectionView.dataSource = self
+        mainCollectionView.alwaysBounceVertical = true
 
         mainCollectionView.addSubview(refreshControl)
         mainCollectionView.contentSize = CGSize(width: mainCollectionView.frame.width,
@@ -180,34 +181,33 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
                                                                            for: indexPath) as? WeatherCollection else {
                 return cell
             }
-            guard let data = output?.weatherCollectionDisplayData(indexPath.row)
-            else { return placeHolderCell(for: indexPath, cellType: .weather) }
-            
-            weatherCell.configure(data: data, delegate: self, indexPath: indexPath)
+                guard let data = output?.weatherCollectionDisplayData(indexPath.row)
+                else { return placeHolderCell(for: indexPath, cellType: .weather) }
+                
+                weatherCell.configure(data: data, delegate: self, indexPath: indexPath)
             cell = weatherCell
         case .currency:
             guard let currencyCell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "CurrencyCell",
                                                                             for: indexPath) as? CurrencyCell else {
                 return cell
             }
-            
-            guard let displatData = output?.currencyCellDisplayData(for: indexPath)
-            else { return placeHolderCell(for: indexPath, cellType: .currency) }
-            
-            let cellDelegate = output as? CurrencyCellDelegate
-            currencyCell.configure(displayData: displatData,
-                                   delegate: cellDelegate,
-                                   indexPath: indexPath)
+                guard let displatData = output?.currencyCellDisplayData(for: indexPath)
+                else { return placeHolderCell(for: indexPath, cellType: .currency) }
+                
+                let cellDelegate = output as? CurrencyCellDelegate
+                currencyCell.configure(displayData: displatData,
+                                       delegate: cellDelegate,
+                                       indexPath: indexPath)
             cell = currencyCell
         case .events:
             guard let mapCell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "EventMapCell",
                                                                        for: indexPath) as? EventMapCell else {
                 return cell
             }
-            guard let displayData = output?.eventCellDisplayData(for: indexPath)
-            else { return placeHolderCell(for: indexPath, cellType: .events) }
-            
-            mapCell.configure(data: displayData)
+                guard let displayData = output?.eventCellDisplayData(for: indexPath)
+                else { return placeHolderCell(for: indexPath, cellType: .events) }
+                
+                mapCell.configure(data: displayData)
             cell = mapCell
         default:
             return cell
@@ -335,32 +335,68 @@ extension PlacesInfoViewController: PlacesInfoViewInput {
         guard let currencyCell = mainCollectionView.cellForItem(at: indexPath) as? CurrencyCell else { return nil }
         return currencyCell.textFieldValue(from: .currentCurrency)
     }
+    
+    func setTasksCount(_ count: Int) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            for child in self.children {
+                if let loadingVC = child as? PacesInfoLoadingPlaceholderViewController {
+                    loadingVC.setTasksCount(count)
+                    return
+                }
+            }
+        }
+    }
+    
+    func setTaskIsDone() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            for child in self.children {
+                if let loadingVC = child as? PacesInfoLoadingPlaceholderViewController {
+                    loadingVC.taskIsDone()
+                    return
+                }
+            }
+        }
+    }
+    
+    func setAllTasksDone() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            for child in self.children {
+                if let loadingVC = child as? PacesInfoLoadingPlaceholderViewController {
+                    loadingVC.setAllTasksDone()
+                    return
+                }
+            }
+        }
+    }
 }
 
 extension PlacesInfoViewController: TransitionHandlerProtocol {
     func embedPlaceholder(_ viewController: UIViewController) {
-        guard let placeholderViewController = viewController as? NoWeatherPlaceHolderViewController else { return }
+        guard let placeholderViewController = viewController as? PacesInfoLoadingPlaceholderViewController else { return }
 
         guard placeholderView.isHidden == true else {
             return
         }
-        placeholderViewController
-            .configure(with: NoWeatherPlaceHolderViewController.DisplayData(title: L10n.noTrips,
-                                                                            imageName: "TripsPlaceholder"))
+        mainCollectionView.isHidden = true
         addChild(placeholderViewController)
         placeholderViewController.didMove(toParent: self)
         placeholderView = placeholderViewController.view
-        mainCollectionView.addSubview(placeholderView)
+        placeholderView.backgroundColor = view.backgroundColor
+        view.addSubview(placeholderView)
         placeholderView.isHidden = false
         placeholderView.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.height.equalTo(100)
+            make.bottom.equalToSuperview()
             make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
             make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
         }
     }
     
     func hidePlaceholder() {
+        mainCollectionView.isHidden = false
         placeholderView.isHidden = true
     }
 }

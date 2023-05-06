@@ -26,6 +26,10 @@ protocol PlacesInfoViewInput: AnyObject {
     func updateCurrencyCell(at indexPath: IndexPath,
                             displayData: CurrencyCell.DisplayData,
                             localCurrencyAmount: String?)
+    
+    func setTasksCount(_ count: Int)
+    func setTaskIsDone()
+    func setAllTasksDone()
 }
 
 // MARK: - PlacesIngo ViewOutput

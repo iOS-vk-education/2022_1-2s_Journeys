@@ -16,8 +16,8 @@ final class PlacesInfoRouter: PlacesInfoRouterInput {
     }
     
     func embedPlaceholder() {
-        let placeholderViewController = NoWeatherPlaceHolderViewController()
-        placesInfoViewController?.embedPlaceholder(placeholderViewController)
+        let placeHolderViewController = PacesInfoLoadingPlaceholderViewController()
+        placesInfoViewController?.embedPlaceholder(placeHolderViewController)
     }
     
     func hidePlaceholder() {

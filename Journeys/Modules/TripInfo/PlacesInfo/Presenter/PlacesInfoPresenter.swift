@@ -40,64 +40,11 @@ final class PlacesInfoPresenter {
         self.route = route
     }
     
-    private func sortWeather(_ weather: [WeatherWithLocation], completion: @escaping () -> ()) {
-        DispatchQueue.global().async { [weak self] in
-            guard let self else { return }
-            var sortedWeather: [WeatherWithLocation] = []
-            for place in self.route.places {
-                for curWeather in weather {
-                    if curWeather.isMatchToPlace(place) {
-                        sortedWeather.append(curWeather)
-                        break
-                    }
-                }
-            }
-            self.weather = sortedWeather
-            completion()
-        }
-    }
-    
-    private func sortGeoData(_ placesWithGeoData: [PlaceWithGeoData],
-                             completion: @escaping () -> ()) {
-        DispatchQueue.global().async { [weak self] in
-            guard let self else { return }
-            var sortedGeoData: [PlaceWithGeoData] = []
-            for place in self.route.places {
-                for placeWithGeoData in placesWithGeoData {
-                    if placeWithGeoData.place.location == place.location {
-                        sortedGeoData.append(placeWithGeoData)
-                        break
-                    }
-                }
-            }
-            self.placesWithGeoData = sortedGeoData
-            completion()
-        }
-    }
-    
-    private func sortCurrencyRate(_ locationsWithCurrencyRate: [LocationsWithCurrencyRate],
-                                  completion: @escaping () -> ()) {
-        DispatchQueue.global().async { [weak self] in
-            guard let self else { return }
-            var sortedCurrencyRate: [LocationsWithCurrencyRate] = []
-            for place in self.route.places {
-                for currencyRate in locationsWithCurrencyRate {
-                    if currencyRate.locations.first == place.location {
-                        sortedCurrencyRate.append(currencyRate)
-                        break
-                    }
-                }
-            }
-            self.locationsWithCurrencyRate = sortedCurrencyRate
-            completion()
-        }
-    }
-    
     private func showLoadingView() {
-        view?.showLoadingView()
+        embedRPlaceholder()
     }
     private func hideLoadingView() {
-        view?.hideLoadingView()
+        hidePlaceholder()
     }
     
     private func reloadView() {
@@ -135,21 +82,6 @@ final class PlacesInfoPresenter {
         }
     }
     
-    private func getCurrencies(for currentCurrencyCode: String) {
-        var countryCodesDict: [String: [Location]] = [:]
-        for placeWithGeoData in placesWithGeoData {
-            if let currencyCode = Locale.currency[placeWithGeoData.countryCode]?.code {
-                if countryCodesDict[currencyCode] != nil {
-                    countryCodesDict[currencyCode]?.append(placeWithGeoData.place.location)
-                } else {
-                    countryCodesDict[currencyCode] = [placeWithGeoData.place.location]
-                }
-            }
-        }
-        interactor.currencyRate(for: countryCodesDict,
-                                currentCurrencyCode: currentCurrencyCode,
-                                amount: 1)
-    }
 }
 
 extension PlacesInfoPresenter: PlacesInfoModuleInput {
@@ -159,6 +91,7 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
     func viewDidLoad() {
         showLoadingView()
         interactor.geoData(for: route)
+        view?.setTasksCount(3)
     }
     
     func refreshView() {
@@ -167,7 +100,7 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
         placesWithGeoData = []
         locationsWithCurrencyRate = []
         
-        view?.reloadData()
+        reloadView()
         interactor.geoData(for: route)
     }
     
@@ -218,7 +151,6 @@ extension PlacesInfoPresenter {
     
     func mainCollectionCellType(for indexPath: IndexPath) -> CellType? {
         guard CellType.allCases.count > indexPath.section else { return nil }
-        if CellType.allCases[indexPath.section] == .route { return .route }
         return CellType.allCases[indexPath.section]
     }
     
@@ -231,7 +163,9 @@ extension PlacesInfoPresenter {
     }
     
     func weatherCollectionDisplayData(_ row: Int) -> WeatherCollection.DisplayData? {
-        guard weather.count > row  else { return nil }
+        guard weather.count > row else {
+            return nil
+        }
         return WeatherCollection.DisplayData(town: weather[row].location.city, cellsCount: weather[row].weather.count)
     }
     
@@ -315,51 +249,46 @@ extension PlacesInfoPresenter {
 }
 
 extension PlacesInfoPresenter: PlacesInfoInteractorOutput {
+    func getRoute() -> Route {
+        route
+    }
+    
     func didFetchGeoData(_ placesWithGeoData: [PlaceWithGeoData]) {
-        sortGeoData(placesWithGeoData) { [weak self] in
-            guard let self else { return }
-            if placesWithGeoData.count > 0 {
-                self.reloadView()
-                self.interactor.weatherData(placesWithGeoData: placesWithGeoData)
-                let locale = Locale.current
-                guard let currentCurrencyCode = locale.currencyCode else { return }
-                self.getCurrencies(for: currentCurrencyCode)
-            } else {
-                self.reloadView()
-            }
-        }
+        view?.setTaskIsDone()
+        self.placesWithGeoData = placesWithGeoData
+    }
+    
+    func didFetchWeatherData(_ weather: [WeatherWithLocation]) {
+        view?.setTaskIsDone()
+        self.weather = weather
     }
     
     func didFetchCurrencyRates(_ locationsWithCurrencyRate: [LocationsWithCurrencyRate]) {
-        sortCurrencyRate(locationsWithCurrencyRate) { [weak self] in
-            guard let self else { return }
-            self.reloadView()
-        }
+        view?.setTaskIsDone()
+        self.locationsWithCurrencyRate = locationsWithCurrencyRate
     }
     
     func noWeatherForPlace(_ place: Place) {
-        
     }
     
     func noPlacesInRoute() {
-        self.reloadView()
+        view?.setAllTasksDone()
+        reloadView()
         if !locationsWithoutCoordinatesList.isEmpty {
             showNoCoordinatesAlert()
         }
     }
     
-    func didFetchAllWeatherData(_ weather: [WeatherWithLocation]) {
-        sortWeather(weather) { [weak self] in
-            guard let self else { return }
-            self.reloadView()
-            if !self.locationsWithoutCoordinatesList.isEmpty {
-                self.showNoCoordinatesAlert()
-            }
-        }
-    }
-    
     func noCoordunates(for location: Location) {
         locationsWithoutCoordinatesList.append(location)
+    }
+    
+    func didFetchAllData() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            guard let self else { return }
+            self.reloadView()
+            self.hidePlaceholder()
+        }
     }
     
     func didRecieveError(error: Error) {

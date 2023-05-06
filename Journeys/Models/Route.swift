@@ -60,13 +60,3 @@ struct Route {
         case places
     }
 }
-
-//struct RouteWithGeoDataPlaces {
-//    var route: Route
-//    var placesWithGeoData: [PlaceWithGeoData]
-//    
-//    init(route: Route, placesWithGeoData: [PlaceWithGeoData]) {
-//        self.route = route
-//        self.placesWithGeoData = placesWithGeoData
-//    }
-//}
