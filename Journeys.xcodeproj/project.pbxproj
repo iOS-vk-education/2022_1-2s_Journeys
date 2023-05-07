@@ -114,7 +114,7 @@
 		EE7819B0295A69E8008F607E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819AF295A69E8008F607E /* LoadingView.swift */; };
 		EE7819B3295A8441008F607E /* TripsPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819B2295A8441008F607E /* TripsPlaceholder.swift */; };
 		EE7819B5295A8629008F607E /* PlaceholderDisplayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819B4295A8629008F607E /* PlaceholderDisplayData.swift */; };
-		EE7819B7295A87DC008F607E /* TripsTransitionHandlerProlocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819B6295A87DC008F607E /* TripsTransitionHandlerProlocol.swift */; };
+		EE7819B7295A87DC008F607E /* TTransitionHandlerProlocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819B6295A87DC008F607E /* TTransitionHandlerProlocol.swift */; };
 		EE7819B9295B1705008F607E /* EmptyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819B8295B1705008F607E /* EmptyViewController.swift */; };
 		EE79132129C33F64002629E3 /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE79132029C33F64002629E3 /* UIWindow.swift */; };
 		EE79132A29C4DE88002629E3 /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE79132929C4DE88002629E3 /* MailView.swift */; };
@@ -156,7 +156,7 @@
 		EE92866429CDDBAB00853998 /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE92866229CDDBAB00853998 /* UINavigationController.swift */; };
 		EE92866529CDDBAB00853998 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE92866329CDDBAB00853998 /* UITextField.swift */; };
 		EE9BC43629ECB15400091D6B /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9BC43529ECB15400091D6B /* String.swift */; };
-		EE9DDF8D29E47306002781C7 /* PacesInfoLoadingPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9DDF8C29E47306002781C7 /* PacesInfoLoadingPlaceholderViewController.swift */; };
+		EE9DDF8D29E47306002781C7 /* PlacesInfoLoadingPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9DDF8C29E47306002781C7 /* PlacesInfoLoadingPlaceholderViewController.swift */; };
 		EE9DDF9129E473C0002781C7 /* PlacesInfoRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9DDF9029E473C0002781C7 /* PlacesInfoRouter.swift */; };
 		EE9DDF9329E473CA002781C7 /* PlacesInfoRouterInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9DDF9229E473CA002781C7 /* PlacesInfoRouterInput.swift */; };
 		EEA76C5E2951325E00250B06 /* PlacesInfoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C482951325E00250B06 /* PlacesInfoPresenter.swift */; };
@@ -320,7 +320,7 @@
 		EE7819AF295A69E8008F607E /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		EE7819B2295A8441008F607E /* TripsPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsPlaceholder.swift; sourceTree = "<group>"; };
 		EE7819B4295A8629008F607E /* PlaceholderDisplayData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderDisplayData.swift; sourceTree = "<group>"; };
-		EE7819B6295A87DC008F607E /* TripsTransitionHandlerProlocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsTransitionHandlerProlocol.swift; sourceTree = "<group>"; };
+		EE7819B6295A87DC008F607E /* TTransitionHandlerProlocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTransitionHandlerProlocol.swift; sourceTree = "<group>"; };
 		EE7819B8295B1705008F607E /* EmptyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewController.swift; sourceTree = "<group>"; };
 		EE79132029C33F64002629E3 /* UIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindow.swift; sourceTree = "<group>"; };
 		EE79132529C34406002629E3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = ../en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -364,7 +364,7 @@
 		EE92866229CDDBAB00853998 /* UINavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
 		EE92866329CDDBAB00853998 /* UITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
 		EE9BC43529ECB15400091D6B /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
-		EE9DDF8C29E47306002781C7 /* PacesInfoLoadingPlaceholderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacesInfoLoadingPlaceholderViewController.swift; sourceTree = "<group>"; };
+		EE9DDF8C29E47306002781C7 /* PlacesInfoLoadingPlaceholderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesInfoLoadingPlaceholderViewController.swift; sourceTree = "<group>"; };
 		EE9DDF9029E473C0002781C7 /* PlacesInfoRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesInfoRouter.swift; sourceTree = "<group>"; };
 		EE9DDF9229E473CA002781C7 /* PlacesInfoRouterInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesInfoRouterInput.swift; sourceTree = "<group>"; };
 		EEA76C482951325E00250B06 /* PlacesInfoPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesInfoPresenter.swift; sourceTree = "<group>"; };
@@ -872,7 +872,7 @@
 		EE29EBF029186D4B008ECFF8 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				EE7819B6295A87DC008F607E /* TripsTransitionHandlerProlocol.swift */,
+				EE7819B6295A87DC008F607E /* TTransitionHandlerProlocol.swift */,
 				EE92866229CDDBAB00853998 /* UINavigationController.swift */,
 				EE92866329CDDBAB00853998 /* UITextField.swift */,
 				EE7968FB29B9317600F777FE /* Theme+Userdefaults.swift */,
@@ -1086,7 +1086,7 @@
 		EE9DDF8E29E47312002781C7 /* Placeholder */ = {
 			isa = PBXGroup;
 			children = (
-				EE9DDF8C29E47306002781C7 /* PacesInfoLoadingPlaceholderViewController.swift */,
+				EE9DDF8C29E47306002781C7 /* PlacesInfoLoadingPlaceholderViewController.swift */,
 			);
 			path = Placeholder;
 			sourceTree = "<group>";
@@ -1538,7 +1538,7 @@
 				EEA76C682951325E00250B06 /* MainCollectionHeader.swift in Sources */,
 				EEFA76C7292BE88F00A0B8CA /* RouteModuleIO.swift in Sources */,
 				EE7968FC29B9317600F777FE /* Theme+Userdefaults.swift in Sources */,
-				EE7819B7295A87DC008F607E /* TripsTransitionHandlerProlocol.swift in Sources */,
+				EE7819B7295A87DC008F607E /* TTransitionHandlerProlocol.swift in Sources */,
 				EE02E5472950D9EA002BE87E /* Location.swift in Sources */,
 				EE7968E729B92DEE00F777FE /* SettingsSubViewModel.swift in Sources */,
 				EE5B6DF729E83B1F00F0C79E /* Locale.swift in Sources */,
@@ -1627,7 +1627,7 @@
 				F92CACD193BE48A33A52A5DC /* TripsRouterInput.swift in Sources */,
 				EE29EBFA29191558008ECFF8 /* CoordinatorProtocol.swift in Sources */,
 				EEAC1D2C295260CB00237331 /* PlacesInfoInteractorIO.swift in Sources */,
-				EE9DDF8D29E47306002781C7 /* PacesInfoLoadingPlaceholderViewController.swift in Sources */,
+				EE9DDF8D29E47306002781C7 /* PlacesInfoLoadingPlaceholderViewController.swift in Sources */,
 				0D551CF12951739C00A4151E /* Trip.swift in Sources */,
 				0F6FD83F50CCD8533C888533 /* TripsRouter.swift in Sources */,
 				EE7968E629B92DEE00F777FE /* SettingsHelpers.swift in Sources */,

@@ -48,7 +48,6 @@ final class PlacesInfoViewController: UIViewController {
         return picker
     }()
     
-    private let loadingView = LoadingView()
     private var placeholderView = UIView()
 
     // MARK: Lifecycle
@@ -62,7 +61,7 @@ final class PlacesInfoViewController: UIViewController {
     private func setupView() {
         view.addSubview(mainCollectionView)
         mainCollectionView.addSubview(currenCurrencyPicker)
-        currenCurrencyPicker.isHidden = true 
+        currenCurrencyPicker.isHidden = true
         placeholderView.isHidden = true
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
@@ -103,7 +102,6 @@ final class PlacesInfoViewController: UIViewController {
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
         }
-        view.bringSubviewToFront(loadingView)
     }
     
     @objc
@@ -270,23 +268,6 @@ extension PlacesInfoViewController: PlacesInfoViewInput {
         }
     }
     
-    func showLoadingView() {
-        view.addSubview(loadingView)
-        loadingView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-        }
-        view.bringSubviewToFront(loadingView)
-    }
-    
-    func hideLoadingView() {
-        DispatchQueue.main.async { [weak self] in
-            self?.loadingView.removeFromSuperview()
-        }
-    }
-    
     func showAlert(title: String, message: String) {
         DispatchQueue.main.async {
             let alert = UIAlertController(title: title,
@@ -339,43 +320,32 @@ extension PlacesInfoViewController: PlacesInfoViewInput {
     func setTasksCount(_ count: Int) {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
-            for child in self.children {
-                if let loadingVC = child as? PacesInfoLoadingPlaceholderViewController {
-                    loadingVC.setTasksCount(count)
-                    return
-                }
-            }
+            guard let loadingPlaceholder = self.placeholderView as? PlacesInfoLoadingPlaceholderView else { return }
+            loadingPlaceholder.setTasksCount(count)
         }
     }
     
     func setTaskIsDone() {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
-            for child in self.children {
-                if let loadingVC = child as? PacesInfoLoadingPlaceholderViewController {
-                    loadingVC.taskIsDone()
-                    return
-                }
-            }
+            guard let loadingPlaceholder = self.placeholderView as? PlacesInfoLoadingPlaceholderView else { return }
+            loadingPlaceholder.taskIsDone()
         }
     }
     
     func setAllTasksDone() {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
-            for child in self.children {
-                if let loadingVC = child as? PacesInfoLoadingPlaceholderViewController {
-                    loadingVC.setAllTasksDone()
-                    return
-                }
-            }
+            guard let loadingPlaceholder = self.placeholderView as? PlacesInfoLoadingPlaceholderView else { return }
+            loadingPlaceholder.setAllTasksDone()
         }
     }
 }
 
 extension PlacesInfoViewController: TransitionHandlerProtocol {
+    
     func embedPlaceholder(_ viewController: UIViewController) {
-        guard let placeholderViewController = viewController as? PacesInfoLoadingPlaceholderViewController else { return }
+        guard let placeholderViewController = viewController as? PlacesInfoLoadingPlaceholderViewController else { return }
 
         guard placeholderView.isHidden == true else {
             return
@@ -385,7 +355,7 @@ extension PlacesInfoViewController: TransitionHandlerProtocol {
         placeholderViewController.didMove(toParent: self)
         placeholderView = placeholderViewController.view
         placeholderView.backgroundColor = view.backgroundColor
-        view.addSubview(placeholderView)
+        view.addSubview(placeholderViewController.view)
         placeholderView.isHidden = false
         placeholderView.snp.makeConstraints { make in
             make.top.equalToSuperview()
@@ -395,9 +365,16 @@ extension PlacesInfoViewController: TransitionHandlerProtocol {
         }
     }
     
+    func showPlaceholder() {
+        mainCollectionView.isHidden = true
+        placeholderView.isHidden = false
+    }
+    
     func hidePlaceholder() {
         mainCollectionView.isHidden = false
         placeholderView.isHidden = true
+        guard let loadingPlaceholder = self.placeholderView as? PlacesInfoLoadingPlaceholderView else { return }
+        loadingPlaceholder.prepareForReuse()
     }
 }
 

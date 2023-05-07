@@ -56,7 +56,14 @@ final class PlacesInfoInteractor {
 
 // MARK: PlacesInfoInteractorInput
 extension PlacesInfoInteractor: PlacesInfoInteractorInput {
-    func geoData(for route: Route) {
+    func loadData(for route: Route) {
+        isWeatherDataLoaded = false
+        isCurrencyDataLoaded = false
+        isEventsDataLoaded = false
+        
+        geoData(for: route)
+    }
+    private func geoData(for route: Route) {
         guard !route.places.isEmpty else {
             output?.noPlacesInRoute()
             return
@@ -350,8 +357,8 @@ extension PlacesInfoInteractor {
     }
     
     private func sortGeoData(_ placesWithGeoData: [PlaceWithGeoData],
-                     route: Route,
-                     completion: @escaping ([PlaceWithGeoData]) -> ()) {
+                             route: Route,
+                             completion: @escaping ([PlaceWithGeoData]) -> ()) {
         DispatchQueue.global().async { [weak self] in
             guard let self else { return }
             var sortedGeoData: [PlaceWithGeoData] = []

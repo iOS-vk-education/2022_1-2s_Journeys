@@ -69,6 +69,12 @@ final class PlacesInfoPresenter {
         }
     }
     
+    private func showPlaceholder() {
+        DispatchQueue.main.async { [weak self] in
+            self?.router.showPlaceholder()
+        }
+    }
+    
     private func hidePlaceholder() {
         DispatchQueue.main.async { [weak self] in
             self?.router.hidePlaceholder()
@@ -83,8 +89,8 @@ extension PlacesInfoPresenter: PlacesInfoModuleInput {
 extension PlacesInfoPresenter: PlacesInfoViewOutput {
     func viewDidLoad() {
         embedPlaceholder()
-        interactor.geoData(for: route)
         view?.setTasksCount(3)
+        interactor.loadData(for: route)
     }
     
     func refreshView() {
@@ -93,8 +99,8 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
         placesWithGeoData = []
         locationsWithCurrencyRate = []
         
-        reloadView()
-        interactor.geoData(for: route)
+        showPlaceholder()
+        interactor.loadData(for: route)
     }
     
     func didTapExitButton() {
@@ -123,7 +129,11 @@ extension PlacesInfoPresenter {
     }
     
     func sectionsCount() -> Int {
-        CellType.allCases.count
+        var sectionsCount: Int = 1
+        if weather.count > 0 { sectionsCount = 2 }
+        if locationsWithCurrencyRate.count > 0 { sectionsCount = 3 }
+        if placesWithGeoData.count > 0 { sectionsCount = 4 }
+        return sectionsCount
     }
     
     func mainCollectionCellsCount(for section: Int) -> Int {
@@ -266,9 +276,12 @@ extension PlacesInfoPresenter: PlacesInfoInteractorOutput {
     
     func noPlacesInRoute() {
         view?.setAllTasksDone()
-        reloadView()
-        if !locationsWithoutCoordinatesList.isEmpty {
-            showNoCoordinatesAlert()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            guard let self else { return }
+            self.reloadView()
+            if !self.locationsWithoutCoordinatesList.isEmpty {
+                self.showNoCoordinatesAlert()
+            }
         }
     }
     

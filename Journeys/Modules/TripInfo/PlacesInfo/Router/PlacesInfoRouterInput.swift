@@ -12,4 +12,5 @@ import Foundation
 protocol PlacesInfoRouterInput: AnyObject {
     func embedPlaceholder()
     func hidePlaceholder()
+    func showPlaceholder()
 }

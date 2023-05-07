@@ -1,5 +1,5 @@
 //
-//  PacesInfoLoadingPlaceholderViewController.swift
+//  PlacesInfoLoadingPlaceholderViewController.swift
 //  Journeys
 //
 //  Created by Сергей Адольевич on 10.04.2023.
@@ -9,9 +9,22 @@ import Foundation
 import UIKit
 import SnapKit
 
-// MARK: - PacesInfoLoadingPlaceholderViewController
+// MARK: - PlacesInfoLoadingPlaceholderViewController
 
-final class PacesInfoLoadingPlaceholderViewController: UIViewController {
+final class PlacesInfoLoadingPlaceholderViewController: UIViewController {
+
+    // MARK: Lifecycle
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view = PlacesInfoLoadingPlaceholderView()
+    }
+
+}
+
+// MARK: - PlacesInfoLoadingPlaceholderView
+
+final class PlacesInfoLoadingPlaceholderView: UIView {
     // MARK: Private properties
 
     private let progressView = ProgressViewWithImage()
@@ -37,12 +50,21 @@ final class PacesInfoLoadingPlaceholderViewController: UIViewController {
 
     // MARK: Lifecycle
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupProgressView()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
         setupProgressView()
     }
 
-    // MARK: Private Methods
+    // MARK: Public Methods
+    
+    func prepareForReuse() {
+        progressView.prepareForReuse()
+    }
     
     func configure(tasksCount: Int) {
         progressView.setTasksCount(tasksCount)
@@ -60,8 +82,10 @@ final class PacesInfoLoadingPlaceholderViewController: UIViewController {
         progressView.setAllTasksDone()
     }
 
+    // MARK: Private Methods
+    
     private func setupProgressView() {
-        view.addSubview(progressView)
+        addSubview(progressView)
         
         progressView.configure(image:  UIImage(systemName: "sun.max.fill"),
                                imageColor: UIColor(asset: Asset.Colors.Weather.sunny))

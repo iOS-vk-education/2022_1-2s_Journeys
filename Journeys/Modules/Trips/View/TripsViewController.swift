@@ -326,6 +326,10 @@ extension TripsViewController: TransitionHandlerProtocol {
         }
     }
     
+    func showPlaceholder() {
+        placeholderView.isHidden = false
+    }
+    
     func hidePlaceholder() {
         placeholderView.isHidden = true
     }

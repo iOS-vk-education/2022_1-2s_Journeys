@@ -8,6 +8,14 @@
 import Foundation
 import UIKit
 
+protocol ProgressViewProtocol: AnyObject {
+    func prepareForReuse()
+    func setProgress(to value: Float)
+    func setTasksCount(_ count: Int)
+    func taskDone()
+    func setAllTasksDone()
+}
+
 final class ProgressViewWithImage: UIView {
     private var progress: Float = 0 {
         didSet {
@@ -51,27 +59,6 @@ final class ProgressViewWithImage: UIView {
         imageView.tintColor = imageColor
     }
     
-    func setProgress(to value: Float) {
-        progress = value
-    }
-    
-    func setTasksCount(_ count: Int) {
-        tasksCount = count
-    }
-    
-    func taskDone() {
-        guard tasksCount > tasksDone else {
-            return
-        }
-        tasksDone += 1
-        calculateProgress()
-    }
-    
-    func setAllTasksDone() {
-        tasksDone = tasksCount
-        calculateProgress()
-    }
-    
     private func calculateProgress() {
         progress = Float(tasksDone) / Float(tasksCount)
     }
@@ -106,6 +93,34 @@ final class ProgressViewWithImage: UIView {
             self.progressView.frame.size.width = self.progressBackground.frame.width * CGFloat(self.progress)
             self.imageView.frame.origin.x = self.progressView.bounds.maxX - self.imageView.frame.width / 2
         }
+    }
+}
+
+extension ProgressViewWithImage: ProgressViewProtocol {
+    func prepareForReuse() {
+        tasksDone = 0
+        calculateProgress()
+    }
+    
+    func setProgress(to value: Float) {
+        progress = value
+    }
+    
+    func setTasksCount(_ count: Int) {
+        tasksCount = count
+    }
+    
+    func taskDone() {
+        guard tasksCount > tasksDone else {
+            return
+        }
+        tasksDone += 1
+        calculateProgress()
+    }
+    
+    func setAllTasksDone() {
+        tasksDone = tasksCount
+        calculateProgress()
     }
 }
 

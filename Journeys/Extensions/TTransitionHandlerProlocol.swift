@@ -10,5 +10,6 @@ import UIKit
 
 protocol TransitionHandlerProtocol: AnyObject {
     func embedPlaceholder(_ viewController: UIViewController)
+    func showPlaceholder()
     func hidePlaceholder()
 }

@@ -16,8 +16,12 @@ final class PlacesInfoRouter: PlacesInfoRouterInput {
     }
     
     func embedPlaceholder() {
-        let placeHolderViewController = PacesInfoLoadingPlaceholderViewController()
+        let placeHolderViewController = PlacesInfoLoadingPlaceholderViewController()
         placesInfoViewController?.embedPlaceholder(placeHolderViewController)
+    }
+    
+    func showPlaceholder() {
+        placesInfoViewController?.showPlaceholder()
     }
     
     func hidePlaceholder() {

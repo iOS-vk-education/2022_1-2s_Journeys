@@ -10,7 +10,7 @@ import Foundation
 // MARK: - PlacesInfoInteractorModuleInput
 
 protocol PlacesInfoInteractorInput: AnyObject {
-    func geoData(for route: Route)
+    func loadData(for route: Route)
     func updateCurrencyRate(from oldCurrencyCode: String,
                             to newCurrencyCode: String,
                             amount: Float,
