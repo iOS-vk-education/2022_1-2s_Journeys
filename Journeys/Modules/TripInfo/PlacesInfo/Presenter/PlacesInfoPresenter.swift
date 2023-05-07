@@ -40,16 +40,9 @@ final class PlacesInfoPresenter {
         self.route = route
     }
     
-    private func showLoadingView() {
-        embedRPlaceholder()
-    }
-    private func hideLoadingView() {
-        hidePlaceholder()
-    }
-    
     private func reloadView() {
         view?.reloadData()
-        hideLoadingView()
+        hidePlaceholder()
         view?.endRefresh()
     }
 
@@ -70,7 +63,7 @@ final class PlacesInfoPresenter {
         view?.showAlert(title: "Неизвестное место", message: "К сожалению, мы не смогли найти места из вашего маршрута: \(locationsWithoutCoordinatesString)")
     }
     
-    private func embedRPlaceholder() {
+    private func embedPlaceholder() {
         DispatchQueue.main.async { [weak self] in
             self?.router.embedPlaceholder()
         }
@@ -89,7 +82,7 @@ extension PlacesInfoPresenter: PlacesInfoModuleInput {
 
 extension PlacesInfoPresenter: PlacesInfoViewOutput {
     func viewDidLoad() {
-        showLoadingView()
+        embedPlaceholder()
         interactor.geoData(for: route)
         view?.setTasksCount(3)
     }
