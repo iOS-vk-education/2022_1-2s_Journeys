@@ -32,8 +32,20 @@
 		5601157629E2DCD6006881DA /* EventsModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601157529E2DCD6006881DA /* EventsModuleIO.swift */; };
 		5601157829E2EC0D006881DA /* EventsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601157729E2EC0D006881DA /* EventsBuilder.swift */; };
 		5601157A29E2F5B8006881DA /* EventsModelIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601157929E2F5B8006881DA /* EventsModelIO.swift */; };
+		5601157C29E348D7006881DA /* AddingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601157B29E348D7006881DA /* AddingModel.swift */; };
+		5601157E29E36868006881DA /* EventsViewObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601157D29E36868006881DA /* EventsViewObject.swift */; };
+		5601158029E457FF006881DA /* AddingModelIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601157F29E457FF006881DA /* AddingModelIO.swift */; };
+		5601158729EACDA4006881DA /* AddingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601158629EACDA4006881DA /* AddingPresenter.swift */; };
+		560115D529F84CBA006881DA /* AddingViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560115D429F84CBA006881DA /* AddingViewIO.swift */; };
+		560115D729F84D01006881DA /* AddingModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560115D629F84D01006881DA /* AddingModuleIO.swift */; };
+		560115D929F9A177006881DA /* EventViewObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560115D829F9A177006881DA /* EventViewObject.swift */; };
 		56A1ABF029CF54B30073618C /* DescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A1ABEF29CF54B30073618C /* DescriptionCell.swift */; };
 		56A1ABF729D089940073618C /* SuggestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A1ABF629D089940073618C /* SuggestCell.swift */; };
+		56EF0E202A02FA2600038A6F /* AddingBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EF0E1F2A02FA2600038A6F /* AddingBuilder.swift */; };
+		56EF0E222A0D6E6500038A6F /* SingleEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EF0E212A0D6E6400038A6F /* SingleEventViewController.swift */; };
+		56EF0E262A0D8F2D00038A6F /* BottomSheetTransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EF0E252A0D8F2D00038A6F /* BottomSheetTransitioningDelegate.swift */; };
+		56EF0E282A0D8FC700038A6F /* BSPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EF0E272A0D8FC700038A6F /* BSPresentationController.swift */; };
+		56EF0E2A2A0EDE2600038A6F /* ScreenScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EF0E292A0EDE2600038A6F /* ScreenScale.swift */; };
 		593D2FA682B366A48F2F32CA /* AccountModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = A725453EEA31D1A13F20EF3F /* AccountModuleIO.swift */; };
 		5F02A5FE23C75280E290CE77 /* Pods_Journeys.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6E558649FD9200035FA0CC /* Pods_Journeys.framework */; };
 		678EC2173D55FABDA74E2A5F /* TripsModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A73637212D312DF808EE9D /* TripsModuleIO.swift */; };
@@ -65,7 +77,6 @@
 		CE7F42CF29594BE1000CBA63 /* AddPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7F42CE29594BE1000CBA63 /* AddPhotoCell.swift */; };
 		CE7F42D3295ACFE4000CBA63 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7F42D2295ACFE3000CBA63 /* Event.swift */; };
 		CE7F42D5295AD003000CBA63 /* Adress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7F42D4295AD003000CBA63 /* Adress.swift */; };
-		CE7F42D9295B1820000CBA63 /* MapCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7F42D8295B181F000CBA63 /* MapCell.swift */; };
 		CE7F42DB295B34E8000CBA63 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE7F42DA295B34E7000CBA63 /* GoogleService-Info.plist */; };
 		D2F0BC3358339956DDE22244 /* StuffViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5363B31E1ED6703B3D86E86D /* StuffViewController.swift */; };
 		D3B3547A919CA12361A3822A /* TripInfoModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902CF0A08A2306F0D3CE65D9 /* TripInfoModuleIO.swift */; };
@@ -196,8 +207,20 @@
 		5601157529E2DCD6006881DA /* EventsModuleIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsModuleIO.swift; sourceTree = "<group>"; };
 		5601157729E2EC0D006881DA /* EventsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsBuilder.swift; sourceTree = "<group>"; };
 		5601157929E2F5B8006881DA /* EventsModelIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsModelIO.swift; sourceTree = "<group>"; };
+		5601157B29E348D7006881DA /* AddingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingModel.swift; sourceTree = "<group>"; };
+		5601157D29E36868006881DA /* EventsViewObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewObject.swift; sourceTree = "<group>"; };
+		5601157F29E457FF006881DA /* AddingModelIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingModelIO.swift; sourceTree = "<group>"; };
+		5601158629EACDA4006881DA /* AddingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingPresenter.swift; sourceTree = "<group>"; };
+		560115D429F84CBA006881DA /* AddingViewIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingViewIO.swift; sourceTree = "<group>"; };
+		560115D629F84D01006881DA /* AddingModuleIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingModuleIO.swift; sourceTree = "<group>"; };
+		560115D829F9A177006881DA /* EventViewObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewObject.swift; sourceTree = "<group>"; };
 		56A1ABEF29CF54B30073618C /* DescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionCell.swift; sourceTree = "<group>"; };
 		56A1ABF629D089940073618C /* SuggestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestCell.swift; sourceTree = "<group>"; };
+		56EF0E1F2A02FA2600038A6F /* AddingBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingBuilder.swift; sourceTree = "<group>"; };
+		56EF0E212A0D6E6400038A6F /* SingleEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleEventViewController.swift; sourceTree = "<group>"; };
+		56EF0E252A0D8F2D00038A6F /* BottomSheetTransitioningDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetTransitioningDelegate.swift; sourceTree = "<group>"; };
+		56EF0E272A0D8FC700038A6F /* BSPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSPresentationController.swift; sourceTree = "<group>"; };
+		56EF0E292A0EDE2600038A6F /* ScreenScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenScale.swift; sourceTree = "<group>"; };
 		576394A4C2AE62D504A2F0DC /* AuthModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
 		5DCF52A88CB7F707C1A6390B /* TripInfoViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripInfoViewController.swift; sourceTree = "<group>"; };
 		6C8553C3C3885758E8284BD5 /* StuffPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StuffPresenter.swift; sourceTree = "<group>"; };
@@ -228,7 +251,6 @@
 		CE7F42CE29594BE1000CBA63 /* AddPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPhotoCell.swift; sourceTree = "<group>"; };
 		CE7F42D2295ACFE3000CBA63 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		CE7F42D4295AD003000CBA63 /* Adress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Adress.swift; sourceTree = "<group>"; };
-		CE7F42D8295B181F000CBA63 /* MapCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCell.swift; sourceTree = "<group>"; };
 		CE7F42DA295B34E7000CBA63 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Network/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CEEC91A92B6FC702B7FBFB11 /* AccountPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountPresenter.swift; sourceTree = "<group>"; };
 		D47E899306B33380C55D3644 /* Pods-Journeys.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journeys.release.xcconfig"; path = "Target Support Files/Pods-Journeys/Pods-Journeys.release.xcconfig"; sourceTree = "<group>"; };
@@ -420,18 +442,83 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		5601158129EAC64A006881DA /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				5601156B29E184D5006881DA /* EventsService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		5601158229EAC679006881DA /* AddingEvent */ = {
+			isa = PBXGroup;
+			children = (
+				CE4CCC9C2956B6170057455D /* AddingEventViewController.swift */,
+				5601157F29E457FF006881DA /* AddingModelIO.swift */,
+				5601157B29E348D7006881DA /* AddingModel.swift */,
+				5601158629EACDA4006881DA /* AddingPresenter.swift */,
+				56EF0E1F2A02FA2600038A6F /* AddingBuilder.swift */,
+				560115D629F84D01006881DA /* AddingModuleIO.swift */,
+				560115D429F84CBA006881DA /* AddingViewIO.swift */,
+				56A1ABF529D0897B0073618C /* Cells */,
+			);
+			path = AddingEvent;
+			sourceTree = "<group>";
+		};
+		5601158329EAC6C3006881DA /* Suggestion */ = {
+			isa = PBXGroup;
+			children = (
+				5601158429EAC6D5006881DA /* Cells */,
+				CE4CCC9A2956B47D0057455D /* SuggestionViewController.swift */,
+			);
+			path = Suggestion;
+			sourceTree = "<group>";
+		};
+		5601158429EAC6D5006881DA /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				56A1ABF629D089940073618C /* SuggestCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		5601158529EAC754006881DA /* TapToAddButton */ = {
+			isa = PBXGroup;
+			children = (
+				CE4CCC96295693310057455D /* TapToAddButtonViewController.swift */,
+			);
+			path = TapToAddButton;
+			sourceTree = "<group>";
+		};
 		56A1ABF529D0897B0073618C /* Cells */ = {
 			isa = PBXGroup;
 			children = (
 				CE4CCC9E295859150057455D /* PlacemarkCell.swift */,
 				56A1ABEF29CF54B30073618C /* DescriptionCell.swift */,
-				56A1ABF629D089940073618C /* SuggestCell.swift */,
 				CE7F42CE29594BE1000CBA63 /* AddPhotoCell.swift */,
-				CE7F42D8295B181F000CBA63 /* MapCell.swift */,
 				CE4CCCA22958B1A10057455D /* AddressCell.swift */,
 				CE4CCCA62958F9080057455D /* TimeCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		56EF0E232A0D6E7400038A6F /* SingleEvent */ = {
+			isa = PBXGroup;
+			children = (
+				56EF0E242A0D8F1900038A6F /* BottomSheet */,
+				56EF0E212A0D6E6400038A6F /* SingleEventViewController.swift */,
+			);
+			path = SingleEvent;
+			sourceTree = "<group>";
+		};
+		56EF0E242A0D8F1900038A6F /* BottomSheet */ = {
+			isa = PBXGroup;
+			children = (
+				56EF0E252A0D8F2D00038A6F /* BottomSheetTransitioningDelegate.swift */,
+				56EF0E292A0EDE2600038A6F /* ScreenScale.swift */,
+				56EF0E272A0D8FC700038A6F /* BSPresentationController.swift */,
+			);
+			path = BottomSheet;
 			sourceTree = "<group>";
 		};
 		60258206F5ACBE13C8538379 /* Account */ = {
@@ -576,7 +663,7 @@
 			path = Presenter;
 			sourceTree = "<group>";
 		};
-		CE4CCC93295689520057455D /* EventsViews */ = {
+		CE4CCC93295689520057455D /* Events */ = {
 			isa = PBXGroup;
 			children = (
 				5601156D29E18BA6006881DA /* EventsModel.swift */,
@@ -586,17 +673,14 @@
 				5601157329E2DA88006881DA /* EventsViewIO.swift */,
 				5601157129E19B92006881DA /* EventsPresenter.swift */,
 				5601156F29E19050006881DA /* AddressViewObject.swift */,
-				5601156B29E184D5006881DA /* EventsService.swift */,
+				5601157D29E36868006881DA /* EventsViewObject.swift */,
+				560115D829F9A177006881DA /* EventViewObject.swift */,
 				0D551CF42951752700A4151E /* EventsViewController.swift */,
-				CE4CCC96295693310057455D /* TapToAddButtonViewController.swift */,
-				CE4CCC9A2956B47D0057455D /* SuggestionViewController.swift */,
-				CE4CCC9C2956B6170057455D /* AddingEventViewController.swift */,
 				CE4CCCA0295863CB0057455D /* FloatingButton2.swift */,
-				56A1ABF529D0897B0073618C /* Cells */,
 				CE7F42D2295ACFE3000CBA63 /* Event.swift */,
 				CE7F42D4295AD003000CBA63 /* Adress.swift */,
 			);
-			path = EventsViews;
+			path = Events;
 			sourceTree = "<group>";
 		};
 		D1FCDB4110F75BF664D4F972 /* View */ = {
@@ -741,7 +825,12 @@
 				EE0AF93D2913010D00EC52D3 /* AppDelegate.swift */,
 				EEDAF556291C302500E6DDB9 /* SceneDelegate.swift */,
 				EE0AF9412913010D00EC52D3 /* ViewController.swift */,
-				CE4CCC93295689520057455D /* EventsViews */,
+				5601158529EAC754006881DA /* TapToAddButton */,
+				5601158329EAC6C3006881DA /* Suggestion */,
+				5601158229EAC679006881DA /* AddingEvent */,
+				5601158129EAC64A006881DA /* Service */,
+				56EF0E232A0D6E7400038A6F /* SingleEvent */,
+				CE4CCC93295689520057455D /* Events */,
 				EE0AF9432913010D00EC52D3 /* Main.storyboard */,
 				EE0AF9462913010F00EC52D3 /* Assets.xcassets */,
 				EE157F422926B2F200A56157 /* Colors.xcassets */,
@@ -1306,11 +1395,14 @@
 				CE4CCC97295693310057455D /* TapToAddButtonViewController.swift in Sources */,
 				EEA76C6A2951325E00250B06 /* PlacesInfoViewIO.swift in Sources */,
 				EEA76C632951325E00250B06 /* WeatherCellDisplayDataFactory.swift in Sources */,
+				56EF0E262A0D8F2D00038A6F /* BottomSheetTransitioningDelegate.swift in Sources */,
 				EE910DC12958AE520094F5C8 /* FirebaseServiceDataDelete.swift in Sources */,
+				5601157C29E348D7006881DA /* AddingModel.swift in Sources */,
 				EE0AF93E2913010D00EC52D3 /* AppDelegate.swift in Sources */,
 				EE497A162940B0EB007E8579 /* Pages.swift in Sources */,
 				EEA76C662951325E00250B06 /* EventsView.swift in Sources */,
 				CE7F42D5295AD003000CBA63 /* Adress.swift in Sources */,
+				56EF0E2A2A0EDE2600038A6F /* ScreenScale.swift in Sources */,
 				EE02E53D294FFB10002BE87E /* StuffModelIO.swift in Sources */,
 				0D551CEF2951738A00A4151E /* Place.swift in Sources */,
 				EE910DC52958AE700094F5C8 /* FirebaseService.swift in Sources */,
@@ -1338,6 +1430,8 @@
 				EEFA76CB292BE88F00A0B8CA /* RouteViewIO.swift in Sources */,
 				093861F1C840A5A7EA2ABBB0 /* TripsViewController.swift in Sources */,
 				EEFA76CF292BE93500A0B8CA /* RouteCell.swift in Sources */,
+				5601158029E457FF006881DA /* AddingModelIO.swift in Sources */,
+				56EF0E222A0D6E6500038A6F /* SingleEventViewController.swift in Sources */,
 				EE910DD5295A28AA0094F5C8 /* WeatherPlaceNoDataPlaceholder.swift in Sources */,
 				EE30C7262943E89200A9DCF6 /* FirebaseServiceDataObtain.swift in Sources */,
 				C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */,
@@ -1350,11 +1444,13 @@
 				EEAC1D322952717800237331 /* NetworkRequestFactory.swift in Sources */,
 				EE02E56F2950E732002BE87E /* EmojiTextField.swift in Sources */,
 				EEA76C5E2951325E00250B06 /* PlacesInfoPresenter.swift in Sources */,
+				5601157E29E36868006881DA /* EventsViewObject.swift in Sources */,
 				EEDAF555291C0F2200E6DDB9 /* AddTripCell.swift in Sources */,
 				EEAC1D312952717800237331 /* NetworkService.swift in Sources */,
 				EE910DC92958B93A0094F5C8 /* LoadingViewController.swift in Sources */,
 				EE00AC14295601CD00FAFDCD /* DepartureLocationBuilder.swift in Sources */,
 				EEDAF555291C0F2200E6DDB9 /* AddTripCell.swift in Sources */,
+				560115D929F9A177006881DA /* EventViewObject.swift in Sources */,
 				EEFA76F32935F53A00A0B8CA /* FirebaseManager.swift in Sources */,
 				EE00AC1D2956921100FAFDCD /* ImageRouteCell.swift in Sources */,
 				EEFA76D3292BED6000A0B8CA /* RouteDisplayDataFactory.swift in Sources */,
@@ -1368,6 +1464,7 @@
 				EE497A182940B183007E8579 /* TabbarItemFactory.swift in Sources */,
 				EE910DB12957CBC30094F5C8 /* AccountCell.swift in Sources */,
 				EE910DB72957EF9D0094F5C8 /* AuthModelIO.swift in Sources */,
+				560115D729F84D01006881DA /* AddingModuleIO.swift in Sources */,
 				10708D44F55C9485F789DD9B /* TripsPresenter.swift in Sources */,
 				F92CACD193BE48A33A52A5DC /* TripsRouterInput.swift in Sources */,
 				EE29EBFA29191558008ECFF8 /* CoordinatorProtocol.swift in Sources */,
@@ -1377,6 +1474,7 @@
 				EE497A122940AF41007E8579 /* AccountCoordinator.swift in Sources */,
 				7BD7FBF6368C4ADCBC0B8866 /* TripsBuilder.swift in Sources */,
 				EEDAF55C291D5AF500E6DDB9 /* FloatingButton.swift in Sources */,
+				56EF0E282A0D8FC700038A6F /* BSPresentationController.swift in Sources */,
 				CE4CCC9D2956B6170057455D /* AddingEventViewController.swift in Sources */,
 				EE30C72E2943FB5500A9DCF6 /* ErrorsHandler.swift in Sources */,
 				EEFA76C9292BE88F00A0B8CA /* RouteBuilder.swift in Sources */,
@@ -1385,6 +1483,7 @@
 				5601157A29E2F5B8006881DA /* EventsModelIO.swift in Sources */,
 				EE00AC17295601CD00FAFDCD /* DepartureLocationViewController.swift in Sources */,
 				EEFA76C8292BE88F00A0B8CA /* RoutePresenter.swift in Sources */,
+				5601158729EACDA4006881DA /* AddingPresenter.swift in Sources */,
 				EEFA76DB292C5E7E00A0B8CA /* CalendarCell.swift in Sources */,
 				EE157F482926B39A00A56157 /* XCAssets+Generated.swift in Sources */,
 				EEFA76CA292BE88F00A0B8CA /* RouteModel.swift in Sources */,
@@ -1434,7 +1533,6 @@
 				D3B3547A919CA12361A3822A /* TripInfoModuleIO.swift in Sources */,
 				EEAC1D4029527A7000237331 /* WeatherMain.swift in Sources */,
 				EEA76C672951325E00250B06 /* EventCell.swift in Sources */,
-				CE7F42D9295B1820000CBA63 /* MapCell.swift in Sources */,
 				C039CC5FA4AA609C5479897B /* TripInfoPresenter.swift in Sources */,
 				EEAC1D452952897F00237331 /* Timezone.swift in Sources */,
 				A9DD1DEF7782DE6C939585EA /* TripInfoModel.swift in Sources */,
@@ -1442,11 +1540,13 @@
 				EE910DCD295913860094F5C8 /* NoPlacesForWeatherCell.swift in Sources */,
 				EEA76C642951325E00250B06 /* WeatherCollection.swift in Sources */,
 				A4F278F34637C60C2ED5A34D /* TripInfoBuilder.swift in Sources */,
+				560115D529F84CBA006881DA /* AddingViewIO.swift in Sources */,
 				CE7F42D3295ACFE4000CBA63 /* Event.swift in Sources */,
 				EE910DB92957FAFA0094F5C8 /* SetVisible.swift in Sources */,
 				4AC7D3287092DF4F538A3C6B /* AuthViewIO.swift in Sources */,
 				4AD4E01689D0BCD604A4361C /* AuthViewController.swift in Sources */,
 				8D4FF0495B4D89DAA39F6486 /* AuthModuleIO.swift in Sources */,
+				56EF0E202A02FA2600038A6F /* AddingBuilder.swift in Sources */,
 				6A0601D27A59781E2AC544B2 /* AuthPresenter.swift in Sources */,
 				9DAABBBF5E044768A6C2A4A3 /* AuthModel.swift in Sources */,
 				945EBBCAD1E97965BDCD74C4 /* AuthBuilder.swift in Sources */,
@@ -1609,7 +1709,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7PH9Q6K5X2;
+				DEVELOPMENT_TEAM = 679LK938K2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Journeys/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1638,7 +1738,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7PH9Q6K5X2;
+				DEVELOPMENT_TEAM = 679LK938K2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Journeys/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

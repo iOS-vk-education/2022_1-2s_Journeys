@@ -27,3 +27,22 @@
 "Change" = "Изменить";
 "Packed" = "Собрано";
 "Unpacked" = "Не собрано";
+
+//EventsModule
+"AddressSearch" = "Поиск адреса";
+"CreateEvent" = "Создание мероприятия";
+"Enter the adress" = "Введите адрес";
+"Tripple the adress" = "Уточните адрес";
+"To create an event you need to specify a more precise address" = "Для создания мероприятия нужно указать более точный адрес";
+"Apartment/office" = "Кв/офис";
+"Floor" = "Этаж";
+"Photo" = "Фотография";
+"Begin" = "Начало";
+"End" = "Конец";
+"Event Name" = "Название мероприятия";
+"Type of event" = "Тип мероприятия";
+"Description of the event" = "Описание мероприятия";
+"Link to the source" = "Ссылка на источник";
+"Error" = "Ошибка";
+"The date or time is incorrect" = "Неверно указана дата или время";
+"DONE" = "ГОТОВО";

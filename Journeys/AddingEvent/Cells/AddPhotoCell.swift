@@ -22,7 +22,7 @@ final class ImageEventCell: UICollectionViewCell {
     
     private let photoLabel: UILabel = {
         let inpField = UILabel()
-        inpField.text = "Фотография"
+        inpField.text = L10n.photo
         
         return inpField
     }()
@@ -30,7 +30,7 @@ final class ImageEventCell: UICollectionViewCell {
     private let addPhotoButton: UIButton = {
         let addPhotoButton = UIButton()
         addPhotoButton.backgroundColor = UIColor(asset: Asset.Colors.SpecifyAdress.photoButton)
-        addPhotoButton.layer.cornerRadius = 10
+        addPhotoButton.layer.cornerRadius = Constants.cornerRadius
         addPhotoButton.setImage(UIImage(systemName: "photo.on.rectangle.angled")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
         return addPhotoButton
     }()
@@ -56,7 +56,7 @@ final class ImageEventCell: UICollectionViewCell {
     // MARK: Private functions
     
     private func setupCell() {
-        layer.cornerRadius = 10
+        layer.cornerRadius = Constants.cornerRadius
         layer.masksToBounds = false
         
         layer.shadowRadius = 3.0
@@ -102,7 +102,7 @@ final class ImageEventCell: UICollectionViewCell {
     }
         
     @objc
-    private func didTapAddPhotoButton(){
+    private func didTapAddPhotoButton() {
         delegate.didTapAddPhotoButton()
     }
     
@@ -112,10 +112,12 @@ final class ImageEventCell: UICollectionViewCell {
     
     func configureSetImage(image: UIImage) {
         addPhotoButton.setImage(image, for: .normal)
+        addPhotoButton.imageView?.clipsToBounds = true
+        addPhotoButton.imageView?.layer.cornerRadius = Constants.cornerRadius
+        addPhotoButton.imageView?.contentMode = .scaleAspectFill
     }
-    func returnPhoto() {
-        
-    }
+    
+    
 }
 
 
@@ -140,3 +142,8 @@ protocol ImageEventCellDelegate: AnyObject {
     func didTapAddPhotoButton()
 }
 
+private extension ImageEventCell {
+    struct Constants {
+        static let cornerRadius : CGFloat = 10
+    }
+}

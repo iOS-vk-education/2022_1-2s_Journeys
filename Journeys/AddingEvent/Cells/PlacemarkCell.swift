@@ -39,7 +39,6 @@ final class PlacemarkCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         inputField.placeholder = nil
-        inputField.text = nil
         setupSubviews()
     }
     

@@ -13,5 +13,6 @@ protocol EventsModuleInput: AnyObject {
 // MARK: - Events ModuleOutput
 
 protocol EventsModuleOutput: AnyObject {
-    func usualEventsModuleWantsToOpenAddEventVC()
+    func wantsToOpenAddEventVC()
+    func wantsToOpenSingleEventVC()
 }

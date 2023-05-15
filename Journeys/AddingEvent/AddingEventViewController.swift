@@ -1,20 +1,14 @@
 
 import UIKit
+import FirebaseFirestore
 
 // MARK: - TripsViewController
 
-final class AddingEventViewController: UIViewController, PlacemarkCellDelegate, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
-    func editingBegan() {
-        return
-    }
-    
-    private var event: Event?
-    
-    var moduleOutput: EventsCoordinator? = nil
+final class AddingEventViewController: UIViewController {
     var address = ""
-    var lat = ""
-    var lon = ""
-    var time = ""
+    var eventImage: UIImage?
+    var coordinates: GeoPoint?
+    var output: AddingViewOutput?
     
     // MARK: Private properties
     private var floatingChangeButton = FloatingButton2()
@@ -23,13 +17,12 @@ final class AddingEventViewController: UIViewController, PlacemarkCellDelegate, 
         let layout = UICollectionViewFlowLayout()
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
-    var output: TripsViewOutput!
     
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
-        //setupNavBar()
+        setupNavBar()
         setupCollectionView()
         setupFloatingAddButton()
         makeConstraints()
@@ -38,60 +31,90 @@ final class AddingEventViewController: UIViewController, PlacemarkCellDelegate, 
     private func setupNavBar() {
         navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
         
-        let backButtonItem = UIBarButtonItem(image: UIImage(systemName: "chewron.forward"),
+        let backButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"),
                                              style: .plain,
                                              target: self,
                                              action: #selector(didTapBacksButton))
+        backButtonItem.tintColor = UIColor(asset: Asset.Colors.BaseColors.contrastToThemeColor)
         
         navigationItem.leftBarButtonItem = backButtonItem
+        title = L10n.createEvent
     }
     private func setupFloatingAddButton() {
         view.addSubview(floatingChangeButton)
         view.bringSubviewToFront(floatingChangeButton)
-        floatingChangeButton.configure(title: "ГОТОВО")
+        floatingChangeButton.configure(title: L10n.done)
         floatingChangeButton.addTarget(self, action: #selector(didTapReadyButton), for: .touchUpInside)
     }
     
-    func dateCheck() {
-        guard let calendarCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 5)) as? TimeCell else {
-            assertionFailure("Error while getting time")
-            return
-        }
-        let startDate = calendarCell.dateChanged()
-        guard let calendarCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 6)) as? TimeCell else {
-            assertionFailure("Error while getting time")
-            return
-        }
-        let endDate = calendarCell.dateChanged()
+    func dateCheck(startDate: Date, endDate: Date) -> (Date, Date) {
         let calendar = Calendar.current
         let startDateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: startDate)
         let endDateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: endDate)
         if calendar.date(from: startDateComponents)! > calendar.date(from: endDateComponents)! {
-            let alert = UIAlertController(title: "Error", message: "Неверно указаны даты или время", preferredStyle: .alert)
+            let alert = UIAlertController(title: L10n.error, message: L10n.theDateOrTimeIsIncorrect, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             present(alert, animated: true, completion: nil)
         }
-        print(type(of: endDate))
+        return (startDate, endDate)
     }
-    
 
-    
-    @objc func didTapReadyButton() {
+
+
+    @objc
+    func didTapReadyButton() {
         let flatCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 1)) as? PlacemarkCell
         let ofice = flatCell?.returnText()
+
         let floorCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 2)) as? PlacemarkCell
         let floor = floorCell?.returnText()
+
         let eventNameCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 3)) as? PlacemarkCell
         let eventName = eventNameCell?.returnText()
+
         let eventTypeCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 4)) as? PlacemarkCell
         let eventType = eventTypeCell?.returnText()
-        dateCheck()
-        let eventTypeCell1 = collectionView.cellForItem(at: IndexPath(row: 0, section: 7)) as? ImageEventCell
-        let jj = eventTypeCell1?.returnPhoto()
-//        let post: [Event] = [
-//            .init(id: "1", adress: address, date: date!, type: eventType!, name: eventName!, link: link!,  floor: "rtr", room: ofice!, photoURL: floor!)
-//        ]
-        
+
+        guard let calendarCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 5)) as? TimeCell else {
+            assertionFailure("Error while getting time")
+            return
+        }
+        var startDate = calendarCell.dateChanged()
+        guard let calendarCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 6)) as? TimeCell else {
+            assertionFailure("Error while getting time")
+            return
+        }
+        var endDate = calendarCell.dateChanged()
+        (startDate, endDate) = dateCheck(startDate: startDate, endDate: endDate)
+
+        let eventDescriptionCell1 = collectionView.cellForItem(at: IndexPath(row: 0, section: 7)) as? DescriptionCell
+        let eventDescription = eventDescriptionCell1?.returnText()
+
+        let eventUrlCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 9)) as? PlacemarkCell
+        let eventUrl = eventUrlCell?.returnText()
+
+        let post: Event = Event.init(id: "1",
+                                     adress: address,
+                                     startDate: startDate,
+                                     finishDate: endDate,
+                                     type: eventType ?? "",
+                                     name: eventName ?? "",
+                                     link: eventUrl ?? "",
+                                     floor: floor ?? "",
+                                     room: ofice ?? "",
+                                     photoURL: "",
+                                     description: eventDescription ?? "")
+
+        output?.saveData(post: post, coordinates: coordinates!, eventImage: eventImage ?? UIImage(asset: Asset.Assets.tripsPlaceholder)!)
+        output?.openEventsVC()
+    }
+    
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title,
+                                      message: message,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 
     private func setupCollectionView() {
@@ -108,7 +131,6 @@ final class AddingEventViewController: UIViewController, PlacemarkCellDelegate, 
                                 forCellWithReuseIdentifier: "ImageEventCell")
         collectionView.register(TimeCell.self, forCellWithReuseIdentifier: "TimeCell")
         collectionView.register(DescriptionCell.self, forCellWithReuseIdentifier: "DescriptionCell")
-        //collectionView.register(MapCell.self, forCellWithReuseIdentifier: "MapCell")
     }
 
     private func makeConstraints() {
@@ -130,7 +152,7 @@ final class AddingEventViewController: UIViewController, PlacemarkCellDelegate, 
 
     @objc
     private func didTapBacksButton() {
-        print("Settings button was tapped")
+        output?.backToSuggestionVC()
     }
 }
 
@@ -175,8 +197,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var cell = UICollectionViewCell()
         if indexPath.section == 0 {
             guard let placemarkCell = collectionView.dequeueReusableCell(
@@ -185,7 +206,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
             ) as? AddressCell else {
                 return cell
             }
-            
+
             placemarkCell.configure(data: AddressCellDisplayData(text: address))
             cell = placemarkCell
         }
@@ -197,7 +218,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
                 return cell
             }
             placemarkCell.configure(data: PlacemarkCellDisplayData(
-                placeholder: "Кв/офис"), delegate: self)
+                placeholder: L10n.apartmentOffice), delegate: self)
             cell = placemarkCell
         }
         if indexPath.section == 2 {
@@ -208,7 +229,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
                 return cell
             }
             placemarkCell.configure(data: PlacemarkCellDisplayData(
-                placeholder: "Этаж"), delegate: self)
+                placeholder: L10n.floor), delegate: self)
             cell = placemarkCell
         }
         if indexPath.section == 3 {
@@ -219,7 +240,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
                 return cell
             }
             placemarkCell.configure(data: PlacemarkCellDisplayData(
-                placeholder: "Название мероприятия"), delegate: self)
+                placeholder: L10n.eventName), delegate: self)
             cell = placemarkCell
         }
         if indexPath.section == 4 {
@@ -230,7 +251,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
                 return cell
             }
             placemarkCell.configure(data: PlacemarkCellDisplayData(
-                placeholder: "Тип мероприятия"), delegate: self)
+                placeholder: L10n.typeOfEvent), delegate: self)
             cell = placemarkCell
         }
         if indexPath.section == 5 {
@@ -240,7 +261,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
             ) as? TimeCell else {
                 return cell
             }
-            placemarkCell.configure(data: TimeCellDisplayData(text: "Начало"))
+            placemarkCell.configure(data: TimeCellDisplayData(text: L10n.begin))
             cell = placemarkCell
         }
         if indexPath.section == 6 {
@@ -250,10 +271,10 @@ extension AddingEventViewController: UICollectionViewDataSource {
             ) as? TimeCell else {
                 return cell
             }
-            placemarkCell.configure(data: TimeCellDisplayData(text: "Конец"))
+            placemarkCell.configure(data: TimeCellDisplayData(text: L10n.end))
             cell = placemarkCell
         }
-        
+
         if indexPath.section == 8 {
             guard let placemarkCell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "ImageEventCell",
@@ -282,17 +303,22 @@ extension AddingEventViewController: UICollectionViewDataSource {
                 return cell
             }
             placemarkCell.configure(data: PlacemarkCellDisplayData(
-                placeholder: "Ссылка на источник"), delegate: self)
+                placeholder: L10n.linkToTheSource), delegate: self)
             cell = placemarkCell
         }
         return cell
     }
 
-
 }
 
-extension AddingEventViewController: DescriptionCellDelegate {
+extension AddingEventViewController: PlacemarkCellDelegate {
+    func editingBegan() {
+        return
+    }
     
+}
+
+extension AddingEventViewController: DescriptionCellDelegate & UINavigationControllerDelegate{
 }
 
 extension AddingEventViewController: ImageEventCellDelegate {
@@ -310,20 +336,15 @@ extension AddingEventViewController: ImageEventCellDelegate {
             
 
             cell?.configureSetImage(image: editedImage)
+            
+            eventImage = editedImage
         }
         dismiss(animated: true)
     }
 }
 
-
-    
-extension AddingEventViewController: MapCellDelegate {
-    func didTouchMap() {
-        let viewController = EventsViewController()
-        moduleOutput?.openEventViewController()
-    }
+extension AddingEventViewController: UIImagePickerControllerDelegate {
 }
-
 
 // MARK: Constants
 private extension AddingEventViewController {
@@ -343,5 +364,16 @@ private extension AddingEventViewController {
             static let bottomIndent: CGFloat = 15.0
         }
     }
+}
+
+
+extension AddingEventViewController: AddingViewInput {
+    func showAlert1(title: String, message: String) {
+            let alert = UIAlertController(title: title,
+                                          message: message,
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+        }
 }
 

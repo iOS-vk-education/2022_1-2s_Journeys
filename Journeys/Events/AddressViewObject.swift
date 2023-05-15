@@ -10,5 +10,4 @@ import FirebaseFirestore
 
 struct AddressViewObjects {
     let coordinates: GeoPoint
-    let id: String
 }

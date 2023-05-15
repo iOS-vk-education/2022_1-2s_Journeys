@@ -2,12 +2,14 @@ import UIKit
 import YandexMapsMobile
 import PureLayout
 import CoreLocation
+import FirebaseFirestore
 
 
 
 class SuggestionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     let profileInfoCellReuseIdentifier = "profileInfoCellReuseIdentifier"
     var moduleOutput: EventsCoordinator? = nil
+    var coordinates: GeoPoint?
     lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.delegate = self
@@ -22,7 +24,7 @@ class SuggestionViewController: UIViewController, UITableViewDataSource, UITable
         let searchBar = UITextField()
         searchBar.layer.cornerRadius = CGFloat(SuggestionViewControllerConstants.SearchBar.cornerRadius)
         searchBar.autoSetDimension(.height, toSize: CGFloat(SuggestionViewControllerConstants.SearchBar.height))
-        searchBar.placeholder = "Введите адрес"
+        searchBar.placeholder = L10n.enterTheAdress
         searchBar.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: searchBar.frame.height))
         searchBar.leftViewMode = .always
         searchBar.backgroundColor = UIColor(asset: Asset.Colors.searchBar)
@@ -51,9 +53,23 @@ class SuggestionViewController: UIViewController, UITableViewDataSource, UITable
         tableView.delegate = self
         self.addSubviews()
         self.setupConstraints()
+        setupNavBar()
         self.view.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
         searchBar.addTarget(self, action: #selector(editingChanged(_:)), for: .editingChanged)
     }
+    private func setupNavBar() {
+        navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
+        
+        let backButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"),
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(didTapBacksButton))
+        backButtonItem.tintColor = UIColor(asset: Asset.Colors.BaseColors.contrastToThemeColor)
+        
+        navigationItem.leftBarButtonItem = backButtonItem
+        title = L10n.addressSearch
+    }
+
     func addSubviews() {
         self.view.addSubview(tableView)
         self.view.addSubview(searchBar)
@@ -78,6 +94,12 @@ class SuggestionViewController: UIViewController, UITableViewDataSource, UITable
         magnifier.autoPinEdge(.top, to: .top, of: searchBar,
                               withOffset: CGFloat(SuggestionViewControllerConstants.Magnifier.ofSearchBarConstant))
     }
+    
+    @objc
+    func didTapBacksButton() {
+        moduleOutput?.openEventViewController()
+    }
+    
     func onSuggestResponse(_ items: [YMKSuggestItem]) {
         suggestResults = items
         tableView.reloadData()
@@ -153,21 +175,29 @@ class SuggestionViewController: UIViewController, UITableViewDataSource, UITable
         cell.address.text = adress
         cell.area.text = area
 
-        let viewController = AddingEventViewController()
-        navigationController?.pushViewController(viewController, animated: true)
-        viewController.address = cell.address.text!
         var geocoder = CLGeocoder()
         geocoder.geocodeAddressString(suggestResults[indexPath.row].displayText!) {
             placemarks, error in
             let placemark = placemarks?.first
             let lat = placemark?.location?.coordinate.latitude
             let lon = placemark?.location?.coordinate.longitude
-            print(type(of: lat))
+            print(type(of: placemark?.location?.coordinate))
             if lat != nil && lon != nil {
-                viewController.lat = String(lat!)
-                viewController.lon = String(lon!)
+                self.coordinates = .init(latitude: lat!, longitude: lon!)
+                self.moduleOutput?.openAddingEventViewController(coordinates: self.coordinates!, address: cell.address.text!)
+            }
+            else {
+                self.showAlert(title: L10n.trippleTheAdress, message: L10n.toCreateAnEventYouNeedToSpecifyAMorePreciseAddress)
             }
         }
+    }
+    
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title,
+                                      message: message,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {

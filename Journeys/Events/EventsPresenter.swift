@@ -50,8 +50,7 @@ private extension EventsPresenter {
                 
                 addressViewObjects = addressNetworkObjects.map { networkObject in
                     AddressViewObjects(
-                        coordinates: networkObject.coordinates,
-                        id: networkObject.id
+                        coordinates: networkObject.coordinates
                     )
                 }
                 
@@ -72,8 +71,11 @@ extension EventsPresenter: EventsViewOutput {
     
     
     func didTapAddingButton() {
-        moduleOutput?.usualEventsModuleWantsToOpenAddEventVC()
-        print("Add button was tapped")
+        moduleOutput?.wantsToOpenAddEventVC()
+    }
+    
+    func didTapOnPlacemark() {
+        moduleOutput?.wantsToOpenSingleEventVC()
     }
 }
 

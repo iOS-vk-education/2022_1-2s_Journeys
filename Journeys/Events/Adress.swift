@@ -52,3 +52,13 @@ struct Adress {
         self.coordinates = coordinates
     }
 }
+
+struct CreateAdressData {
+    let coordinates: GeoPoint
+    
+    func dict() -> [String: Any] {
+        return [
+            "coordinates": coordinates,
+        ]
+    }
+}

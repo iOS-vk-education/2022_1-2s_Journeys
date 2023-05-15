@@ -10,11 +10,13 @@ import UIKit
 // MARK: - EventsModuleBuilder
 
 final class EventsModuleBuilder {
-    func build(output: EventsModuleOutput) -> UIViewController {
+    func build(output: EventsModuleOutput, latitude: Double, longitude: Double, zoom: Float) -> UIViewController {
         let viewController = EventsViewController()
         let model = EventsModel()
         let presenter = EventsPresenter(view: viewController, model: model)
-        
+        viewController.latitude = latitude
+        viewController.longitude = longitude
+        viewController.zoom = zoom
         viewController.output = presenter
         
         presenter.moduleOutput = output

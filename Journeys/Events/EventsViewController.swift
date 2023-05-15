@@ -11,6 +11,9 @@ import PureLayout
 
 class EventsViewController: UIViewController {
     var output: EventsViewOutput?
+    var latitude : Double?
+    var longitude : Double?
+    var zoom : Float?
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
@@ -49,7 +52,11 @@ class EventsViewController: UIViewController {
     lazy var map: YMKMapView = {
         let map1 = YMKMapView()
         map1.mapWindow.map.move(
-            with: YMKCameraPosition.init(target: YMKPoint(latitude: 55.754066, longitude: 37.861582), zoom: 10, azimuth: 0, tilt: 0),
+            with: YMKCameraPosition.init(target: YMKPoint(latitude: latitude ?? AddingButtonConstants.Coordinates.latitude,
+                                                          longitude: longitude ?? AddingButtonConstants.Coordinates.longitude),
+                                                          zoom: zoom ?? AddingButtonConstants.Coordinates.zoom,
+                                                          azimuth: 0,
+                                                          tilt: 0),
             animationType: YMKAnimation(type: YMKAnimationType.smooth, duration: 5),
             cameraCallback: nil)
         map1.autoSetDimension(.height, toSize: 1000)
@@ -66,6 +73,7 @@ class EventsViewController: UIViewController {
             placemark.isDraggable = false
             let image1 = UIImage(asset: Asset.Assets.PlacemarkIcons.defaultPlacemark)
             placemark.setIconWith(image1!)
+            placemark.addTapListener(with: self)
         }
     }
     private func addSubviews() {
@@ -88,11 +96,9 @@ class EventsViewController: UIViewController {
     }
     @objc
     private func didTapSettingsButton() {
-       // output.didTapSettingsButton()
     }
     @objc
     private func didTapFavouritesButton() {
-       // output.didTapFavouritesButton()
     }
 }
 private extension EventsViewController {
@@ -106,6 +112,11 @@ private extension EventsViewController {
             static let right = 20.0
             static let top = 89.0
         }
+        struct Coordinates {
+            static let latitude = 55.754066
+            static let longitude = 37.861582
+            static let zoom : Float = 1
+        }
     }
 }
 extension EventsViewController: EventsViewInput {
@@ -117,11 +128,18 @@ extension EventsViewController: EventsViewInput {
     
     func show(error: Error) {
         
-        let alertViewController = UIAlertController(title: "Ошибка", message: error.localizedDescription, preferredStyle: .alert)
+        let alertViewController = UIAlertController(title: L10n.error, message: error.localizedDescription, preferredStyle: .alert)
         
         alertViewController.addAction(UIAlertAction(title: "OK", style: .cancel))
         
         present(alertViewController, animated: true)
+    }
+}
+
+extension EventsViewController: YMKMapObjectTapListener {
+    func onMapObjectTap(with mapObject: YMKMapObject, point: YMKPoint) -> Bool {
+        output?.didTapOnPlacemark()
+        return true
     }
 }
 

@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import FirebaseFirestore
 
 final class EventsCoordinator: CoordinatorProtocol {
     
@@ -16,11 +17,10 @@ final class EventsCoordinator: CoordinatorProtocol {
     private var navigationController = UINavigationController()
     private let tabBarItemFactory: TabBarItemFactoryProtocol
     private let firebaseService: FirebaseServiceProtocol
+    private var bottomSheetTransitioningDelegate: UIViewControllerTransitioningDelegate?
     
     // MARK: Lifecycle
     
-    let lock = NSLock()
-    private let loadingViewGroup = DispatchGroup()
     init(rootTabBarController: UITabBarController, firebaseService: FirebaseServiceProtocol) {
         self.rootTabBarController = rootTabBarController
         self.firebaseService = firebaseService
@@ -30,7 +30,7 @@ final class EventsCoordinator: CoordinatorProtocol {
     func start() {
         let eventsModuleBuilder = EventsModuleBuilder()
         
-        let eventsViewController = eventsModuleBuilder.build(output: self)
+        let eventsViewController = eventsModuleBuilder.build(output: self, latitude: 55, longitude: 37, zoom: 1)
         navigationController.pushViewController(eventsViewController, animated: true)
         
         navigationController.tabBarItem = tabBarItemFactory.getTabBarItem(from: TabBarPage.events)
@@ -50,33 +50,50 @@ final class EventsCoordinator: CoordinatorProtocol {
 }
 
 extension EventsCoordinator: EventsModuleOutput {
-    func usualEventsModuleWantsToOpenAddEventVC() {
-        let eventsViewController = SuggestionViewController()
-        eventsViewController.moduleOutput = self
-        navigationController.pushViewController(eventsViewController, animated: true)
-    }
-    
-    func openTapToAddButtonViewController() {
-        let eventsViewController = TapToAddButtonViewController()
-        eventsViewController.moduleOutput = self
-        navigationController.pushViewController(eventsViewController, animated: true)
-    }
     
     func openSuggestionViewController() {
         let eventsViewController = SuggestionViewController()
         eventsViewController.moduleOutput = self
         navigationController.pushViewController(eventsViewController, animated: true)
     }
-    
-    func openAddingEventViewController() {
-        let eventsViewController = AddingEventViewController()
-        //eventsViewController.output = self
+    func openEventViewController() {
+        navigationController.popViewController(animated: true)
+    }
+    func wantsToOpenAddEventVC() {
+        let eventsViewController = SuggestionViewController()
+        eventsViewController.moduleOutput = self
         navigationController.pushViewController(eventsViewController, animated: true)
     }
     
-    func openEventViewController() {
-//        let eventsViewController = EventsPresenter(output: self)
-//        eventsViewController.moduleOutput = self
-//        navigationController.pushViewController(eventsViewController, animated: true)
+    func openAddingEventViewController(coordinates: GeoPoint, address: String) {
+        let builder = AddingModuleBuilder()
+
+        let viewController = builder.build(output: self, coordinates: coordinates, address: address)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+    
+    func wantsToOpenSingleEventVC() {
+        let viewController = SingleEventViewController(initialHeight: 300)
+        viewController.modalPresentationStyle = .custom
+        bottomSheetTransitioningDelegate = BottomSheetTransitioningDelegate()
+        viewController.transitioningDelegate = bottomSheetTransitioningDelegate
+        navigationController.present(viewController, animated: true)
+    }
+}
+
+
+
+extension EventsCoordinator: AddingModuleOutput {
+    func wantsToOpenEventsVC() {
+        navigationController.popViewController(animated: false)
+        navigationController.popViewController(animated: false)
+        navigationController.popViewController(animated: false)
+        let eventsModuleBuilder = EventsModuleBuilder()
+        
+        let eventsViewController = eventsModuleBuilder.build(output: self, latitude: 55, longitude: 37, zoom: 1)
+        navigationController.pushViewController(eventsViewController, animated: false)
+    }
+    func backToSuggestionVC() {
+        navigationController.popViewController(animated: true)
     }
 }

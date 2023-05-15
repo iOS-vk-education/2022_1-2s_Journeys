@@ -17,10 +17,8 @@ final class DescriptionCell: UICollectionViewCell {
     private let inputField: UITextView = {
         var inpField = UITextView()
         inpField.text = ""
-        inpField.font = UIFont.systemFont(ofSize: 17)
-//       // inpField.he
-//        inpField.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        inpField.layer.borderWidth = 2
+        inpField.font = UIFont.systemFont(ofSize: DescriptionCellConstants.InputField.fontSize)
+        inpField.layer.borderWidth = DescriptionCellConstants.Cell.shadowRadius
         inpField.layer.borderColor = UIColor(asset: Asset.Colors.SpecifyAdress.photoButton)?.cgColor
         inpField.layer.cornerRadius = DescriptionCellConstants.Cell.borderRadius
         inpField.clipsToBounds = true
@@ -28,7 +26,7 @@ final class DescriptionCell: UICollectionViewCell {
     }()
     private let descriptionLabel: UILabel = {
         let inpField = UILabel()
-        inpField.text = "Описание мероприятия"
+        inpField.text = L10n.descriptionOfTheEvent
         return inpField
     }()
     private var delegate: DescriptionCellDelegate!
@@ -68,7 +66,7 @@ final class DescriptionCell: UICollectionViewCell {
         inputField.textColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
     }
     private func setupFonts() {
-        descriptionLabel.font = UIFont.systemFont(ofSize: 22.0, weight: .bold)
+        descriptionLabel.font = UIFont.systemFont(ofSize: DescriptionCellConstants.Cell.fontSize, weight: .bold)
     }
     private func makeConstraints() {
         inputField.snp.makeConstraints { make in
@@ -98,12 +96,14 @@ final class DescriptionCell: UICollectionViewCell {
                 static let horisontalIndent: CGFloat = horisontalIndentForAllSubviews
                 static let verticalIndent: CGFloat = 16
                 static let cornerRadius: CGFloat = 15.0
+                static let fontSize : CGFloat = 17
             }
             struct Cell {
                 static let borderRadius: CGFloat = 10.0
                 static let shadowRadius: CGFloat = 3
                 static let shadowOpacity: CGFloat = 0.1
                 static let shadowOffset = 2
+                static let fontSize : CGFloat = 22
             }
         }
 }

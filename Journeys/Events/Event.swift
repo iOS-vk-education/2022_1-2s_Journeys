@@ -49,7 +49,7 @@ struct Event {
         self.description = description
     }
     
-    init?(from dictionary: [String: Any], id: String) {
+    init?(dictionary: [String: Any], id: String) {
         guard
             let adress = dictionary[CodingKeys.adress.rawValue] as? String,
             let startDate = dictionary[CodingKeys.startDate.rawValue] as? Date,
@@ -107,5 +107,33 @@ struct Event {
         case room
         case floor
         case description
+    }
+}
+
+struct CreateEventsData {
+    var adress: String
+    var startDate: Date
+    var finishDate: Date
+    var type: String
+    var name: String
+    var link: String
+    var photoURL: String
+    var floor: String
+    var room: String
+    var description: String
+    
+    func dict() -> [String: Any] {
+        return [
+            "adress": adress,
+            "startDate": startDate,
+            "finishDate": finishDate,
+            "type": type,
+            "name": name,
+            "link": link,
+            "photoURL": photoURL,
+            "floor": floor,
+            "room": room,
+            "description": description,
+        ]
     }
 }
