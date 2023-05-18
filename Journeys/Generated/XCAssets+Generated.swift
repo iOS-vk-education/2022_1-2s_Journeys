@@ -23,6 +23,7 @@ internal typealias AssetImageTypeAlias = ImageAsset.Image
 internal enum Asset {
   internal enum Assets {
     internal static let accentColor = ColorAsset(name: "AccentColor")
+    internal static let stuffListsPlaceholder = ImageAsset(name: "StuffListsPlaceholder")
     internal enum TripCell {
       internal static let tripCellImage1 = ImageAsset(name: "TripCellImage1")
       internal static let tripCellImage2 = ImageAsset(name: "TripCellImage2")

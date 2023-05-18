@@ -42,7 +42,6 @@ final class TripsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
-        tabBarController?.tabBar.items?.forEach { $0.isEnabled = true }
         placeholderView.isHidden = true
         setupNavBar()
         setupCollectionView()

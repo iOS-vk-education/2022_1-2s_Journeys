@@ -17,6 +17,11 @@ protocol FirebaseServiceStoreProtocol {
     func storeTripImage(image: UIImage, completion: @escaping (Result<String, Error>) -> Void)
     func storeStuffData(baggageId: String, stuff: Stuff, completion: @escaping (Result<Stuff, Error>) -> Void)
     func storeBaggageData(baggage: Baggage, completion: @escaping (Result<Baggage, Error>) -> Void)
+    
+    func storeStuffList(stuffList: StuffList,
+                        completion: @escaping (Result<StuffList, Error>) -> Void)
+    func storeSertainStuffListStuff(stuff: Stuff,
+                                    completion: @escaping (Result<Stuff, Error>) -> Void)
 }
 
 extension FirebaseService: FirebaseServiceStoreProtocol {
@@ -114,5 +119,107 @@ extension FirebaseService: FirebaseServiceStoreProtocol {
             }
         }
     }
+    
+    func storeStuffList(stuffList: StuffList,
+                        completion: @escaping (Result<StuffList, Error>) -> Void) {
+        guard let userId = firebaseManager.auth.currentUser?.uid else {
+            return
+        }
+        
+        var ref: DocumentReference?
+        if let id = stuffList.id {
+            ref = firebaseManager.firestore.collection("stuff_lists").document(userId)
+                .collection("user_stuff_lists").document(id)
+        } else {
+            ref = firebaseManager.firestore.collection("stuff_lists").document(userId)
+                .collection("user_stuff_lists").document()
+        }
+        ref!.setData(stuffList.toDictionary()) { error in
+            if let error = error {
+                completion(.failure(error))
+            } else if let id = ref?.documentID,
+                      let stuffList = StuffList(from: stuffList.toDictionary(), id: id) {
+                completion(.success(stuffList))
+            } else {
+                completion(.failure(FBError.noData))
+            }
+        }
+    }
+    
+    func storeSertainStuffListStuff(stuff: Stuff,
+                                    completion: @escaping (Result<Stuff, Error>) -> Void) {
+        guard let userId = firebaseManager.auth.currentUser?.uid else {
+            return
+        }
+        
+        var ref: DocumentReference?
+        if let id = stuff.id {
+            ref = firebaseManager.firestore.collection("stuff").document(userId)
+                .collection("user_stuff").document(id)
+        } else {
+            ref = firebaseManager.firestore.collection("stuff").document(userId)
+                .collection("user_stuff").document()
+        }
+        ref!.setData(stuff.toDictionary()) { error in
+            if let error = error {
+                completion(.failure(error))
+            } else if let id = ref?.documentID,
+                      let stuff = Stuff(from: stuff.toDictionary(), id: id) {
+                completion(.success(stuff))
+            } else {
+                completion(.failure(FBError.noData))
+            }
+        }
+    }
+    
+//    func store(item: FirebaseSaveable, type: FBModels,
+//               completion: @escaping (Result<FirebaseSaveable, Error>) -> Void) {
+//        guard let userId = firebaseManager.auth.currentUser?.uid else {
+//            return
+//        }
+//
+//        var ref: DocumentReference?
+//        if let id = item.id {
+//            ref = firebaseManager.firestore.collection("stuff_lists").document(userId)
+//                .collection("user_stuff_lists").document(id)
+//        } else {
+//            ref = firebaseManager.firestore.collection("stuff_lists").document(userId)
+//                .collection("user_stuff_lists").document()
+//        }
+//        ref!.setData(item.toDictionary()) { error in
+//            if let error = error {
+//                completion(.failure(error))
+//            } else if let id = ref?.documentID,
+//                      let item = type.getModelType() (from: item.toDictionary(), id: id) {
+//                completion(.success(stuffList))
+//            } else {
+//                completion(.failure(FBError.noData))
+//            }
+//        }
+//    }
 }
+
+//enum FBModels {
+//    case stuff
+//    case stuffLists
+//
+//    func getCollectionsNames() -> [String] {
+//        switch self {
+//        case .stuff: return ["baggage", "baggage_stuff"]
+//        case .stuffLists: return ["stuff_lists", "user_stuff_lists"]
+//        }
+//    }
+//
+//    func getModelType() -> FirebaseSaveable? {
+//        switch self {
+//        case .stuff: return Stuff() as? FirebaseSaveable
+//        case .stuffLists: return StuffList() as? FirebaseSaveable
+//        }
+//    }
+//}
+//
+//protocol FirebaseSaveable: Any {
+//    init?(from dictionary: [String: Any], id: String)
+//    func toDictionary() -> [String: Any]
+//}
     

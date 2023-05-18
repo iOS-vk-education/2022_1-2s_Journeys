@@ -11,7 +11,7 @@ import FirebaseAuth
 import SwiftUI
 import MessageUI
 
-final class AccountCoordinator: CoordinatorProtocol {
+final class AccountCoordinator: CoordinatorProtocol{
 
     // MARK: Private Properties
 
@@ -80,7 +80,10 @@ extension AccountCoordinator: AccountModuleOutput {
     
     // TODO: accountModuleWantsToOpenStuffListsModule
     func accountModuleWantsToOpenStuffListsModule() {
-        print("Open StuffLists module")
+        let builder = StuffListsModuleBuilder()
+        let stuffListsViewController = builder.build(firebaseService: firebaseService,
+                                                     moduleOutput: self)
+        navigationController.pushViewController(stuffListsViewController, animated: true)
     }
     
     func accountModuleWantsToOpenSettingsModule() {
@@ -88,7 +91,6 @@ extension AccountCoordinator: AccountModuleOutput {
         let settingsViewController = builder.build(moduleOutput: self)
         navigationController.pushViewController(settingsViewController, animated: true)
     }
-    
     
 }
 
@@ -112,7 +114,29 @@ extension AccountCoordinator: SettingsModuleOutput {
 
 extension AccountCoordinator: AccountInfoModuleOutput {
     func accountInfoModuleWantToBeClosed() {
-        self.navigationController.popViewController(animated: true)
+        navigationController.popViewController(animated: true)
+    }
+}
+
+extension AccountCoordinator: StuffListsModuleOutput {
+    func closeStuffListsModule() {
+        navigationController.popViewController(animated: true)
+    }
+    
+    func openCertainStuffListModule(for stuffList: StuffList?) {
+        let builder = CertainStuffListModuleBuilder()
+        let certainStuffListViewController = builder.build(stuffList: stuffList,
+                                                           firebaseService: firebaseService,
+                                                           moduleOutput: self)
+        navigationController.pushViewController(certainStuffListViewController, animated: true)
+    }
+}
+
+extension AccountCoordinator: CertainStuffListModuleOutput {
+    func closeCertainStuffListsModule() {
+        if let _ = navigationController.viewControllers.last as? CertainStuffListViewController {
+            navigationController.popViewController(animated: true)
+        }
     }
 }
 

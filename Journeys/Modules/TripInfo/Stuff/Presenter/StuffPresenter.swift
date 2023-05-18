@@ -27,6 +27,8 @@ final class StuffPresenter {
     
     private var isDataObtained: Bool = false
     
+    private var currenStuffCellKeyboardType: StuffCell.KeyboardType = .usual
+    
     init(baggageId: String) {
         self.baggageId = baggageId
     }
@@ -64,6 +66,17 @@ final class StuffPresenter {
             return
         }
         model.saveChangedStuff(stuff: stuff, baggage: baggage, indexPath: indexPath)
+    }
+    
+    private func deleteCell(at indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            guard unpackedStuff.indices.contains(indexPath.row) else { return }
+            unpackedStuff.remove(at: indexPath.row)
+        } else if indexPath.section == 1 {
+            guard packedStuff.indices.contains(indexPath.row) else { return }
+            packedStuff.remove(at: indexPath.row)
+        }
+        view?.deleteCell(at: indexPath)
     }
 }
 
@@ -123,11 +136,13 @@ extension StuffPresenter: StuffModelOutput {
     
     func didChangeStuffStatus(stuff: Stuff, indexPath: IndexPath) {
         if indexPath.section == 0 {
+            guard unpackedStuff.count > indexPath.row else { return }
             packedStuff.append(unpackedStuff[indexPath.row])
             unpackedStuff.remove(at: indexPath.row)
             view?.changeIsPickedCellFlag(at: indexPath)
             view?.moveTableViewRow(at: indexPath, to: IndexPath(row: packedStuff.count - 1, section: 1))
         } else if indexPath.section == 1 {
+            guard packedStuff.count > indexPath.row else { return }
             unpackedStuff.append(packedStuff[indexPath.row])
             packedStuff.remove(at: indexPath.row)
             view?.changeIsPickedCellFlag(at: indexPath)
@@ -139,21 +154,69 @@ extension StuffPresenter: StuffModelOutput {
 extension StuffPresenter: StuffModuleInput {
 }
 
-extension StuffPresenter: StuffViewOutput {
-    func viewDidLoad() {
-        model.obtainData(baggageId: baggageId)
-    }
-    
-    func getSectionHeaderText(_ section: Int) -> String {
-        if section == 0 {
-            return  L10n.unpacked
-        } else if section == 1 {
-            return  L10n.packed
+
+extension StuffPresenter: StuffCellDelegate {
+    func cellPackButtonWasTapped(at indexPath: IndexPath) {
+        guard let baggage else {
+            return
         }
-        return ""
+        if indexPath.section == 0 {
+            unpackedStuff[indexPath.row].isPacked.toggle()
+            model.changeStuffIsPackedFlag(stuff: unpackedStuff[indexPath.row],
+                                          baggage: baggage,
+                                          indexPath: indexPath)
+        } else if indexPath.section == 1 {
+            packedStuff[indexPath.row].isPacked.toggle()
+            model.changeStuffIsPackedFlag(stuff: packedStuff[indexPath.row],
+                                          baggage: baggage,
+                                          indexPath: indexPath)
+        }
+    }
+    func emojiTextFieldDidChange(_ text: String, at indexPath: IndexPath) {
+        guard text.count > 0 else {
+            return
+        }
+        if indexPath.section == 0 {
+            guard unpackedStuff.indices.contains(indexPath.row) else { return }
+            unpackedStuff[indexPath.row].emoji = text
+            if unpackedStuff[indexPath.row].name != nil {
+                saveStuff(unpackedStuff[indexPath.row], indexPath: indexPath)
+            }
+        } else if indexPath.section == 1 {
+            guard packedStuff.indices.contains(indexPath.row) else { return }
+            packedStuff[indexPath.row].emoji = text
+            if packedStuff[indexPath.row].name != nil {
+                saveStuff(packedStuff[indexPath.row], indexPath: indexPath)
+            }
+        }
+    }
+    func nameTextFieldDidChange(_ text: String, at indexPath: IndexPath) {
+        guard text.count > 0 else {
+            deleteCell(at: indexPath)
+            return
+        }
+        if indexPath.section == 0 {
+            guard unpackedStuff.indices.contains(indexPath.row) else { return }
+            unpackedStuff[indexPath.row].name = text
+            saveStuff(unpackedStuff[indexPath.row], indexPath: indexPath)
+        } else if indexPath.section == 1 {
+            guard packedStuff.indices.contains(indexPath.row) else { return }
+            packedStuff[indexPath.row].name = text
+            saveStuff(packedStuff[indexPath.row], indexPath: indexPath)
+        }
     }
     
-    func getNumberOfRows(in section: Int) -> Int {
+    func didChangedKeyboardType(to type: StuffCell.KeyboardType) {
+        currenStuffCellKeyboardType = type
+    }
+}
+
+extension StuffPresenter: StuffTableViewControllerOutput {
+    func numberOfSection() -> Int? {
+        2
+    }
+    
+    func numberOfRows(in section: Int) -> Int? {
         guard isDataObtained else {
             return 0
         }
@@ -165,44 +228,59 @@ extension StuffPresenter: StuffViewOutput {
         return 0
     }
     
-    func getStuffCellDisplayData(for indexpath: IndexPath) -> StuffCell.DisplayData? {
-        if indexpath.section == 0 {
-            if !unpackedStuff.indices.contains(indexpath.row) {
+    func sectionHeaderText(_ section: Int) -> String {
+        if section == 0 {
+            return  L10n.unpacked
+        } else if section == 1 {
+            return  L10n.packed
+        }
+        return ""
+    }
+    
+    func stuffCellDisplayData(for indexPath: IndexPath) -> StuffCell.DisplayData? {
+        guard let vc = view as? UIViewController else { return nil }
+        if indexPath.section == 0 {
+            if !unpackedStuff.indices.contains(indexPath.row) {
                 return nil
             }
-            let stuff = unpackedStuff[indexpath.row]
+            let stuff = unpackedStuff[indexPath.row]
             guard let name = stuff.name else {
-                return StuffCell.DisplayData(data: StuffCell.StuffData(emoji: "",
-                                                                       name: "",
-                                                                       isPacked: stuff.isPacked),
+                return StuffCell.DisplayData(stuffData: StuffCell.StuffData(emoji: "",
+                                                                            name: "",
+                                                                            isPacked: stuff.isPacked),
+                                             backgroundColor: vc.view.backgroundColor,
                                              changeMode: .on)
             }
-            return StuffCell.DisplayData(data: StuffCell.StuffData(emoji: stuff.emoji,
-                                                                   name: name,
-                                                                   isPacked: stuff.isPacked),
+            return StuffCell.DisplayData(stuffData: StuffCell.StuffData(emoji: stuff.emoji,
+                                                                        name: name,
+                                                                        isPacked: stuff.isPacked),
+                                         backgroundColor: vc.view.backgroundColor,
                                          changeMode: .off)
-        } else if indexpath.section == 1 {
-            if !packedStuff.indices.contains(indexpath.row) {
+        } else if indexPath.section == 1 {
+            if !packedStuff.indices.contains(indexPath.row) {
                 return nil
             }
-            let stuff = packedStuff[indexpath.row]
+            let stuff = packedStuff[indexPath.row]
             guard let name = stuff.name,
                   let emoji = stuff.emoji else {
-                return StuffCell.DisplayData(data: StuffCell.StuffData(emoji: "",
-                                                                       name: "",
-                                                                       isPacked: stuff.isPacked),
+                return StuffCell.DisplayData(stuffData: StuffCell.StuffData(emoji: "",
+                                                                            name: "",
+                                                                            isPacked: stuff.isPacked),
+                                             backgroundColor: vc.view.backgroundColor,
                                              changeMode: .on)
             }
-            return StuffCell.DisplayData(data: StuffCell.StuffData(emoji: emoji,
-                                                                   name: name,
-                                                                   isPacked: stuff.isPacked),
+            return StuffCell.DisplayData(stuffData: StuffCell.StuffData(emoji: emoji,
+                                                                        name: name,
+                                                                        isPacked: stuff.isPacked),
+                                         backgroundColor: vc.view.backgroundColor,
                                          changeMode: .off)
         }
         return nil
     }
     
     func didSelectRow(at indexPath: IndexPath,
-                      rowsInSection: Int) -> ((StuffViewController, UITableView, Int)->())? {
+                      rowsInSection: Int,
+                      completion: () -> Void) {
         if indexPath.row == rowsInSection - 1 {
             if indexPath.section == 0 {
                 unpackedStuff.append(Stuff(isPacked: false))
@@ -210,12 +288,10 @@ extension StuffPresenter: StuffViewOutput {
                 packedStuff.append(Stuff(isPacked: true))
             }
             lastChangedIndexPath = indexPath
-            return addRow
+            completion()
         }
-        return nil
     }
     
-    // MARK: Cells actions
     func handeleCellDelete(at indexPath: IndexPath) {
         if indexPath.section == 0,
            unpackedStuff.indices.contains(indexPath.row),
@@ -251,56 +327,18 @@ extension StuffPresenter: StuffViewOutput {
         cell.startEditMode()
     }
     
-    func didTapCellPackButton(at indexpath: IndexPath?) {
-        guard let indexpath,
-              let baggage else {
-            return
-        }
-        if indexpath.section == 0 {
-            unpackedStuff[indexpath.row].isPacked.toggle()
-            model.changeStuffIsPackedFlag(stuff: unpackedStuff[indexpath.row],
-                                          baggage: baggage,
-                                          indexPath: indexpath)
-        } else if indexpath.section == 1 {
-            packedStuff[indexpath.row].isPacked.toggle()
-            model.changeStuffIsPackedFlag(stuff: packedStuff[indexpath.row],
-                                          baggage: baggage,
-                                          indexPath: indexpath)
-        }
+    func editingCellIndexPath() -> IndexPath? {
+        lastChangedIndexPath
     }
     
-    func emojiTextFieldDidChange(_ text: String, at indexPath: IndexPath) {
-        guard text.count > 0 else {
-            return
-        }
-        if indexPath.section == 0 {
-            guard unpackedStuff.indices.contains(indexPath.row) else { return }
-            unpackedStuff[indexPath.row].emoji = text
-            if unpackedStuff[indexPath.row].name != nil {
-                saveStuff(unpackedStuff[indexPath.row], indexPath: indexPath)
-            }
-        } else if indexPath.section == 1 {
-            guard packedStuff.indices.contains(indexPath.row) else { return }
-            packedStuff[indexPath.row].emoji = text
-            if packedStuff[indexPath.row].name != nil {
-                saveStuff(packedStuff[indexPath.row], indexPath: indexPath)
-            }
-        }
+    func keyBoardToShowType() -> StuffCell.KeyboardType {
+        currenStuffCellKeyboardType
     }
-    
-    func nameTextFieldDidChange(_ text: String, at indexPath: IndexPath) {
-        guard text.count > 0 else {
-            return
-        }
-        if indexPath.section == 0 {
-            guard unpackedStuff.indices.contains(indexPath.row) else { return }
-            unpackedStuff[indexPath.row].name = text
-            saveStuff(unpackedStuff[indexPath.row], indexPath: indexPath)
-        } else if indexPath.section == 1 {
-            guard packedStuff.indices.contains(indexPath.row) else { return }
-            packedStuff[indexPath.row].name = text
-            saveStuff(packedStuff[indexPath.row], indexPath: indexPath)
-        }
+}
+
+extension StuffPresenter: StuffViewOutput {
+    func viewDidLoad() {
+        model.obtainData(baggageId: baggageId)
     }
     
     func didTapScreen(tableView: UITableView) {
@@ -308,6 +346,9 @@ extension StuffPresenter: StuffViewOutput {
         if let cell = view?.getCell(for: lastChangedIndexPath) as? StuffCell {
             let data = cell.getData()
             cell.finishEditMode()
+            if data.name.count == 0 {
+                deleteCell(at: lastChangedIndexPath)
+            }
         }
     }
     
