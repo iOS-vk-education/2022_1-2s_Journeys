@@ -93,7 +93,7 @@ extension PlacesInfoInteractor: PlacesInfoInteractorInput {
                 self.weatherData(placesWithGeoData: sortedGeoData)
                 guard let currentCurrencyCode = Locale.current.currencyCode else { return }
                 self.currencyCodesAndRate(for: currentCurrencyCode,
-                                           placesWithGeoData: sortedGeoData)
+                                          placesWithGeoData: sortedGeoData)
                 
             }
         }
@@ -166,8 +166,8 @@ extension PlacesInfoInteractor: PlacesInfoInteractorInput {
     }
     
     private func currencyRate(for currenciesAndLocations: [String: [Location]],
-                      currentCurrencyCode: String,
-                      amount: Float) {
+                              currentCurrencyCode: String,
+                              amount: Float) {
         var locationsWithCurrencyRateList: [LocationsWithCurrencyRate] = []
         for (newCurrencyCode, locations) in currenciesAndLocations {
             currencyDataLoadDispatchGroup.enter()
@@ -183,7 +183,7 @@ extension PlacesInfoInteractor: PlacesInfoInteractorInput {
                 }
             }
         }
-
+        
         currencyDataLoadDispatchGroup.notify(queue: currencyDataLoadQueue) { [weak self] in
             guard let self else { return }
             self.sortCurrencyRate(locationsWithCurrencyRateList,
@@ -205,8 +205,8 @@ extension PlacesInfoInteractor: PlacesInfoInteractorInput {
         let updateCurrencyRateDispatchQueue = DispatchQueue(label: "ru.Journeys.updateCurrencyRateDispatchQueue")
         updateCurrencyRateDispatchQueue.async {
             self.obtainCurrencyRate(from: oldCurrencyCode,
-                               to: newCurrencyCode,
-                               amount: amount) { currencyRate in
+                                    to: newCurrencyCode,
+                                    amount: amount) { currencyRate in
                 completion(currencyRate)
             }
         }
@@ -217,21 +217,24 @@ extension PlacesInfoInteractor: PlacesInfoInteractorInput {
 
 extension PlacesInfoInteractor {
     private func obtainGeoData(for place: Place, completion: @escaping (GeoData) -> Void) {
-        let request = requestFactory.getLocationData(city: place.location.city,
-                                                            country: place.location.country)
+        guard let request = requestFactory.getLocationData(city: place.location.city,
+                                                           country: place.location.country) else {
+            output?.didRecieveError(error: Errors.obtainDataError)
+            return
+        }
         networkService.sendRequest(request) { [weak self] result in
             guard let self else { return }
             switch result {
             case .failure:
                 self.geoDataLoadDispatchGroup.leave()
-                self.output.noCoordunates(for: place.location)
+                self.output.noCoordinates(for: place.location)
             case .success(let data):
                 do {
                     let decoder = JSONDecoder()
                     let geoDataMas = try decoder.decode([GeoData].self, from: data)
                     guard !geoDataMas.isEmpty else {
                         self.geoDataLoadDispatchGroup.leave()
-                        self.output.noCoordunates(for: place.location)
+                        self.output.noCoordinates(for: place.location)
                         return
                     }
                     let geoData = geoDataMas[0]
@@ -245,7 +248,10 @@ extension PlacesInfoInteractor {
     
     private func obtainWeather(placeWithGeoData: PlaceWithGeoData,
                                completion: @escaping (WeatherWithLocation) -> Void) {
-        let request = requestFactory.getCoordinatesTimezone(placeWithGeoData.coordinates)
+        guard let request = requestFactory.getCoordinatesTimezone(placeWithGeoData.coordinates) else {
+            output?.didRecieveError(error: Errors.obtainDataError)
+            return
+        }
         networkService.sendRequest(request) { [weak self] result in
             guard let self else { return }
             switch result {
@@ -271,11 +277,14 @@ extension PlacesInfoInteractor {
     private func obtainWeatherData(placeWithGeoData: PlaceWithGeoData,
                                    timezone: Timezone,
                                    completion: @escaping (WeatherWithLocation) -> Void) {
-        let request = requestFactory
+        guard let request = requestFactory
             .getWeatherRequestForCoordinates(placeWithGeoData.coordinates,
                                              timezone: timezone,
                                              startDate: DateFormatter.fullDateWithDash.string(from: placeWithGeoData.place.arrive),
-                                             endDate: DateFormatter.fullDateWithDash.string(from: placeWithGeoData.place.depart))
+                                             endDate: DateFormatter.fullDateWithDash.string(from: placeWithGeoData.place.depart)) else {
+            output?.didRecieveError(error: Errors.obtainDataError)
+            return
+        }
         networkService.sendRequest(request) { [weak self] result in
             guard let self else { return }
             switch result {
@@ -300,9 +309,12 @@ extension PlacesInfoInteractor {
     private func obtainCurrencyRate(from currentCurrency: String,
                                     to localCurrency: String,
                                     amount: Float, completion: @escaping (CurrencyRate) -> Void) {
-        let request = requestFactory.getCurrencyRate(from: currentCurrency,
-                                                     to: localCurrency,
-                                                     amount: amount)
+        guard let request = requestFactory.getCurrencyRate(from: currentCurrency,
+                                                           to: localCurrency,
+                                                           amount: amount) else {
+            output?.didRecieveError(error: Errors.obtainDataError)
+            return
+        }
         networkService.sendRequest(request) { [weak self] result in
             guard let self else { return }
             switch result {
@@ -339,8 +351,8 @@ extension PlacesInfoInteractor {
     }
     
     private func sortWeather(_ weather: [WeatherWithLocation],
-                     route: Route,
-                     completion: @escaping ([WeatherWithLocation]) -> ()) {
+                             route: Route,
+                             completion: @escaping ([WeatherWithLocation]) -> ()) {
         DispatchQueue.global().async { [weak self] in
             guard let self else { return }
             var sortedWeather: [WeatherWithLocation] = []
@@ -375,8 +387,8 @@ extension PlacesInfoInteractor {
     }
     
     private func sortCurrencyRate(_ locationsWithCurrencyRate: [LocationsWithCurrencyRate],
-                          route: Route,
-                          completion: @escaping ([LocationsWithCurrencyRate]) -> ()) {
+                                  route: Route,
+                                  completion: @escaping ([LocationsWithCurrencyRate]) -> ()) {
         DispatchQueue.global().async { [weak self] in
             guard let self else { return }
             var sortedCurrencyRate: [LocationsWithCurrencyRate] = []

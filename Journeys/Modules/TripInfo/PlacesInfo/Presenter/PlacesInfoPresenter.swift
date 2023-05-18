@@ -285,7 +285,7 @@ extension PlacesInfoPresenter: PlacesInfoInteractorOutput {
         }
     }
     
-    func noCoordunates(for location: Location) {
+    func noCoordinates(for location: Location) {
         locationsWithoutCoordinatesList.append(location)
     }
     

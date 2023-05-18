@@ -8,9 +8,9 @@
 import Foundation
 
 struct GeoData: Decodable {
-    var latitude: Double
-    var longitude: Double
-    var countryCode: String
+    let latitude: Double
+    let longitude: Double
+    let countryCode: String
     
     enum CodingKeys: String, CodingKey {
         case latitude

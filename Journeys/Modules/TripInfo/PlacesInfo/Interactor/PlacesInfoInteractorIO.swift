@@ -23,7 +23,7 @@ protocol PlacesInfoInteractorOutput: AnyObject {
     func getRoute() -> Route
     
     func didRecieveError(error: Error)
-    func noCoordunates(for location: Location)
+    func noCoordinates(for location: Location)
     func noWeatherForPlace(_ place: Place)
     func noPlacesInRoute()
     func didFetchWeatherData(_ weather: [WeatherWithLocation])

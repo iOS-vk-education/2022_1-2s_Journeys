@@ -8,15 +8,15 @@
 import Foundation
 
 protocol NetworkRequestFactoryProtocol {
-    func getLocationData(city: String, country: String) -> URLRequest
+    func getLocationData(city: String, country: String) -> URLRequest?
     func getWeatherRequestForCoordinates(_ coordinates: Coordinates,
                                          timezone: Timezone,
                                          startDate: String,
-                                         endDate: String) -> URLRequest
-    func getCoordinatesTimezone(_ coordinates: Coordinates) -> URLRequest
+                                         endDate: String) -> URLRequest?
+    func getCoordinatesTimezone(_ coordinates: Coordinates) -> URLRequest?
     func getCurrencyRate(from currentCurrency: String,
                          to localCurrency: String,
-                         amount: Float) -> URLRequest
+                         amount: Float) -> URLRequest?
 }
 
 final class NetworkRequestFactory: NetworkRequestFactoryProtocol {
@@ -31,7 +31,7 @@ final class NetworkRequestFactory: NetworkRequestFactoryProtocol {
         }
     }
     
-    func getLocationData(city: String, country: String) -> URLRequest {
+    func getLocationData(city: String, country: String) -> URLRequest? {
         let requestURL = Constants.ApiNinjas.baseURL.appendingPathComponent("geocoding")
         var urlComponents = URLComponents(url: requestURL, resolvingAgainstBaseURL: false)
         urlComponents?.queryItems = [
@@ -40,14 +40,14 @@ final class NetworkRequestFactory: NetworkRequestFactoryProtocol {
         ]
         guard let url = urlComponents?.url else {
             assertionFailure("Something has gone wrong and URL could not be constructed!")
-            return URLRequest(url: URL(string: "")!)
+            return nil
         }
         var request = URLRequest(url: url)
         request.setValue(Constants.ApiNinjas.apiKey, forHTTPHeaderField: "X-Api-Key")
         return request
     }
     
-    func getCoordinatesTimezone(_ coordinates: Coordinates) -> URLRequest {
+    func getCoordinatesTimezone(_ coordinates: Coordinates) -> URLRequest? {
         let requestURL = Constants.ApiNinjas.baseURL.appendingPathComponent("timezone")
         var urlComponents = URLComponents(url: requestURL, resolvingAgainstBaseURL: false)
         urlComponents?.queryItems = [
@@ -56,7 +56,7 @@ final class NetworkRequestFactory: NetworkRequestFactoryProtocol {
         ]
         guard let url = urlComponents?.url else {
             assertionFailure("Something has gone wrong and URL could not be constructed!")
-            return URLRequest(url: URL(string: "")!)
+            return nil
         }
         var request = URLRequest(url: url)
         request.setValue(Constants.ApiNinjas.apiKey, forHTTPHeaderField: "X-Api-Key")
@@ -65,7 +65,7 @@ final class NetworkRequestFactory: NetworkRequestFactoryProtocol {
     
     func getCurrencyRate(from currentCurrency: String,
                          to localCurrency: String,
-                         amount: Float) -> URLRequest {
+                         amount: Float) -> URLRequest? {
         let requestURL = Constants.ApiNinjas.baseURL.appendingPathComponent("convertcurrency")
         var urlComponents = URLComponents(url: requestURL, resolvingAgainstBaseURL: false)
         urlComponents?.queryItems = [
@@ -75,7 +75,7 @@ final class NetworkRequestFactory: NetworkRequestFactoryProtocol {
         ]
         guard let url = urlComponents?.url else {
             assertionFailure("Something has gone wrong and URL could not be constructed!")
-            return URLRequest(url: URL(string: "")!)
+            return nil
         }
         var request = URLRequest(url: url)
         request.setValue(Constants.ApiNinjas.apiKey, forHTTPHeaderField: "X-Api-Key")
@@ -85,7 +85,7 @@ final class NetworkRequestFactory: NetworkRequestFactoryProtocol {
     func getWeatherRequestForCoordinates(_ coordinates: Coordinates,
                                          timezone: Timezone,
                                          startDate: String,
-                                         endDate: String) -> URLRequest {
+                                         endDate: String) -> URLRequest? {
         let requestURL = Constants.Weather.baseURL.appendingPathComponent("forecast")
         var urlComponents = URLComponents(url: requestURL, resolvingAgainstBaseURL: false)
         urlComponents?.queryItems = [
@@ -98,7 +98,7 @@ final class NetworkRequestFactory: NetworkRequestFactoryProtocol {
         ]
         guard let url = urlComponents?.url else {
             assertionFailure("Something has gone wrong and URL could not be constructed!")
-            return URLRequest(url: URL(string: "")!)
+            return nil
         }
         return URLRequest(url: url)
     }

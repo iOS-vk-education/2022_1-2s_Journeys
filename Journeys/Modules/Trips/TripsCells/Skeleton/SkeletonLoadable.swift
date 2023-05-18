@@ -12,15 +12,6 @@ import UIKit
  Function programming inheritance.
  */
 
-//enum SkeletonLoadableViews {
-//    case view(UIView)
-//    case label(UILabel)
-//
-//    static func associatedViewValue() -> UIView? {
-//        switch
-//    }
-//}
-
 struct ViewWithLayer {
     let view: UIView
     let layer: CAGradientLayer
