@@ -18,7 +18,7 @@ protocol FirebaseServiceDeleteProtocol {
     func deleteTrips(uid: String, completion: @escaping (Error?) -> Void)
     func deleteRouteData(routeId: String, completion: @escaping (Error?) -> Void)
     func deleteBaggage(baggageId: String)
-    func deleteUserData(uid: String)
+    func deleteCurrentUserData(completion: @escaping (Error?) -> Void)
 }
 
 extension FirebaseService: FirebaseServiceDeleteProtocol {
@@ -59,6 +59,15 @@ extension FirebaseService: FirebaseServiceDeleteProtocol {
     func deleteStuffData(_ stuffId: String, baggageId: String, completion: @escaping (Error?) -> Void) {
         firebaseManager.firestore.collection("baggage").document(baggageId)
             .collection("baggage_stuff").document(stuffId).delete (completion: completion)
+    }
+    
+    func deleteCurrentUserData(completion: @escaping (Error?) -> Void) {
+        guard let userId = firebaseManager.auth.currentUser?.uid else {
+            completion(Errors.deleteDataError)
+            return
+        }
+        
+        firebaseManager.firestore.collection("users").document(userId).delete(completion: completion)
     }
 }
     

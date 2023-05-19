@@ -13,7 +13,7 @@ protocol AccountModuleInput: AnyObject {
 // MARK: - Account ModuleOutput
 
 protocol AccountModuleOutput: AnyObject {
-    func accountModuleWantsToOpenAccountInfoModule()
+    func accountModuleWantsToOpenAccountInfoModule(with userData: User?)
     func accountModuleWantsToOpenStuffListsModule()
     func accountModuleWantsToOpenSettingsModule()
 }

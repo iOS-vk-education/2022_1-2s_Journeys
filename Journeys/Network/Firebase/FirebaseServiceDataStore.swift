@@ -17,6 +17,7 @@ protocol FirebaseServiceStoreProtocol {
     func storeTripImage(image: UIImage, completion: @escaping (Result<String, Error>) -> Void)
     func storeStuffData(baggageId: String, stuff: Stuff, completion: @escaping (Result<Stuff, Error>) -> Void)
     func storeBaggageData(baggage: Baggage, completion: @escaping (Result<Baggage, Error>) -> Void)
+    func storeUserData(_ user: User, completion: @escaping (Result<User, Error>) -> Void)
 }
 
 extension FirebaseService: FirebaseServiceStoreProtocol {
@@ -109,6 +110,23 @@ extension FirebaseService: FirebaseServiceStoreProtocol {
                 completion(.failure(error))
             } else if let id = ref?.documentID, let stuff = Stuff(from: stuff.toDictionary(), id: id) {
                 completion(.success(stuff))
+            } else {
+                completion(.failure(FBError.noData))
+            }
+        }
+    }
+    
+    func storeUserData(_ user: User, completion: @escaping (Result<User, Error>) -> Void) {
+        guard let userId = firebaseManager.auth.currentUser?.uid else {
+            completion(.failure(Errors.saveDataError))
+            return
+        }
+        var ref: DocumentReference = firebaseManager.firestore.collection("users").document(userId)
+        ref.setData(user.toDictionary()) { error in
+            if let error = error {
+                completion(.failure(error))
+            } else if let user = User(from: user.toDictionary(), id: ref.documentID) {
+                completion(.success(user))
             } else {
                 completion(.failure(FBError.noData))
             }

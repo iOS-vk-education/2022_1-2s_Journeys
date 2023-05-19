@@ -18,7 +18,7 @@ final class AccountInfoCell: UITableViewCell {
     }
     
     enum CellType {
-        enum PersonalInfo: CaseIterable {
+        enum PersonalInfo: Int, CaseIterable {
             case firstName
             case lastName
             
@@ -30,16 +30,16 @@ final class AccountInfoCell: UITableViewCell {
                 }
             }
         }
-        enum LoginInfo: CaseIterable {
+        enum LoginInfo: Int, CaseIterable {
             case email
-            case pasword
+            case password
             case newPassword
             case confirmPassword
             
             var placeholder: String {
                 switch self {
                 case .email: return  L10n.email
-                case .pasword: return L10n.password
+                case .password: return L10n.password
                 case .newPassword: return L10n.newPassword
                 case .confirmPassword: return L10n.confirmPassword
                 default: return ""

@@ -14,10 +14,13 @@ final class AccountPresenter {
     // MARK: - Public Properties
     weak var view: AccountViewInput?
     weak var moduleOutput: AccountModuleOutput?
+    var model: AccountModelInput?
     
     // MARK: - Private Properties
     private let displayDataFactory = SettingsDisplayDataFactory()
     private let firebaseService: FirebaseServiceProtocol
+    
+    private var userData: User?
     
     init(firebaseService: FirebaseServiceProtocol,
          moduleOutput: AccountModuleOutput) {
@@ -31,8 +34,15 @@ extension AccountPresenter: AccountModuleInput {
 }
 
 extension AccountPresenter: AccountViewOutput {
+    func viewDidAppear() {
+        model?.getUserData()
+    }
+    
     func username() -> String {
-        return "Петр Степаныч"
+        guard let fullName = userData?.fullName() else {
+            return ""
+        }
+        return fullName
     }
     
     func displayData(for indexPath: IndexPath) -> SettingsCell.DisplayData? {
@@ -46,7 +56,7 @@ extension AccountPresenter: AccountViewOutput {
         let nextPage = SettingsCell.CellType.Account.allCases[indexPath.row]
         switch nextPage {
         case .accountInfo:
-            moduleOutput?.accountModuleWantsToOpenAccountInfoModule()
+            moduleOutput?.accountModuleWantsToOpenAccountInfoModule(with: userData)
         case .stuffLists:
             moduleOutput?.accountModuleWantsToOpenStuffListsModule()
         case .settings:
@@ -59,5 +69,17 @@ extension AccountPresenter: AccountViewOutput {
     
     func numberOfRows(in section: Int) -> Int {
         return SettingsCell.CellType.Account.allCases.count
+    }
+}
+
+extension AccountPresenter: AccountModelOutput {
+    func didObtainUserData(data: User) {
+        userData = data
+        view?.reloadView()
+    }
+    
+    func didRecieveError(error: Error) {
+        view?.showAlert(title: "Error",
+                        message: error.localizedDescription)
     }
 }
