@@ -274,7 +274,6 @@ extension AccountInfoPresenter: AccountInfoModelOutput {
         view?.showAlert(title: "Error",
                         message: error.localizedDescription,
                         textFieldPlaceholder: nil)
-        //        dataStoreDispatchGroup.leave()
     }
     
     func didStoreData(_ data: StorableData) {
