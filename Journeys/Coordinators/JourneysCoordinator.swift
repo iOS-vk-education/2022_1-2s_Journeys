@@ -139,6 +139,10 @@ extension JourneysCoordinator: PlaceModuleOutput {
 }
 
 extension JourneysCoordinator: TripInfoModuleOutput {
+    // TODO: openEventsModule func after pull request #30 merge
+    func openEventsModule(with coordinates: Coordinates) {
+    }
+    
     func tripInfoModuleWantsToClose() {
         navigationController.popToViewController(navigationController.viewControllers[0], animated: true)
     }

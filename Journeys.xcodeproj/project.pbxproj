@@ -62,7 +62,7 @@
 		CE7F42CF29594BE1000CBA63 /* AddPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7F42CE29594BE1000CBA63 /* AddPhotoCell.swift */; };
 		CE7F42D3295ACFE4000CBA63 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7F42D2295ACFE3000CBA63 /* Event.swift */; };
 		CE7F42D5295AD003000CBA63 /* Adress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7F42D4295AD003000CBA63 /* Adress.swift */; };
-		CE7F42D9295B1820000CBA63 /* MapCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7F42D8295B181F000CBA63 /* MapCell.swift */; };
+		CE7F42D9295B1820000CBA63 /* EventMapCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7F42D8295B181F000CBA63 /* EventMapCell.swift */; };
 		CE7F42DB295B34E8000CBA63 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE7F42DA295B34E7000CBA63 /* GoogleService-Info.plist */; };
 		D2F0BC3358339956DDE22244 /* StuffViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5363B31E1ED6703B3D86E86D /* StuffViewController.swift */; };
 		D3B3547A919CA12361A3822A /* TripInfoModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902CF0A08A2306F0D3CE65D9 /* TripInfoModuleIO.swift */; };
@@ -83,6 +83,7 @@
 		EE02E54D2950D9EA002BE87E /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02E5452950D9EA002BE87E /* Route.swift */; };
 		EE02E54E2950D9EA002BE87E /* Baggage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02E5462950D9EA002BE87E /* Baggage.swift */; };
 		EE02E56F2950E732002BE87E /* EmojiTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02E56E2950E732002BE87E /* EmojiTextField.swift */; };
+		EE078ADF29E5AE18003173D8 /* CurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE078ADE29E5AE18003173D8 /* CurrencyView.swift */; };
 		EE0AF93E2913010D00EC52D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0AF93D2913010D00EC52D3 /* AppDelegate.swift */; };
 		EE0AF9422913010D00EC52D3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0AF9412913010D00EC52D3 /* ViewController.swift */; };
 		EE0AF9452913010D00EC52D3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE0AF9432913010D00EC52D3 /* Main.storyboard */; };
@@ -97,19 +98,23 @@
 		EE30C7242943DD4A00A9DCF6 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE30C7232943DD4A00A9DCF6 /* Errors.swift */; };
 		EE30C7262943E89200A9DCF6 /* FirebaseServiceDataObtain.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE30C7252943E89200A9DCF6 /* FirebaseServiceDataObtain.swift */; };
 		EE30C72B2943F28E00A9DCF6 /* RouteModelIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE30C72A2943F28E00A9DCF6 /* RouteModelIO.swift */; };
-		EE30C72E2943FB5500A9DCF6 /* ErrorsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE30C72D2943FB5400A9DCF6 /* ErrorsHandler.swift */; };
+		EE4412F52A06FD8800AD86AC /* ProgressViewWithImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4412F42A06FD8800AD86AC /* ProgressViewWithImage.swift */; };
 		EE497A122940AF41007E8579 /* AccountCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE497A112940AF41007E8579 /* AccountCoordinator.swift */; };
 		EE497A142940AF4C007E8579 /* EventsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE497A132940AF4C007E8579 /* EventsCoordinator.swift */; };
 		EE497A162940B0EB007E8579 /* Pages.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE497A152940B0EB007E8579 /* Pages.swift */; };
 		EE497A182940B183007E8579 /* TabbarItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE497A172940B183007E8579 /* TabbarItemFactory.swift */; };
-		EE4F820E29B8BE11004784A6 /* SkeletonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4F820D29B8BE11004784A6 /* SkeletonCell.swift */; };
+		EE4F820E29B8BE11004784A6 /* SkeletonTripCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4F820D29B8BE11004784A6 /* SkeletonTripCell.swift */; };
 		EE4F821029B8BF53004784A6 /* SkeletonLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4F820F29B8BF53004784A6 /* SkeletonLoadable.swift */; };
+		EE570CAA2A02FBFD006E7077 /* CurrencyCellDisplayDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE570CA92A02FBFD006E7077 /* CurrencyCellDisplayDataFactory.swift */; };
+		EE570CAC2A03BA64006E7077 /* DisplayDataProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE570CAB2A03BA64006E7077 /* DisplayDataProtocol.swift */; };
 		EE57FF3D2927E7E100212DC2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE57FF3B2927E7E100212DC2 /* Localizable.strings */; };
 		EE57FF3F2927E8B000212DC2 /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */; };
+		EE5B6DF529E8377B00F0C79E /* CurrencyRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5B6DF429E8377B00F0C79E /* CurrencyRate.swift */; };
+		EE5B6DF729E83B1F00F0C79E /* Locale.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5B6DF629E83B1F00F0C79E /* Locale.swift */; };
 		EE7819B0295A69E8008F607E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819AF295A69E8008F607E /* LoadingView.swift */; };
 		EE7819B3295A8441008F607E /* TripsPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819B2295A8441008F607E /* TripsPlaceholder.swift */; };
 		EE7819B5295A8629008F607E /* PlaceholderDisplayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819B4295A8629008F607E /* PlaceholderDisplayData.swift */; };
-		EE7819B7295A87DC008F607E /* TripsTransitionHandlerProlocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819B6295A87DC008F607E /* TripsTransitionHandlerProlocol.swift */; };
+		EE7819B7295A87DC008F607E /* TTransitionHandlerProlocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819B6295A87DC008F607E /* TTransitionHandlerProlocol.swift */; };
 		EE7819B9295B1705008F607E /* EmptyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819B8295B1705008F607E /* EmptyViewController.swift */; };
 		EE79132129C33F64002629E3 /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE79132029C33F64002629E3 /* UIWindow.swift */; };
 		EE79132A29C4DE88002629E3 /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE79132929C4DE88002629E3 /* MailView.swift */; };
@@ -135,6 +140,7 @@
 		EE79690129B9342400F777FE /* TrackableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7968FE29B9342400F777FE /* TrackableScrollView.swift */; };
 		EE79690229B9342400F777FE /* RoundedCornerShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7968FF29B9342400F777FE /* RoundedCornerShape.swift */; };
 		EE79690329B9342400F777FE /* KeyboardHeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE79690029B9342400F777FE /* KeyboardHeight.swift */; };
+		EE821F0029D8CFD00052B66A /* CurrencyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE821EFF29D8CFD00052B66A /* CurrencyCell.swift */; };
 		EE910DB12957CBC30094F5C8 /* AccountInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DB02957CBC30094F5C8 /* AccountInfoCell.swift */; };
 		EE910DB72957EF9D0094F5C8 /* AuthModelIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DB62957EF9D0094F5C8 /* AuthModelIO.swift */; };
 		EE910DB92957FAFA0094F5C8 /* SetVisible.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DB82957FAFA0094F5C8 /* SetVisible.swift */; };
@@ -145,13 +151,17 @@
 		EE910DC32958AE610094F5C8 /* FirebaseServiceAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DC22958AE610094F5C8 /* FirebaseServiceAuth.swift */; };
 		EE910DC52958AE700094F5C8 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DC42958AE700094F5C8 /* FirebaseService.swift */; };
 		EE910DC92958B93A0094F5C8 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DC82958B93A0094F5C8 /* LoadingViewController.swift */; };
-		EE910DCD295913860094F5C8 /* NoPlacesForWeatherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DCC295913860094F5C8 /* NoPlacesForWeatherCell.swift */; };
+		EE910DCD295913860094F5C8 /* PlacesInfoPlaceholderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DCC295913860094F5C8 /* PlacesInfoPlaceholderCell.swift */; };
 		EE910DD5295A28AA0094F5C8 /* WeatherPlaceNoDataPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DD4295A28AA0094F5C8 /* WeatherPlaceNoDataPlaceholder.swift */; };
 		EE92866429CDDBAB00853998 /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE92866229CDDBAB00853998 /* UINavigationController.swift */; };
 		EE92866529CDDBAB00853998 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE92866329CDDBAB00853998 /* UITextField.swift */; };
+		EE9BC43629ECB15400091D6B /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9BC43529ECB15400091D6B /* String.swift */; };
+		EE9DDF8D29E47306002781C7 /* PlacesInfoLoadingPlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9DDF8C29E47306002781C7 /* PlacesInfoLoadingPlaceholderViewController.swift */; };
+		EE9DDF9129E473C0002781C7 /* PlacesInfoRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9DDF9029E473C0002781C7 /* PlacesInfoRouter.swift */; };
+		EE9DDF9329E473CA002781C7 /* PlacesInfoRouterInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9DDF9229E473CA002781C7 /* PlacesInfoRouterInput.swift */; };
 		EEA76C5E2951325E00250B06 /* PlacesInfoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C482951325E00250B06 /* PlacesInfoPresenter.swift */; };
 		EEA76C5F2951325E00250B06 /* PlacesInfoModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C492951325E00250B06 /* PlacesInfoModuleIO.swift */; };
-		EEA76C602951325E00250B06 /* PlacesInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C4B2951325E00250B06 /* PlacesInfoModel.swift */; };
+		EEA76C602951325E00250B06 /* PlacesInfoInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C4B2951325E00250B06 /* PlacesInfoInteractor.swift */; };
 		EEA76C612951325E00250B06 /* WeatherCollectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C4F2951325E00250B06 /* WeatherCollectionHeader.swift */; };
 		EEA76C622951325E00250B06 /* WeatherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C512951325E00250B06 /* WeatherCell.swift */; };
 		EEA76C632951325E00250B06 /* WeatherCellDisplayDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C522951325E00250B06 /* WeatherCellDisplayDataFactory.swift */; };
@@ -163,14 +173,15 @@
 		EEA76C692951325E00250B06 /* PlacesInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C5B2951325E00250B06 /* PlacesInfoViewController.swift */; };
 		EEA76C6A2951325E00250B06 /* PlacesInfoViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C5C2951325E00250B06 /* PlacesInfoViewIO.swift */; };
 		EEA76C6B2951325E00250B06 /* PlacesInfoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA76C5D2951325E00250B06 /* PlacesInfoBuilder.swift */; };
-		EEAC1D2C295260CB00237331 /* PlacesInfoModelIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D2B295260CB00237331 /* PlacesInfoModelIO.swift */; };
+		EEAC1D2C295260CB00237331 /* PlacesInfoInteractorIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D2B295260CB00237331 /* PlacesInfoInteractorIO.swift */; };
 		EEAC1D312952717800237331 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D2E2952717800237331 /* NetworkService.swift */; };
 		EEAC1D322952717800237331 /* NetworkRequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D2F2952717800237331 /* NetworkRequestFactory.swift */; };
-		EEAC1D35295271E400237331 /* Coordinates.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D34295271E400237331 /* Coordinates.swift */; };
+		EEAC1D35295271E400237331 /* GeoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D34295271E400237331 /* GeoData.swift */; };
 		EEAC1D3C29527A7000237331 /* WeatherForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D3729527A7000237331 /* WeatherForecast.swift */; };
 		EEAC1D4029527A7000237331 /* WeatherMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D3B29527A7000237331 /* WeatherMain.swift */; };
 		EEAC1D452952897F00237331 /* Timezone.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D442952897F00237331 /* Timezone.swift */; };
 		EEAC1D482952914000237331 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAC1D472952914000237331 /* DateFormatter.swift */; };
+		EEAE9EE929E5BDE8000ABC49 /* MapCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAE9EE829E5BDE8000ABC49 /* MapCell.swift */; };
 		EED2A75E294FB874003A9A1A /* StuffCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED2A75D294FB874003A9A1A /* StuffCell.swift */; };
 		EED2A760294FCAF9003A9A1A /* StuffTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED2A75F294FCAF9003A9A1A /* StuffTableViewHeader.swift */; };
 		EED2A762294FCE4E003A9A1A /* AddStuffCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED2A761294FCE4E003A9A1A /* AddStuffCell.swift */; };
@@ -180,6 +191,7 @@
 		EEDAF55C291D5AF500E6DDB9 /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDAF55B291D5AF500E6DDB9 /* FloatingButton.swift */; };
 		EEF01CB029C5C20400A63519 /* ViewControllerWithDimBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF01CAF29C5C20300A63519 /* ViewControllerWithDimBackground.swift */; };
 		EEF01CB229C5D03800A63519 /* AccountInfoCellDisplayDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF01CB129C5D03800A63519 /* AccountInfoCellDisplayDataFactory.swift */; };
+		EEF0608B29E6F87C007ED82F /* CollectionFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF0608A29E6F87C007ED82F /* CollectionFlowLayout.swift */; };
 		EEFA76C7292BE88F00A0B8CA /* RouteModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76BF292BE88F00A0B8CA /* RouteModuleIO.swift */; };
 		EEFA76C8292BE88F00A0B8CA /* RoutePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76C0292BE88F00A0B8CA /* RoutePresenter.swift */; };
 		EEFA76C9292BE88F00A0B8CA /* RouteBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFA76C1292BE88F00A0B8CA /* RouteBuilder.swift */; };
@@ -250,7 +262,7 @@
 		CE7F42CE29594BE1000CBA63 /* AddPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPhotoCell.swift; sourceTree = "<group>"; };
 		CE7F42D2295ACFE3000CBA63 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		CE7F42D4295AD003000CBA63 /* Adress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Adress.swift; sourceTree = "<group>"; };
-		CE7F42D8295B181F000CBA63 /* MapCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCell.swift; sourceTree = "<group>"; };
+		CE7F42D8295B181F000CBA63 /* EventMapCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventMapCell.swift; sourceTree = "<group>"; };
 		CE7F42DA295B34E7000CBA63 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Network/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CEEC91A92B6FC702B7FBFB11 /* AccountInfoPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountInfoPresenter.swift; sourceTree = "<group>"; };
 		D47E899306B33380C55D3644 /* Pods-Journeys.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journeys.release.xcconfig"; path = "Target Support Files/Pods-Journeys/Pods-Journeys.release.xcconfig"; sourceTree = "<group>"; };
@@ -276,6 +288,7 @@
 		EE02E5452950D9EA002BE87E /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		EE02E5462950D9EA002BE87E /* Baggage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Baggage.swift; sourceTree = "<group>"; };
 		EE02E56E2950E732002BE87E /* EmojiTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiTextField.swift; sourceTree = "<group>"; };
+		EE078ADE29E5AE18003173D8 /* CurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyView.swift; sourceTree = "<group>"; };
 		EE0AF93A2913010D00EC52D3 /* Journeys.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journeys.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE0AF93D2913010D00EC52D3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EE0AF9412913010D00EC52D3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -292,18 +305,22 @@
 		EE30C7232943DD4A00A9DCF6 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		EE30C7252943E89200A9DCF6 /* FirebaseServiceDataObtain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseServiceDataObtain.swift; sourceTree = "<group>"; };
 		EE30C72A2943F28E00A9DCF6 /* RouteModelIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteModelIO.swift; sourceTree = "<group>"; };
-		EE30C72D2943FB5400A9DCF6 /* ErrorsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorsHandler.swift; sourceTree = "<group>"; };
+		EE4412F42A06FD8800AD86AC /* ProgressViewWithImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewWithImage.swift; sourceTree = "<group>"; };
 		EE497A112940AF41007E8579 /* AccountCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCoordinator.swift; sourceTree = "<group>"; };
 		EE497A132940AF4C007E8579 /* EventsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsCoordinator.swift; sourceTree = "<group>"; };
 		EE497A152940B0EB007E8579 /* Pages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pages.swift; sourceTree = "<group>"; };
 		EE497A172940B183007E8579 /* TabbarItemFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarItemFactory.swift; sourceTree = "<group>"; };
-		EE4F820D29B8BE11004784A6 /* SkeletonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonCell.swift; sourceTree = "<group>"; };
+		EE4F820D29B8BE11004784A6 /* SkeletonTripCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonTripCell.swift; sourceTree = "<group>"; };
 		EE4F820F29B8BF53004784A6 /* SkeletonLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonLoadable.swift; sourceTree = "<group>"; };
+		EE570CA92A02FBFD006E7077 /* CurrencyCellDisplayDataFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyCellDisplayDataFactory.swift; sourceTree = "<group>"; };
+		EE570CAB2A03BA64006E7077 /* DisplayDataProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayDataProtocol.swift; sourceTree = "<group>"; };
 		EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Strings+Generated.swift"; sourceTree = "<group>"; };
+		EE5B6DF429E8377B00F0C79E /* CurrencyRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRate.swift; sourceTree = "<group>"; };
+		EE5B6DF629E83B1F00F0C79E /* Locale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locale.swift; sourceTree = "<group>"; };
 		EE7819AF295A69E8008F607E /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		EE7819B2295A8441008F607E /* TripsPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsPlaceholder.swift; sourceTree = "<group>"; };
 		EE7819B4295A8629008F607E /* PlaceholderDisplayData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderDisplayData.swift; sourceTree = "<group>"; };
-		EE7819B6295A87DC008F607E /* TripsTransitionHandlerProlocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsTransitionHandlerProlocol.swift; sourceTree = "<group>"; };
+		EE7819B6295A87DC008F607E /* TTransitionHandlerProlocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTransitionHandlerProlocol.swift; sourceTree = "<group>"; };
 		EE7819B8295B1705008F607E /* EmptyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewController.swift; sourceTree = "<group>"; };
 		EE79132029C33F64002629E3 /* UIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindow.swift; sourceTree = "<group>"; };
 		EE79132529C34406002629E3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = ../en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -331,6 +348,7 @@
 		EE7968FE29B9342400F777FE /* TrackableScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackableScrollView.swift; sourceTree = "<group>"; };
 		EE7968FF29B9342400F777FE /* RoundedCornerShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedCornerShape.swift; sourceTree = "<group>"; };
 		EE79690029B9342400F777FE /* KeyboardHeight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardHeight.swift; sourceTree = "<group>"; };
+		EE821EFF29D8CFD00052B66A /* CurrencyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyCell.swift; sourceTree = "<group>"; };
 		EE910DB02957CBC30094F5C8 /* AccountInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoCell.swift; sourceTree = "<group>"; };
 		EE910DB62957EF9D0094F5C8 /* AuthModelIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModelIO.swift; sourceTree = "<group>"; };
 		EE910DB82957FAFA0094F5C8 /* SetVisible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetVisible.swift; sourceTree = "<group>"; };
@@ -341,13 +359,17 @@
 		EE910DC22958AE610094F5C8 /* FirebaseServiceAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseServiceAuth.swift; sourceTree = "<group>"; };
 		EE910DC42958AE700094F5C8 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		EE910DC82958B93A0094F5C8 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
-		EE910DCC295913860094F5C8 /* NoPlacesForWeatherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoPlacesForWeatherCell.swift; sourceTree = "<group>"; };
+		EE910DCC295913860094F5C8 /* PlacesInfoPlaceholderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesInfoPlaceholderCell.swift; sourceTree = "<group>"; };
 		EE910DD4295A28AA0094F5C8 /* WeatherPlaceNoDataPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherPlaceNoDataPlaceholder.swift; sourceTree = "<group>"; };
 		EE92866229CDDBAB00853998 /* UINavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
 		EE92866329CDDBAB00853998 /* UITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
+		EE9BC43529ECB15400091D6B /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		EE9DDF8C29E47306002781C7 /* PlacesInfoLoadingPlaceholderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesInfoLoadingPlaceholderViewController.swift; sourceTree = "<group>"; };
+		EE9DDF9029E473C0002781C7 /* PlacesInfoRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesInfoRouter.swift; sourceTree = "<group>"; };
+		EE9DDF9229E473CA002781C7 /* PlacesInfoRouterInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesInfoRouterInput.swift; sourceTree = "<group>"; };
 		EEA76C482951325E00250B06 /* PlacesInfoPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesInfoPresenter.swift; sourceTree = "<group>"; };
 		EEA76C492951325E00250B06 /* PlacesInfoModuleIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesInfoModuleIO.swift; sourceTree = "<group>"; };
-		EEA76C4B2951325E00250B06 /* PlacesInfoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesInfoModel.swift; sourceTree = "<group>"; };
+		EEA76C4B2951325E00250B06 /* PlacesInfoInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesInfoInteractor.swift; sourceTree = "<group>"; };
 		EEA76C4F2951325E00250B06 /* WeatherCollectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherCollectionHeader.swift; sourceTree = "<group>"; };
 		EEA76C512951325E00250B06 /* WeatherCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherCell.swift; sourceTree = "<group>"; };
 		EEA76C522951325E00250B06 /* WeatherCellDisplayDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherCellDisplayDataFactory.swift; sourceTree = "<group>"; };
@@ -359,14 +381,15 @@
 		EEA76C5B2951325E00250B06 /* PlacesInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesInfoViewController.swift; sourceTree = "<group>"; };
 		EEA76C5C2951325E00250B06 /* PlacesInfoViewIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesInfoViewIO.swift; sourceTree = "<group>"; };
 		EEA76C5D2951325E00250B06 /* PlacesInfoBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesInfoBuilder.swift; sourceTree = "<group>"; };
-		EEAC1D2B295260CB00237331 /* PlacesInfoModelIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesInfoModelIO.swift; sourceTree = "<group>"; };
+		EEAC1D2B295260CB00237331 /* PlacesInfoInteractorIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesInfoInteractorIO.swift; sourceTree = "<group>"; };
 		EEAC1D2E2952717800237331 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		EEAC1D2F2952717800237331 /* NetworkRequestFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkRequestFactory.swift; sourceTree = "<group>"; };
-		EEAC1D34295271E400237331 /* Coordinates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinates.swift; sourceTree = "<group>"; };
+		EEAC1D34295271E400237331 /* GeoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoData.swift; sourceTree = "<group>"; };
 		EEAC1D3729527A7000237331 /* WeatherForecast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherForecast.swift; sourceTree = "<group>"; };
 		EEAC1D3B29527A7000237331 /* WeatherMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherMain.swift; sourceTree = "<group>"; };
 		EEAC1D442952897F00237331 /* Timezone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timezone.swift; sourceTree = "<group>"; };
 		EEAC1D472952914000237331 /* DateFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
+		EEAE9EE829E5BDE8000ABC49 /* MapCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCell.swift; sourceTree = "<group>"; };
 		EED2A75D294FB874003A9A1A /* StuffCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffCell.swift; sourceTree = "<group>"; };
 		EED2A75F294FCAF9003A9A1A /* StuffTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffTableViewHeader.swift; sourceTree = "<group>"; };
 		EED2A761294FCE4E003A9A1A /* AddStuffCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStuffCell.swift; sourceTree = "<group>"; };
@@ -377,6 +400,7 @@
 		EEECB46D3CD66B269BD0D11E /* AccountInfoBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountInfoBuilder.swift; sourceTree = "<group>"; };
 		EEF01CAF29C5C20300A63519 /* ViewControllerWithDimBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerWithDimBackground.swift; sourceTree = "<group>"; };
 		EEF01CB129C5D03800A63519 /* AccountInfoCellDisplayDataFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoCellDisplayDataFactory.swift; sourceTree = "<group>"; };
+		EEF0608A29E6F87C007ED82F /* CollectionFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionFlowLayout.swift; sourceTree = "<group>"; };
 		EEFA76BF292BE88F00A0B8CA /* RouteModuleIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteModuleIO.swift; sourceTree = "<group>"; };
 		EEFA76C0292BE88F00A0B8CA /* RoutePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutePresenter.swift; sourceTree = "<group>"; };
 		EEFA76C1292BE88F00A0B8CA /* RouteBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteBuilder.swift; sourceTree = "<group>"; };
@@ -580,7 +604,6 @@
 			children = (
 				FABAFF6132B4BF34FF1262AA /* TripsRouterInput.swift */,
 				8EBDC0F10F5CD5FD772D3371 /* TripsRouter.swift */,
-				EE7819B6295A87DC008F607E /* TripsTransitionHandlerProlocol.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -653,6 +676,7 @@
 		CE4CCC93295689520057455D /* EventsViews */ = {
 			isa = PBXGroup;
 			children = (
+				EEAE9EE829E5BDE8000ABC49 /* MapCell.swift */,
 				0D551CF42951752700A4151E /* EventsViewController.swift */,
 				CE4CCC96295693310057455D /* TapToAddButtonViewController.swift */,
 				CE4CCC9A2956B47D0057455D /* SuggestionViewController.swift */,
@@ -664,7 +688,6 @@
 				CE7F42CE29594BE1000CBA63 /* AddPhotoCell.swift */,
 				CE7F42D2295ACFE3000CBA63 /* Event.swift */,
 				CE7F42D4295AD003000CBA63 /* Adress.swift */,
-				CE7F42D8295B181F000CBA63 /* MapCell.swift */,
 				CE4CCC982956A7BA0057455D /* placemark.png */,
 				CE4CCC9429568C0E0057455D /* Add icon.png */,
 			);
@@ -756,13 +779,13 @@
 			isa = PBXGroup;
 			children = (
 				EEAC1D432952896B00237331 /* NetworkModels */,
-				EE02E53F2950D9EA002BE87E /* Location.swift */,
 				EE02E5432950D9EA002BE87E /* Protocols.swift */,
 				EE02E5462950D9EA002BE87E /* Baggage.swift */,
 				EE02E5412950D9EA002BE87E /* Stuff.swift */,
 				EE02E5442950D9EA002BE87E /* Weather.swift */,
 				EE02E5452950D9EA002BE87E /* Route.swift */,
 				0D551CEE2951738A00A4151E /* Place.swift */,
+				EE02E53F2950D9EA002BE87E /* Location.swift */,
 				0D551CF02951739C00A4151E /* Trip.swift */,
 				EE910DBC29589AD10094F5C8 /* User.swift */,
 			);
@@ -849,11 +872,15 @@
 		EE29EBF029186D4B008ECFF8 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				EE7819B6295A87DC008F607E /* TTransitionHandlerProlocol.swift */,
 				EE92866229CDDBAB00853998 /* UINavigationController.swift */,
 				EE92866329CDDBAB00853998 /* UITextField.swift */,
 				EE7968FB29B9317600F777FE /* Theme+Userdefaults.swift */,
 				EE79132029C33F64002629E3 /* UIWindow.swift */,
 				EEF01CAF29C5C20300A63519 /* ViewControllerWithDimBackground.swift */,
+				EE5B6DF629E83B1F00F0C79E /* Locale.swift */,
+				EE9BC43529ECB15400091D6B /* String.swift */,
+				EE570CAB2A03BA64006E7077 /* DisplayDataProtocol.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -885,9 +912,16 @@
 			isa = PBXGroup;
 			children = (
 				EE30C7232943DD4A00A9DCF6 /* Errors.swift */,
-				EE30C72D2943FB5400A9DCF6 /* ErrorsHandler.swift */,
 			);
 			path = Errors;
+			sourceTree = "<group>";
+		};
+		EE4412F32A06FD7700AD86AC /* ProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				EE4412F42A06FD8800AD86AC /* ProgressViewWithImage.swift */,
+			);
+			path = ProgressView;
 			sourceTree = "<group>";
 		};
 		EE497A1A2940B1D9007E8579 /* Tabbar */ = {
@@ -903,7 +937,7 @@
 		EE4F820C29B8BDF8004784A6 /* Skeleton */ = {
 			isa = PBXGroup;
 			children = (
-				EE4F820D29B8BE11004784A6 /* SkeletonCell.swift */,
+				EE4F820D29B8BE11004784A6 /* SkeletonTripCell.swift */,
 				EE4F820F29B8BF53004784A6 /* SkeletonLoadable.swift */,
 			);
 			path = Skeleton;
@@ -1007,6 +1041,16 @@
 			path = "SwiftUI+Common";
 			sourceTree = "<group>";
 		};
+		EE821EFE29D8CFBE0052B66A /* CurrencyCell */ = {
+			isa = PBXGroup;
+			children = (
+				EE821EFF29D8CFD00052B66A /* CurrencyCell.swift */,
+				EE078ADE29E5AE18003173D8 /* CurrencyView.swift */,
+				EE570CA92A02FBFD006E7077 /* CurrencyCellDisplayDataFactory.swift */,
+			);
+			path = CurrencyCell;
+			sourceTree = "<group>";
+		};
 		EE910DAF2957CBB10094F5C8 /* AccountCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1039,12 +1083,30 @@
 			path = LoadingView;
 			sourceTree = "<group>";
 		};
+		EE9DDF8E29E47312002781C7 /* Placeholder */ = {
+			isa = PBXGroup;
+			children = (
+				EE9DDF8C29E47306002781C7 /* PlacesInfoLoadingPlaceholderViewController.swift */,
+			);
+			path = Placeholder;
+			sourceTree = "<group>";
+		};
+		EE9DDF8F29E4739C002781C7 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				EE9DDF9029E473C0002781C7 /* PlacesInfoRouter.swift */,
+				EE9DDF9229E473CA002781C7 /* PlacesInfoRouterInput.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
 		EEA76C462951325E00250B06 /* PlacesInfo */ = {
 			isa = PBXGroup;
 			children = (
 				EEA76C4C2951325E00250B06 /* View */,
+				EEA76C4A2951325E00250B06 /* Interactor */,
 				EEA76C472951325E00250B06 /* Presenter */,
-				EEA76C4A2951325E00250B06 /* Model */,
+				EE9DDF8F29E4739C002781C7 /* Router */,
 				EEA76C5D2951325E00250B06 /* PlacesInfoBuilder.swift */,
 			);
 			path = PlacesInfo;
@@ -1059,20 +1121,23 @@
 			path = Presenter;
 			sourceTree = "<group>";
 		};
-		EEA76C4A2951325E00250B06 /* Model */ = {
+		EEA76C4A2951325E00250B06 /* Interactor */ = {
 			isa = PBXGroup;
 			children = (
-				EEA76C4B2951325E00250B06 /* PlacesInfoModel.swift */,
-				EEAC1D2B295260CB00237331 /* PlacesInfoModelIO.swift */,
+				EEA76C4B2951325E00250B06 /* PlacesInfoInteractor.swift */,
+				EEAC1D2B295260CB00237331 /* PlacesInfoInteractorIO.swift */,
 			);
-			path = Model;
+			path = Interactor;
 			sourceTree = "<group>";
 		};
 		EEA76C4C2951325E00250B06 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				EE4412F32A06FD7700AD86AC /* ProgressView */,
+				EE9DDF8E29E47312002781C7 /* Placeholder */,
 				EEA76C4D2951325E00250B06 /* Cells */,
 				EEA76C5A2951325E00250B06 /* MainCollectionHeader.swift */,
+				EEF0608A29E6F87C007ED82F /* CollectionFlowLayout.swift */,
 				EEA76C5B2951325E00250B06 /* PlacesInfoViewController.swift */,
 				EEA76C5C2951325E00250B06 /* PlacesInfoViewIO.swift */,
 			);
@@ -1082,10 +1147,12 @@
 		EEA76C4D2951325E00250B06 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				EEAE9EE729E5BA73000ABC49 /* EventMapCell */,
+				EE821EFE29D8CFBE0052B66A /* CurrencyCell */,
 				EEA76C542951325E00250B06 /* ShortRouteCell */,
 				EEA76C4E2951325E00250B06 /* WeatherCollection */,
 				EEA76C562951325E00250B06 /* EventsCollection */,
-				EE910DCC295913860094F5C8 /* NoPlacesForWeatherCell.swift */,
+				EE910DCC295913860094F5C8 /* PlacesInfoPlaceholderCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1093,9 +1160,9 @@
 		EEA76C4E2951325E00250B06 /* WeatherCollection */ = {
 			isa = PBXGroup;
 			children = (
+				EEA76C502951325E00250B06 /* WeatherCell */,
 				EEA76C4F2951325E00250B06 /* WeatherCollectionHeader.swift */,
 				EEA76C532951325E00250B06 /* WeatherCollection.swift */,
-				EEA76C502951325E00250B06 /* WeatherCell */,
 				EE910DD4295A28AA0094F5C8 /* WeatherPlaceNoDataPlaceholder.swift */,
 			);
 			path = WeatherCollection;
@@ -1157,8 +1224,9 @@
 			isa = PBXGroup;
 			children = (
 				EEAC1D3629527A5B00237331 /* WeatherModels */,
-				EEAC1D34295271E400237331 /* Coordinates.swift */,
+				EEAC1D34295271E400237331 /* GeoData.swift */,
 				EEAC1D442952897F00237331 /* Timezone.swift */,
+				EE5B6DF429E8377B00F0C79E /* CurrencyRate.swift */,
 			);
 			path = NetworkModels;
 			sourceTree = "<group>";
@@ -1171,6 +1239,14 @@
 			name = Formatters;
 			path = Journeys/Formatters;
 			sourceTree = SOURCE_ROOT;
+		};
+		EEAE9EE729E5BA73000ABC49 /* EventMapCell */ = {
+			isa = PBXGroup;
+			children = (
+				CE7F42D8295B181F000CBA63 /* EventMapCell.swift */,
+			);
+			path = EventMapCell;
+			sourceTree = "<group>";
 		};
 		EED2A75C294FB865003A9A1A /* StuffCell */ = {
 			isa = PBXGroup;
@@ -1456,21 +1532,23 @@
 			files = (
 				EEDAF557291C302500E6DDB9 /* SceneDelegate.swift in Sources */,
 				CE4CCCA1295863CB0057455D /* FloatingButton2.swift in Sources */,
-				EE4F820E29B8BE11004784A6 /* SkeletonCell.swift in Sources */,
+				EE4F820E29B8BE11004784A6 /* SkeletonTripCell.swift in Sources */,
 				EE910DC32958AE610094F5C8 /* FirebaseServiceAuth.swift in Sources */,
 				EED2A760294FCAF9003A9A1A /* StuffTableViewHeader.swift in Sources */,
 				EEA76C682951325E00250B06 /* MainCollectionHeader.swift in Sources */,
 				EEFA76C7292BE88F00A0B8CA /* RouteModuleIO.swift in Sources */,
 				EE7968FC29B9317600F777FE /* Theme+Userdefaults.swift in Sources */,
-				EE7819B7295A87DC008F607E /* TripsTransitionHandlerProlocol.swift in Sources */,
+				EE7819B7295A87DC008F607E /* TTransitionHandlerProlocol.swift in Sources */,
 				EE02E5472950D9EA002BE87E /* Location.swift in Sources */,
 				EE7968E729B92DEE00F777FE /* SettingsSubViewModel.swift in Sources */,
+				EE5B6DF729E83B1F00F0C79E /* Locale.swift in Sources */,
 				EE0AF9422913010D00EC52D3 /* ViewController.swift in Sources */,
 				EEDAF553291C05B300E6DDB9 /* JourneysCoordinator.swift in Sources */,
 				EE57FF3F2927E8B000212DC2 /* Strings+Generated.swift in Sources */,
 				EE497A142940AF4C007E8579 /* EventsCoordinator.swift in Sources */,
 				EE92866429CDDBAB00853998 /* UINavigationController.swift in Sources */,
 				EE7819B9295B1705008F607E /* EmptyViewController.swift in Sources */,
+				EE570CAA2A02FBFD006E7077 /* CurrencyCellDisplayDataFactory.swift in Sources */,
 				EE7968E829B92DEE00F777FE /* ThemeWindow.swift in Sources */,
 				EE7968EB29B92DEE00F777FE /* SettingsPresenter.swift in Sources */,
 				CE4CCC97295693310057455D /* TapToAddButtonViewController.swift in Sources */,
@@ -1491,6 +1569,7 @@
 				EE497A162940B0EB007E8579 /* Pages.swift in Sources */,
 				EE7819B0295A69E8008F607E /* LoadingView.swift in Sources */,
 				0D551CF52951752700A4151E /* EventsViewController.swift in Sources */,
+				EE9DDF9129E473C0002781C7 /* PlacesInfoRouter.swift in Sources */,
 				CE4CCCA32958B1A20057455D /* AddressCell.swift in Sources */,
 				EE29EBF829191534008ECFF8 /* AppCoordinator.swift in Sources */,
 				EEA76C5F2951325E00250B06 /* PlacesInfoModuleIO.swift in Sources */,
@@ -1499,18 +1578,21 @@
 				EED2A75E294FB874003A9A1A /* StuffCell.swift in Sources */,
 				EEA76C692951325E00250B06 /* PlacesInfoViewController.swift in Sources */,
 				EEA76C612951325E00250B06 /* WeatherCollectionHeader.swift in Sources */,
-				EEA76C602951325E00250B06 /* PlacesInfoModel.swift in Sources */,
+				EEA76C602951325E00250B06 /* PlacesInfoInteractor.swift in Sources */,
 				EE00AC18295601CD00FAFDCD /* DepartureLocationViewIO.swift in Sources */,
+				EE570CAC2A03BA64006E7077 /* DisplayDataProtocol.swift in Sources */,
 				91819FAFB33A7ABB47EAB8B0 /* TripsViewIO.swift in Sources */,
 				EEFA76CB292BE88F00A0B8CA /* RouteViewIO.swift in Sources */,
 				EEFA76CF292BE93500A0B8CA /* RouteCell.swift in Sources */,
 				EE910DD5295A28AA0094F5C8 /* WeatherPlaceNoDataPlaceholder.swift in Sources */,
 				EE30C7262943E89200A9DCF6 /* FirebaseServiceDataObtain.swift in Sources */,
 				C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */,
-				EEAC1D35295271E400237331 /* Coordinates.swift in Sources */,
+				EEAE9EE929E5BDE8000ABC49 /* MapCell.swift in Sources */,
+				EEAC1D35295271E400237331 /* GeoData.swift in Sources */,
 				EE7819B5295A8629008F607E /* PlaceholderDisplayData.swift in Sources */,
 				EEFF30EC29CA0D5800D9F907 /* TripsViewController.swift in Sources */,
 				EEF01CB029C5C20400A63519 /* ViewControllerWithDimBackground.swift in Sources */,
+				EEF0608B29E6F87C007ED82F /* CollectionFlowLayout.swift in Sources */,
 				EEA76C622951325E00250B06 /* WeatherCell.swift in Sources */,
 				EE2B4126291413EC0067BE4F /* TripCell.swift in Sources */,
 				EE30C72B2943F28E00A9DCF6 /* RouteModelIO.swift in Sources */,
@@ -1541,9 +1623,11 @@
 				EE79132A29C4DE88002629E3 /* MailView.swift in Sources */,
 				10708D44F55C9485F789DD9B /* TripsPresenter.swift in Sources */,
 				EEF01CB229C5D03800A63519 /* AccountInfoCellDisplayDataFactory.swift in Sources */,
+				EE078ADF29E5AE18003173D8 /* CurrencyView.swift in Sources */,
 				F92CACD193BE48A33A52A5DC /* TripsRouterInput.swift in Sources */,
 				EE29EBFA29191558008ECFF8 /* CoordinatorProtocol.swift in Sources */,
-				EEAC1D2C295260CB00237331 /* PlacesInfoModelIO.swift in Sources */,
+				EEAC1D2C295260CB00237331 /* PlacesInfoInteractorIO.swift in Sources */,
+				EE9DDF8D29E47306002781C7 /* PlacesInfoLoadingPlaceholderViewController.swift in Sources */,
 				0D551CF12951739C00A4151E /* Trip.swift in Sources */,
 				0F6FD83F50CCD8533C888533 /* TripsRouter.swift in Sources */,
 				EE7968E629B92DEE00F777FE /* SettingsHelpers.swift in Sources */,
@@ -1551,8 +1635,8 @@
 				7BD7FBF6368C4ADCBC0B8866 /* TripsBuilder.swift in Sources */,
 				EEDAF55C291D5AF500E6DDB9 /* FloatingButton.swift in Sources */,
 				CE4CCC9D2956B6170057455D /* AddingEventViewController.swift in Sources */,
-				EE30C72E2943FB5500A9DCF6 /* ErrorsHandler.swift in Sources */,
 				EEFA76C9292BE88F00A0B8CA /* RouteBuilder.swift in Sources */,
+				EE821F0029D8CFD00052B66A /* CurrencyCell.swift in Sources */,
 				EE7968E529B92DEE00F777FE /* SettingsSubView.swift in Sources */,
 				EEFA76CC292BE88F00A0B8CA /* RouteViewController.swift in Sources */,
 				EE00AC13295601CD00FAFDCD /* DepartureLocationPresenter.swift in Sources */,
@@ -1604,20 +1688,22 @@
 				50505393A370F99E10E3F864 /* TripInfoViewIO.swift in Sources */,
 				EE910DBB29588F420094F5C8 /* AccountInfoModelIO.swift in Sources */,
 				4F445FB920C9EB3384DA16BA /* TripInfoViewController.swift in Sources */,
+				EE9DDF9329E473CA002781C7 /* PlacesInfoRouterInput.swift in Sources */,
 				EE7968EC29B92DEE00F777FE /* SettingsViewIO.swift in Sources */,
 				D3B3547A919CA12361A3822A /* TripInfoModuleIO.swift in Sources */,
 				EEAC1D4029527A7000237331 /* WeatherMain.swift in Sources */,
 				EE7968F129B92DEE00F777FE /* SettingsModuleBuilder.swift in Sources */,
+				EE9BC43629ECB15400091D6B /* String.swift in Sources */,
 				EEA76C672951325E00250B06 /* EventCell.swift in Sources */,
 				EE7968F029B92DEE00F777FE /* SettingsInteractorIO.swift in Sources */,
-				CE7F42D9295B1820000CBA63 /* MapCell.swift in Sources */,
+				CE7F42D9295B1820000CBA63 /* EventMapCell.swift in Sources */,
 				C039CC5FA4AA609C5479897B /* TripInfoPresenter.swift in Sources */,
 				EE79690129B9342400F777FE /* TrackableScrollView.swift in Sources */,
 				EE79690329B9342400F777FE /* KeyboardHeight.swift in Sources */,
 				EEAC1D452952897F00237331 /* Timezone.swift in Sources */,
 				EE7968F829B92FE400F777FE /* LocalizationSystem.swift in Sources */,
 				A9DD1DEF7782DE6C939585EA /* TripInfoModel.swift in Sources */,
-				EE910DCD295913860094F5C8 /* NoPlacesForWeatherCell.swift in Sources */,
+				EE910DCD295913860094F5C8 /* PlacesInfoPlaceholderCell.swift in Sources */,
 				EEA76C642951325E00250B06 /* WeatherCollection.swift in Sources */,
 				A4F278F34637C60C2ED5A34D /* TripInfoBuilder.swift in Sources */,
 				EE7968EA29B92DEE00F777FE /* SettingsCellDisplayDataFactory.swift in Sources */,
@@ -1626,6 +1712,7 @@
 				4AC7D3287092DF4F538A3C6B /* AuthViewIO.swift in Sources */,
 				4AD4E01689D0BCD604A4361C /* AuthViewController.swift in Sources */,
 				8D4FF0495B4D89DAA39F6486 /* AuthModuleIO.swift in Sources */,
+				EE5B6DF529E8377B00F0C79E /* CurrencyRate.swift in Sources */,
 				6A0601D27A59781E2AC544B2 /* AuthPresenter.swift in Sources */,
 				EE7968EE29B92DEE00F777FE /* SettingsTableViewCell.swift in Sources */,
 				9DAABBBF5E044768A6C2A4A3 /* AuthModel.swift in Sources */,
@@ -1637,6 +1724,7 @@
 				20B0F0D1B045569E1EDEF3AD /* AccountPresenter.swift in Sources */,
 				7209B44755A068F0D4909EB8 /* AccountModel.swift in Sources */,
 				A05BC8AE7795F0B5E4405E82 /* AccountBuilder.swift in Sources */,
+				EE4412F52A06FD8800AD86AC /* ProgressViewWithImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1800,6 +1888,7 @@
 				DEVELOPMENT_TEAM = 7PH9Q6K5X2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Journeys/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -1810,7 +1899,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ru.noorganization.Journeys;
+				PRODUCT_BUNDLE_IDENTIFIER = "ru.noorganization.Journeys-Rolls";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1829,6 +1918,7 @@
 				DEVELOPMENT_TEAM = 7PH9Q6K5X2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Journeys/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -1839,7 +1929,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ru.noorganization.Journeys;
+				PRODUCT_BUNDLE_IDENTIFIER = "ru.noorganization.Journeys-Rolls";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

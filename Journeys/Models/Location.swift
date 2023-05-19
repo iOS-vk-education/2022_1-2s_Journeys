@@ -40,8 +40,28 @@ struct Location: Decodable {
         return dictionary
     }
     
+    func toString() -> String {
+        return country + " " + city
+    }
+    
     enum CodingKeys: String, CodingKey {
         case country
         case city
+    }
+}
+
+extension Location: Equatable {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.country == rhs.country && lhs.city == rhs.city
+    }
+}
+
+struct LocationsWithCurrencyRate: Decodable {
+    var locations: [Location]
+    var currencyRate: CurrencyRate
+    
+    internal init(locations: [Location], currencyRate: CurrencyRate) {
+        self.locations = locations
+        self.currencyRate = currencyRate
     }
 }

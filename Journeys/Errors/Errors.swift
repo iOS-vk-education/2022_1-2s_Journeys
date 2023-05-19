@@ -21,3 +21,7 @@ enum FBError: Error {
     case authError
     case signOutError
 }
+
+enum NetworkError: Error {
+    case badResponse
+}

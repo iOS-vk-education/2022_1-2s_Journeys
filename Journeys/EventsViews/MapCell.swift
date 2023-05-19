@@ -113,21 +113,21 @@ final class MapCell: UICollectionViewCell {
     
     
     
-    private extension MapCell {
-
-                struct MapCellConstants {
-                    static let horisontalIndentForAllSubviews: CGFloat = 0
-                    struct InputField {
-                        static let horisontalIndent: CGFloat = horisontalIndentForAllSubviews
-                        static let verticalIndent: CGFloat = horisontalIndentForAllSubviews
-        
-                        static let cornerRadius: CGFloat = 0
-                    }
-                    struct Cell {
-                        static let borderRadius: CGFloat = 0
-                    }
-                }
+private extension MapCell {
+    
+    struct MapCellConstants {
+        static let horisontalIndentForAllSubviews: CGFloat = 0
+        struct InputField {
+            static let horisontalIndent: CGFloat = horisontalIndentForAllSubviews
+            static let verticalIndent: CGFloat = horisontalIndentForAllSubviews
+            
+            static let cornerRadius: CGFloat = 0
+        }
+        struct Cell {
+            static let borderRadius: CGFloat = 0
+        }
     }
+}
 
 protocol MapCellDelegate: AnyObject {
     func didTouchMap() 
