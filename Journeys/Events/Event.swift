@@ -13,7 +13,7 @@ enum EventType: String {
 }
 
 struct Event {
-    let id: String
+    var id: String
     var adress: String
     var startDate: Date
     var finishDate: Date
@@ -24,6 +24,7 @@ struct Event {
     var floor: String
     var room: String
     var description: String
+    var isLiked: Bool
     
     internal init(id: String,
                   adress: String,
@@ -35,7 +36,8 @@ struct Event {
                   floor: String,
                   room: String,
                   photoURL: String,
-                  description: String) {
+                  description: String,
+                  isLiked: Bool) {
         self.id = id
         self.adress = adress
         self.startDate = startDate
@@ -47,6 +49,7 @@ struct Event {
         self.link = link
         self.photoURL = photoURL
         self.description = description
+        self.isLiked = isLiked
     }
     
     init?(dictionary: [String: Any], id: String) {
@@ -60,7 +63,8 @@ struct Event {
             let floor = dictionary[CodingKeys.floor.rawValue] as? String,
             let room = dictionary[CodingKeys.room.rawValue] as? String,
             let photoURL = dictionary[CodingKeys.photoURL.rawValue] as? String,
-            let description = dictionary[CodingKeys.description.rawValue] as? String
+            let description = dictionary[CodingKeys.description.rawValue] as? String,
+            let isLiked = dictionary[CodingKeys.description.rawValue] as? Bool
         else {
             return nil
         }
@@ -76,6 +80,7 @@ struct Event {
         self.floor = floor
         self.room = room
         self.description = description
+        self.isLiked = isLiked
     }
     
     func toDictionary() -> [String: Any] {
@@ -91,6 +96,7 @@ struct Event {
         dictionary[CodingKeys.room.rawValue] = room
         dictionary[CodingKeys.floor.rawValue] = floor
         dictionary[CodingKeys.description.rawValue] = description
+        dictionary[CodingKeys.isLiked.rawValue] = isLiked
         
         return dictionary
     }
@@ -107,6 +113,7 @@ struct Event {
         case room
         case floor
         case description
+        case isLiked
     }
 }
 
@@ -121,6 +128,7 @@ struct CreateEventsData {
     var floor: String
     var room: String
     var description: String
+    var isLiked: Bool
     
     func dict() -> [String: Any] {
         return [
@@ -134,6 +142,7 @@ struct CreateEventsData {
             "floor": floor,
             "room": room,
             "description": description,
+            "isLiked": isLiked
         ]
     }
 }

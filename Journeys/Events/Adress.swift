@@ -38,8 +38,13 @@ import FirebaseFirestore
 //}
 
 struct Adress {
-    let id: String
+    var id: String
     let coordinates: GeoPoint
+    
+    internal init(id: String? , coordinates: GeoPoint) {
+        self.id = id ?? UUID().uuidString
+        self.coordinates = coordinates
+    }
     
     init?(dict: [String: Any], id: String) {
         guard
@@ -50,6 +55,11 @@ struct Adress {
         
         self.id = id
         self.coordinates = coordinates
+    }
+    func dict() -> [String: Any] {
+        return [
+            "coordinates": coordinates,
+        ]
     }
 }
 

@@ -103,9 +103,11 @@ final class AddingEventViewController: UIViewController {
                                      floor: floor ?? "",
                                      room: ofice ?? "",
                                      photoURL: "",
-                                     description: eventDescription ?? "")
+                                     description: eventDescription ?? "",
+                                     isLiked: false)
+        let adressCoordinates: Adress = Adress.init(id: "3", coordinates: coordinates!)
 
-        output?.saveData(post: post, coordinates: coordinates!, eventImage: eventImage ?? UIImage(asset: Asset.Assets.tripsPlaceholder)!)
+        output?.saveData(post: post, coordinates: adressCoordinates, eventImage: eventImage ?? UIImage(asset: Asset.Assets.tripsPlaceholder)!)
         output?.openEventsVC()
     }
     
@@ -207,7 +209,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
                 return cell
             }
 
-            placemarkCell.configure(data: AddressCellDisplayData(text: address))
+            placemarkCell.configure(data: AddressCellDisplayData(text: address), cornerRadius: 20)
             cell = placemarkCell
         }
         if indexPath.section == 1 {
@@ -261,7 +263,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
             ) as? TimeCell else {
                 return cell
             }
-            placemarkCell.configure(data: TimeCellDisplayData(text: L10n.begin))
+            placemarkCell.configure(data: TimeCellDisplayData(text: L10n.begin), cornerRadius: 10)
             cell = placemarkCell
         }
         if indexPath.section == 6 {
@@ -271,7 +273,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
             ) as? TimeCell else {
                 return cell
             }
-            placemarkCell.configure(data: TimeCellDisplayData(text: L10n.end))
+            placemarkCell.configure(data: TimeCellDisplayData(text: L10n.end), cornerRadius: 10)
             cell = placemarkCell
         }
 
@@ -292,7 +294,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
             ) as? DescriptionCell else {
                 return cell
             }
-            placemarkCell.configure(delegate: self)
+            placemarkCell.configure(delegate: self, isEditable: true, cornerRadius: 10, text: "")
             cell = placemarkCell
         }
         if indexPath.section == 9 {

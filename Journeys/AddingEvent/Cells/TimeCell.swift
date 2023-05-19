@@ -53,7 +53,6 @@ final class TimeCell: UICollectionViewCell {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd.MM.yyyy HH:mm"
         date = formatter.string(from: datePicker.date)
-        print(datePicker.date)
         
         return datePicker.date
     }
@@ -64,7 +63,6 @@ final class TimeCell: UICollectionViewCell {
     }
     // MARK: Private functions
     private func setupCell() {
-        layer.cornerRadius = 10
         layer.masksToBounds = false
         layer.shadowRadius = 3.0
         layer.shadowColor = UIColor.black.cgColor
@@ -88,8 +86,9 @@ final class TimeCell: UICollectionViewCell {
         inputField.autoAlignAxis(toSuperviewAxis: .horizontal)
         inputField.autoPinEdge(toSuperviewSafeArea: .left, withInset: TimeCellConstants.horisontalIndentForAllSubviews)
     }
-    func configure(data: TimeCellDisplayData) {
+    func configure(data: TimeCellDisplayData, cornerRadius: CGFloat) {
         inputField.text = data.text
+        layer.cornerRadius = cornerRadius
     }
 }
     private extension TimeCell {

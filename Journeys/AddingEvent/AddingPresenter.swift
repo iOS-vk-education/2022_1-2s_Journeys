@@ -27,17 +27,8 @@ private extension AddingPresenter {
 }
 
 extension AddingPresenter: AddingViewOutput {
-    func saveData(post: Event, coordinates: GeoPoint, eventImage: UIImage) {
-        model.storeAddingData(event: post, eventImage: eventImage ?? UIImage(asset: Asset.Assets.tripsPlaceholder)!, coordinatesId: "jdjd")
-        
-        model.createStory(coordinates: coordinates) { [weak self] result in
-            switch result {
-            case .success(let coord):
-                self?.storyViewObjects.append(.init(coordinates: (coordinates)))
-            case .failure(let error):
-                self?.view?.showAlert1(title: L10n.error, message: "Ошибка при заполнении данных. Выйдите и попробуйте еще раз")
-            }
-        }
+    func saveData(post: Event, coordinates: Adress, eventImage: UIImage) {
+        model.createStory(coordinates: coordinates, event: post, eventImage: eventImage ?? UIImage(asset: Asset.Assets.tripsPlaceholder)!)
     }
     func openEventsVC() {
         moduleOutput?.wantsToOpenEventsVC()
@@ -48,10 +39,10 @@ extension AddingPresenter: AddingViewOutput {
 }
 
 extension AddingPresenter: AddingModelOutput {
-    func didSaveAddingData(event: Event) {
+    func didStoreImageData(url: String, event: Event, coordinatesId: String) {
     }
     
-    func didStoreImageData(url: String, event: Event) {
+    func didSaveAddingData(event: Event) {
     }
     
     func didSaveData(address: Adress, event: Event) {

@@ -47,7 +47,6 @@ final class DescriptionCell: UICollectionViewCell {
 }
     // MARK: Private functions
     private func setupCell() {
-        layer.cornerRadius = DescriptionCellConstants.Cell.borderRadius
         layer.masksToBounds = false
         layer.shadowRadius = DescriptionCellConstants.Cell.shadowRadius
         layer.shadowColor = UIColor.black.cgColor
@@ -82,8 +81,12 @@ final class DescriptionCell: UICollectionViewCell {
 
         }
     }
-    func configure(delegate: DescriptionCellDelegate) {
+    func configure(delegate: DescriptionCellDelegate, isEditable: Bool, cornerRadius: CGFloat, text: String) {
         self.delegate = delegate
+        self.inputField.isEditable = isEditable
+        self.layer.cornerRadius = cornerRadius
+        self.inputField.text = text
+        
     }
     func returnText() -> String {
         return inputField.text!

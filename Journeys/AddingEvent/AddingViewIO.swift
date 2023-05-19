@@ -17,7 +17,7 @@ protocol AddingViewInput: AnyObject {
 
 // MARK: - Events ViewOutput
 protocol AddingViewOutput: AnyObject {
-    func saveData(post: Event, coordinates: GeoPoint, eventImage: UIImage)
+    func saveData(post: Event, coordinates: Adress, eventImage: UIImage)
     func openEventsVC()
     func backToSuggestionVC()
 }

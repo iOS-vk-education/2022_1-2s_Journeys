@@ -181,7 +181,6 @@ class SuggestionViewController: UIViewController, UITableViewDataSource, UITable
             let placemark = placemarks?.first
             let lat = placemark?.location?.coordinate.latitude
             let lon = placemark?.location?.coordinate.longitude
-            print(type(of: placemark?.location?.coordinate))
             if lat != nil && lon != nil {
                 self.coordinates = .init(latitude: lat!, longitude: lon!)
                 self.moduleOutput?.openAddingEventViewController(coordinates: self.coordinates!, address: cell.address.text!)

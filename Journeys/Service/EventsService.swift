@@ -12,8 +12,8 @@ import FirebaseFirestore
 protocol EventsServiceDescription {
     func loadPlacemarks(completion: @escaping (Result<[Adress], Error>) -> Void)
     func storeAddingImage(image: UIImage, completion: @escaping (Result<String, Error>) -> Void)
-    func storeAddingData(event: Event, completion: @escaping (Result<Event, Error>) -> Void)
-    func create(coordinates: CreateAdressData, completion: @escaping (Result<Adress, Error>) -> Void)
+    func storeAddingData(event: Event, coordinatesId: String, completion: @escaping (Result<Event, Error>) -> Void)
+    func create(coordinates: Adress, completion: @escaping (Result<Adress, Error>) -> Void)
 
 }
 
@@ -48,13 +48,13 @@ final class EventsService: EventsServiceDescription {
             }
         }
     }
-    func storeAddingData(event: Event, completion: @escaping (Result<Event, Error>) -> Void) {
+    func storeAddingData(event: Event, coordinatesId: String, completion: @escaping (Result<Event, Error>) -> Void) {
         var ref: DocumentReference?
         ref = FBManager.firestore.collection("events").document()
         ref!.setData(event.toDictionary()) { error in
             if let error = error {
                 completion(.failure(error))
-            } else if let id = ref?.documentID, let route = Event(dictionary: event.toDictionary(), id: id) {
+            } else if let id = ref?.documentID, let route = Event(dictionary: event.toDictionary(), id: coordinatesId) {
                 completion(.success(route))
             } else {
                 completion(.failure(FBError.noData))
@@ -76,7 +76,7 @@ final class EventsService: EventsServiceDescription {
         }
     }
     
-    func create(coordinates: CreateAdressData, completion: @escaping (Result<Adress, Error>) -> Void) {
+    func create(coordinates: Adress, completion: @escaping (Result<Adress, Error>) -> Void) {
         var ref: DocumentReference?
         ref = db.collection("address").addDocument(data: coordinates.dict()) { error in
             if let error = error {
@@ -88,7 +88,6 @@ final class EventsService: EventsServiceDescription {
                 completion(.failure(EventsServiceError.noDocuments))
             }
         }
-        
         
     }
 

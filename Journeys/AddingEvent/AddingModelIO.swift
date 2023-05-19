@@ -11,12 +11,12 @@ import FirebaseFirestore
 
 protocol AddingModelInput: AnyObject {
     func storeAddingData(event: Event, eventImage: UIImage, coordinatesId: String)
-    func createStory(coordinates: GeoPoint, completion: @escaping (Result<Adress, Error>) -> Void)
+    func createStory(coordinates: Adress, event: Event, eventImage: UIImage)
 }
 
 protocol AddingModelOutput: AnyObject {
     func didRecieveError(error: Errors)
     func didSaveAddingData(event: Event)
-    func didStoreImageData(url: String, event: Event)
+    func didStoreImageData(url: String, event: Event, coordinatesId: String)
     func didSaveData(address: Adress, event: Event)
 }

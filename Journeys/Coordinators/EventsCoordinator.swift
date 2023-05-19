@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import FirebaseFirestore
 
+
 final class EventsCoordinator: CoordinatorProtocol {
     
     // MARK: Private Properties
@@ -73,11 +74,25 @@ extension EventsCoordinator: EventsModuleOutput {
     }
     
     func wantsToOpenSingleEventVC() {
-        let viewController = SingleEventViewController(initialHeight: 300)
-        viewController.modalPresentationStyle = .custom
-        bottomSheetTransitioningDelegate = BottomSheetTransitioningDelegate()
-        viewController.transitioningDelegate = bottomSheetTransitioningDelegate
-        navigationController.present(viewController, animated: true)
+//        let viewController = SingleEventViewController(initialHeight: 300)
+//        viewController.modalPresentationStyle = .custom
+//        bottomSheetTransitioningDelegate = BottomSheetTransitioningDelegate()
+//        viewController.transitioningDelegate = bottomSheetTransitioningDelegate
+//        navigationController.present(viewController, animated: true)
+        let vc = SingleEventViewController()
+             
+               // 2
+               if let sheet = vc.sheetPresentationController {
+                   // 3
+                   sheet.detents = [.medium(), .large()]
+                   // 4
+                   sheet.largestUndimmedDetentIdentifier = .medium
+                   // 5
+                   sheet.prefersScrollingExpandsWhenScrolledToEdge = true
+                   // 6
+                   sheet.prefersGrabberVisible = true
+               }
+        navigationController.present(vc, animated: true)
     }
 }
 
