@@ -8,7 +8,7 @@
 import Foundation
 
 struct Place {
-    
+    var placesArrayPosition: Int?
     var location: Location
     var arrive: Date
     var depart: Date
@@ -59,5 +59,17 @@ struct Place {
         case location
         case arrive
         case depart
+    }
+}
+
+struct PlaceWithGeoData {
+    var place: Place
+    var coordinates: Coordinates
+    var countryCode: String
+    
+    internal init(place: Place, coordinates: Coordinates, countryCode: String) {
+        self.place = place
+        self.coordinates = coordinates
+        self.countryCode = countryCode
     }
 }

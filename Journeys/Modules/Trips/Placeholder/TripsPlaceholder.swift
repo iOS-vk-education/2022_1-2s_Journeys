@@ -11,7 +11,7 @@ import SnapKit
 
 // MARK: - TripsPlaceholderViewController
 
-final class PlaceHolderViewController: UIViewController {
+final class TripsPlaceholderViewController: UIViewController {
     // MARK: Private properties
 
     private let titleLabel = UILabel()

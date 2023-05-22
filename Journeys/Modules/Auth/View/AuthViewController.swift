@@ -159,7 +159,7 @@ final class AuthViewController: ViewControllerWithDimBackground {
         resetPasswordButton.snp.removeConstraints()
     }
     
-    @objc func dismissKeyboard() {
+    @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
     

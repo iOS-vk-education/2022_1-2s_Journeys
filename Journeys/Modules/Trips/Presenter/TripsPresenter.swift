@@ -15,8 +15,8 @@ final class TripsPresenter {
     // MARK: - Public Properties
     
     weak var view: TripsViewInput?
-    weak var moduleOutput: TripsModuleOutput!
-    
+    weak var moduleOutput: TripsModuleOutput?
+
     // MARK: - Private Properties
     
     private let interactor: TripsInteractorInput
@@ -139,7 +139,7 @@ extension TripsPresenter: TripsViewOutput {
         loadTripsData()
     }
     
-    func placeholderDisplayData() -> PlaceHolderViewController.DisplayData {
+    func placeholderDisplayData() -> TripsPlaceholderViewController.DisplayData {
         PlaceholderDisplayDataFactory().displayData()
     }
     
@@ -183,7 +183,7 @@ extension TripsPresenter: TripsViewOutput {
         }
         switch indexPath.section {
         case 0:
-            moduleOutput.tripsCollectionWantsToOpenNewRouteModule()
+            moduleOutput?.tripsCollectionWantsToOpenNewRouteModule()
         default:
             guard tripsData.indices.contains(indexPath.row) else {
                 view?.showAlert(title: "Ошибка",
@@ -191,7 +191,7 @@ extension TripsPresenter: TripsViewOutput {
                                actionTitle: "Ок")
                 return
             }
-            moduleOutput.tripCollectionWantsToOpenTripInfoModule(trip: Trip(tripWithOtherData: tripsData[indexPath.row]),
+            moduleOutput?.tripCollectionWantsToOpenTripInfoModule(trip: Trip(tripWithOtherData: tripsData[indexPath.row]),
                                                                  route: tripsData[indexPath.row].route)
         }
     }
@@ -216,7 +216,7 @@ extension TripsPresenter: TripsViewOutput {
                            actionTitle: "Ок")
             return
         }
-        moduleOutput.tripsCollectionWantsToOpenExistingRoute(with: tripsData[indexPath.item])
+        moduleOutput?.tripsCollectionWantsToOpenExistingRoute(with: tripsData[indexPath.item])
     }
     
     func didTapDeleteButton(at indexPath: IndexPath) {
@@ -241,12 +241,12 @@ extension TripsPresenter: TripsViewOutput {
     }
     
     func didTapBackBarButton() {
-        moduleOutput.savedTripsModuleWantsToClose()
+        moduleOutput?.savedTripsModuleWantsToClose()
     }
     
     func didTapSavedBarButton() {
         let savedTrips = tripsData.filter { $0.isInfavourites }
-        moduleOutput.usualTripsModuleWantsToOpenSavedTrips(savedTrips: savedTrips)
+        moduleOutput?.usualTripsModuleWantsToOpenSavedTrips(savedTrips: savedTrips)
     }
 }
 
