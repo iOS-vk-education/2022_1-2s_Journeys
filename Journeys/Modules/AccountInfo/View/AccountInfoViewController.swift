@@ -243,20 +243,10 @@ extension AccountInfoViewController: AccountInfoViewInput {
         }
         present(alert, animated: true)
     }
-    
-    func cellsValues(from section: Int) {
-        guard let newEmailCell = tableView.cellForRow(at: IndexPath(item: 0, section: section)) as? AccountInfoCell
-        else { return }
-        guard let passwordCell = tableView.cellForRow(at: IndexPath(item: 1, section: section)) as? AccountInfoCell
-        else { return }
-        guard let newPasswordCell = tableView.cellForRow(at: IndexPath(item: 2, section: section)) as? AccountInfoCell
-        else { return }
-        guard let confirmPassword = tableView.cellForRow(at: IndexPath(item: 3, section: section)) as? AccountInfoCell
-        else { return }
-        output?.setCellsValues(newEmail: newEmailCell.getTextFieldValue(),
-                               password: passwordCell.getTextFieldValue(),
-                               newPassword: newPasswordCell.getTextFieldValue(),
-                               confirmPassword: confirmPassword.getTextFieldValue())
+    func cellValue(for indexPath: IndexPath) -> String? {
+        guard let cell = tableView.cellForRow(at: indexPath) as? AccountInfoCell
+        else { return nil }
+        return cell.getTextFieldValue()
     }
     
     func showLoadingView() {
@@ -276,16 +266,11 @@ extension AccountInfoViewController: AccountInfoViewInput {
         }
     }
     
-    func clearCellsTextFields(in section: Int) {
-        if let passwordCell = tableView.cellForRow(at: IndexPath(item: 1, section: section)) as? AccountInfoCell {
-            passwordCell.clearTextField()
-        }
-        if let newPasswordCell = tableView.cellForRow(at: IndexPath(item: 2, section: section)) as? AccountInfoCell {
-            newPasswordCell.clearTextField()
-        }
-        
-        if let confirmPassword = tableView.cellForRow(at: IndexPath(item: 3, section: section)) as? AccountInfoCell {
-            confirmPassword.clearTextField()
+    func clearCellsTextFields(at indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            if let cell = tableView.cellForRow(at: indexPath) as? AccountInfoCell {
+                cell.clearTextField()
+            }
         }
     }
 }

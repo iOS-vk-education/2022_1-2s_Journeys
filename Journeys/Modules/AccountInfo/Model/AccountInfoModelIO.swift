@@ -10,15 +10,16 @@ import Foundation
 protocol AccountInfoModelInput: AnyObject {
     func saveEmail(email: String, newEmail: String, password: String, completion: (() -> Void)?)
     func savePassword(email: String, password: String, newPassword: String)
+    func saveUserData(_ data: User)
     func signOut()
     func getUserData()
-    func deleteAccount(with password: String)
-    func userEmail() -> String?
+    func deleteUser(with password: String)
 }
 
 protocol AccountInfoModelOutput: AnyObject {
     func didObtainUserData(data: User)
     func didRecieveError(error: Error)
-    func saveSuccesfull(for data: UserData)
+    func saveSuccesfull()
+    func didStoreData(_ data: AccountInfoPresenter.StorableData)
     func deleteSuccesfull()
 }

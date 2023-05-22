@@ -31,7 +31,6 @@ protocol FirebaseServiceAuthProtocol {
                             completion: @escaping (Error?) -> Void)
     func resetPassword(for email: String, completion: @escaping (Error?) -> Void)
     func deleteAccount(with password: String, completion: @escaping (Error?) -> Void)
-    func obtainUserData() -> User?
 }
 
 extension FirebaseService: FirebaseServiceAuthProtocol {

@@ -21,7 +21,7 @@ final class AccountInfoCellDisplayDataFactory {
                                                placeHolder: type.placeholder,
                                                keyboardType: .emailAddress,
                                                secure: false)
-        case .pasword, .newPassword, .confirmPassword:
+        case .password, .newPassword, .confirmPassword:
             return AccountInfoCell.DisplayData(text: value,
                                                placeHolder: type.placeholder,
                                                keyboardType: .default,

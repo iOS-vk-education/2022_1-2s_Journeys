@@ -140,6 +140,7 @@
 		EE79690129B9342400F777FE /* TrackableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7968FE29B9342400F777FE /* TrackableScrollView.swift */; };
 		EE79690229B9342400F777FE /* RoundedCornerShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7968FF29B9342400F777FE /* RoundedCornerShape.swift */; };
 		EE79690329B9342400F777FE /* KeyboardHeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE79690029B9342400F777FE /* KeyboardHeight.swift */; };
+		EE86BB672A182BF500F4253A /* AccountModelIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE86BB662A182BF500F4253A /* AccountModelIO.swift */; };
 		EE821F0029D8CFD00052B66A /* CurrencyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE821EFF29D8CFD00052B66A /* CurrencyCell.swift */; };
 		EE910DB12957CBC30094F5C8 /* AccountInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DB02957CBC30094F5C8 /* AccountInfoCell.swift */; };
 		EE910DB72957EF9D0094F5C8 /* AuthModelIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE910DB62957EF9D0094F5C8 /* AuthModelIO.swift */; };
@@ -348,6 +349,7 @@
 		EE7968FE29B9342400F777FE /* TrackableScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackableScrollView.swift; sourceTree = "<group>"; };
 		EE7968FF29B9342400F777FE /* RoundedCornerShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedCornerShape.swift; sourceTree = "<group>"; };
 		EE79690029B9342400F777FE /* KeyboardHeight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardHeight.swift; sourceTree = "<group>"; };
+		EE86BB662A182BF500F4253A /* AccountModelIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountModelIO.swift; sourceTree = "<group>"; };
 		EE821EFF29D8CFD00052B66A /* CurrencyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyCell.swift; sourceTree = "<group>"; };
 		EE910DB02957CBC30094F5C8 /* AccountInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoCell.swift; sourceTree = "<group>"; };
 		EE910DB62957EF9D0094F5C8 /* AuthModelIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModelIO.swift; sourceTree = "<group>"; };
@@ -499,6 +501,7 @@
 			isa = PBXGroup;
 			children = (
 				9525B8AF4A63D13C3F0EE509 /* AccountModel.swift */,
+				EE86BB662A182BF500F4253A /* AccountModelIO.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1655,6 +1658,7 @@
 				B28603937176C7F2E653EB4C /* PlacePresenter.swift in Sources */,
 				EE7968EF29B92DEE00F777FE /* SettingsInteractor.swift in Sources */,
 				EFC46B44DC715D0AB5B01639 /* PlaceModel.swift in Sources */,
+				EE86BB672A182BF500F4253A /* AccountModelIO.swift in Sources */,
 				0D65A2337583A24729F852B1 /* PlaceBuilder.swift in Sources */,
 				EE30C7242943DD4A00A9DCF6 /* Errors.swift in Sources */,
 				EE02E5492950D9EA002BE87E /* Stuff.swift in Sources */,

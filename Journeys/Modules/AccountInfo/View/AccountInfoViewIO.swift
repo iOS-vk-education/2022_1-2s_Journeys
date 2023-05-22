@@ -12,14 +12,14 @@ import Foundation
 
 protocol AccountInfoViewInput: AnyObject {
     func reloadData()
-    func cellsValues(from section: Int)
+    func cellValue(for indexPath: IndexPath) -> String?
     func showAlert(title: String,
                    message: String,
                    textFieldPlaceholder: String?)
     func showLoadingView()
     func hideLoadingView()
     
-    func clearCellsTextFields(in section: Int)
+    func clearCellsTextFields(at indexPaths: [IndexPath])
 }
 
 // MARK: - AccountInfo ViewOutput
@@ -37,6 +37,4 @@ protocol AccountInfoViewOutput: AnyObject {
     func didTapDeleteAccountButton()
     
     func deleteAccount(with passwordApprove: String?)
-    
-    func setCellsValues(newEmail: String?, password: String?, newPassword: String?, confirmPassword: String?)
 }

@@ -11,10 +11,11 @@ import UIKit
 
 final class AccountInfoModuleBuilder {
     func build(output: AccountInfoModuleOutput,
-               firebaseService: FirebaseServiceProtocol) -> UIViewController {
+               firebaseService: FirebaseServiceProtocol,
+               userData: User? = nil) -> UIViewController {
 
         let viewController = AccountInfoViewController()
-        let presenter = AccountInfoPresenter()
+        let presenter = AccountInfoPresenter(userData: userData)
         let model = AccountInfoModel(firebaseService: firebaseService)
         
         model.output = presenter
