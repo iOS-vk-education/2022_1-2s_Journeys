@@ -92,14 +92,7 @@ extension EventsCoordinator: EventsModuleOutput {
 
 extension EventsCoordinator: AddingModuleOutput {
     func wantsToOpenEventsVC() {
-        navigationController.popViewController(animated: false)
-        navigationController.popViewController(animated: false)
-        navigationController.popViewController(animated: false)
-        
-        let eventsModuleBuilder = EventsModuleBuilder()
-        
-        let eventsViewController = eventsModuleBuilder.build(output: self, latitude: 55, longitude: 37, zoom: 1)
-        navigationController.pushViewController(eventsViewController, animated: false)
+        navigationController.popToRootViewController(animated: false)
     }
     func backToSuggestionVC() {
         navigationController.popViewController(animated: true)
