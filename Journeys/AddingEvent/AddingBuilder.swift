@@ -10,12 +10,10 @@ import FirebaseFirestore
 // MARK: - EventsModuleBuilder
 
 final class AddingModuleBuilder {
-    func build(output: AddingModuleOutput, coordinates: GeoPoint, address: String) -> UIViewController {
+    func build(output: AddingModuleOutput, coordinates: GeoPoint?, address: String?) -> UIViewController {
         let viewController = AddingEventViewController()
-        viewController.coordinates = coordinates
-        viewController.address = address
         let model = AddingModel()
-        let presenter = AddingPresenter(view: viewController, model: model)
+        let presenter = AddingPresenter(view: viewController, model: model, coordinates: coordinates, address: address)
 
         viewController.output = presenter
 

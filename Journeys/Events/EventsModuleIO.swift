@@ -14,5 +14,5 @@ protocol EventsModuleInput: AnyObject {
 
 protocol EventsModuleOutput: AnyObject {
     func wantsToOpenAddEventVC()
-    func wantsToOpenSingleEventVC()
+    func wantsToOpenSingleEventVC(id: String)
 }

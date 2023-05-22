@@ -31,8 +31,6 @@
 //EventsModule
 "AddressSearch" = "Поиск адреса";
 "CreateEvent" = "Создание мероприятия";
-"Enter the adress" = "Введите адрес";
-"Tripple the adress" = "Уточните адрес";
 "To create an event you need to specify a more precise address" = "Для создания мероприятия нужно указать более точный адрес";
 "Apartment/office" = "Кв/офис";
 "Floor" = "Этаж";
@@ -46,3 +44,9 @@
 "Error" = "Ошибка";
 "The date or time is incorrect" = "Неверно указана дата или время";
 "DONE" = "ГОТОВО";
+"Sourse" = "Источник";
+"Enter the address" = "Введите адрес";
+"Tripple the address" = "Уточните адрес";
+"Fill in: office, floor, name, type" = "Заполните: офис, этаж, название, тип";
+"Not all required fields are filled" = "Не все обязательные поля заполнены";
+"Description is missing" = "Описание отсутствует";

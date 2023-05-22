@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 
 final class EventPictureCell: UICollectionViewCell {
-    
+
     struct DisplayData {
         let picture: UIImage?
     }
@@ -23,6 +23,9 @@ final class EventPictureCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
+    
+    private let pictureEmptyViewForSkeletonLayer = UIView()
+        private let pictureLayer = CAGradientLayer()
     
     private var indexPath: IndexPath?
 
@@ -42,9 +45,10 @@ final class EventPictureCell: UICollectionViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
+        pictureLayer.isHidden = false
         picture.image = nil
-
         setupSubviews()
+        setAllSubviewsAlphaToZero()
     }
 
     // MARK: Private functions
@@ -63,6 +67,30 @@ final class EventPictureCell: UICollectionViewCell {
         contentView.addSubview(picture)
         setupColors()
         makeConstraints()
+        
+        makeSkeletonConstraints()
+        setupSkeleton()
+                
+        setAllSubviewsAlphaToZero()
+    }
+    
+    func makeSkeletonConstraints() {
+        contentView.addSubview(pictureEmptyViewForSkeletonLayer)
+        pictureEmptyViewForSkeletonLayer.snp.makeConstraints { make in
+            make.edges.equalTo(picture.snp.edges)
+        }
+        pictureEmptyViewForSkeletonLayer.layer.addSublayer(pictureLayer)
+        pictureLayer.frame = CGRect(x: 0, y: 0, width: 311.0, height: 180.0)
+        pictureLayer.cornerRadius = picture.layer.cornerRadius
+    }
+    
+    private func setupSkeleton() {
+        pictureLayer.startPoint = CGPoint(x: 0, y: 0.5)
+        pictureLayer.endPoint = CGPoint(x: 1, y: 0.5)
+        
+        let pictureGroup = CAAnimationGroup()
+        pictureGroup.beginTime = 0.0
+        pictureLayer.add(pictureGroup, forKey: "backgroundColor")
     }
 
     private func setupColors() {
@@ -77,10 +105,34 @@ final class EventPictureCell: UICollectionViewCell {
             make.bottom.equalToSuperview().inset(TripCellConstants.Picture.verticalIndent)
         }
     }
+    
+    private func setAllSubviewsAlphaToZero() {
+        picture.alpha = 0
+    }
+    
+    private func setSubviewsAlphaToOne() {
+        picture.alpha = 1
+    }
     // TODO: send data to view
     
     func configure(image: UIImage) {
-        picture.image = image ?? UIImage()
+        setupImage(image)
+        
+        UIView.animate(
+            withDuration: 0.5,
+            animations: { [weak self] in
+                self?.setSubviewsAlphaToOne()
+            })
+    }
+    
+    func setupImage(_ image: UIImage) {
+        self.pictureLayer.isHidden = true
+        self.picture.image = image
+        UIView.animate(
+            withDuration: 0.5,
+            animations: { [weak self] in
+                self?.picture.alpha = 1
+            })
     }
 }
 

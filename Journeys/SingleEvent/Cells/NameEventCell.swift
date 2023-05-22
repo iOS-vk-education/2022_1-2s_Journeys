@@ -10,8 +10,8 @@ import UIKit
 import SnapKit
 
 struct NameEventCellDisplayData {
-    let name : String
-    let type : String
+    let name: String
+    let type: String
 }
 
 protocol NameEventCellDelegate: AnyObject {
@@ -25,13 +25,13 @@ final class NameEventCell: UICollectionViewCell {
     weak var delegate: NameEventCellDelegate?
     private let nameField: UILabel = {
         let inpField = UILabel()
-        inpField.font = .boldSystemFont(ofSize: 20)
+        inpField.font = .boldSystemFont(ofSize: NameCellConstants.Cell.nameFont)
         return inpField
     }()
     
     private let typeField: UILabel = {
         let inpField = UILabel()
-        inpField.font = .systemFont(ofSize: 17)
+        inpField.font = .systemFont(ofSize: NameCellConstants.Cell.typeFont)
         return inpField
     }()
     
@@ -59,7 +59,7 @@ final class NameEventCell: UICollectionViewCell {
     // MARK: Private functions
     
     private func setupCell() {
-        layer.cornerRadius = 20
+        layer.cornerRadius = NameCellConstants.Cell.borderRadius
         layer.masksToBounds = false
         
         layer.shadowRadius = 3.0
@@ -102,19 +102,19 @@ final class NameEventCell: UICollectionViewCell {
     
     private func makeConstraints() {
         nameField.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(AddressCellConstants.InputField.horisontalIndent)
-            make.top.equalToSuperview().inset(10)
-            make.trailing.equalTo(likeImageView).inset(30)
+            make.leading.equalToSuperview().inset(NameCellConstants.InputField.horisontalIndent)
+            make.top.equalToSuperview().inset(NameCellConstants.InputField.verticalIndentName)
+            make.trailing.equalTo(likeImageView).inset(NameCellConstants.InputField.horisontalIndentType)
         }
         typeField.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(AddressCellConstants.InputField.horisontalIndent)
-            make.trailing.equalTo(likeImageView).inset(30)
-            make.top.equalTo(nameField).inset(30)
+            make.leading.equalToSuperview().inset(NameCellConstants.InputField.horisontalIndent)
+            make.trailing.equalTo(likeImageView).inset(NameCellConstants.InputField.horisontalIndentType)
+            make.top.equalTo(nameField).inset(NameCellConstants.InputField.horisontalIndentType)
         }
         likeImageView.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(AddressCellConstants.InputField.horisontalIndent)
-            make.top.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().inset(20)
+            make.trailing.equalToSuperview().inset(NameCellConstants.InputField.horisontalIndent)
+            make.top.equalToSuperview().inset(NameCellConstants.InputField.verticalIndentImage)
+            make.bottom.equalToSuperview().inset(NameCellConstants.InputField.verticalIndentImage)
         }
     }
     
@@ -131,16 +131,21 @@ final class NameEventCell: UICollectionViewCell {
     
 private extension NameEventCell {
     
-    struct AddressCellConstants {
+    struct NameCellConstants {
         static let horisontalIndentForAllSubviews: CGFloat = 16.0
         struct InputField {
             static let horisontalIndent: CGFloat = horisontalIndentForAllSubviews
             static let verticalIndent: CGFloat = 0
             
             static let cornerRadius: CGFloat = 15.0
+            static let verticalIndentName: CGFloat = 10
+            static let verticalIndentImage: CGFloat = 20
+            static let horisontalIndentType: CGFloat = 30
         }
         struct Cell {
-            static let borderRadius: CGFloat = 10.0
+            static let borderRadius: CGFloat = 20
+            static let nameFont: CGFloat = 20
+            static let typeFont: CGFloat = 17
         }
     }
 }

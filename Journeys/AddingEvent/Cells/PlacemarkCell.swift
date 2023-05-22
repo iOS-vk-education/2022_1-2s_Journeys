@@ -21,7 +21,6 @@ final class PlacemarkCell: UICollectionViewCell {
     }()
     
     private var isInFavourites = Bool()
-    private var delegate: PlacemarkCellDelegate!
 
     
     required init?(coder: NSCoder) {
@@ -85,13 +84,13 @@ final class PlacemarkCell: UICollectionViewCell {
         }
     }
         
-        func configure(data: PlacemarkCellDisplayData, delegate: PlacemarkCellDelegate) {
+        func configure(data: PlacemarkCellDisplayData) {
             inputField.placeholder = data.placeholder
-            self.delegate = delegate
         }
     
     func returnText() -> String {
-        return inputField.text!
+        guard let text = inputField.text else { return " "}
+        return text
     }
 }
     
@@ -109,8 +108,4 @@ final class PlacemarkCell: UICollectionViewCell {
                 static let borderRadius: CGFloat = 10.0
             }
         }
-}
-
-protocol PlacemarkCellDelegate: AnyObject {
-    func editingBegan()
 }

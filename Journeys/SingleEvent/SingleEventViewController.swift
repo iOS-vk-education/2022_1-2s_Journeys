@@ -6,16 +6,13 @@
 //
 
 import UIKit
+import SafariServices
 
 class SingleEventViewController: UIViewController {
-    
+    var output: SingleEventViewOutput?
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nil, bundle: nil)
-        
-        // 1
         self.modalPresentationStyle = .pageSheet
-        
-        // 2
         self.isModalInPresentation = false
     }
     
@@ -24,6 +21,7 @@ class SingleEventViewController: UIViewController {
     }
     
     override func viewDidLoad() {
+        output?.didLoadView()
         super.viewDidLoad()
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         setupCollectionView()
@@ -36,23 +34,27 @@ class SingleEventViewController: UIViewController {
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
     
+    func obtainData() {
+        collectionView.reloadData()
+    }
+    
+    func obtainImage() {
+        collectionView.reloadData()
+    }
+    
     private func setupCollectionView() {
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
         collectionView.contentInset = PlacemarksConstants.collectionInset
-        collectionView.register(PlacemarkCell.self,
-                                forCellWithReuseIdentifier: "PlacemarkCell")
-        collectionView.register(AddressCell.self,
-                                forCellWithReuseIdentifier: "AddressCell")
-        collectionView.register(ImageEventCell.self,
-                                forCellWithReuseIdentifier: "ImageEventCell")
         collectionView.register(TimeCell.self, forCellWithReuseIdentifier: "TimeCell")
         collectionView.register(DescriptionCell.self, forCellWithReuseIdentifier: "DescriptionCell")
         collectionView.register(NameEventCell.self, forCellWithReuseIdentifier: "NameEventCell")
         collectionView.register(EventPictureCell.self, forCellWithReuseIdentifier: "EventPictureCell")
         collectionView.register(PlaceCell.self, forCellWithReuseIdentifier: "PlaceCell")
+        collectionView.register(DurationCell.self, forCellWithReuseIdentifier: "DurationCell")
+        collectionView.register(LinkCell.self, forCellWithReuseIdentifier: "LinkCell")
     }
     
     private func makeConstraints() {
@@ -64,18 +66,19 @@ class SingleEventViewController: UIViewController {
             make.trailing.equalToSuperview()
         }
     }
+    
 }
     
     extension SingleEventViewController: UICollectionViewDelegateFlowLayout {
         func collectionView(_ collectionView: UICollectionView,
                             layout collectionViewLayout: UICollectionViewLayout,
                             sizeForItemAt indexPath: IndexPath) -> CGSize {
-            if indexPath.section == 5 {
+            if indexPath.section == 4 {
                 return PlacemarksConstants.photoCellSize
             } else if indexPath.section == 1 {
                 return PlacemarksConstants.eventPictureSize
             }
-            else if indexPath.section == 0 || indexPath.section == 2 {
+            else if indexPath.section == 0 || indexPath.section == 2 || indexPath.section == 3 {
                 return PlacemarksConstants.nameEventCellSize
             }
             else {
@@ -103,7 +106,7 @@ extension SingleEventViewController: UICollectionViewDelegate {
 
 extension SingleEventViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 7
+        return 6
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -116,6 +119,9 @@ extension SingleEventViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let data = output?.displayingData()
+        let image = output?.displayImage()
+        
         var cell = UICollectionViewCell()
         if indexPath.section == 0 {
             guard let placemarkCell = collectionView.dequeueReusableCell(
@@ -125,7 +131,7 @@ extension SingleEventViewController: UICollectionViewDataSource {
                 return cell
             }
             
-            placemarkCell.configure(data: NameEventCellDisplayData(name: "Читательский клуб", type: "Семинар"))
+            placemarkCell.configure(data: NameEventCellDisplayData(name: data?.name ?? " ", type: data?.type ?? " "))
             cell = placemarkCell
         }
         if indexPath.section == 1 {
@@ -135,7 +141,8 @@ extension SingleEventViewController: UICollectionViewDataSource {
             ) as? EventPictureCell else {
                 return cell
             }
-            placemarkCell.configure(image: UIImage(asset: Asset.Assets.TripCell.tripCellImage1)!)
+            guard let image else {return placemarkCell}
+            placemarkCell.configure(image: image)
             cell = placemarkCell
         }
         if indexPath.section == 2 {
@@ -145,65 +152,61 @@ extension SingleEventViewController: UICollectionViewDataSource {
             ) as? PlaceCell else {
                 return cell
             }
-            placemarkCell.configure(data: PlaceCellDisplayData(address: "2-я Бауманская ул., д.5, стр.1", flat: "10", floor: "3"))
+            placemarkCell.configure(data: PlaceCellDisplayData(address: data?.address ?? " ", flat: data?.room ?? " ", floor: data?.floor ?? " "))
             cell = placemarkCell
         }
         if indexPath.section == 3 {
             guard let placemarkCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "TimeCell",
+                withReuseIdentifier: "DurationCell",
                 for: indexPath
-            ) as? TimeCell else {
+            ) as? DurationCell else {
                 return cell
             }
-            placemarkCell.configure(data: TimeCellDisplayData(text: L10n.begin), cornerRadius: 20)
-            cell = placemarkCell
-        }
-        if indexPath.section == 4 {
-            guard let placemarkCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "TimeCell",
-                for: indexPath
-            ) as? TimeCell else {
-                return cell
-            }
-            placemarkCell.configure(data: TimeCellDisplayData(text: L10n.end), cornerRadius: 20)
+            placemarkCell.configure(data: DurationCellDisplayData(sartTime: data?.startDate ?? " ", endTime: data?.finishDate ?? " "))
             cell = placemarkCell
         }
         
-        if indexPath.section == 5 {
+        if indexPath.section == 4 {
             guard let placemarkCell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "DescriptionCell",
                 for: indexPath
             ) as? DescriptionCell else {
                 return cell
             }
-            let text = "Книжный клуб предназначен для тех, кто хочет научиться читать книги и стремиться к саморазвитию. Цел"
-            let text2 = text + text + text + text + text
-            placemarkCell.configure(delegate: self, isEditable: false, cornerRadius: 20, text: text2)
+            placemarkCell.configure(isEditable: false, cornerRadius: 20, text: data?.description ?? " ")
             cell = placemarkCell
         }
-        if indexPath.section == 6 {
+        if indexPath.section == 5 {
             guard let placemarkCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "AddressCell",
+                withReuseIdentifier: "LinkCell",
                 for: indexPath
-            ) as? AddressCell else {
+            ) as? LinkCell else {
                 return cell
             }
-            placemarkCell.configure(data: AddressCellDisplayData(text: "https://console.firebase.google.com/project/journeys-rolls/authentication/users"), cornerRadius: 20)
+            placemarkCell.configure(data: AddressCellDisplayData(text: data?.link ?? " "))
             cell = placemarkCell
         }
         return cell
     }
     
-}
-
-extension SingleEventViewController: PlacemarkCellDelegate {
-    func editingBegan() {
-        return
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == 5 {
+            let data = output?.displayingData()
+            guard let link = data?.link else { return }
+            guard let url = URL(string: link) else { return }
+            let svc = SFSafariViewController(url: url)
+            present(svc, animated: false, completion: nil)
+            output?.userTapLink()
+        }
     }
     
 }
 
 extension SingleEventViewController: DescriptionCellDelegate & UINavigationControllerDelegate{
+    func editingBegan() {
+        return
+    }
+    
 }
 
 private extension SingleEventViewController {
@@ -224,5 +227,22 @@ private extension SingleEventViewController {
             static let borderRarius: CGFloat = 10.0
             static let bottomIndent: CGFloat = 15.0
         }
+    }
+}
+
+
+extension SingleEventViewController: SingleEventViewInput {
+    func reload() {
+        self.obtainData()
+    }
+    
+    func reloadImage() {
+        self.obtainImage()
+    }
+
+    func show(error: Error) {
+        let alertViewController = UIAlertController(title: L10n.error, message: error.localizedDescription, preferredStyle: .alert)
+        alertViewController.addAction(UIAlertAction(title: "OK", style: .cancel))
+        present(alertViewController, animated: true)
     }
 }

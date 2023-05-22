@@ -11,9 +11,6 @@ import PureLayout
 
 class EventsViewController: UIViewController {
     var output: EventsViewOutput?
-    var latitude : Double?
-    var longitude : Double?
-    var zoom : Float?
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
@@ -25,15 +22,10 @@ class EventsViewController: UIViewController {
     }
     private func setupNavBar() {
         navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
-        let settingsButtonItem = UIBarButtonItem(image: UIImage(systemName: "gearshape.fill"),
-                                                 style: .plain,
-                                                 target: self,
-                                                 action: #selector(didTapSettingsButton))
         let favouritesButtonItem = UIBarButtonItem(image: UIImage(systemName: "bookmark.fill"),
                                                    style: .plain,
                                                    target: self,
                                                    action: #selector(didTapFavouritesButton))
-        navigationItem.leftBarButtonItem = settingsButtonItem
         navigationItem.rightBarButtonItem = favouritesButtonItem
         title = L10n.events
     }
@@ -50,7 +42,9 @@ class EventsViewController: UIViewController {
         return button
     }()
     lazy var map: YMKMapView = {
+        
         let map1 = YMKMapView()
+        guard let (latitude, longitude, zoom) = output?.displayMap() else { return map1}
         map1.mapWindow.map.move(
             with: YMKCameraPosition.init(target: YMKPoint(latitude: latitude ?? AddingButtonConstants.Coordinates.latitude,
                                                           longitude: longitude ?? AddingButtonConstants.Coordinates.longitude),
@@ -63,7 +57,7 @@ class EventsViewController: UIViewController {
         return map1
     }()
 
-    func displayingPlacemarks(points: [AddressViewObjects]) {
+    func displayingPlacemarks(points: [Address]) {
         for place in points {
             let mapObjects = map.mapWindow.map.mapObjects
             let point = YMKPoint(latitude: place.coordinates.latitude, longitude: place.coordinates.longitude)
@@ -71,15 +65,19 @@ class EventsViewController: UIViewController {
             placemark.opacity = 1
             placemark.direction = 10
             placemark.isDraggable = false
-            let image1 = UIImage(asset: Asset.Assets.PlacemarkIcons.defaultPlacemark)
-            placemark.setIconWith(image1!)
+            guard let placemarkImage = UIImage(asset: Asset.Assets.PlacemarkIcons.defaultPlacemark) else { return }
+            placemark.setIconWith(placemarkImage)
             placemark.addTapListener(with: self)
+            placemark.userData = String(place.id)
+            
         }
     }
+
     private func addSubviews() {
         self.view.addSubview(map)
         self.view.addSubview(addingButton)
     }
+
     private func setupConstraints() {
         addingButton.autoPinEdge(toSuperviewSafeArea: .right, withInset: AddingButtonConstants.Constraints.right)
         addingButton.autoPinEdge(toSuperviewSafeArea: .top, withInset: AddingButtonConstants.Constraints.top)
@@ -87,16 +85,16 @@ class EventsViewController: UIViewController {
         map.autoPinEdge(toSuperviewSafeArea: .right)
         map.autoPinEdge(toSuperviewSafeArea: .top)
     }
+
     private func setupAddingButton() {
         addingButton.addTarget(self, action: #selector(didTapAddingButton), for: .touchUpInside)
     }
+
     @objc
     private func didTapAddingButton() {
         output?.didTapAddingButton()
     }
-    @objc
-    private func didTapSettingsButton() {
-    }
+
     @objc
     private func didTapFavouritesButton() {
     }
@@ -120,7 +118,7 @@ private extension EventsViewController {
     }
 }
 extension EventsViewController: EventsViewInput {
-    func reload(points: [AddressViewObjects]) {
+    func reload(points: [Address]) {
         DispatchQueue.main.async { [weak self] in
             self?.displayingPlacemarks(points: points)
         }
@@ -138,7 +136,10 @@ extension EventsViewController: EventsViewInput {
 
 extension EventsViewController: YMKMapObjectTapListener {
     func onMapObjectTap(with mapObject: YMKMapObject, point: YMKPoint) -> Bool {
-        output?.didTapOnPlacemark()
+        guard let placemark = mapObject as? YMKPlacemarkMapObject else { return false }
+        let data = placemark.userData
+        guard let id = data as? String else { return false}
+        output?.didTapOnPlacemark(id: id)
         return true
     }
 }

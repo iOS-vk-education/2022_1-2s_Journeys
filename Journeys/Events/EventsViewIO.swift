@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - Events ViewInput
 protocol EventsViewInput: AnyObject {
-    func reload(points: [AddressViewObjects])
+    func reload(points: [Address])
     func show(error: Error)
 }
 
@@ -17,5 +17,6 @@ protocol EventsViewInput: AnyObject {
 protocol EventsViewOutput: AnyObject {
     func didTapAddingButton()
     func didLoadView()
-    func didTapOnPlacemark()
+    func didTapOnPlacemark(id: String)
+    func displayMap() -> (Double?, Double?, Float?)
 }

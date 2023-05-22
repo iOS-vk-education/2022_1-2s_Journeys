@@ -36,6 +36,8 @@ public enum L10n {
   public static let delete = L10n.tr("Localizable", "Delete")
   /// Город отправления
   public static let departureTown = L10n.tr("Localizable", "DepartureTown")
+  /// Описание отсутствует
+  public static let descriptionIsMissing = L10n.tr("Localizable", "Description is missing")
   /// Описание мероприятия
   public static let descriptionOfTheEvent = L10n.tr("Localizable", "Description of the event")
   /// ГОТОВО
@@ -45,13 +47,15 @@ public enum L10n {
   /// Конец
   public static let end = L10n.tr("Localizable", "End")
   /// Введите адрес
-  public static let enterTheAdress = L10n.tr("Localizable", "Enter the adress")
+  public static let enterTheAddress = L10n.tr("Localizable", "Enter the address")
   /// Ошибка
   public static let error = L10n.tr("Localizable", "Error")
   /// Название мероприятия
   public static let eventName = L10n.tr("Localizable", "Event Name")
   /// Мероприятия
   public static let events = L10n.tr("Localizable", "Events")
+  /// Заполните: офис, этаж, название, тип
+  public static let fillInOfficeFloorNameType = L10n.tr("Localizable", "Fill in: office, floor, name, type")
   /// Этаж
   public static let floor = L10n.tr("Localizable", "Floor")
   /// Путешествия
@@ -60,12 +64,16 @@ public enum L10n {
   public static let linkToTheSource = L10n.tr("Localizable", "Link to the source")
   /// Новый маршрут
   public static let newRoute = L10n.tr("Localizable", "NewRoute")
+  /// Не все обязательные поля заполнены
+  public static let notAllRequiredFieldsAreFilled = L10n.tr("Localizable", "Not all required fields are filled")
   /// Собрано
   public static let packed = L10n.tr("Localizable", "Packed")
   /// Фотография
   public static let photo = L10n.tr("Localizable", "Photo")
   /// Общая информация
   public static let placeInfo = L10n.tr("Localizable", "PlaceInfo")
+  /// Источник
+  public static let sourse = L10n.tr("Localizable", "Sourse")
   /// Список вещей
   public static let stuffList = L10n.tr("Localizable", "StuffList")
   /// Неверно указана дата или время
@@ -73,7 +81,7 @@ public enum L10n {
   /// Для создания мероприятия нужно указать более точный адрес
   public static let toCreateAnEventYouNeedToSpecifyAMorePreciseAddress = L10n.tr("Localizable", "To create an event you need to specify a more precise address")
   /// Уточните адрес
-  public static let trippleTheAdress = L10n.tr("Localizable", "Tripple the adress")
+  public static let trippleTheAddress = L10n.tr("Localizable", "Tripple the address")
   /// Поездки
   public static let trips = L10n.tr("Localizable", "Trips")
   /// Тип мероприятия

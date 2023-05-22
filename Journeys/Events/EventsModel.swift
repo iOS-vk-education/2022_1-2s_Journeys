@@ -14,7 +14,7 @@ final class EventsModel {
 }
 
 extension EventsModel: EventsModelInput {
-    func loadPlacemarks(completion: @escaping (Result<[Adress], Error>) -> Void) {
+    func loadPlacemarks(completion: @escaping (Result<[Address], Error>) -> Void) {
         service.loadPlacemarks { result in
             completion(result)
         }

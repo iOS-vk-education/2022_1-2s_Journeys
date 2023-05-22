@@ -26,19 +26,17 @@
 		50505393A370F99E10E3F864 /* TripInfoViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7068D7565D18D21C17054759 /* TripInfoViewIO.swift */; };
 		5601156C29E184D5006881DA /* EventsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601156B29E184D5006881DA /* EventsService.swift */; };
 		5601156E29E18BA6006881DA /* EventsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601156D29E18BA6006881DA /* EventsModel.swift */; };
-		5601157029E19050006881DA /* AddressViewObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601156F29E19050006881DA /* AddressViewObject.swift */; };
 		5601157229E19B92006881DA /* EventsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601157129E19B92006881DA /* EventsPresenter.swift */; };
 		5601157429E2DA88006881DA /* EventsViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601157329E2DA88006881DA /* EventsViewIO.swift */; };
 		5601157629E2DCD6006881DA /* EventsModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601157529E2DCD6006881DA /* EventsModuleIO.swift */; };
 		5601157829E2EC0D006881DA /* EventsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601157729E2EC0D006881DA /* EventsBuilder.swift */; };
 		5601157A29E2F5B8006881DA /* EventsModelIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601157929E2F5B8006881DA /* EventsModelIO.swift */; };
 		5601157C29E348D7006881DA /* AddingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601157B29E348D7006881DA /* AddingModel.swift */; };
-		5601157E29E36868006881DA /* EventsViewObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601157D29E36868006881DA /* EventsViewObject.swift */; };
 		5601158029E457FF006881DA /* AddingModelIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601157F29E457FF006881DA /* AddingModelIO.swift */; };
 		5601158729EACDA4006881DA /* AddingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601158629EACDA4006881DA /* AddingPresenter.swift */; };
 		560115D529F84CBA006881DA /* AddingViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560115D429F84CBA006881DA /* AddingViewIO.swift */; };
 		560115D729F84D01006881DA /* AddingModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560115D629F84D01006881DA /* AddingModuleIO.swift */; };
-		560115D929F9A177006881DA /* EventViewObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560115D829F9A177006881DA /* EventViewObject.swift */; };
+		563570E72A1A8615006F509D /* LinkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 563570E62A1A8615006F509D /* LinkCell.swift */; };
 		56A1ABF029CF54B30073618C /* DescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A1ABEF29CF54B30073618C /* DescriptionCell.swift */; };
 		56A1ABF729D089940073618C /* SuggestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A1ABF629D089940073618C /* SuggestCell.swift */; };
 		56EF0E202A02FA2600038A6F /* AddingBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EF0E1F2A02FA2600038A6F /* AddingBuilder.swift */; };
@@ -208,19 +206,17 @@
 		551FBB3C3A6EBAA3F5825F1E /* TripsViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripsViewController.swift; sourceTree = "<group>"; };
 		5601156B29E184D5006881DA /* EventsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsService.swift; sourceTree = "<group>"; };
 		5601156D29E18BA6006881DA /* EventsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsModel.swift; sourceTree = "<group>"; };
-		5601156F29E19050006881DA /* AddressViewObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressViewObject.swift; sourceTree = "<group>"; };
 		5601157129E19B92006881DA /* EventsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsPresenter.swift; sourceTree = "<group>"; };
 		5601157329E2DA88006881DA /* EventsViewIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewIO.swift; sourceTree = "<group>"; };
 		5601157529E2DCD6006881DA /* EventsModuleIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsModuleIO.swift; sourceTree = "<group>"; };
 		5601157729E2EC0D006881DA /* EventsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsBuilder.swift; sourceTree = "<group>"; };
 		5601157929E2F5B8006881DA /* EventsModelIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsModelIO.swift; sourceTree = "<group>"; };
 		5601157B29E348D7006881DA /* AddingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingModel.swift; sourceTree = "<group>"; };
-		5601157D29E36868006881DA /* EventsViewObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewObject.swift; sourceTree = "<group>"; };
 		5601157F29E457FF006881DA /* AddingModelIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingModelIO.swift; sourceTree = "<group>"; };
 		5601158629EACDA4006881DA /* AddingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingPresenter.swift; sourceTree = "<group>"; };
 		560115D429F84CBA006881DA /* AddingViewIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingViewIO.swift; sourceTree = "<group>"; };
 		560115D629F84D01006881DA /* AddingModuleIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingModuleIO.swift; sourceTree = "<group>"; };
-		560115D829F9A177006881DA /* EventViewObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewObject.swift; sourceTree = "<group>"; };
+		563570E62A1A8615006F509D /* LinkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkCell.swift; sourceTree = "<group>"; };
 		56A1ABEF29CF54B30073618C /* DescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionCell.swift; sourceTree = "<group>"; };
 		56A1ABF629D089940073618C /* SuggestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestCell.swift; sourceTree = "<group>"; };
 		56EF0E1F2A02FA2600038A6F /* AddingBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingBuilder.swift; sourceTree = "<group>"; };
@@ -536,6 +532,7 @@
 			isa = PBXGroup;
 			children = (
 				56EF0E5A2A137FC600038A6F /* EventPictureCell.swift */,
+				563570E62A1A8615006F509D /* LinkCell.swift */,
 				56EF0E592A137FC600038A6F /* NameEventCell.swift */,
 				56EF0E5B2A137FC600038A6F /* PlaceCell.swift */,
 				56EF0E6D2A15433200038A6F /* DurationCell.swift */,
@@ -694,9 +691,6 @@
 				5601157529E2DCD6006881DA /* EventsModuleIO.swift */,
 				5601157329E2DA88006881DA /* EventsViewIO.swift */,
 				5601157129E19B92006881DA /* EventsPresenter.swift */,
-				5601156F29E19050006881DA /* AddressViewObject.swift */,
-				5601157D29E36868006881DA /* EventsViewObject.swift */,
-				560115D829F9A177006881DA /* EventViewObject.swift */,
 				0D551CF42951752700A4151E /* EventsViewController.swift */,
 				CE4CCCA0295863CB0057455D /* FloatingButton2.swift */,
 				CE7F42D2295ACFE3000CBA63 /* Event.swift */,
@@ -1436,7 +1430,6 @@
 				EE29EBF829191534008ECFF8 /* AppCoordinator.swift in Sources */,
 				EEA76C5F2951325E00250B06 /* PlacesInfoModuleIO.swift in Sources */,
 				91819FAFB33A7ABB47EAB8B0 /* TripsViewIO.swift in Sources */,
-				5601157029E19050006881DA /* AddressViewObject.swift in Sources */,
 				EE02E53B294FFA5C002BE87E /* StuffDisplayData.swift in Sources */,
 				56EF0E672A137FE400038A6F /* SingleEventBuilder.swift in Sources */,
 				093861F1C840A5A7EA2ABBB0 /* TripsViewController.swift in Sources */,
@@ -1464,14 +1457,12 @@
 				EEAC1D322952717800237331 /* NetworkRequestFactory.swift in Sources */,
 				EE02E56F2950E732002BE87E /* EmojiTextField.swift in Sources */,
 				EEA76C5E2951325E00250B06 /* PlacesInfoPresenter.swift in Sources */,
-				5601157E29E36868006881DA /* EventsViewObject.swift in Sources */,
 				EEDAF555291C0F2200E6DDB9 /* AddTripCell.swift in Sources */,
 				EEAC1D312952717800237331 /* NetworkService.swift in Sources */,
 				EE910DC92958B93A0094F5C8 /* LoadingViewController.swift in Sources */,
 				EE00AC14295601CD00FAFDCD /* DepartureLocationBuilder.swift in Sources */,
 				EEDAF555291C0F2200E6DDB9 /* AddTripCell.swift in Sources */,
 				56EF0E682A137FE400038A6F /* SingleEventModuleIO.swift in Sources */,
-				560115D929F9A177006881DA /* EventViewObject.swift in Sources */,
 				EEFA76F32935F53A00A0B8CA /* FirebaseManager.swift in Sources */,
 				56EF0E5E2A137FC600038A6F /* PlaceCell.swift in Sources */,
 				EE00AC1D2956921100FAFDCD /* ImageRouteCell.swift in Sources */,
@@ -1576,6 +1567,7 @@
 				4AD4E01689D0BCD604A4361C /* AuthViewController.swift in Sources */,
 				8D4FF0495B4D89DAA39F6486 /* AuthModuleIO.swift in Sources */,
 				56EF0E202A02FA2600038A6F /* AddingBuilder.swift in Sources */,
+				563570E72A1A8615006F509D /* LinkCell.swift in Sources */,
 				6A0601D27A59781E2AC544B2 /* AuthPresenter.swift in Sources */,
 				9DAABBBF5E044768A6C2A4A3 /* AuthModel.swift in Sources */,
 				945EBBCAD1E97965BDCD74C4 /* AuthBuilder.swift in Sources */,

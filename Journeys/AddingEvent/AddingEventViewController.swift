@@ -5,9 +5,6 @@ import FirebaseFirestore
 // MARK: - TripsViewController
 
 final class AddingEventViewController: UIViewController {
-    var address = ""
-    var eventImage: UIImage?
-    var coordinates: GeoPoint?
     var output: AddingViewOutput?
     
     // MARK: Private properties
@@ -40,6 +37,7 @@ final class AddingEventViewController: UIViewController {
         navigationItem.leftBarButtonItem = backButtonItem
         title = L10n.createEvent
     }
+
     private func setupFloatingAddButton() {
         view.addSubview(floatingChangeButton)
         view.bringSubviewToFront(floatingChangeButton)
@@ -47,19 +45,13 @@ final class AddingEventViewController: UIViewController {
         floatingChangeButton.addTarget(self, action: #selector(didTapReadyButton), for: .touchUpInside)
     }
     
-    func dateCheck(startDate: Date, endDate: Date) -> (Date, Date) {
-        let calendar = Calendar.current
-        let startDateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: startDate)
-        let endDateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: endDate)
-        if calendar.date(from: startDateComponents)! > calendar.date(from: endDateComponents)! {
-            let alert = UIAlertController(title: L10n.error, message: L10n.theDateOrTimeIsIncorrect, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            present(alert, animated: true, completion: nil)
-        }
-        return (startDate, endDate)
+    func formatDate(startDate: Date, endDate: Date) -> (String, String) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy   HH:mm"
+        let date1 = formatter.string(from: startDate)
+        let date2 = formatter.string(from: endDate)
+        return (date1, date2)
     }
-
-
 
     @objc
     func didTapReadyButton() {
@@ -75,48 +67,51 @@ final class AddingEventViewController: UIViewController {
         let eventTypeCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 4)) as? PlacemarkCell
         let eventType = eventTypeCell?.returnText()
 
-        guard let calendarCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 5)) as? TimeCell else {
+        guard let calendarCellBegin = collectionView.cellForItem(at: IndexPath(row: 0, section: 5)) as? TimeCell else {
             assertionFailure("Error while getting time")
             return
         }
-        var startDate = calendarCell.dateChanged()
-        guard let calendarCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 6)) as? TimeCell else {
-            assertionFailure("Error while getting time")
-            return
-        }
-        var endDate = calendarCell.dateChanged()
-        (startDate, endDate) = dateCheck(startDate: startDate, endDate: endDate)
+        let startDate = calendarCellBegin.selectedDate()
 
-        let eventDescriptionCell1 = collectionView.cellForItem(at: IndexPath(row: 0, section: 7)) as? DescriptionCell
-        let eventDescription = eventDescriptionCell1?.returnText()
+        guard let calendarCellEnd = collectionView.cellForItem(at: IndexPath(row: 0, section: 6)) as? TimeCell else {
+            assertionFailure("Error while getting time")
+            return
+        }
+        let endDate = calendarCellEnd.selectedDate()
+        if startDate > endDate {
+            let alert = UIAlertController(title: L10n.error, message: L10n.theDateOrTimeIsIncorrect, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        let (startDateStr, endDateStr) = formatDate(startDate: startDate, endDate: endDate)
+
+        let eventDescriptionCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 7)) as? DescriptionCell
+        let eventDescription = eventDescriptionCell?.returnText()
 
         let eventUrlCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 9)) as? PlacemarkCell
         let eventUrl = eventUrlCell?.returnText()
-
-        let post: Event = Event.init(id: "1",
-                                     adress: address,
-                                     startDate: startDate,
-                                     finishDate: endDate,
-                                     type: eventType ?? "",
-                                     name: eventName ?? "",
-                                     link: eventUrl ?? "",
-                                     floor: floor ?? "",
-                                     room: ofice ?? "",
-                                     photoURL: "",
-                                     description: eventDescription ?? "",
+        
+        if floor == "" || ofice == "" || eventName == "" || eventType == "" {
+            let alert = UIAlertController(title: L10n.notAllRequiredFieldsAreFilled, message: L10n.fillInOfficeFloorNameType, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        let post: Event = Event.init(address: self.address(),
+                                     startDate: startDateStr,
+                                     finishDate: endDateStr,
+                                     type: eventType ?? " ",
+                                     name: eventName ?? " ",
+                                     link: eventUrl ?? " ",
+                                     photoURL: " ",
+                                     floor: floor ?? " ",
+                                     room: ofice ?? " ",
+                                     description: eventDescription ?? " ",
                                      isLiked: false)
-        let adressCoordinates: Adress = Adress.init(id: "3", coordinates: coordinates!)
 
-        output?.saveData(post: post, coordinates: adressCoordinates, eventImage: eventImage ?? UIImage(asset: Asset.Assets.tripsPlaceholder)!)
+        output?.saveData(post: post)
         output?.openEventsVC()
-    }
-    
-    func showAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title,
-                                      message: message,
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
     }
 
     private func setupCollectionView() {
@@ -124,7 +119,7 @@ final class AddingEventViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
-        collectionView.contentInset = PlacemarksConstants.collectionInset
+        collectionView.contentInset = AddingConstants.collectionInset
         collectionView.register(PlacemarkCell.self,
                                 forCellWithReuseIdentifier: "PlacemarkCell")
         collectionView.register(AddressCell.self,
@@ -133,16 +128,19 @@ final class AddingEventViewController: UIViewController {
                                 forCellWithReuseIdentifier: "ImageEventCell")
         collectionView.register(TimeCell.self, forCellWithReuseIdentifier: "TimeCell")
         collectionView.register(DescriptionCell.self, forCellWithReuseIdentifier: "DescriptionCell")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
 
     private func makeConstraints() {
-        floatingChangeButton.snp.makeConstraints { make in            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(PlacemarksConstants.FloationgChangeButton.bottomIndent)
-            make.height.equalTo(PlacemarksConstants.FloationgChangeButton.height)
+        floatingChangeButton.snp.makeConstraints { make in            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(AddingConstants.FloationgChangeButton.bottomIndent)
+            make.height.equalTo(AddingConstants.FloationgChangeButton.height)
 
         }
         floatingChangeButton.autoAlignAxis(toSuperviewAxis: .vertical)
-        floatingChangeButton.autoPinEdge(toSuperviewSafeArea: .right, withInset: PlacemarksConstants.FloationgChangeButton.indent)
-        floatingChangeButton.autoPinEdge(toSuperviewSafeArea: .left, withInset: PlacemarksConstants.FloationgChangeButton.indent)
+        floatingChangeButton.autoPinEdge(toSuperviewSafeArea: .right, withInset: AddingConstants.FloationgChangeButton.indent)
+        floatingChangeButton.autoPinEdge(toSuperviewSafeArea: .left, withInset: AddingConstants.FloationgChangeButton.indent)
 
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
@@ -156,6 +154,15 @@ final class AddingEventViewController: UIViewController {
     private func didTapBacksButton() {
         output?.backToSuggestionVC()
     }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
+    private func address() -> String {
+        guard let address = output?.displayAddress() else {return "No address" }
+        return address
+    }
 }
 
 // MARK: UICollectionViewDelegateFlowLayout
@@ -163,10 +170,10 @@ extension AddingEventViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if indexPath.section == 7 || indexPath.section == 8{
-            return PlacemarksConstants.photoCellSize
+        if indexPath.section == 7 || indexPath.section == 8 {
+            return AddingConstants.photoCellSize
         } else {
-            return PlacemarksConstants.tripCellSize
+            return AddingConstants.tripCellSize
         }
     }
 }
@@ -187,7 +194,7 @@ extension AddingEventViewController: UICollectionViewDelegate {
 
 extension AddingEventViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 10
+        return AddingConstants.numberOfSection
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -208,8 +215,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
             ) as? AddressCell else {
                 return cell
             }
-
-            placemarkCell.configure(data: AddressCellDisplayData(text: address), cornerRadius: 20)
+            placemarkCell.configure(data: AddressCellDisplayData(text: self.address()))
             cell = placemarkCell
         }
         if indexPath.section == 1 {
@@ -220,7 +226,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
                 return cell
             }
             placemarkCell.configure(data: PlacemarkCellDisplayData(
-                placeholder: L10n.apartmentOffice), delegate: self)
+                placeholder: L10n.apartmentOffice))
             cell = placemarkCell
         }
         if indexPath.section == 2 {
@@ -231,7 +237,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
                 return cell
             }
             placemarkCell.configure(data: PlacemarkCellDisplayData(
-                placeholder: L10n.floor), delegate: self)
+                placeholder: L10n.floor))
             cell = placemarkCell
         }
         if indexPath.section == 3 {
@@ -242,7 +248,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
                 return cell
             }
             placemarkCell.configure(data: PlacemarkCellDisplayData(
-                placeholder: L10n.eventName), delegate: self)
+                placeholder: L10n.eventName))
             cell = placemarkCell
         }
         if indexPath.section == 4 {
@@ -253,7 +259,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
                 return cell
             }
             placemarkCell.configure(data: PlacemarkCellDisplayData(
-                placeholder: L10n.typeOfEvent), delegate: self)
+                placeholder: L10n.typeOfEvent))
             cell = placemarkCell
         }
         if indexPath.section == 5 {
@@ -263,7 +269,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
             ) as? TimeCell else {
                 return cell
             }
-            placemarkCell.configure(data: TimeCellDisplayData(text: L10n.begin), cornerRadius: 10)
+            placemarkCell.configure(data: TimeCellDisplayData(text: L10n.begin))
             cell = placemarkCell
         }
         if indexPath.section == 6 {
@@ -273,7 +279,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
             ) as? TimeCell else {
                 return cell
             }
-            placemarkCell.configure(data: TimeCellDisplayData(text: L10n.end), cornerRadius: 10)
+            placemarkCell.configure(data: TimeCellDisplayData(text: L10n.end))
             cell = placemarkCell
         }
 
@@ -294,7 +300,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
             ) as? DescriptionCell else {
                 return cell
             }
-            placemarkCell.configure(delegate: self, isEditable: true, cornerRadius: 10, text: "")
+            placemarkCell.configure(isEditable: true, cornerRadius: 10, text: "")
             cell = placemarkCell
         }
         if indexPath.section == 9 {
@@ -305,7 +311,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
                 return cell
             }
             placemarkCell.configure(data: PlacemarkCellDisplayData(
-                placeholder: L10n.linkToTheSource), delegate: self)
+                placeholder: L10n.linkToTheSource))
             cell = placemarkCell
         }
         return cell
@@ -313,14 +319,11 @@ extension AddingEventViewController: UICollectionViewDataSource {
 
 }
 
-extension AddingEventViewController: PlacemarkCellDelegate {
+extension AddingEventViewController: DescriptionCellDelegate & UINavigationControllerDelegate {
     func editingBegan() {
         return
     }
     
-}
-
-extension AddingEventViewController: DescriptionCellDelegate & UINavigationControllerDelegate{
 }
 
 extension AddingEventViewController: ImageEventCellDelegate {
@@ -331,27 +334,24 @@ extension AddingEventViewController: ImageEventCellDelegate {
         imagePicker.sourceType = .photoLibrary
         present(imagePicker, animated: true)
     }
-    
+}
+
+extension AddingEventViewController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 8)) as? ImageEventCell
             
-
-            cell?.configureSetImage(image: editedImage)
-            
-            eventImage = editedImage
+            cell?.configureAddPhotoButton(image: editedImage)
+            output?.imageFromView(image: editedImage)
         }
         dismiss(animated: true)
     }
 }
 
-extension AddingEventViewController: UIImagePickerControllerDelegate {
-}
-
 // MARK: Constants
 private extension AddingEventViewController {
 
-    struct PlacemarksConstants {
+    struct AddingConstants {
         static let addCellSize = CGSize(width: 343, height: 66)
         static let photoCellSize = CGSize(width: 343, height: 257)
         static let tripCellSize = CGSize(width: 343, height: 55)
@@ -359,6 +359,7 @@ private extension AddingEventViewController {
         
 
         static let collectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 70, right: 0)
+        static let numberOfSection = 10
         struct FloationgChangeButton {
             static let height: CGFloat = 40.0
             static let indent: CGFloat = 15.0
@@ -370,12 +371,5 @@ private extension AddingEventViewController {
 
 
 extension AddingEventViewController: AddingViewInput {
-    func showAlert1(title: String, message: String) {
-            let alert = UIAlertController(title: title,
-                                          message: message,
-                                          preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
-            present(alert, animated: true, completion: nil)
-        }
 }
 

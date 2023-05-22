@@ -6,18 +6,22 @@
 //
 
 import Foundation
-import UIKit
 import FirebaseFirestore
 
 final class EventsPresenter {
     
     weak var  view: EventsViewInput?
     weak var moduleOutput: EventsModuleOutput?
+    var lalitude: Double?
+    var longitude: Double?
+    var zoom: Float?
     
     private let model: EventsModelInput
-    var addressViewObjects = [AddressViewObjects]()
-    private var viewObject: AddressViewObjects?
-    init(view: EventsViewInput, model: EventsModelInput) {
+    var addressViewObjects = [Address]()
+    init(latitude: Double, longitude: Double, zoom: Float, view: EventsViewInput, model: EventsModelInput) {
+        self.lalitude = latitude
+        self.longitude = longitude
+        self.zoom = zoom
         self.view = view
         self.model = model
     }
@@ -26,13 +30,12 @@ final class EventsPresenter {
         loadPlacemarks()
     }
     
-    func didLoadView() {
-        loadData()
+    func displayMap() -> (Double?, Double?, Float?) {
+        return (lalitude, longitude, zoom)
     }
     
-    
-    func didTapSettingsButton() {
-        print("Settings button was tapped")
+    func didLoadView() {
+        loadData()
     }
     
     func didTapFavouritesButton() {
@@ -46,11 +49,11 @@ private extension EventsPresenter {
         model.loadPlacemarks { [weak self] result in
             switch result {
             case .success(let addressNetworkObjects):
-                var addressViewObjects = [AddressViewObjects]()
+                var addressViewObjects = [Address]()
                 
                 addressViewObjects = addressNetworkObjects.map { networkObject in
-                    AddressViewObjects(
-                        coordinates: networkObject.coordinates
+                    Address(
+                        id: networkObject.id, coordinates: networkObject.coordinates
                     )
                 }
                 
@@ -65,17 +68,14 @@ private extension EventsPresenter {
 }
 
 extension EventsPresenter: EventsViewOutput {
-    func viewDidLoad() {
-        loadData()
-    }
     
     
     func didTapAddingButton() {
         moduleOutput?.wantsToOpenAddEventVC()
     }
     
-    func didTapOnPlacemark() {
-        moduleOutput?.wantsToOpenSingleEventVC()
+    func didTapOnPlacemark(id: String) {
+        moduleOutput?.wantsToOpenSingleEventVC(id: id)
     }
 }
 

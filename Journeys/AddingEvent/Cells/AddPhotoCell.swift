@@ -15,18 +15,16 @@ struct ImageEventCellDisplayData {
 }
 
 final class ImageEventCell: UICollectionViewCell {
-    
-    
-    var editImage : UIImage!
-    private var delegate: ImageEventCellDelegate!
-    
+    var editImage: UIImage?
+    private var delegate: ImageEventCellDelegate?
+
     private let photoLabel: UILabel = {
         let inpField = UILabel()
         inpField.text = L10n.photo
-        
+
         return inpField
     }()
-    
+
     private let addPhotoButton: UIButton = {
         let addPhotoButton = UIButton()
         addPhotoButton.backgroundColor = UIColor(asset: Asset.Colors.SpecifyAdress.photoButton)
@@ -103,14 +101,14 @@ final class ImageEventCell: UICollectionViewCell {
         
     @objc
     private func didTapAddPhotoButton() {
-        delegate.didTapAddPhotoButton()
+        delegate?.didTapAddPhotoButton()
     }
     
     func configure(delegate: ImageEventCellDelegate) {
         self.delegate = delegate
     }
     
-    func configureSetImage(image: UIImage) {
+    func configureAddPhotoButton(image: UIImage) {
         addPhotoButton.setImage(image, for: .normal)
         addPhotoButton.imageView?.clipsToBounds = true
         addPhotoButton.imageView?.layer.cornerRadius = Constants.cornerRadius

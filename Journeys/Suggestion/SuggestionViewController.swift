@@ -15,16 +15,16 @@ class SuggestionViewController: UIViewController, UITableViewDataSource, UITable
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(SuggestCell.self, forCellReuseIdentifier: profileInfoCellReuseIdentifier)
-        tableView.autoSetDimension(.height, toSize: CGFloat(SuggestionViewControllerConstants.TableView.height))
+        tableView.autoSetDimension(.height, toSize: SuggestionViewControllerConstants.TableView.height)
         tableView.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
-        tableView.rowHeight = CGFloat(SuggestionViewControllerConstants.TableView.rowheight)
+        tableView.rowHeight = SuggestionViewControllerConstants.TableView.rowheight
         return tableView
     }()
     lazy var searchBar: UITextField = {
         let searchBar = UITextField()
         searchBar.layer.cornerRadius = CGFloat(SuggestionViewControllerConstants.SearchBar.cornerRadius)
         searchBar.autoSetDimension(.height, toSize: CGFloat(SuggestionViewControllerConstants.SearchBar.height))
-        searchBar.placeholder = L10n.enterTheAdress
+        searchBar.placeholder = L10n.enterTheAddress
         searchBar.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: searchBar.frame.height))
         searchBar.leftViewMode = .always
         searchBar.backgroundColor = UIColor(asset: Asset.Colors.searchBar)
@@ -38,13 +38,13 @@ class SuggestionViewController: UIViewController, UITableViewDataSource, UITable
         magnifier.autoSetDimension(.height, toSize: SuggestionViewControllerConstants.Magnifier.height)
         return magnifier
     }()
-    var suggestResults: [YMKSuggestItem] = []
-    let searchManager = YMKSearch.sharedInstance().createSearchManager(with: .combined)
-    var suggestSession: YMKSearchSuggestSession!
-    let boundingBox = YMKBoundingBox( // Москва
+    private var suggestResults: [YMKSuggestItem] = []
+    private let searchManager = YMKSearch.sharedInstance().createSearchManager(with: .combined)
+    private var suggestSession: YMKSearchSuggestSession!
+    private let boundingBox = YMKBoundingBox( // Москва
         southWest: YMKPoint(latitude: 55.55, longitude: 37.42),
         northEast: YMKPoint(latitude: 55.95, longitude: 37.82))
-    let suggestOptions = YMKSuggestOptions(suggestTypes: .geo, userPosition: nil, suggestWords: true)
+    private let suggestOptions = YMKSuggestOptions(suggestTypes: .geo, userPosition: nil, suggestWords: true)
  
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +74,9 @@ class SuggestionViewController: UIViewController, UITableViewDataSource, UITable
         self.view.addSubview(tableView)
         self.view.addSubview(searchBar)
         self.view.addSubview(magnifier)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
     func setupConstraints() {
         searchBar.autoPinEdge(toSuperviewSafeArea: .top,
@@ -131,63 +134,63 @@ class SuggestionViewController: UIViewController, UITableViewDataSource, UITable
             suggestOptions: suggestOptions,
             responseHandler: suggestHandler)
     }
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
     func tableView(_ tableView: UITableView, cellForRowAt path: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "profileInfoCellReuseIdentifier", for: path) as? SuggestCell else {return UITableViewCell()}
-        var adress : String
-        var area : String
-        (adress, area) = splitAdress(suggestResult: suggestResults[path.row].displayText ?? " ")
-        cell.address.text = adress
+        let (address, area) = splitAddress(suggestResult: suggestResults[path.row].displayText ?? " ")
+        cell.address.text = address
         cell.area.text = area
         cell.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
         return cell
     }
     
-    func splitAdress(suggestResult: String) -> (String, String) {
-        let adress: String
+    func splitAddress(suggestResult: String) -> (String, String) {
+        let address: String
         let area: String
         if #available(iOS 16.0, *) {
             if suggestResult.split(separator: ", ").count >= 5 {
                 let suggestResultArray = suggestResult.split(separator: ", ")
-                adress = (suggestResultArray[(suggestResultArray.count - 3)...(suggestResultArray.count - 1)]).joined(separator: ", ")
+                address = (suggestResultArray[(suggestResultArray.count - 3)...(suggestResultArray.count - 1)]).joined(separator: ", ")
                 area = suggestResultArray[0...(suggestResultArray.count - 4)].joined(separator: ", ")
             } else if suggestResult.split(separator: ", ").count >= 3 {
                 let suggestResultArray = suggestResult.split(separator: ", ")
-                adress = (suggestResultArray[(suggestResultArray.count - 2)...(suggestResultArray.count - 1)]).joined(separator: ", ")
+                address = (suggestResultArray[(suggestResultArray.count - 2)...(suggestResultArray.count - 1)]).joined(separator: ", ")
                 area = suggestResultArray[0...(suggestResultArray.count - 3)].joined(separator: ", ")
             } else {
-                adress = suggestResult
+                address = suggestResult
                 area = ""
             }
         } else {
-                adress = suggestResult
+                address = suggestResult
                 area = ""
             }
-        return (adress, area)
+        return (address, area)
     }
    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "profileInfoCellReuseIdentifier", for: indexPath) as? SuggestCell else {return}
-        var adress : String
-        var area : String
-        (adress, area) = splitAdress(suggestResult: suggestResults[indexPath.row].displayText ?? " ")
-        cell.address.text = adress
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "profileInfoCellReuseIdentifier", for: indexPath) as? SuggestCell else { return }
+        let (address, area) = splitAddress(suggestResult: suggestResults[indexPath.row].displayText ?? "")
+        cell.address.text = address
         cell.area.text = area
-
+        
         var geocoder = CLGeocoder()
-        geocoder.geocodeAddressString(suggestResults[indexPath.row].displayText!) {
+        geocoder.geocodeAddressString(suggestResults[indexPath.row].displayText ?? "") {
             placemarks, error in
             let placemark = placemarks?.first
-            let lat = placemark?.location?.coordinate.latitude
-            let lon = placemark?.location?.coordinate.longitude
-            if lat != nil && lon != nil {
-                self.coordinates = .init(latitude: lat!, longitude: lon!)
-                self.moduleOutput?.openAddingEventViewController(coordinates: self.coordinates!, address: cell.address.text!)
+            guard let lat = placemark?.location?.coordinate.latitude else {
+                self.showAlert(title: L10n.trippleTheAddress, message: L10n.toCreateAnEventYouNeedToSpecifyAMorePreciseAddress)
+                return
             }
-            else {
-                self.showAlert(title: L10n.trippleTheAdress, message: L10n.toCreateAnEventYouNeedToSpecifyAMorePreciseAddress)
+            guard let lon = placemark?.location?.coordinate.longitude else {
+                self.showAlert(title: L10n.trippleTheAddress, message: L10n.toCreateAnEventYouNeedToSpecifyAMorePreciseAddress)
+                return
             }
+            self.coordinates = .init(latitude: lat, longitude: lon)
+            self.moduleOutput?.openAddingEventViewController(coordinates: self.coordinates, address: cell.address.text)
         }
     }
     
@@ -215,8 +218,8 @@ private extension SuggestionViewController {
     struct SuggestionViewControllerConstants {
         static let universalConstant = 20
         struct TableView {
-            static let height = 560
-            static let rowheight = 70
+            static let height : CGFloat = 560
+            static let rowheight : CGFloat = 70
         }
         struct SearchBar {
             static let cornerRadius = 16

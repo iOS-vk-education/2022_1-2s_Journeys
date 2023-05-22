@@ -18,7 +18,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         
         YMKMapKit.setApiKey("d594da49-3ffb-4815-acc6-61baf9f12f54")
         YMKMapKit.sharedInstance()
-        //YMKMapKit.setLocale("ru_RU")
 
 
         FirebaseApp.configure()

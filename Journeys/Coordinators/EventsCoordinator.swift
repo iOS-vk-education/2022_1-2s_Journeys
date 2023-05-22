@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import FirebaseFirestore
+import SafariServices
 
 
 final class EventsCoordinator: CoordinatorProtocol {
@@ -66,33 +67,24 @@ extension EventsCoordinator: EventsModuleOutput {
         navigationController.pushViewController(eventsViewController, animated: true)
     }
     
-    func openAddingEventViewController(coordinates: GeoPoint, address: String) {
+    func openAddingEventViewController(coordinates: GeoPoint?, address: String?) {
         let builder = AddingModuleBuilder()
 
         let viewController = builder.build(output: self, coordinates: coordinates, address: address)
         navigationController.pushViewController(viewController, animated: true)
     }
     
-    func wantsToOpenSingleEventVC() {
-//        let viewController = SingleEventViewController(initialHeight: 300)
-//        viewController.modalPresentationStyle = .custom
-//        bottomSheetTransitioningDelegate = BottomSheetTransitioningDelegate()
-//        viewController.transitioningDelegate = bottomSheetTransitioningDelegate
-//        navigationController.present(viewController, animated: true)
-        let vc = SingleEventViewController()
-             
-               // 2
-               if let sheet = vc.sheetPresentationController {
-                   // 3
+    func wantsToOpenSingleEventVC(id: String) {
+        let builder = SingleEventModuleBuilder()
+
+        let viewController = builder.build(output: self, id: id)
+               if let sheet = viewController.sheetPresentationController {
                    sheet.detents = [.medium(), .large()]
-                   // 4
                    sheet.largestUndimmedDetentIdentifier = .medium
-                   // 5
                    sheet.prefersScrollingExpandsWhenScrolledToEdge = true
-                   // 6
                    sheet.prefersGrabberVisible = true
                }
-        navigationController.present(vc, animated: true)
+        navigationController.present(viewController, animated: true, completion: nil)
     }
 }
 
@@ -103,6 +95,7 @@ extension EventsCoordinator: AddingModuleOutput {
         navigationController.popViewController(animated: false)
         navigationController.popViewController(animated: false)
         navigationController.popViewController(animated: false)
+        
         let eventsModuleBuilder = EventsModuleBuilder()
         
         let eventsViewController = eventsModuleBuilder.build(output: self, latitude: 55, longitude: 37, zoom: 1)
@@ -110,5 +103,12 @@ extension EventsCoordinator: AddingModuleOutput {
     }
     func backToSuggestionVC() {
         navigationController.popViewController(animated: true)
+    }
+}
+
+extension EventsCoordinator: SingleEventModuleOutput {
+    func wantsToOpenLink(link: URL) {
+        let svc = SFSafariViewController(url: link)
+        //navigationController.pushViewController(svc, animated: false)
     }
 }

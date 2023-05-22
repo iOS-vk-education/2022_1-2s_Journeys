@@ -74,9 +74,8 @@ final class AddressCell: UICollectionViewCell {
     }
         
         
-    func configure(data: AddressCellDisplayData, cornerRadius: CGFloat) {
+    func configure(data: AddressCellDisplayData) {
             inputField.text = data.text
-        layer.cornerRadius = cornerRadius
         }
 }
     

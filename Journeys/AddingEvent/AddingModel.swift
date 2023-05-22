@@ -33,16 +33,15 @@ extension AddingModel: AddingModelInput {
     }
 
     func didStoreImageData(url: String, event: Event, coordinatesId: String) {
-        let newEvent = Event(id: coordinatesId,
-                             adress: event.adress,
+        let newEvent = Event(address: event.address,
                              startDate: event.startDate,
                              finishDate: event.finishDate,
                              type: event.type,
                              name: event.name,
                              link: event.link,
+                             photoURL: url,
                              floor: event.floor,
                              room: event.room,
-                             photoURL: url,
                              description: event.description,
                             isLiked: false)
         service.storeAddingData(event: newEvent, coordinatesId: coordinatesId) { [weak self] result in
@@ -57,13 +56,12 @@ extension AddingModel: AddingModelInput {
     }
     
     
-func createStory(coordinates: Adress, event: Event, eventImage: UIImage) {
+func createStory(coordinates: Address, event: Event, eventImage: UIImage) {
         service.create(coordinates: coordinates) { result in
             switch result {
             case .success(let story):
                 self.storeAddingData(event: event, eventImage: eventImage, coordinatesId: story.id)
             case .failure(let error): break
-                //completion(.failure(error))
             }
         }
     }

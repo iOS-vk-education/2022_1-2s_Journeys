@@ -10,7 +10,7 @@ import Foundation
 // MARK: - Place ModuleInput
 
 protocol EventsModelInput: AnyObject {
-    func loadPlacemarks(completion: @escaping (Result<[Adress], Error>) -> Void)
+    func loadPlacemarks(completion: @escaping (Result<[Address], Error>) -> Void)
 }
 
 // MARK: - Place ModuleOutput

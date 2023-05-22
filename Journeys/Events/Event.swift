@@ -13,10 +13,9 @@ enum EventType: String {
 }
 
 struct Event {
-    var id: String
-    var adress: String
-    var startDate: Date
-    var finishDate: Date
+    var address: String
+    var startDate: String
+    var finishDate: String
     var type: String
     var name: String
     var link: String
@@ -26,20 +25,18 @@ struct Event {
     var description: String
     var isLiked: Bool
     
-    internal init(id: String,
-                  adress: String,
-                  startDate: Date,
-                  finishDate: Date,
+    internal init(address: String,
+                  startDate: String,
+                  finishDate: String,
                   type: String,
                   name: String,
                   link: String,
+                  photoURL: String,
                   floor: String,
                   room: String,
-                  photoURL: String,
                   description: String,
                   isLiked: Bool) {
-        self.id = id
-        self.adress = adress
+        self.address = address
         self.startDate = startDate
         self.finishDate = finishDate
         self.type = type
@@ -52,11 +49,11 @@ struct Event {
         self.isLiked = isLiked
     }
     
-    init?(dictionary: [String: Any], id: String) {
+    init?(dictionary: [String: Any]) {
         guard
-            let adress = dictionary[CodingKeys.adress.rawValue] as? String,
-            let startDate = dictionary[CodingKeys.startDate.rawValue] as? Date,
-            let finishDate = dictionary[CodingKeys.finishDate.rawValue] as? Date,
+            let address = dictionary[CodingKeys.address.rawValue] as? String,
+            let startDate = dictionary[CodingKeys.startDate.rawValue] as? String,
+            let finishDate = dictionary[CodingKeys.finishDate.rawValue] as? String,
             let type = dictionary[CodingKeys.type.rawValue] as? String,
             let name = dictionary[CodingKeys.name.rawValue] as? String,
             let link = dictionary[CodingKeys.link.rawValue] as? String,
@@ -64,13 +61,11 @@ struct Event {
             let room = dictionary[CodingKeys.room.rawValue] as? String,
             let photoURL = dictionary[CodingKeys.photoURL.rawValue] as? String,
             let description = dictionary[CodingKeys.description.rawValue] as? String,
-            let isLiked = dictionary[CodingKeys.description.rawValue] as? Bool
+            let isLiked = dictionary[CodingKeys.isLiked.rawValue] as? Bool
         else {
             return nil
         }
-        
-        self.id = id
-        self.adress = adress
+        self.address = address
         self.startDate = startDate
         self.finishDate = finishDate
         self.type = type
@@ -85,8 +80,7 @@ struct Event {
     
     func toDictionary() -> [String: Any] {
         var dictionary: [String: Any] = [:]
-        dictionary[CodingKeys.id.rawValue] = id
-        dictionary[CodingKeys.adress.rawValue] = adress
+        dictionary[CodingKeys.address.rawValue] = address
         dictionary[CodingKeys.startDate.rawValue] = startDate
         dictionary[CodingKeys.finishDate.rawValue] = finishDate
         dictionary[CodingKeys.type.rawValue] = type
@@ -102,8 +96,7 @@ struct Event {
     }
     
     enum CodingKeys: String {
-        case id
-        case adress
+        case address
         case startDate
         case finishDate
         case type
@@ -114,35 +107,5 @@ struct Event {
         case floor
         case description
         case isLiked
-    }
-}
-
-struct CreateEventsData {
-    var adress: String
-    var startDate: Date
-    var finishDate: Date
-    var type: String
-    var name: String
-    var link: String
-    var photoURL: String
-    var floor: String
-    var room: String
-    var description: String
-    var isLiked: Bool
-    
-    func dict() -> [String: Any] {
-        return [
-            "adress": adress,
-            "startDate": startDate,
-            "finishDate": finishDate,
-            "type": type,
-            "name": name,
-            "link": link,
-            "photoURL": photoURL,
-            "floor": floor,
-            "room": room,
-            "description": description,
-            "isLiked": isLiked
-        ]
     }
 }

@@ -14,9 +14,8 @@ struct TimeCellDisplayData {
 }
 
 final class TimeCell: UICollectionViewCell {
-    private var delegate: TimeCellDelegate!
-    private var date : String!
-    var time : Date = .now
+    private var date: String?
+    var time: Date = .now
     private let datePicker = UIDatePicker()
     private let inputField: UILabel = {
         let inpField = UILabel()
@@ -27,8 +26,8 @@ final class TimeCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         datePicker.datePickerMode = .dateAndTime
-        let localeID = Locale.preferredLanguages.first
-        datePicker.locale = Locale(identifier: localeID!)
+        guard let localeID = Locale.preferredLanguages.first else { return }
+        datePicker.locale = Locale(identifier: localeID)
         setupCell()
         setupSubviews()
         setupConstraints()
@@ -37,12 +36,12 @@ final class TimeCell: UICollectionViewCell {
         super.init(frame: frame)
         datePicker.datePickerMode = .dateAndTime
         datePicker.minimumDate = Calendar.current.date(byAdding: .year, value: 0, to: Date())
-        let localeID = Locale.preferredLanguages.first
-        datePicker.locale = Locale(identifier: localeID!)
+        guard let localeID = Locale.preferredLanguages.first else { return }
+        datePicker.locale = Locale(identifier: localeID)
         setupCell()
         setupSubviews()
         setupConstraints()
-        datePicker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
+        datePicker.addTarget(self, action: #selector(selectedDate), for: .valueChanged)
     }
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -57,12 +56,13 @@ final class TimeCell: UICollectionViewCell {
         return datePicker.date
     }
     @objc
-    func dateChanged() -> Date {
+    func selectedDate() -> Date {
         time = getDateFromPicker()
         return time
     }
     // MARK: Private functions
     private func setupCell() {
+        layer.cornerRadius = TimeCellConstants.Cell.borderRadius
         layer.masksToBounds = false
         layer.shadowRadius = 3.0
         layer.shadowColor = UIColor.black.cgColor
@@ -75,7 +75,7 @@ final class TimeCell: UICollectionViewCell {
         contentView.addSubview(inputField)
     }
     private func setupDataPicker() {
-            contentView.addSubview(datePicker)
+        contentView.addSubview(datePicker)
     }
     private func setupColors() {
         backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
@@ -86,9 +86,8 @@ final class TimeCell: UICollectionViewCell {
         inputField.autoAlignAxis(toSuperviewAxis: .horizontal)
         inputField.autoPinEdge(toSuperviewSafeArea: .left, withInset: TimeCellConstants.horisontalIndentForAllSubviews)
     }
-    func configure(data: TimeCellDisplayData, cornerRadius: CGFloat) {
+    func configure(data: TimeCellDisplayData) {
         inputField.text = data.text
-        layer.cornerRadius = cornerRadius
     }
 }
     private extension TimeCell {

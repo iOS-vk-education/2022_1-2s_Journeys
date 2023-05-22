@@ -24,6 +24,7 @@ internal enum Asset {
   internal enum Assets {
     internal static let accentColor = ColorAsset(name: "AccentColor")
     internal static let addIcon = ImageAsset(name: "AddIcon")
+    internal static let noPhotoPlaceholder = ImageAsset(name: "NoPhotoPlaceholder")
     internal enum PlacemarkIcons {
       internal static let defaultPlacemark = ImageAsset(name: "DefaultPlacemark")
     }

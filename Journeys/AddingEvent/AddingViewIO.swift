@@ -11,13 +11,14 @@ import FirebaseFirestore
 
 // MARK: - Events ViewInput
 protocol AddingViewInput: AnyObject {
-    func showAlert1(title: String, message: String)
     
 }
 
 // MARK: - Events ViewOutput
 protocol AddingViewOutput: AnyObject {
-    func saveData(post: Event, coordinates: Adress, eventImage: UIImage)
+    func imageFromView(image: UIImage?)
+    func saveData(post: Event)
     func openEventsVC()
     func backToSuggestionVC()
+    func displayAddress() -> String?
 }
