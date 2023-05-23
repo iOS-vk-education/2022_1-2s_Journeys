@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 protocol NetworkServiceProtocol {
     func sendRequest(_ request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void)
 }
@@ -29,6 +30,7 @@ final class NetworkService: NetworkServiceProtocol {
                 let response = response as? HTTPURLResponse,
                     response.statusCode == 200
             else {
+                completion(.failure(NetworkError.badResponse))
                 return
             }
             if let data = data {

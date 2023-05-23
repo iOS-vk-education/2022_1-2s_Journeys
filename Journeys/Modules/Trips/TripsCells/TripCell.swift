@@ -57,7 +57,7 @@ final class TripCell: UICollectionViewCell {
     private let routeLayer = CAGradientLayer()
     
     private var isInFavourites = Bool()
-    private var delegate: TripCellDelegate!
+    private var delegate: TripCellDelegate?
     
     private var indexPath: IndexPath?
 
@@ -102,10 +102,11 @@ final class TripCell: UICollectionViewCell {
    }
 
     private func setupSubviews() {
-        
         bookmarkButton.addTarget(self, action: #selector(didTapBookmarkButton), for: .touchUpInside)
         editButton.addTarget(self, action: #selector(didTapEditButton), for: .touchUpInside)
         deleteButton.addTarget(self, action: #selector(didTapDeleteButton), for: .touchUpInside)
+        
+        picture.contentMode = .scaleAspectFill
         
         setupColors()
         setupFonts()
@@ -234,19 +235,19 @@ final class TripCell: UICollectionViewCell {
     @objc
     private func didTapBookmarkButton() {
         guard let indexPath = indexPath else { return }
-        delegate.didTapBookmarkButton(indexPath)
+        delegate?.didTapBookmarkButton(indexPath)
     }
 
     @objc
     private func didTapEditButton() {
         guard let indexPath = indexPath else { return }
-        delegate.didTapEditButton(indexPath)
+        delegate?.didTapEditButton(indexPath)
     }
     
     @objc
     private func didTapDeleteButton() {
         guard let indexPath = indexPath else { return }
-        delegate.didTapDeleteButton(indexPath)
+        delegate?.didTapDeleteButton(indexPath)
     }
     
     func configure(data: DisplayData, delegate: TripCellDelegate, indexPath: IndexPath) {

@@ -82,5 +82,14 @@ extension FirebaseService: FirebaseServiceDeleteProtocol {
         firebaseManager.firestore.collection("stuff_lists").document(userId)
             .collection("user_stuff_lists").document(stuffListId).delete(completion: completion)
     }
+    
+    func deleteCurrentUserData(completion: @escaping (Error?) -> Void) {
+        guard let userId = firebaseManager.auth.currentUser?.uid else {
+            completion(Errors.deleteDataError)
+            return
+        }
+        
+        firebaseManager.firestore.collection("users").document(userId).delete(completion: completion)
+    }
 }
     

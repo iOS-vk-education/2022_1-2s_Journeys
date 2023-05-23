@@ -7,32 +7,21 @@
 
 import Foundation
 
-// Пример запроса:
-// https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
-
-enum HTTPRequestType: String {
-    case get = "GET"
-    case post = "POST"
-}
-
-
 protocol NetworkRequestFactoryProtocol {
-    func getLocationCoordinates(city: String, country: String) -> URLRequest
+    func getLocationData(city: String, country: String) -> URLRequest?
     func getWeatherRequestForCoordinates(_ coordinates: Coordinates,
                                          timezone: Timezone,
                                          startDate: String,
-                                         endDate: String) -> URLRequest
-    func getCoordinatesTimezone(_ coordinates: Coordinates) -> URLRequest
+                                         endDate: String) -> URLRequest?
+    func getCoordinatesTimezone(_ coordinates: Coordinates) -> URLRequest?
+    func getCurrencyRate(from currentCurrency: String,
+                         to localCurrency: String,
+                         amount: Float) -> URLRequest?
 }
 
 final class NetworkRequestFactory: NetworkRequestFactoryProtocol {
-    
     private enum Constants {
-        enum Geocoding {
-            static let apiKey = "I//IsgmpQrbjs0vapG6ffg==3lc6InAZejkjUGbe"
-            static let baseURL = URL(string: "https://api.api-ninjas.com/v1/")!
-        }
-        enum Timezone {
+        enum ApiNinjas {
             static let apiKey = "I//IsgmpQrbjs0vapG6ffg==3lc6InAZejkjUGbe"
             static let baseURL = URL(string: "https://api.api-ninjas.com/v1/")!
         }
@@ -42,8 +31,8 @@ final class NetworkRequestFactory: NetworkRequestFactoryProtocol {
         }
     }
     
-    func getLocationCoordinates(city: String, country: String) -> URLRequest {
-        let requestURL = Constants.Geocoding.baseURL.appendingPathComponent("geocoding")
+    func getLocationData(city: String, country: String) -> URLRequest? {
+        let requestURL = Constants.ApiNinjas.baseURL.appendingPathComponent("geocoding")
         var urlComponents = URLComponents(url: requestURL, resolvingAgainstBaseURL: false)
         urlComponents?.queryItems = [
             URLQueryItem(name: "city", value: city),
@@ -51,15 +40,15 @@ final class NetworkRequestFactory: NetworkRequestFactoryProtocol {
         ]
         guard let url = urlComponents?.url else {
             assertionFailure("Something has gone wrong and URL could not be constructed!")
-            return URLRequest(url: URL(string: "")!)
+            return nil
         }
         var request = URLRequest(url: url)
-        request.setValue(Constants.Geocoding.apiKey, forHTTPHeaderField: "X-Api-Key")
+        request.setValue(Constants.ApiNinjas.apiKey, forHTTPHeaderField: "X-Api-Key")
         return request
     }
     
-    func getCoordinatesTimezone(_ coordinates: Coordinates) -> URLRequest {
-        let requestURL = Constants.Timezone.baseURL.appendingPathComponent("timezone")
+    func getCoordinatesTimezone(_ coordinates: Coordinates) -> URLRequest? {
+        let requestURL = Constants.ApiNinjas.baseURL.appendingPathComponent("timezone")
         var urlComponents = URLComponents(url: requestURL, resolvingAgainstBaseURL: false)
         urlComponents?.queryItems = [
             URLQueryItem(name: "lat", value: "\(coordinates.latitude)"),
@@ -67,17 +56,36 @@ final class NetworkRequestFactory: NetworkRequestFactoryProtocol {
         ]
         guard let url = urlComponents?.url else {
             assertionFailure("Something has gone wrong and URL could not be constructed!")
-            return URLRequest(url: URL(string: "")!)
+            return nil
         }
         var request = URLRequest(url: url)
-        request.setValue(Constants.Timezone.apiKey, forHTTPHeaderField: "X-Api-Key")
+        request.setValue(Constants.ApiNinjas.apiKey, forHTTPHeaderField: "X-Api-Key")
+        return request
+    }
+    
+    func getCurrencyRate(from currentCurrency: String,
+                         to localCurrency: String,
+                         amount: Float) -> URLRequest? {
+        let requestURL = Constants.ApiNinjas.baseURL.appendingPathComponent("convertcurrency")
+        var urlComponents = URLComponents(url: requestURL, resolvingAgainstBaseURL: false)
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "have", value: "\(currentCurrency)"),
+            URLQueryItem(name: "want", value: "\(localCurrency)"),
+            URLQueryItem(name: "amount", value: "\(amount)")
+        ]
+        guard let url = urlComponents?.url else {
+            assertionFailure("Something has gone wrong and URL could not be constructed!")
+            return nil
+        }
+        var request = URLRequest(url: url)
+        request.setValue(Constants.ApiNinjas.apiKey, forHTTPHeaderField: "X-Api-Key")
         return request
     }
     
     func getWeatherRequestForCoordinates(_ coordinates: Coordinates,
                                          timezone: Timezone,
                                          startDate: String,
-                                         endDate: String) -> URLRequest {
+                                         endDate: String) -> URLRequest? {
         let requestURL = Constants.Weather.baseURL.appendingPathComponent("forecast")
         var urlComponents = URLComponents(url: requestURL, resolvingAgainstBaseURL: false)
         urlComponents?.queryItems = [
@@ -90,7 +98,7 @@ final class NetworkRequestFactory: NetworkRequestFactoryProtocol {
         ]
         guard let url = urlComponents?.url else {
             assertionFailure("Something has gone wrong and URL could not be constructed!")
-            return URLRequest(url: URL(string: "")!)
+            return nil
         }
         return URLRequest(url: url)
     }

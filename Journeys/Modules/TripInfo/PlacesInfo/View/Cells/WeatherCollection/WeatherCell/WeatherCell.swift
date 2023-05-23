@@ -98,6 +98,7 @@ final class WeatherCell: UICollectionViewCell {
         dateLabel.text = data.date
         temperatureLabel.text = data.temperature
     }
+    
 }
 
 private extension WeatherCell {

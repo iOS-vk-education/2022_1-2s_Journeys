@@ -22,6 +22,9 @@ protocol FirebaseServiceObtainProtocol {
     
     func obtainStuffLists(completion: @escaping (Result<[StuffList], Error>) -> Void)
     func obtainCertainUserStuff(stuffId: String, completion: @escaping (Result<Stuff, Error>) -> Void)
+    
+    func obtainCurrentUserData(completion: @escaping (Result<User, Error>) -> Void)
+    func currentUserEmail() -> String?
 }
 
 extension FirebaseService: FirebaseServiceObtainProtocol {
@@ -221,5 +224,34 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
                 }
                 completion(.success(stuff))
             }
+    }
+        func obtainCurrentUserData(completion: @escaping (Result<User, Error>) -> Void) {
+        guard let userId = firebaseManager.auth.currentUser?.uid else {
+            completion(.failure(Errors.obtainDataError))
+            return
+        }
+        
+        firebaseManager.firestore.collection("users").document(userId).getDocument { [weak self] (document, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            guard let data = document?.data() else {
+                completion(.failure(FBError.noData))
+                return
+            }
+            guard var user = User(from: data, id: document!.documentID) else {
+                completion(.failure(FBError.noData))
+                return
+            }
+            if let email = self?.currentUserEmail() {
+                user.email = email
+            }
+            completion(.success(user))
+        }
+    }
+    
+    func currentUserEmail() -> String? {
+        firebaseManager.auth.currentUser?.email
     }
 }

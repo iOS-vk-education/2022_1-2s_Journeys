@@ -11,16 +11,19 @@ import UIKit
 
 final class PlacesInfoModuleBuilder {
     func build(output: PlacesInfoModuleOutput, route: Route) -> UIViewController {
-
-        let presenter = PlacesInfoPresenter(route: route)
+        
+        let interactor = PlacesInfoInteractor()
         let viewController = PlacesInfoViewController()
-        let model = PlacesInfoModel()
+        let router = PlacesInfoRouter(viewController)
+        let presenter = PlacesInfoPresenter(interactor: interactor,
+                                            router: router,
+                                            route: route)
         viewController.output = presenter
-        model.output = presenter
         presenter.view = viewController
-        presenter.model = model
+        
         presenter.moduleOutput = output
-
+        interactor.output = presenter
+        
         return viewController
     }
 }

@@ -44,6 +44,7 @@
 "Route" = "Route";
 "NoSelectedPlaces" = "No places to stay selected";
 "NoMeteoDataForPlacesOrDates" = "No meteo data for selected places or dates";
+"Currency" = "Currency";
 
 // MARK: Account
 "AccountInfo" = "Account info";

@@ -14,9 +14,11 @@ final class AccountModuleBuilder {
         let viewController = AccountViewController()
         let presenter = AccountPresenter(firebaseService: firebaseService,
                                          moduleOutput: moduleOutput)
-        presenter.view = viewController
-        presenter.moduleOutput = moduleOutput
+        let model = AccountModel(firebaseService: firebaseService)
         
+        presenter.view = viewController
+        presenter.model = model
+        model.output = presenter
         viewController.output = presenter
         
         return viewController

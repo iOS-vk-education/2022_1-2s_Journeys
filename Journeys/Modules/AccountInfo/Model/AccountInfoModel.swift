@@ -7,15 +7,9 @@
 
 
 // MARK: - AccountInfoModel
-
-enum UserData {
-    case email
-    case password
-}
-
 final class AccountInfoModel {
     private let firebaseService: FirebaseServiceProtocol
-    weak var output: AccountInfoModelOutput!
+    weak var output: AccountInfoModelOutput?
     
     init(firebaseService: FirebaseServiceProtocol) {
         self.firebaseService = firebaseService
@@ -27,20 +21,23 @@ final class AccountInfoModel {
 }
 
 extension AccountInfoModel: AccountInfoModelInput {
-    func userEmail() -> String? {
-        firebaseService.obtainUserData()?.email
-    }
-    
     func getUserData() {
-        guard let userData = firebaseService.obtainUserData() else { return }
-        output.didObtainUserData(data: userData)
+        firebaseService.obtainCurrentUserData { [weak self] result in
+            switch result {
+            case .failure(let error):
+                self?.output?.didRecieveError(error: error)
+            case .success(let user):
+                self?.output?.didObtainUserData(data: user)
+            }
+            
+        }
     }
     
     func signOut() {
         firebaseService.signOut { [weak self] error in
             guard let self else { return }
             if let error {
-                self.output.didRecieveError(error: error)
+                self.output?.didRecieveError(error: error)
                 return
             }
         }
@@ -51,15 +48,15 @@ extension AccountInfoModel: AccountInfoModelInput {
             guard let self else { return }
             switch result {
             case .failure(let error):
-                self.output.didRecieveError(error: error)
+                self.output?.didRecieveError(error: error)
             case .success:
                 self.firebaseService.updateUserEmail(email: newEmail, password: password) { error in
                     if let error {
-                        self.output.didRecieveError(error: error)
+                        self.output?.didRecieveError(error: error)
                         return
                     }
-                    self.output.saveSuccesfull(for: .email)
                     completion?()
+                    self.output?.didStoreData(.email(self.firebaseService.currentUserEmail()))
                 }
             }
         }
@@ -70,29 +67,54 @@ extension AccountInfoModel: AccountInfoModelInput {
             guard let self else { return }
             switch result {
             case .failure(let error):
-                self.output.didRecieveError(error: error)
+                self.output?.didRecieveError(error: error)
             case .success:
                 self.firebaseService.updateUserPassword(email: email,
                                                         password: password,
                                                         newPassword: newPassword) { error in
                     if let error {
-                        self.output.didRecieveError(error: error)
+                        self.output?.didRecieveError(error: error)
                         return
                     }
-                    self.output.saveSuccesfull(for: .password)
+                    self.output?.didStoreData(.password)
                 }
             }
         }
     }
     
-    func deleteAccount(with password: String) {
-        firebaseService.deleteAccount(with: password) { [weak self] error in
-            guard let error else {
-                self?.output.deleteSuccesfull()
+    func saveUserData(_ data: User) {
+        firebaseService.storeUserData(data) { [weak self] result in
+            switch result {
+            case .failure(let error):
+                self?.output?.didRecieveError(error: error)
+            case .success(let user):
+                self?.output?.didStoreData(.personalInfo(user))
+            }
+        }
+    }
+    
+    func deleteUser(with password: String) {
+        deleteUserData { [weak self] error in
+            if let error {
+                self?.output?.didRecieveError(error: error)
                 return
             }
-            self?.output.didRecieveError(error: error)
+            self?.deleteAccount(with: password) { [weak self] error in
+                if let error {
+                    self?.output?.didRecieveError(error: error)
+                    return
+                }
+                self?.output?.deleteSuccesfull()
+            }
         }
+    }
+    
+    private func deleteUserData(completion: @escaping (Error?) -> Void) {
+        firebaseService.deleteCurrentUserData(completion: completion)
+    }
+    
+    private func deleteAccount(with password: String, completion: @escaping (Error?) -> Void) {
+        firebaseService.deleteAccount(with: password, completion: completion)
     }
 }
 

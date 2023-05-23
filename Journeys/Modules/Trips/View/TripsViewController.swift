@@ -289,6 +289,11 @@ extension TripsViewController: TripsViewInput {
         }
     }
     
+    func changeIsSavedCellStatus(at indexPath: IndexPath, status: Bool) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? TripCell else { return }
+        cell.changeIsSavedStatus(status: status)
+    }
+
     func setupCellImage(at indexPath: IndexPath, image: UIImage) {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
@@ -305,13 +310,13 @@ extension TripsViewController: TripsViewInput {
 
 extension TripsViewController: TransitionHandlerProtocol {
     func embedPlaceholder(_ viewController: UIViewController) {
-        guard let placeholderViewController = viewController as? PlaceHolderViewController else { return }
+        guard let placeholderViewController = viewController as? TripsPlaceholderViewController else { return }
 
         guard placeholderView.isHidden == true else {
             return
         }
         placeholderViewController
-            .configure(with: PlaceHolderViewController.DisplayData(title: L10n.noTrips,
+            .configure(with: TripsPlaceholderViewController.DisplayData(title: L10n.noTrips,
                                                                    imageName: "TripsPlaceholder"))
         addChild(placeholderViewController)
         placeholderViewController.didMove(toParent: self)
@@ -324,6 +329,10 @@ extension TripsViewController: TransitionHandlerProtocol {
             make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
             make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
         }
+    }
+    
+    func showPlaceholder() {
+        placeholderView.isHidden = false
     }
     
     func hidePlaceholder() {

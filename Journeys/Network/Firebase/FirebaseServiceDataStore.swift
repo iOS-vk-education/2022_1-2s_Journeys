@@ -22,6 +22,8 @@ protocol FirebaseServiceStoreProtocol {
                         completion: @escaping (Result<StuffList, Error>) -> Void)
     func storeSertainStuffListStuff(stuff: Stuff,
                                     completion: @escaping (Result<Stuff, Error>) -> Void)
+    
+    func storeUserData(_ user: User, completion: @escaping (Result<User, Error>) -> Void)
 }
 
 extension FirebaseService: FirebaseServiceStoreProtocol {
@@ -161,31 +163,22 @@ extension FirebaseService: FirebaseServiceStoreProtocol {
         }
     }
     
-//    func store(item: FirebaseSaveable, type: FBModels,
-//               completion: @escaping (Result<FirebaseSaveable, Error>) -> Void) {
-//        guard let userId = firebaseManager.auth.currentUser?.uid else {
-//            return
-//        }
-//
-//        var ref: DocumentReference?
-//        if let id = item.id {
-//            ref = firebaseManager.firestore.collection("stuff_lists").document(userId)
-//                .collection("user_stuff_lists").document(id)
-//        } else {
-//            ref = firebaseManager.firestore.collection("stuff_lists").document(userId)
-//                .collection("user_stuff_lists").document()
-//        }
-//        ref!.setData(item.toDictionary()) { error in
-//            if let error = error {
-//                completion(.failure(error))
-//            } else if let id = ref?.documentID,
-//                      let item = type.getModelType() (from: item.toDictionary(), id: id) {
-//                completion(.success(stuffList))
-//            } else {
-//                completion(.failure(FBError.noData))
-//            }
-//        }
-//    }
+    func storeUserData(_ user: User, completion: @escaping (Result<User, Error>) -> Void) {
+        guard let userId = firebaseManager.auth.currentUser?.uid else {
+            completion(.failure(Errors.saveDataError))
+            return
+        }
+        var ref: DocumentReference = firebaseManager.firestore.collection("users").document(userId)
+        ref.setData(user.toDictionary()) { error in
+            if let error = error {
+                completion(.failure(error))
+            } else if let user = User(from: user.toDictionary(), id: ref.documentID) {
+                completion(.success(user))
+            } else {
+                completion(.failure(FBError.noData))
+            }
+        }
+    }
 }
 
 //enum FBModels {

@@ -72,9 +72,11 @@ final class AccountCoordinator: CoordinatorProtocol {
 }
 
 extension AccountCoordinator: AccountModuleOutput {
-    func accountModuleWantsToOpenAccountInfoModule() {
+    func accountModuleWantsToOpenAccountInfoModule(with userData: User?) {
         let builder = AccountInfoModuleBuilder()
-        let accountInfoViewController = builder.build(output: self, firebaseService: firebaseService)
+        let accountInfoViewController = builder.build(output: self,
+                                                      firebaseService: firebaseService, 
+                                                      userData: userData)
         navigationController.pushViewController(accountInfoViewController, animated: true)
     }
     

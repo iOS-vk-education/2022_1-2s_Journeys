@@ -12,7 +12,7 @@ import SnapKit
 final class WeatherCollection: UICollectionViewCell {
     struct DisplayData {
         let town: String
-//        let cellsCount: Int
+        let cellsCount: Int
     }
 
     var collectionIndexPath: IndexPath?
@@ -45,6 +45,7 @@ final class WeatherCollection: UICollectionViewCell {
         addSubview(collectionView)
         addSubview(townNameView)
 
+        placeholderView.isHidden = true
         setupCollectionView()
         setupConstraints()
         collectionView.showsHorizontalScrollIndicator = false
@@ -133,7 +134,6 @@ class HorizontallyCenteredCollectionViewFlowLayout: UICollectionViewFlowLayout {
         guard let attributes = super.layoutAttributesForElements(in: rect) else { return nil }
         guard let collectionView = self.collectionView,
               let rightmostEdge = attributes.map({ $0.frame.maxX }).max() else { return attributes }
-        
         let contentWidth = rightmostEdge + self.sectionInset.right
         let margin = (collectionView.bounds.width - contentWidth) / 2
         if margin > 0 {

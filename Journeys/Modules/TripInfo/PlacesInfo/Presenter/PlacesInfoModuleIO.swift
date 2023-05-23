@@ -14,4 +14,5 @@ protocol PlacesInfoModuleInput: AnyObject {
 
 protocol PlacesInfoModuleOutput: AnyObject {
     func placesModuleWantsToClose()
+    func openEventsModule(with coordinates: Coordinates)
 }

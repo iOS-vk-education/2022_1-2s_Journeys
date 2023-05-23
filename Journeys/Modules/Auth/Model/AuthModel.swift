@@ -25,6 +25,19 @@ extension AuthModel: AuthModelInput {
                 self.output.didRecieveError(error: error)
             case .success:
                 self.output.authSuccesfull()
+                let user = User(email: email)
+                self.saveUserData(user)
+            }
+        }
+    }
+    
+    func saveUserData(_ data: User) {
+        firebaseService.storeUserData(data) { [weak self] result in
+            switch result {
+            case .failure(let error):
+                self?.output.didRecieveError(error: error)
+            case .success:
+                break
             }
         }
     }

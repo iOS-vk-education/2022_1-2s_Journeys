@@ -7,17 +7,18 @@
 
 import Foundation
 import UIKit
+import FirebaseAuth
 
 // MARK: - TripsPresenter
 
 final class TripsPresenter {
     // MARK: - Public Properties
-
+    
     weak var view: TripsViewInput?
     weak var moduleOutput: TripsModuleOutput?
 
     // MARK: - Private Properties
-
+    
     private let interactor: TripsInteractorInput
     private let router: TripsRouterInput
     
@@ -27,9 +28,11 @@ final class TripsPresenter {
     private var cellToDeleteIndexPath: IndexPath?
     
     private(set) var tripsType: TripsType
-
+    
+    private var authFlag: Bool?
+    
     //MARK: Lifecycle
-
+    
     init(interactor: TripsInteractorInput,
          router: TripsRouterInput,
          tripsType: TripsType,
@@ -71,7 +74,7 @@ final class TripsPresenter {
         
         return tripDisplayData
     }
-
+    
     private func showLoadingView() {
         view?.showLoadingView()
     }
@@ -93,6 +96,24 @@ final class TripsPresenter {
         hideLoadingView()
         view?.endRefresh()
     }
+    
+    private func changeAuthFlag(to flag: Bool) {
+        if authFlag == false, flag == true {
+            refreshView()
+        }
+        authFlag = flag
+    }
+    
+    private func authListener() {
+        Auth.auth().addIDTokenDidChangeListener { [weak self] (auth, user) in
+            guard let self else { return }
+            if user == nil {
+                self.changeAuthFlag(to: false)
+            } else {
+                self.changeAuthFlag(to: true)
+            }
+        }
+    }
 }
 
 
@@ -102,6 +123,7 @@ extension TripsPresenter: TripsModuleInput {
 
 extension TripsPresenter: TripsViewOutput {
     func viewWillAppear() {
+        authListener()
         dataIsLoaded = false
         switch tripsType {
         case .all: loadTripsData()
@@ -118,7 +140,7 @@ extension TripsPresenter: TripsViewOutput {
         loadTripsData()
     }
     
-    func placeholderDisplayData() -> PlaceHolderViewController.DisplayData {
+    func placeholderDisplayData() -> TripsPlaceholderViewController.DisplayData {
         PlaceholderDisplayDataFactory().displayData()
     }
     
@@ -171,7 +193,7 @@ extension TripsPresenter: TripsViewOutput {
                 return
             }
             moduleOutput?.tripCollectionWantsToOpenTripInfoModule(trip: Trip(tripWithOtherData: tripsData[indexPath.row]),
-                                                                  route: tripsData[indexPath.row].route)
+                                                                 route: tripsData[indexPath.row].route)
         }
     }
     

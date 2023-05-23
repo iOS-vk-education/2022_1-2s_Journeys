@@ -1,5 +1,5 @@
 //
-//  TransitionHandlerProlocol.swift
+//  TransitionHandlerProtocol.swift
 //  Journeys
 //
 //  Created by Сергей Адольевич on 27.12.2022.
@@ -10,5 +10,6 @@ import UIKit
 
 protocol TransitionHandlerProtocol: AnyObject {
     func embedPlaceholder(_ viewController: UIViewController)
+    func showPlaceholder()
     func hidePlaceholder()
 }

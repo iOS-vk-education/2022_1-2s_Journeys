@@ -57,12 +57,17 @@ internal enum Asset {
       internal static let placeholderColor = ColorAsset(name: "PlaceholderColor")
     }
     internal enum PlacesInfo {
+      internal enum ProgressView {
+        internal static let background = ColorAsset(name: "background")
+        internal static let progress = ColorAsset(name: "progress")
+      }
       internal enum SectionHeader {
         internal static let background = ColorAsset(name: "background")
       }
       internal enum WeatherCell {
         internal static let dateColor = ColorAsset(name: "dateColor")
       }
+      internal static let currencyTextFieldBorder = ColorAsset(name: "currencyTextFieldBorder")
     }
     internal enum Skeleton {
       internal static let dark = ColorAsset(name: "dark")
