@@ -195,7 +195,7 @@ extension SingleEventViewController: UICollectionViewDataSource {
             guard let link = data?.link else { return }
             guard let url = URL(string: link) else { return }
             let svc = SFSafariViewController(url: url)
-            present(svc, animated: false, completion: nil)
+            present(svc, animated: true, completion: nil)
             output?.userTapLink()
         }
     }

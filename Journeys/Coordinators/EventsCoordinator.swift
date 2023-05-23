@@ -86,6 +86,19 @@ extension EventsCoordinator: EventsModuleOutput {
                }
         navigationController.present(viewController, animated: true, completion: nil)
     }
+    
+    func wantsToOpenSelectedEvents() {
+        let builder = SelectedEventsModuleBuilder()
+
+        let viewController = builder.build(output: self)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+}
+
+extension EventsCoordinator: SelectedEventsModuleOutput {
+    func closeSelectedEvents() {
+        navigationController.popViewController(animated: true)
+    }
 }
 
 

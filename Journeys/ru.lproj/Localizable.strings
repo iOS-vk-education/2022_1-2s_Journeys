@@ -50,3 +50,7 @@
 "Fill in: office, floor, name, type" = "Заполните: офис, этаж, название, тип";
 "Not all required fields are filled" = "Не все обязательные поля заполнены";
 "Description is missing" = "Описание отсутствует";
+"Created" = "Созданные";
+"Favorites" = "Избранные";
+"Duration:" = "Длительность:";
+"From/to:" = "С/до:";

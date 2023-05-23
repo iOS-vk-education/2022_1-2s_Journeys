@@ -39,6 +39,14 @@
 		563570E72A1A8615006F509D /* LinkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 563570E62A1A8615006F509D /* LinkCell.swift */; };
 		56A1ABF029CF54B30073618C /* DescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A1ABEF29CF54B30073618C /* DescriptionCell.swift */; };
 		56A1ABF729D089940073618C /* SuggestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A1ABF629D089940073618C /* SuggestCell.swift */; };
+		56B9F0902A1BFC5A0058121B /* SelectedEventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B9F08F2A1BFC5A0058121B /* SelectedEventsViewController.swift */; };
+		56B9F0922A1BFC680058121B /* SelectedEventsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B9F0912A1BFC680058121B /* SelectedEventsModel.swift */; };
+		56B9F0942A1BFCAE0058121B /* SelectedEventsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B9F0932A1BFCAE0058121B /* SelectedEventsPresenter.swift */; };
+		56B9F0972A1BFCC80058121B /* SelectedEventsViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B9F0962A1BFCC80058121B /* SelectedEventsViewIO.swift */; };
+		56B9F0992A1BFD040058121B /* SelectedEventsModelIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B9F0982A1BFD040058121B /* SelectedEventsModelIO.swift */; };
+		56B9F09B2A1BFD490058121B /* SelectedEventsModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B9F09A2A1BFD490058121B /* SelectedEventsModuleIO.swift */; };
+		56B9F09D2A1BFD5D0058121B /* SelectedEventsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B9F09C2A1BFD5D0058121B /* SelectedEventsBuilder.swift */; };
+		56B9F09F2A1C27EA0058121B /* FavoriteEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B9F09E2A1C27EA0058121B /* FavoriteEventCell.swift */; };
 		56EF0E202A02FA2600038A6F /* AddingBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EF0E1F2A02FA2600038A6F /* AddingBuilder.swift */; };
 		56EF0E5C2A137FC600038A6F /* NameEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EF0E592A137FC600038A6F /* NameEventCell.swift */; };
 		56EF0E5D2A137FC600038A6F /* EventPictureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EF0E5A2A137FC600038A6F /* EventPictureCell.swift */; };
@@ -219,6 +227,14 @@
 		563570E62A1A8615006F509D /* LinkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkCell.swift; sourceTree = "<group>"; };
 		56A1ABEF29CF54B30073618C /* DescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionCell.swift; sourceTree = "<group>"; };
 		56A1ABF629D089940073618C /* SuggestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestCell.swift; sourceTree = "<group>"; };
+		56B9F08F2A1BFC5A0058121B /* SelectedEventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedEventsViewController.swift; sourceTree = "<group>"; };
+		56B9F0912A1BFC680058121B /* SelectedEventsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedEventsModel.swift; sourceTree = "<group>"; };
+		56B9F0932A1BFCAE0058121B /* SelectedEventsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedEventsPresenter.swift; sourceTree = "<group>"; };
+		56B9F0962A1BFCC80058121B /* SelectedEventsViewIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedEventsViewIO.swift; sourceTree = "<group>"; };
+		56B9F0982A1BFD040058121B /* SelectedEventsModelIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedEventsModelIO.swift; sourceTree = "<group>"; };
+		56B9F09A2A1BFD490058121B /* SelectedEventsModuleIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedEventsModuleIO.swift; sourceTree = "<group>"; };
+		56B9F09C2A1BFD5D0058121B /* SelectedEventsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedEventsBuilder.swift; sourceTree = "<group>"; };
+		56B9F09E2A1C27EA0058121B /* FavoriteEventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteEventCell.swift; sourceTree = "<group>"; };
 		56EF0E1F2A02FA2600038A6F /* AddingBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingBuilder.swift; sourceTree = "<group>"; };
 		56EF0E592A137FC600038A6F /* NameEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NameEventCell.swift; path = Journeys/SingleEvent/Cells/NameEventCell.swift; sourceTree = SOURCE_ROOT; };
 		56EF0E5A2A137FC600038A6F /* EventPictureCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EventPictureCell.swift; path = Journeys/SingleEvent/Cells/EventPictureCell.swift; sourceTree = SOURCE_ROOT; };
@@ -508,6 +524,29 @@
 				CE7F42CE29594BE1000CBA63 /* AddPhotoCell.swift */,
 				CE4CCCA22958B1A10057455D /* AddressCell.swift */,
 				CE4CCCA62958F9080057455D /* TimeCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		56B9F08E2A1BFBC90058121B /* SelectedEvents */ = {
+			isa = PBXGroup;
+			children = (
+				56B9F0952A1BFCB30058121B /* Cells */,
+				56B9F08F2A1BFC5A0058121B /* SelectedEventsViewController.swift */,
+				56B9F0982A1BFD040058121B /* SelectedEventsModelIO.swift */,
+				56B9F0912A1BFC680058121B /* SelectedEventsModel.swift */,
+				56B9F0932A1BFCAE0058121B /* SelectedEventsPresenter.swift */,
+				56B9F0962A1BFCC80058121B /* SelectedEventsViewIO.swift */,
+				56B9F09A2A1BFD490058121B /* SelectedEventsModuleIO.swift */,
+				56B9F09C2A1BFD5D0058121B /* SelectedEventsBuilder.swift */,
+			);
+			path = SelectedEvents;
+			sourceTree = "<group>";
+		};
+		56B9F0952A1BFCB30058121B /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				56B9F09E2A1C27EA0058121B /* FavoriteEventCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -844,6 +883,7 @@
 				5601158529EAC754006881DA /* TapToAddButton */,
 				5601158329EAC6C3006881DA /* Suggestion */,
 				5601158229EAC679006881DA /* AddingEvent */,
+				56B9F08E2A1BFBC90058121B /* SelectedEvents */,
 				5601158129EAC64A006881DA /* Service */,
 				56EF0E572A137FA800038A6F /* SingleEvent */,
 				CE4CCC93295689520057455D /* Events */,
@@ -1448,10 +1488,12 @@
 				EE910DD5295A28AA0094F5C8 /* WeatherPlaceNoDataPlaceholder.swift in Sources */,
 				EE30C7262943E89200A9DCF6 /* FirebaseServiceDataObtain.swift in Sources */,
 				C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */,
+				56B9F0972A1BFCC80058121B /* SelectedEventsViewIO.swift in Sources */,
 				EEAC1D35295271E400237331 /* Coordinates.swift in Sources */,
 				EE7819B5295A8629008F607E /* PlaceholderDisplayData.swift in Sources */,
 				EEA76C622951325E00250B06 /* WeatherCell.swift in Sources */,
 				EE2B4126291413EC0067BE4F /* TripCell.swift in Sources */,
+				56B9F0992A1BFD040058121B /* SelectedEventsModelIO.swift in Sources */,
 				EE30C72B2943F28E00A9DCF6 /* RouteModelIO.swift in Sources */,
 				A837507D56DC8E0FFC90C522 /* TripsInteractor.swift in Sources */,
 				EEAC1D322952717800237331 /* NetworkRequestFactory.swift in Sources */,
@@ -1483,6 +1525,7 @@
 				10708D44F55C9485F789DD9B /* TripsPresenter.swift in Sources */,
 				F92CACD193BE48A33A52A5DC /* TripsRouterInput.swift in Sources */,
 				EE29EBFA29191558008ECFF8 /* CoordinatorProtocol.swift in Sources */,
+				56B9F09D2A1BFD5D0058121B /* SelectedEventsBuilder.swift in Sources */,
 				EEAC1D2C295260CB00237331 /* PlacesInfoModelIO.swift in Sources */,
 				0D551CF12951739C00A4151E /* Trip.swift in Sources */,
 				0F6FD83F50CCD8533C888533 /* TripsRouter.swift in Sources */,
@@ -1500,6 +1543,7 @@
 				5601158729EACDA4006881DA /* AddingPresenter.swift in Sources */,
 				EEFA76DB292C5E7E00A0B8CA /* CalendarCell.swift in Sources */,
 				EE157F482926B39A00A56157 /* XCAssets+Generated.swift in Sources */,
+				56B9F0902A1BFC5A0058121B /* SelectedEventsViewController.swift in Sources */,
 				EEFA76CA292BE88F00A0B8CA /* RouteModel.swift in Sources */,
 				877628B20E359D76C0F8AAE7 /* PlaceViewIO.swift in Sources */,
 				EEFA76EE292D2A4E00A0B8CA /* UINavigationController.swift in Sources */,
@@ -1516,11 +1560,13 @@
 				0D65A2337583A24729F852B1 /* PlaceBuilder.swift in Sources */,
 				EE30C7242943DD4A00A9DCF6 /* Errors.swift in Sources */,
 				EE02E5492950D9EA002BE87E /* Stuff.swift in Sources */,
+				56B9F09B2A1BFD490058121B /* SelectedEventsModuleIO.swift in Sources */,
 				EE910DBF2958AE370094F5C8 /* FirebaseServiceDataStore.swift in Sources */,
 				EE157F482926B39A00A56157 /* XCAssets+Generated.swift in Sources */,
 				B0CD597403B67CE15E6F43EA /* AccountViewIO.swift in Sources */,
 				EE02E54D2950D9EA002BE87E /* Route.swift in Sources */,
 				19DF7BAC373C54E8FB115888 /* AccountViewController.swift in Sources */,
+				56B9F09F2A1C27EA0058121B /* FavoriteEventCell.swift in Sources */,
 				EEAC1D3C29527A7000237331 /* WeatherForecast.swift in Sources */,
 				56EF0E6C2A137FED00038A6F /* SingleEventPresenter.swift in Sources */,
 				5601156E29E18BA6006881DA /* EventsModel.swift in Sources */,
@@ -1551,11 +1597,13 @@
 				4F445FB920C9EB3384DA16BA /* TripInfoViewController.swift in Sources */,
 				D3B3547A919CA12361A3822A /* TripInfoModuleIO.swift in Sources */,
 				EEAC1D4029527A7000237331 /* WeatherMain.swift in Sources */,
+				56B9F0942A1BFCAE0058121B /* SelectedEventsPresenter.swift in Sources */,
 				EEA76C672951325E00250B06 /* EventCell.swift in Sources */,
 				C039CC5FA4AA609C5479897B /* TripInfoPresenter.swift in Sources */,
 				EEAC1D452952897F00237331 /* Timezone.swift in Sources */,
 				A9DD1DEF7782DE6C939585EA /* TripInfoModel.swift in Sources */,
 				56A1ABF029CF54B30073618C /* DescriptionCell.swift in Sources */,
+				56B9F0922A1BFC680058121B /* SelectedEventsModel.swift in Sources */,
 				EE910DCD295913860094F5C8 /* NoPlacesForWeatherCell.swift in Sources */,
 				EEA76C642951325E00250B06 /* WeatherCollection.swift in Sources */,
 				A4F278F34637C60C2ED5A34D /* TripInfoBuilder.swift in Sources */,

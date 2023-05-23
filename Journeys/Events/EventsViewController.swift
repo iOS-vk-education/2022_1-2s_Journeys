@@ -22,7 +22,7 @@ class EventsViewController: UIViewController {
     }
     private func setupNavBar() {
         navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
-        let favouritesButtonItem = UIBarButtonItem(image: UIImage(systemName: "bookmark.fill"),
+        let favouritesButtonItem = UIBarButtonItem(image: UIImage(systemName: "bookmark"),
                                                    style: .plain,
                                                    target: self,
                                                    action: #selector(didTapFavouritesButton))
@@ -97,6 +97,7 @@ class EventsViewController: UIViewController {
 
     @objc
     private func didTapFavouritesButton() {
+        output?.didTapFavouritesButton()
     }
 }
 private extension EventsViewController {

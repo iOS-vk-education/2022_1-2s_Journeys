@@ -147,7 +147,7 @@ private extension DurationCell {
             static let sizeOfFont: CGFloat = 17
         }
         struct Cell {
-            static let cornerRadius: CGFloat = 10.0
+            static let cornerRadius: CGFloat = 20.0
         }
     }
 }

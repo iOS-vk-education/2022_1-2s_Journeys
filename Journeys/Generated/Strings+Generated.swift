@@ -30,6 +30,8 @@ public enum L10n {
   public static let buildRoute = L10n.tr("Localizable", "BuildRoute")
   /// Изменить
   public static let change = L10n.tr("Localizable", "Change")
+  /// Созданные
+  public static let created = L10n.tr("Localizable", "Created")
   /// Создание мероприятия
   public static let createEvent = L10n.tr("Localizable", "CreateEvent")
   /// Удалить
@@ -42,6 +44,8 @@ public enum L10n {
   public static let descriptionOfTheEvent = L10n.tr("Localizable", "Description of the event")
   /// ГОТОВО
   public static let done = L10n.tr("Localizable", "DONE")
+  /// Длительность:
+  public static let duration = L10n.tr("Localizable", "Duration:")
   /// Редактировать
   public static let edit = L10n.tr("Localizable", "Edit")
   /// Конец
@@ -54,10 +58,14 @@ public enum L10n {
   public static let eventName = L10n.tr("Localizable", "Event Name")
   /// Мероприятия
   public static let events = L10n.tr("Localizable", "Events")
+  /// Избранные
+  public static let favorites = L10n.tr("Localizable", "Favorites")
   /// Заполните: офис, этаж, название, тип
   public static let fillInOfficeFloorNameType = L10n.tr("Localizable", "Fill in: office, floor, name, type")
   /// Этаж
   public static let floor = L10n.tr("Localizable", "Floor")
+  /// С/до:
+  public static let fromTo = L10n.tr("Localizable", "From/to:")
   /// Путешествия
   public static let journeys = L10n.tr("Localizable", "Journeys")
   /// Ссылка на источник
