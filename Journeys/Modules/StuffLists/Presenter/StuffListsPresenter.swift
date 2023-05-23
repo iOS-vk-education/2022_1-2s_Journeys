@@ -68,9 +68,18 @@ extension StuffListsPresenter: StuffListsModelOutput {
         self.stuffLists = stuffLists
         isDataLoaded = true
         view?.reloadData()
+        if stuffLists.isEmpty {
+            view?.embedPlaceholder()
+        } else {
+            view?.hidePlaceholder()
+        }
     }
     
     func didReceiveError(_ error: Error) {
-        
+        if stuffLists.isEmpty {
+            view?.embedPlaceholder()
+        } else {
+            view?.hidePlaceholder()
+        }
     }
 }

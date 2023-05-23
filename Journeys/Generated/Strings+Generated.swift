@@ -18,6 +18,8 @@ public enum L10n {
   public static var add: String { return L10n.tr("Localizable", "Add") }
   /// Добавление маршрута
   public static var addingTown: String { return L10n.tr("Localizable", "AddingTown") }
+  /// Новая вещь
+  public static var addStuff: String { return L10n.tr("Localizable", "AddStuff") }
   /// Добавить город
   public static var addTown: String { return L10n.tr("Localizable", "AddTown") }
   /// Город прибытия
@@ -66,6 +68,8 @@ public enum L10n {
   public static var loginInfo: String { return L10n.tr("Localizable", "LoginInfo") }
   /// Почта
   public static var mail: String { return L10n.tr("Localizable", "Mail") }
+  /// Название
+  public static var name: String { return L10n.tr("Localizable", "Name") }
   /// Новый пароль
   public static var newPassword: String { return L10n.tr("Localizable", "NewPassword") }
   /// Новый маршрут
@@ -74,6 +78,8 @@ public enum L10n {
   public static var noMeteoDataForPlacesOrDates: String { return L10n.tr("Localizable", "NoMeteoDataForPlacesOrDates") }
   /// Не выбрано мест пребывания
   public static var noSelectedPlaces: String { return L10n.tr("Localizable", "NoSelectedPlaces") }
+  /// Нет списков вещей
+  public static var noStuffLists: String { return L10n.tr("Localizable", "NoStuffLists") }
   /// Уведомления
   public static var notifications: String { return L10n.tr("Localizable", "Notifications") }
   /// Пока что маршрутов нет

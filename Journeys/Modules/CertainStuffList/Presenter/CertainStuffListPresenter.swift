@@ -107,7 +107,7 @@ extension CertainStuffListPresenter: StuffTableViewControllerOutput {
     }
     
     func sectionHeaderText(_ section: Int) -> String {
-        "Вещи"
+        L10n.stuff
     }
     
     func stuffCellDisplayData(for indexPath: IndexPath) -> StuffCell.DisplayData? {
@@ -135,6 +135,7 @@ extension CertainStuffListPresenter: StuffTableViewControllerOutput {
         if indexPath.row == rowsInSection - 1 {
             stuff.append(Stuff(isPacked: false))
             lastChangedIndexPath = indexPath
+            didStartEditMode()
             completion()
         }
     }
@@ -155,6 +156,7 @@ extension CertainStuffListPresenter: StuffTableViewControllerOutput {
         guard let cell = tableView?.cellForRow(at: indexPath) as? StuffCell else { return }
         lastChangedIndexPath = indexPath
         cell.startEditMode()
+        didStartEditMode()
     }
     
     func keyBoardToShowType() -> StuffCell.KeyboardType {
@@ -179,9 +181,11 @@ extension CertainStuffListPresenter: StuffCellDelegate {
         }
         guard stuff.indices.contains(indexPath.row) else { return }
         stuff[indexPath.row].emoji = text
+//        didFinishEditMode()
     }
     
     func nameTextFieldDidChange(_ text: String, at indexPath: IndexPath) {
+//        didFinishEditMode()
         guard text.count > 0 else {
             deleteCell(at: indexPath)
             return
@@ -192,6 +196,14 @@ extension CertainStuffListPresenter: StuffCellDelegate {
     
     func didChangedKeyboardType(to type: StuffCell.KeyboardType) {
         currenStuffCellKeyboardType = type
+    }
+    
+    func didStartEditMode() {
+        view?.setTapGestureRecognizerEnabled(true)
+    }
+    
+    func didFinishEditMode() {
+        view?.setTapGestureRecognizerEnabled(false)
     }
 }
 

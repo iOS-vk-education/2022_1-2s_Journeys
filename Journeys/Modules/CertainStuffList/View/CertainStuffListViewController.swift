@@ -35,6 +35,15 @@ final class CertainStuffListViewController: UIViewController {
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
         return view
     }()
+    
+    
+    private lazy var tapGestureRecognizer: UITapGestureRecognizer = {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapScreen))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+        tap.isEnabled = false
+        return tap
+    }()
 
     // MARK: Public properties
     var output: CertainStuffListViewOutput?
@@ -65,16 +74,14 @@ final class CertainStuffListViewController: UIViewController {
                                          target: self,
                                          action: #selector(didTapTrashButton))
         navigationItem.rightBarButtonItem = rightButtonItem
-        title = "Список вещей"
+        title = L10n.stuffList
     }
     
     private func setupSubViews() {
         setupCollectionView()
         setupTableView()
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapScreen))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
+        tapGestureRecognizer.isEnabled = false
         
         colorPicker.delegate = self
         makeConstraints()
@@ -245,6 +252,10 @@ extension CertainStuffListViewController: CertainStuffListViewInput {
         stuffTableView.beginUpdates()
         stuffTableView.deleteRows(at: [indexPath], with: .automatic)
         stuffTableView.endUpdates()
+    }
+    
+    func setTapGestureRecognizerEnabled(_ value: Bool) {
+        tapGestureRecognizer.isEnabled = value
     }
     
     func showAlert(title: String, message: String) {

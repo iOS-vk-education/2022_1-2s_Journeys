@@ -22,6 +22,8 @@ protocol CertainStuffListViewInput: AnyObject {
     
     func showAlert(title: String, message: String)
     func deleteCell(at indexPath: IndexPath)
+    
+    func setTapGestureRecognizerEnabled(_ value: Bool)
 }
 
 // MARK: - CertainStuffList ViewOutput

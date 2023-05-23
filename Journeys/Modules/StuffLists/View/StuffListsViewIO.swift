@@ -12,6 +12,9 @@ import Foundation
 
 protocol StuffListsViewInput: AnyObject {
     func reloadData()
+    
+    func embedPlaceholder()
+    func hidePlaceholder()
 }
 
 // MARK: - StuffLists ViewOutput

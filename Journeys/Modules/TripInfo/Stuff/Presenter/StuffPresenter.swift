@@ -209,6 +209,14 @@ extension StuffPresenter: StuffCellDelegate {
     func didChangedKeyboardType(to type: StuffCell.KeyboardType) {
         currenStuffCellKeyboardType = type
     }
+    
+    func didStartEditMode() {
+        view?.setTapGestureRecognizerEnabled(true)
+    }
+    
+    func didFinishEditMode() {
+        view?.setTapGestureRecognizerEnabled(false)
+    }
 }
 
 extension StuffPresenter: StuffTableViewControllerOutput {

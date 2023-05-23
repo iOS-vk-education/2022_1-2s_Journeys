@@ -54,7 +54,7 @@ final class StuffListsViewController: UIViewController {
                                          action: #selector(didTapBackButton))
         
         navigationItem.leftBarButtonItem = buttonItem
-        title = "Списки вещей"
+        title = L10n.stuffLists
     }
 
     private func setupCollectionView() {
@@ -117,7 +117,7 @@ extension StuffListsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         output?.cellsCount(for: section) ?? 0
     }
-
+    
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var cell = UICollectionViewCell()
@@ -140,6 +140,35 @@ extension StuffListsViewController: StuffListsViewInput {
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.reloadData()
         }
+    }
+}
+
+
+extension StuffListsViewController {
+    func embedPlaceholder() {
+        let placeholderViewController = PlaceHolderViewController()
+
+        guard placeholderView.isHidden == true else {
+            return
+        }
+        placeholderViewController
+            .configure(with: PlaceHolderViewController.DisplayData(title: L10n.noStuffLists,
+                                                                   imageName: "StuffListsPlaceholder"))
+        addChild(placeholderViewController)
+        placeholderViewController.didMove(toParent: self)
+        placeholderView = placeholderViewController.view
+        collectionView.addSubview(placeholderView)
+        placeholderView.isHidden = false
+        placeholderView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
+            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
+        }
+    }
+    
+    func hidePlaceholder() {
+        placeholderView.isHidden = true
     }
 }
 

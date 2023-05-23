@@ -15,6 +15,9 @@ protocol StuffCellDelegate: AnyObject {
     func emojiTextFieldDidChange(_ text: String, at indexPath: IndexPath)
     func nameTextFieldDidChange(_ text: String, at indexPath: IndexPath)
     func didChangedKeyboardType(to type: StuffCell.KeyboardType)
+    
+    func didStartEditMode()
+    func didFinishEditMode()
 }
 
 final class StuffCell: UITableViewCell {
@@ -104,12 +107,14 @@ final class StuffCell: UITableViewCell {
         nameTextField.isUserInteractionEnabled = true
         emojiTextField.isUserInteractionEnabled = true
         emojiTextField.becomeFirstResponder()
+//        delegate?.didStartEditMode()
     }
     
     func finishEditMode() {
         resingFirstResponders()
         nameTextField.isUserInteractionEnabled = false
         emojiTextField.isUserInteractionEnabled = false
+        delegate?.didFinishEditMode()
     }
     
     func getData() -> StuffData {

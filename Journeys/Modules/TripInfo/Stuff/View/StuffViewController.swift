@@ -12,7 +12,7 @@ import SnapKit
 
 final class StuffViewController: UIViewController {
 
-    var output: StuffViewOutput!
+    var output: StuffViewOutput?
     
     private let tableViewController = StuffTableViewController(style: .grouped)
     private var tableView = UITableView()
@@ -22,21 +22,30 @@ final class StuffViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         return refreshControl
     }()
+    
+    private lazy var tapGestureRecognizer: UITapGestureRecognizer = {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapScreen))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+        return tap
+    }()
+    
+    private var placeholderView = UIView()
 
     // MARK: Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        output.viewDidLoad()
+        output?.viewDidLoad()
         setupView()
     }
 
     private func setupView() {
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
+        placeholderView.isHidden = true
         setupTableView()
-        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapScreen))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
+        
+        tapGestureRecognizer.isEnabled = false
     }
     
     private func setupTableView() {
@@ -58,11 +67,11 @@ final class StuffViewController: UIViewController {
     
     @objc
     private func refresh() {
-        output.viewDidLoad()
+        output?.viewDidLoad()
     }
 
     @objc func didTapScreen() {
-        output.didTapScreen(tableView: tableView)
+        output?.didTapScreen(tableView: tableView)
 //        view.endEditing(true)
     }
 }
@@ -102,9 +111,14 @@ extension StuffViewController: StuffViewInput {
         tableView.endUpdates()
     }
     
+    func setTapGestureRecognizerEnabled(_ value: Bool) {
+        tapGestureRecognizer.isEnabled = value
+    }
+    
     func reloadData() {
         tableViewController.reloadData()
     }
+    
     func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title,
                                       message: message,

@@ -131,7 +131,7 @@ extension StuffTableViewController {
             guard let self else { return }
             guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "StuffCell") as? StuffCell
             else {
-                assertionFailure("Error while creating cell")
+                assertionFailure("Error accured while creating cell")
                 return
             }
             let newIndexPath = IndexPath(row: tableView.numberOfRows(inSection: indexPath.section) - 1, section: indexPath.section)

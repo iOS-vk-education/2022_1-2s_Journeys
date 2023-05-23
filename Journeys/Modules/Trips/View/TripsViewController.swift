@@ -31,6 +31,7 @@ final class TripsViewController: UIViewController {
     
     private let loadingView = LoadingView()
     private var placeholderView = UIView()
+    
     private lazy var cellsType: TripsCellType = {
         output.getCellType()
     }()
@@ -295,9 +296,14 @@ extension TripsViewController: TripsViewInput {
             cell.setupImage(image)
         }
     }
+    
+    func changeIsSavedCellStatus(at indexPath: IndexPath, status: Bool) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? TripCell else { return }
+        cell.changeIsSavedStatus(status: status)
+    }
 }
 
-extension TripsViewController: TripsTransitionHandlerProtocol {
+extension TripsViewController: TransitionHandlerProtocol {
     func embedPlaceholder(_ viewController: UIViewController) {
         guard let placeholderViewController = viewController as? PlaceHolderViewController else { return }
 
@@ -322,11 +328,6 @@ extension TripsViewController: TripsTransitionHandlerProtocol {
     
     func hidePlaceholder() {
         placeholderView.isHidden = true
-    }
-    
-    func changeIsSavedCellStatus(at indexPath: IndexPath, status: Bool) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? TripCell else { return }
-        cell.changeIsSavedStatus(status: status)
     }
 }
 

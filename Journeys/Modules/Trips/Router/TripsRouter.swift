@@ -9,7 +9,7 @@
 
 final class TripsRouter: TripsRouterInput {
     
-    weak var tripsViewController: TripsTransitionHandlerProtocol?
+    weak var tripsViewController: TransitionHandlerProtocol?
     
     init(_ tripsViewController: TripsViewController? = nil) {
         self.tripsViewController = tripsViewController

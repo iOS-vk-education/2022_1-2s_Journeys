@@ -102,10 +102,11 @@ extension TripsPresenter: TripsModuleInput {
 
 extension TripsPresenter: TripsViewOutput {
     func viewWillAppear() {
+        dataIsLoaded = false
         switch tripsType {
         case .all: loadTripsData()
         case .saved:
-            if tripsData.contains { $0.image == nil } {
+            if tripsData.contains(where: { $0.image == nil }) {
                 loadImagesForTrips()
             }
         }
