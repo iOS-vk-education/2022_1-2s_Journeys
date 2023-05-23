@@ -35,7 +35,7 @@ protocol TripsViewOutput: AnyObject {
     func viewWillAppear()
     func refreshView()
     
-    func placeholderDisplayData() -> TripsPlaceholderViewController.DisplayData
+    func placeholderDisplayData() -> PlaceholderViewController.DisplayData
     func didSelectCell(at indexpath: IndexPath)
     func didTapCellBookmarkButton(at indexPath: IndexPath)
     func didTapEditButton(at indexPath: IndexPath)

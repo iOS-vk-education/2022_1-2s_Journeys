@@ -17,6 +17,7 @@ protocol FirebaseServiceDeleteProtocol {
     func deleteTrips(uid: String, completion: @escaping (Error?) -> Void)
     func deleteRouteData(routeId: String, completion: @escaping (Error?) -> Void)
     func deleteUserData(uid: String)
+    func deleteCurrentUserData(completion: @escaping (Error?) -> Void)
     
     func deleteBaggage(baggageId: String)
     func deleteStuffData(_ stuffId: String, baggageId: String, completion: @escaping (Error?) -> Void)

@@ -90,6 +90,7 @@
 "StuffLists" = "Списки вещей";
 "NoStuffLists" = "Нет списков вещей";
 "AddStuff" = "Новая вещь";
+"AddStuffList" = "Новый список";
 "Name" = "Название";
 
 // MARK: Alerts

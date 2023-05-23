@@ -8,14 +8,14 @@
 import Foundation
 
 protocol PlaceholderDisplayDataFactoryProtocol {
-    func displayData() -> TripsPlaceholderViewController.DisplayData
+    func displayData() -> PlaceholderViewController.DisplayData
 }
 
 // MARK: - PlaceholderDisplayDataFactory
 
 final class PlaceholderDisplayDataFactory: PlaceholderDisplayDataFactoryProtocol {
-    func displayData() -> TripsPlaceholderViewController.DisplayData {
-        TripsPlaceholderViewController.DisplayData(title: "Пока что маршрутов нет",
+    func displayData() -> PlaceholderViewController.DisplayData {
+        PlaceholderViewController.DisplayData(title: "Пока что маршрутов нет",
                                               imageName: "TripsPlaceholder")
     }
 }

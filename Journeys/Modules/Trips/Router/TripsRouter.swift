@@ -16,7 +16,7 @@ final class TripsRouter: TripsRouterInput {
     }
     
     func embedPlaceholder() {
-        let placeholderViewController = TripsPlaceholderViewController()
+        let placeholderViewController = PlaceholderViewController()
         tripsViewController?.embedPlaceholder(placeholderViewController)
     }
     

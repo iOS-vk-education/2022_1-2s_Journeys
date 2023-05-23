@@ -20,6 +20,8 @@ public enum L10n {
   public static var addingTown: String { return L10n.tr("Localizable", "AddingTown") }
   /// Новая вещь
   public static var addStuff: String { return L10n.tr("Localizable", "AddStuff") }
+  /// Новый список
+  public static var addStuffList: String { return L10n.tr("Localizable", "AddStuffList") }
   /// Добавить город
   public static var addTown: String { return L10n.tr("Localizable", "AddTown") }
   /// Город прибытия

@@ -30,9 +30,9 @@ extension StuffListsPresenter: StuffListsModuleInput {
 }
 
 extension StuffListsPresenter: StuffListsViewOutput {
-    func viewDidAppear() {
-        model.obtainStuffLists()
+    func viewWillAppear() {
         view?.reloadData()
+        model.obtainStuffLists()
     }
     
     func didTapBackBarButton() {

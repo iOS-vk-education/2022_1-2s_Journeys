@@ -20,7 +20,7 @@ protocol StuffListsViewInput: AnyObject {
 // MARK: - StuffLists ViewOutput
 
 protocol StuffListsViewOutput: AnyObject {
-    func viewDidAppear()
+    func viewWillAppear()
     func didTapBackBarButton()
     func didSelectCell(at indexPath: IndexPath)
     func cellsCount(for section: Int) -> Int

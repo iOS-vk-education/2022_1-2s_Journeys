@@ -161,11 +161,13 @@ extension StuffPresenter: StuffCellDelegate {
             return
         }
         if indexPath.section == 0 {
+            guard unpackedStuff.count > indexPath.row else { return }
             unpackedStuff[indexPath.row].isPacked.toggle()
             model.changeStuffIsPackedFlag(stuff: unpackedStuff[indexPath.row],
                                           baggage: baggage,
                                           indexPath: indexPath)
         } else if indexPath.section == 1 {
+            guard packedStuff.count > indexPath.row else { return }
             packedStuff[indexPath.row].isPacked.toggle()
             model.changeStuffIsPackedFlag(stuff: packedStuff[indexPath.row],
                                           baggage: baggage,
@@ -177,13 +179,13 @@ extension StuffPresenter: StuffCellDelegate {
             return
         }
         if indexPath.section == 0 {
-            guard unpackedStuff.indices.contains(indexPath.row) else { return }
+            guard unpackedStuff.count > indexPath.row else { return }
             unpackedStuff[indexPath.row].emoji = text
             if unpackedStuff[indexPath.row].name != nil {
                 saveStuff(unpackedStuff[indexPath.row], indexPath: indexPath)
             }
         } else if indexPath.section == 1 {
-            guard packedStuff.indices.contains(indexPath.row) else { return }
+            guard packedStuff.count > indexPath.row else { return }
             packedStuff[indexPath.row].emoji = text
             if packedStuff[indexPath.row].name != nil {
                 saveStuff(packedStuff[indexPath.row], indexPath: indexPath)

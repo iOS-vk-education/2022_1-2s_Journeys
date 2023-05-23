@@ -89,7 +89,8 @@
 "StuffList" = "Stuff list";
 "StuffLists" = "Stuff lists";
 "NoStuffLists" = "So far there are no stuff lists";
-"AddStuff" = "Add stuff";
+"AddStuff" = "New stuff";
+"AddStuffList" = "New list";
 "Name" = "Name";
 
 // MARK: Alerts

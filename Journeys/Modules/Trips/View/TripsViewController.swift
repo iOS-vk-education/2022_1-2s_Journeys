@@ -301,22 +301,17 @@ extension TripsViewController: TripsViewInput {
             cell.setupImage(image)
         }
     }
-    
-    func changeIsSavedCellStatus(at indexPath: IndexPath, status: Bool) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? TripCell else { return }
-        cell.changeIsSavedStatus(status: status)
-    }
 }
 
 extension TripsViewController: TransitionHandlerProtocol {
     func embedPlaceholder(_ viewController: UIViewController) {
-        guard let placeholderViewController = viewController as? TripsPlaceholderViewController else { return }
+        guard let placeholderViewController = viewController as? PlaceholderViewController else { return }
 
         guard placeholderView.isHidden == true else {
             return
         }
         placeholderViewController
-            .configure(with: TripsPlaceholderViewController.DisplayData(title: L10n.noTrips,
+            .configure(with: PlaceholderViewController.DisplayData(title: L10n.noTrips,
                                                                    imageName: "TripsPlaceholder"))
         addChild(placeholderViewController)
         placeholderViewController.didMove(toParent: self)

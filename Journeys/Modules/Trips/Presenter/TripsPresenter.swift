@@ -140,7 +140,7 @@ extension TripsPresenter: TripsViewOutput {
         loadTripsData()
     }
     
-    func placeholderDisplayData() -> TripsPlaceholderViewController.DisplayData {
+    func placeholderDisplayData() -> PlaceholderViewController.DisplayData {
         PlaceholderDisplayDataFactory().displayData()
     }
     

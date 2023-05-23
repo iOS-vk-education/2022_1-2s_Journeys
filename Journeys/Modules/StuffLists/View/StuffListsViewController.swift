@@ -21,7 +21,7 @@ final class StuffListsViewController: UIViewController {
     private lazy var newStuffListFloatingButton: FloatingButton = {
         let button = FloatingButton()
         button.backgroundColor = UIColor(asset: Asset.Colors.BaseColors.contrastToThemeColor)
-        button.configure(title: "New list")
+        button.configure(title: L10n.addStuffList)
         button.addTarget(self, action: #selector(didTapNewStuffListButton), for: .touchUpInside)
         view.addSubview(button)
         return button
@@ -41,8 +41,9 @@ final class StuffListsViewController: UIViewController {
         makeConstraints()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        output?.viewDidAppear()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        output?.viewWillAppear()
     }
 
     private func setupNavBar() {
@@ -146,13 +147,13 @@ extension StuffListsViewController: StuffListsViewInput {
 
 extension StuffListsViewController {
     func embedPlaceholder() {
-        let placeholderViewController = PlaceHolderViewController()
+        let placeholderViewController = PlaceholderViewController()
 
         guard placeholderView.isHidden == true else {
             return
         }
         placeholderViewController
-            .configure(with: PlaceHolderViewController.DisplayData(title: L10n.noStuffLists,
+            .configure(with: PlaceholderViewController.DisplayData(title: L10n.noStuffLists,
                                                                    imageName: "StuffListsPlaceholder"))
         addChild(placeholderViewController)
         placeholderViewController.didMove(toParent: self)
