@@ -30,16 +30,15 @@ extension FirebaseService: FirebaseServiceStoreProtocol {
         guard let userId = firebaseManager.auth.currentUser?.uid else {
             return
         }
-        var ref: DocumentReference?
+        var ref: DocumentReference = firebaseManager.firestore.collection("trips").document(userId)
+            .collection("user_trips").document()
         if let id = trip.id {
             ref = firebaseManager.firestore.collection("trips").document(userId).collection("user_trips").document(id)
-        } else {
-            ref = firebaseManager.firestore.collection("trips").document(userId).collection("user_trips").document()
         }
-        ref!.setData(trip.toDictionary()) { error in
+        ref.setData(trip.toDictionary()) { error in
             if let error = error {
                 completion(.failure(error))
-            } else if let id = ref?.documentID, let trip = Trip(from: trip.toDictionary(), id: id) {
+            } else if let trip = Trip(from: trip.toDictionary(), id: ref.documentID) {
                 completion(.success(trip))
             } else {
                 completion(.failure(FBError.noData))
@@ -48,16 +47,14 @@ extension FirebaseService: FirebaseServiceStoreProtocol {
     }
     
     func storeRouteData(route: Route, completion: @escaping (Result<Route, Error>) -> Void) {
-        var ref: DocumentReference?
+        var ref: DocumentReference = firebaseManager.firestore.collection("routes").document()
         if let id = route.id {
             ref = firebaseManager.firestore.collection("routes").document(id)
-        } else {
-            ref = firebaseManager.firestore.collection("routes").document()
         }
-        ref!.setData(route.toDictionary()) { error in
+        ref.setData(route.toDictionary()) { error in
             if let error = error {
                 completion(.failure(error))
-            } else if let id = ref?.documentID, let route = Route(from: route.toDictionary(), id: id) {
+            } else if let route = Route(from: route.toDictionary(), id: ref.documentID) {
                 completion(.success(route))
             } else {
                 completion(.failure(FBError.noData))
@@ -87,7 +84,7 @@ extension FirebaseService: FirebaseServiceStoreProtocol {
     }
     
     func storeBaggageData(baggage: Baggage, completion: @escaping (Result<Baggage, Error>) -> Void) {
-        var ref: DocumentReference = firebaseManager.firestore.collection("baggage").document(baggage.id)
+        let ref: DocumentReference = firebaseManager.firestore.collection("baggage").document(baggage.id)
         ref.setData(baggage.toDictionary()) { error in
             let id = ref.documentID
             if let error = error {
@@ -101,18 +98,16 @@ extension FirebaseService: FirebaseServiceStoreProtocol {
     }
     
     func storeStuffData(baggageId: String, stuff: Stuff, completion: @escaping (Result<Stuff, Error>) -> Void) {
-        var ref: DocumentReference?
+        var ref: DocumentReference = firebaseManager.firestore.collection("baggage").document(baggageId)
+            .collection("baggage_stuff").document()
         if let id = stuff.id {
             ref = firebaseManager.firestore.collection("baggage").document(baggageId)
                 .collection("baggage_stuff").document(id)
-        } else {
-            ref = firebaseManager.firestore.collection("baggage").document(baggageId)
-                .collection("baggage_stuff").document()
         }
-        ref!.setData(stuff.toDictionary()) { error in
+        ref.setData(stuff.toDictionary()) { error in
             if let error = error {
                 completion(.failure(error))
-            } else if let id = ref?.documentID, let stuff = Stuff(from: stuff.toDictionary(), id: id) {
+            } else if let stuff = Stuff(from: stuff.toDictionary(), id: ref.documentID) {
                 completion(.success(stuff))
             } else {
                 completion(.failure(FBError.noData))
@@ -126,19 +121,16 @@ extension FirebaseService: FirebaseServiceStoreProtocol {
             return
         }
         
-        var ref: DocumentReference?
+        var ref: DocumentReference = firebaseManager.firestore.collection("stuff_lists").document(userId)
+            .collection("user_stuff_lists").document()
         if let id = stuffList.id {
             ref = firebaseManager.firestore.collection("stuff_lists").document(userId)
                 .collection("user_stuff_lists").document(id)
-        } else {
-            ref = firebaseManager.firestore.collection("stuff_lists").document(userId)
-                .collection("user_stuff_lists").document()
         }
-        ref!.setData(stuffList.toDictionary()) { error in
+        ref.setData(stuffList.toDictionary()) { error in
             if let error = error {
                 completion(.failure(error))
-            } else if let id = ref?.documentID,
-                      let stuffList = StuffList(from: stuffList.toDictionary(), id: id) {
+            } else if let stuffList = StuffList(from: stuffList.toDictionary(), id: ref.documentID) {
                 completion(.success(stuffList))
             } else {
                 completion(.failure(FBError.noData))
@@ -152,19 +144,16 @@ extension FirebaseService: FirebaseServiceStoreProtocol {
             return
         }
         
-        var ref: DocumentReference?
+        var ref: DocumentReference = firebaseManager.firestore.collection("stuff").document(userId)
+            .collection("user_stuff").document()
         if let id = stuff.id {
             ref = firebaseManager.firestore.collection("stuff").document(userId)
                 .collection("user_stuff").document(id)
-        } else {
-            ref = firebaseManager.firestore.collection("stuff").document(userId)
-                .collection("user_stuff").document()
         }
-        ref!.setData(stuff.toDictionary()) { error in
+        ref.setData(stuff.toDictionary()) { error in
             if let error = error {
                 completion(.failure(error))
-            } else if let id = ref?.documentID,
-                      let stuff = Stuff(from: stuff.toDictionary(), id: id) {
+            } else if let stuff = Stuff(from: stuff.toDictionary(), id: ref.documentID) {
                 completion(.success(stuff))
             } else {
                 completion(.failure(FBError.noData))

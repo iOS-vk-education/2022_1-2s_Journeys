@@ -11,7 +11,7 @@ import FirebaseAuth
 import SwiftUI
 import MessageUI
 
-final class AccountCoordinator: CoordinatorProtocol{
+final class AccountCoordinator: CoordinatorProtocol {
 
     // MARK: Private Properties
 

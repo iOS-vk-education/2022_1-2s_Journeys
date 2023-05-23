@@ -23,13 +23,6 @@ final class StuffViewController: UIViewController {
         return refreshControl
     }()
     
-    private lazy var tapGestureRecognizer: UITapGestureRecognizer = {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapScreen))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-        return tap
-    }()
-    
     private var placeholderView = UIView()
 
     // MARK: Lifecycle
@@ -45,7 +38,9 @@ final class StuffViewController: UIViewController {
         placeholderView.isHidden = true
         setupTableView()
         
-        tapGestureRecognizer.isEnabled = false
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapScreen))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
     
     private func setupTableView() {
@@ -109,10 +104,6 @@ extension StuffViewController: StuffViewInput {
         tableView.beginUpdates()
         tableView.deleteRows(at: [indexPath], with: .automatic)
         tableView.endUpdates()
-    }
-    
-    func setTapGestureRecognizerEnabled(_ value: Bool) {
-        tapGestureRecognizer.isEnabled = value
     }
     
     func reloadData() {

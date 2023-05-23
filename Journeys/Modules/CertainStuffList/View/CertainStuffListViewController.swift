@@ -35,15 +35,6 @@ final class CertainStuffListViewController: UIViewController {
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
         return view
     }()
-    
-    
-    private lazy var tapGestureRecognizer: UITapGestureRecognizer = {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapScreen))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-        tap.isEnabled = false
-        return tap
-    }()
 
     // MARK: Public properties
     var output: CertainStuffListViewOutput?
@@ -81,7 +72,9 @@ final class CertainStuffListViewController: UIViewController {
         setupCollectionView()
         setupTableView()
         
-        tapGestureRecognizer.isEnabled = false
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapScreen))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
         
         colorPicker.delegate = self
         makeConstraints()
@@ -211,6 +204,9 @@ extension CertainStuffListViewController: CertainStuffListViewInput {
             self?.stuffTableView.reloadData()
         }
     }
+    func reloadTableView() {
+        stuffTableView.reloadData()
+    }
     
     func showColorPicker(selectedColor: UIColor) {
         colorPicker.selectedColor = selectedColor
@@ -252,10 +248,6 @@ extension CertainStuffListViewController: CertainStuffListViewInput {
         stuffTableView.beginUpdates()
         stuffTableView.deleteRows(at: [indexPath], with: .automatic)
         stuffTableView.endUpdates()
-    }
-    
-    func setTapGestureRecognizerEnabled(_ value: Bool) {
-        tapGestureRecognizer.isEnabled = value
     }
     
     func showAlert(title: String, message: String) {

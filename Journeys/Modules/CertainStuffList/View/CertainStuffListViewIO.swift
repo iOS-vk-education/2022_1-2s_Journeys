@@ -12,6 +12,8 @@ import Foundation
 
 protocol CertainStuffListViewInput: AnyObject {
     func reloadData()
+    func reloadTableView()
+    
     func showColorPicker(selectedColor: UIColor)
     func changeStuffListCellColoredViewColor(to color: UIColor, at indexPath: IndexPath)
     func tableViewBackgroundColor() -> UIColor?
@@ -22,8 +24,6 @@ protocol CertainStuffListViewInput: AnyObject {
     
     func showAlert(title: String, message: String)
     func deleteCell(at indexPath: IndexPath)
-    
-    func setTapGestureRecognizerEnabled(_ value: Bool)
 }
 
 // MARK: - CertainStuffList ViewOutput

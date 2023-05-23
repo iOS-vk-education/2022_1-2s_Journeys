@@ -9,8 +9,8 @@ import Foundation
 import UIKit
 
 protocol StuffTableViewControllerOutput: AnyObject {
-    func handeleCellEdit(at indexPath: IndexPath, tableView: UITableView?)
-    func handeleCellDelete(at indexPath: IndexPath)
+    func handleCellEdit(at indexPath: IndexPath, tableView: UITableView?)
+    func handleCellDelete(at indexPath: IndexPath)
     
     func numberOfSection() -> Int?
     func numberOfRows(in section: Int) -> Int?
@@ -107,7 +107,7 @@ extension StuffTableViewController {
         }
         let deleteAction = UITableViewRowAction(style: .destructive,
                                                 title: L10n.delete) { [weak self] (action, indexPath) in
-            self?.output?.handeleCellDelete(at: indexPath)
+            self?.output?.handleCellDelete(at: indexPath)
             tableView.beginUpdates()
             tableView.deleteRows(at: [indexPath], with: .automatic)
             tableView.endUpdates()
@@ -115,8 +115,8 @@ extension StuffTableViewController {
         
         let editAction = UITableViewRowAction(style: .normal,
                                               title: L10n.edit) { [weak self] (action, indexPath) in
-            guard let strongSelf = self else { return }
-            self?.output?.handeleCellEdit(at: indexPath, tableView: self?.tableView)
+            guard let self else { return }
+            self.output?.handleCellEdit(at: indexPath, tableView: self.tableView)
         }
         editAction.backgroundColor = .systemMint
         

@@ -22,8 +22,6 @@ protocol StuffViewInput: AnyObject {
     
     func getCell(for indexpath: IndexPath) -> UITableViewCell?
     func deleteCell(at indexPath: IndexPath)
-    
-    func setTapGestureRecognizerEnabled(_ value: Bool)
 }
 
 // MARK: - Stuff ViewOutput

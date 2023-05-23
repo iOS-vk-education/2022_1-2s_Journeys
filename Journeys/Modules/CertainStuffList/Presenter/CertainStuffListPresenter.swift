@@ -135,28 +135,22 @@ extension CertainStuffListPresenter: StuffTableViewControllerOutput {
         if indexPath.row == rowsInSection - 1 {
             stuff.append(Stuff(isPacked: false))
             lastChangedIndexPath = indexPath
-            didStartEditMode()
             completion()
         }
     }
     
-    func handeleCellDelete(at indexPath: IndexPath) {
+    func handleCellDelete(at indexPath: IndexPath) {
         guard stuff.count > indexPath.row else { return }
-        guard let id = stuff[indexPath.row].id else {
-            stuff.remove(at: indexPath.row)
-            return
-        }
         if stuff.indices.contains(indexPath.row) {
             stuff.remove(at: indexPath.row)
         }
     }
     
-    func handeleCellEdit(at indexPath: IndexPath, tableView: UITableView?) {
-//        view?.reloadData()
+    func handleCellEdit(at indexPath: IndexPath, tableView: UITableView?) {
+        view?.reloadTableView()
         guard let cell = tableView?.cellForRow(at: indexPath) as? StuffCell else { return }
         lastChangedIndexPath = indexPath
         cell.startEditMode()
-        didStartEditMode()
     }
     
     func keyBoardToShowType() -> StuffCell.KeyboardType {
@@ -196,14 +190,6 @@ extension CertainStuffListPresenter: StuffCellDelegate {
     
     func didChangedKeyboardType(to type: StuffCell.KeyboardType) {
         currenStuffCellKeyboardType = type
-    }
-    
-    func didStartEditMode() {
-        view?.setTapGestureRecognizerEnabled(true)
-    }
-    
-    func didFinishEditMode() {
-        view?.setTapGestureRecognizerEnabled(false)
     }
 }
 

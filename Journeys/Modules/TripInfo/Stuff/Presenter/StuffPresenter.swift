@@ -209,14 +209,6 @@ extension StuffPresenter: StuffCellDelegate {
     func didChangedKeyboardType(to type: StuffCell.KeyboardType) {
         currenStuffCellKeyboardType = type
     }
-    
-    func didStartEditMode() {
-        view?.setTapGestureRecognizerEnabled(true)
-    }
-    
-    func didFinishEditMode() {
-        view?.setTapGestureRecognizerEnabled(false)
-    }
 }
 
 extension StuffPresenter: StuffTableViewControllerOutput {
@@ -300,7 +292,7 @@ extension StuffPresenter: StuffTableViewControllerOutput {
         }
     }
     
-    func handeleCellDelete(at indexPath: IndexPath) {
+    func handleCellDelete(at indexPath: IndexPath) {
         if indexPath.section == 0,
            unpackedStuff.indices.contains(indexPath.row),
            let baggage {
@@ -328,7 +320,7 @@ extension StuffPresenter: StuffTableViewControllerOutput {
         }
     }
     
-    func handeleCellEdit(at indexPath: IndexPath, tableView: UITableView?) {
+    func handleCellEdit(at indexPath: IndexPath, tableView: UITableView?) {
         view?.reloadData()
         guard let cell = tableView?.cellForRow(at: indexPath) as? StuffCell else { return }
         lastChangedIndexPath = indexPath
