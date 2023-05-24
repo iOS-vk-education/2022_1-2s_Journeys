@@ -23,9 +23,9 @@ final class AccountViewController: ViewControllerWithDimBackground {
         super.viewDidLoad()
         setupView()
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        output?.viewDidAppear()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        output?.viewWillAppear()
     }
 
     // MARK: Private methods

@@ -34,7 +34,7 @@ extension AccountPresenter: AccountModuleInput {
 }
 
 extension AccountPresenter: AccountViewOutput {
-    func viewDidAppear() {
+    func viewWillAppear() {
         model?.getUserData()
     }
     

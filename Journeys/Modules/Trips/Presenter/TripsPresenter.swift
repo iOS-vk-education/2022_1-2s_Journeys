@@ -124,10 +124,11 @@ extension TripsPresenter: TripsModuleInput {
 extension TripsPresenter: TripsViewOutput {
     func viewWillAppear() {
         authListener()
+        dataIsLoaded = false
         switch tripsType {
         case .all: loadTripsData()
         case .saved:
-            if tripsData.contains { $0.image == nil } {
+            if tripsData.contains(where: { $0.image == nil }) {
                 loadImagesForTrips()
             }
         }
@@ -139,7 +140,7 @@ extension TripsPresenter: TripsViewOutput {
         loadTripsData()
     }
     
-    func placeholderDisplayData() -> TripsPlaceholderViewController.DisplayData {
+    func placeholderDisplayData() -> PlaceholderViewController.DisplayData {
         PlaceholderDisplayDataFactory().displayData()
     }
     
@@ -187,8 +188,8 @@ extension TripsPresenter: TripsViewOutput {
         default:
             guard tripsData.indices.contains(indexPath.row) else {
                 view?.showAlert(title: "Ошибка",
-                               message: "Возникла ошибка при открытии данных маршрута",
-                               actionTitle: "Ок")
+                                message: "Возникла ошибка при открытии данных маршрута",
+                                actionTitle: "Ок")
                 return
             }
             moduleOutput?.tripCollectionWantsToOpenTripInfoModule(trip: Trip(tripWithOtherData: tripsData[indexPath.row]),

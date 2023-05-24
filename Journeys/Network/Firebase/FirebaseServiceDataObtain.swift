@@ -20,6 +20,9 @@ protocol FirebaseServiceObtainProtocol {
     func obtainBaggage(baggageId: String, completion: @escaping (Result<[Stuff], Error>) -> Void)
     func obtainBaggageData(baggageId: String, completion: @escaping (Result<Baggage, Error>) -> Void)
     
+    func obtainStuffLists(completion: @escaping (Result<[StuffList], Error>) -> Void)
+    func obtainCertainUserStuff(stuffId: String, completion: @escaping (Result<Stuff, Error>) -> Void)
+    
     func obtainCurrentUserData(completion: @escaping (Result<User, Error>) -> Void)
     func currentUserEmail() -> String?
 }
@@ -176,7 +179,53 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
         }
     }
     
-    func obtainCurrentUserData(completion: @escaping (Result<User, Error>) -> Void) {
+    func obtainStuffLists(completion: @escaping (Result<[StuffList], Error>) -> Void) {
+        guard let userId = firebaseManager.auth.currentUser?.uid else {
+            return
+        }
+        firebaseManager.firestore.collection("stuff_lists")
+            .document(userId).collection("user_stuff_lists").getDocuments { (snapshot, error) in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                guard let snapshot = snapshot else {
+                    return
+                }
+                
+                var stuffLists: [StuffList] = []
+                for document in snapshot.documents {
+                    if let stuffList = StuffList(from: document.data(), id: document.documentID) {
+                        stuffLists.append(stuffList)
+                    }
+                }
+                completion(.success(stuffLists))
+            }
+    }
+    
+    func obtainCertainUserStuff(stuffId: String, completion: @escaping (Result<Stuff, Error>) -> Void) {
+        guard let userId = firebaseManager.auth.currentUser?.uid else {
+            return
+        }
+        firebaseManager.firestore.collection("stuff")
+            .document(userId).collection("user_stuff")
+            .document(stuffId).getDocument { (document, error) in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                guard let data = document?.data() else {
+                    completion(.failure(Errors.obtainDataError))
+                    return
+                }
+                guard let stuff = Stuff(from: data, id: document!.documentID) else {
+                    completion(.failure(FBError.noData))
+                    return
+                }
+                completion(.success(stuff))
+            }
+    }
+        func obtainCurrentUserData(completion: @escaping (Result<User, Error>) -> Void) {
         guard let userId = firebaseManager.auth.currentUser?.uid else {
             completion(.failure(Errors.obtainDataError))
             return

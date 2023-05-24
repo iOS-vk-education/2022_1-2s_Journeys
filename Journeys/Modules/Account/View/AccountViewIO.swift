@@ -21,7 +21,7 @@ protocol AccountViewInput: AnyObject {
 // MARK: - Account ViewOutput
 
 protocol AccountViewOutput: AnyObject {
-    func viewDidAppear()
+    func viewWillAppear()
     func displayData(for indexPath: IndexPath) -> SettingsCell.DisplayData?
     func didSelectCell(at indexPath: IndexPath)
     func numberOfRows(in section: Int) -> Int

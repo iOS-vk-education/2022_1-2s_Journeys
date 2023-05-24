@@ -14,7 +14,7 @@ final class AddStuffCell: UITableViewCell {
 
     private var title: UILabel = {
         let label = UILabel()
-        label.text = L10n.add
+        label.text = L10n.addStuff
         label.tintColor = UIColor(asset: Asset.Colors.Stuff.addCellColor)
         return label
     }()
@@ -47,10 +47,12 @@ final class AddStuffCell: UITableViewCell {
 
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 12, left: 0, bottom: 0, right: 0))
     }
+    
+    func configure(backgroundColor: UIColor?) {
+        self.backgroundColor = backgroundColor
+    }
 
     private func setupSubiews() {
-        backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
-        
         contentView.addSubview(title)
         contentView.addSubview(icon)
         contentView.addSubview(separator)

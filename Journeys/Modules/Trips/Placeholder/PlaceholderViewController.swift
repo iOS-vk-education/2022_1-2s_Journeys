@@ -1,5 +1,5 @@
 //
-//  TripsPlaceholder.swift
+//  PlaceholderViewController.swift
 //  Journeys
 //
 //  Created by Сергей Адольевич on 27.12.2022.
@@ -9,9 +9,9 @@ import Foundation
 import UIKit
 import SnapKit
 
-// MARK: - TripsPlaceholderViewController
+// MARK: - PlaceholderViewController
 
-final class TripsPlaceholderViewController: UIViewController {
+final class PlaceholderViewController: UIViewController {
     // MARK: Private properties
 
     private let titleLabel = UILabel()

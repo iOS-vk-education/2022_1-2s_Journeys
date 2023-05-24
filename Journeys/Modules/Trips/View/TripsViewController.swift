@@ -31,6 +31,7 @@ final class TripsViewController: UIViewController {
     
     private let loadingView = LoadingView()
     private var placeholderView = UIView()
+    
     private lazy var cellsType: TripsCellType = {
         output.getCellType()
     }()
@@ -42,7 +43,6 @@ final class TripsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
-        tabBarController?.tabBar.items?.forEach { $0.isEnabled = true }
         placeholderView.isHidden = true
         setupNavBar()
         setupCollectionView()
@@ -305,13 +305,13 @@ extension TripsViewController: TripsViewInput {
 
 extension TripsViewController: TransitionHandlerProtocol {
     func embedPlaceholder(_ viewController: UIViewController) {
-        guard let placeholderViewController = viewController as? TripsPlaceholderViewController else { return }
+        guard let placeholderViewController = viewController as? PlaceholderViewController else { return }
 
         guard placeholderView.isHidden == true else {
             return
         }
         placeholderViewController
-            .configure(with: TripsPlaceholderViewController.DisplayData(title: L10n.noTrips,
+            .configure(with: PlaceholderViewController.DisplayData(title: L10n.noTrips,
                                                                    imageName: "TripsPlaceholder"))
         addChild(placeholderViewController)
         placeholderViewController.didMove(toParent: self)

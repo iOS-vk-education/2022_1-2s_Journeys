@@ -12,13 +12,17 @@ import FirebaseAuth
 
 protocol FirebaseServiceDeleteProtocol {
     func deleteTripData(_ trip: Trip, completion: @escaping (Error?) -> Void)
-    func deleteStuffData(_ stuffId: String, baggageId: String, completion: @escaping (Error?) -> Void)
     func deleteTripImage(for imageURLString: String, completion: @escaping (Error?) -> Void)
     func deleteAccountRelatedData(completion: @escaping (Error?) -> Void)
     func deleteTrips(uid: String, completion: @escaping (Error?) -> Void)
     func deleteRouteData(routeId: String, completion: @escaping (Error?) -> Void)
-    func deleteBaggage(baggageId: String)
+    func deleteUserData(uid: String)
     func deleteCurrentUserData(completion: @escaping (Error?) -> Void)
+    
+    func deleteBaggage(baggageId: String)
+    func deleteStuffData(_ stuffId: String, baggageId: String, completion: @escaping (Error?) -> Void)
+    func deleteUserCertainStuff(_ stuffId: String, completion: @escaping (Error?) -> Void)
+    func deleteStuffList(_ stuffListId: String, completion: @escaping (Error?) -> Void)
 }
 
 extension FirebaseService: FirebaseServiceDeleteProtocol {
@@ -45,6 +49,7 @@ extension FirebaseService: FirebaseServiceDeleteProtocol {
     
     func deleteTripData(_ trip: Trip, completion: @escaping (Error?) -> Void) {
         guard let userId = firebaseManager.auth.currentUser?.uid else {
+            completion(Errors.deleteDataError)
             return
         }
         guard let id = trip.id else { return }
@@ -59,6 +64,24 @@ extension FirebaseService: FirebaseServiceDeleteProtocol {
     func deleteStuffData(_ stuffId: String, baggageId: String, completion: @escaping (Error?) -> Void) {
         firebaseManager.firestore.collection("baggage").document(baggageId)
             .collection("baggage_stuff").document(stuffId).delete (completion: completion)
+    }
+    
+    func deleteUserCertainStuff(_ stuffId: String, completion: @escaping (Error?) -> Void) {
+        guard let userId = firebaseManager.auth.currentUser?.uid else {
+            completion(Errors.deleteDataError)
+            return
+        }
+        firebaseManager.firestore.collection("stuff").document(userId)
+            .collection("user_stuff").document(stuffId).delete(completion: completion)
+    }
+    
+    func deleteStuffList(_ stuffListId: String, completion: @escaping (Error?) -> Void) {
+        guard let userId = firebaseManager.auth.currentUser?.uid else {
+            completion(Errors.deleteDataError)
+            return
+        }
+        firebaseManager.firestore.collection("stuff_lists").document(userId)
+            .collection("user_stuff_lists").document(stuffListId).delete(completion: completion)
     }
     
     func deleteCurrentUserData(completion: @escaping (Error?) -> Void) {

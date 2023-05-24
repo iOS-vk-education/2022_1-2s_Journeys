@@ -85,6 +85,14 @@
 "Auth" = "Авторизация";
 "Registration" = "Регистрация";
 
+// MARK: Stuff
+"StuffList" = "Список вещей";
+"StuffLists" = "Списки вещей";
+"NoStuffLists" = "Нет списков вещей";
+"AddStuff" = "Новая вещь";
+"AddStuffList" = "Новый список";
+"Name" = "Название";
+
 // MARK: Alerts
 "Alerts.Titles.Success" = "Успех";
 "Alerts.Messages.PasswordResetDone" = "Письмо для сброса пароля было направлено на указанный адрес электронной почты";
