@@ -139,9 +139,9 @@ extension JourneysCoordinator: PlaceModuleOutput {
 }
 
 extension JourneysCoordinator: TripInfoModuleOutput {
-    func openAddStuffListModule(baggage: Baggage) {
+    func openAddStuffListModule(baggage: Baggage, stuffModuleInput: StuffModuleInput) {
         let builder = StuffListsModuleBuilder()
-        let stuffListsViewController = builder.build(moduleType: .stuffListsAdding(baggage),
+        let stuffListsViewController = builder.build(moduleType: .stuffListsAdding(baggage, stuffModuleInput),
                                                      firebaseService: firebaseService,
                                                      moduleOutput: self)
         if let sheet = stuffListsViewController.sheetPresentationController {

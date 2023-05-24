@@ -134,6 +134,19 @@ extension StuffViewController: StuffViewInput {
         tableView.endUpdates()
     }
     
+    func setCellIndexPath(_ indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? StuffCell else { return }
+        cell.setCellIndexPath(indexPath)
+    }
+    
+    func refreshAllCellsIndexPaths() {
+        tableView.visibleCells.forEach { [weak self] cell in
+            guard let indexPath = self?.tableView.indexPath(for: cell),
+            let stuffCell = cell as? StuffCell else { return }
+            stuffCell.setCellIndexPath(indexPath)
+        }
+    }
+    
     func reloadData() {
         tableViewController.reloadData()
     }
@@ -144,6 +157,12 @@ extension StuffViewController: StuffViewInput {
                           preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
+    }
+}
+
+extension StuffViewController {
+    func didChangeBaggage() {
+        output?.didChangeBaggage()
     }
 }
 

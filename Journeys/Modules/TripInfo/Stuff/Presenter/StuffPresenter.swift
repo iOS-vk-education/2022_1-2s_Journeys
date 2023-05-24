@@ -80,6 +80,33 @@ final class StuffPresenter {
     }
 }
 
+
+extension StuffPresenter: StuffViewOutput {
+    func viewDidLoad() {
+        model.obtainData(baggageId: baggageId)
+    }
+    
+    func didTapAddStuffListButton() {
+        guard let baggage else { return }
+        moduleOutput.openAddStuffListModule(baggage: baggage, stuffModuleInput: self)
+    }
+    
+    func didTapScreen(tableView: UITableView) {
+        guard let lastChangedIndexPath = lastChangedIndexPath else { return }
+        if let cell = view?.getCell(for: lastChangedIndexPath) as? StuffCell {
+            let data = cell.getData()
+            cell.finishEditMode()
+            if data.name.count == 0 {
+                deleteCell(at: lastChangedIndexPath)
+            }
+        }
+    }
+    
+    func didTapExitButton() {
+        moduleOutput.stuffModuleWantsToClose()
+    }
+}
+
 extension StuffPresenter: StuffModelOutput {
     func didSaveStuff(stuff: Stuff, baggage: Baggage, indexPath: IndexPath) {
         if let cell = view?.getCell(for: indexPath) as? StuffCell {
@@ -126,10 +153,10 @@ extension StuffPresenter: StuffModelOutput {
         allStuff.removeAll()
         packedStuff.removeAll()
         unpackedStuff.removeAll()
-        isDataObtained = true
         allStuff = stuff
         self.baggage = baggage
         sortStuff()
+        isDataObtained = true
         view?.endRefresh()
         view?.reloadData()
     }
@@ -137,21 +164,30 @@ extension StuffPresenter: StuffModelOutput {
     func didChangeStuffStatus(stuff: Stuff, indexPath: IndexPath) {
         if indexPath.section == 0 {
             guard unpackedStuff.count > indexPath.row else { return }
-            packedStuff.append(unpackedStuff[indexPath.row])
+            packedStuff.append(stuff)
             unpackedStuff.remove(at: indexPath.row)
             view?.changeIsPickedCellFlag(at: indexPath)
-            view?.moveTableViewRow(at: indexPath, to: IndexPath(row: packedStuff.count - 1, section: 1))
+            let newIndexPath: IndexPath = IndexPath(row: packedStuff.count - 1, section: 1)
+            view?.moveTableViewRow(at: indexPath, to: newIndexPath)
+//            view?.setCellIndexPath(newIndexPath)
         } else if indexPath.section == 1 {
             guard packedStuff.count > indexPath.row else { return }
-            unpackedStuff.append(packedStuff[indexPath.row])
+            unpackedStuff.append(stuff)
             packedStuff.remove(at: indexPath.row)
             view?.changeIsPickedCellFlag(at: indexPath)
-            view?.moveTableViewRow(at: indexPath, to: IndexPath(row: unpackedStuff.count - 1, section: 0))
+            let newIndexPath: IndexPath = IndexPath(row: unpackedStuff.count - 1, section: 0)
+            view?.moveTableViewRow(at: indexPath, to: newIndexPath)
+//            view?.setCellIndexPath(newIndexPath)
         }
+//        view?.reloadData()
+        view?.refreshAllCellsIndexPaths()
     }
 }
 
 extension StuffPresenter: StuffModuleInput {
+    func didChangeBaggage() {
+        model.obtainData(baggageId: baggageId)
+    }
 }
 
 
@@ -162,14 +198,20 @@ extension StuffPresenter: StuffCellDelegate {
         }
         if indexPath.section == 0 {
             guard unpackedStuff.count > indexPath.row else { return }
-            unpackedStuff[indexPath.row].isPacked.toggle()
-            model.changeStuffIsPackedFlag(stuff: unpackedStuff[indexPath.row],
+            let newStuff = Stuff(id: unpackedStuff[indexPath.row].id,
+                                 emoji: unpackedStuff[indexPath.row].emoji,
+                                 name: unpackedStuff[indexPath.row].name,
+                                 isPacked: !unpackedStuff[indexPath.row].isPacked)
+            model.changeStuffIsPackedFlag(stuff: newStuff,
                                           baggage: baggage,
                                           indexPath: indexPath)
         } else if indexPath.section == 1 {
             guard packedStuff.count > indexPath.row else { return }
-            packedStuff[indexPath.row].isPacked.toggle()
-            model.changeStuffIsPackedFlag(stuff: packedStuff[indexPath.row],
+            let newStuff = Stuff(id: packedStuff[indexPath.row].id,
+                                 emoji: packedStuff[indexPath.row].emoji,
+                                 name: packedStuff[indexPath.row].name,
+                                 isPacked: !packedStuff[indexPath.row].isPacked)
+            model.changeStuffIsPackedFlag(stuff: newStuff,
                                           baggage: baggage,
                                           indexPath: indexPath)
         }
@@ -335,31 +377,5 @@ extension StuffPresenter: StuffTableViewControllerOutput {
     
     func keyBoardToShowType() -> StuffCell.KeyboardType {
         currenStuffCellKeyboardType
-    }
-}
-
-extension StuffPresenter: StuffViewOutput {
-    func viewDidLoad() {
-        model.obtainData(baggageId: baggageId)
-    }
-    
-    func didTapAddStuffListButton() {
-        guard let baggage else { return }
-        moduleOutput.openAddStuffListModule(baggage: baggage)
-    }
-    
-    func didTapScreen(tableView: UITableView) {
-        guard let lastChangedIndexPath = lastChangedIndexPath else { return }
-        if let cell = view?.getCell(for: lastChangedIndexPath) as? StuffCell {
-            let data = cell.getData()
-            cell.finishEditMode()
-            if data.name.count == 0 {
-                deleteCell(at: lastChangedIndexPath)
-            }
-        }
-    }
-    
-    func didTapExitButton() {
-        moduleOutput.stuffModuleWantsToClose()
     }
 }

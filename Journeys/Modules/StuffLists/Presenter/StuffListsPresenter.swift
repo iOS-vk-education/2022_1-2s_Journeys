@@ -15,7 +15,7 @@ final class StuffListsPresenter {
     
     enum ModuleType {
         case usual
-        case stuffListsAdding(Baggage)
+        case stuffListsAdding(_ bagagge: Baggage, _ stuffModuleInput: StuffModuleInput)
     }
 
     weak var view: StuffListsViewInput?
@@ -27,12 +27,16 @@ final class StuffListsPresenter {
     private var stuffLists: [StuffList] = []
     private var baggage: Baggage?
     private var isDataLoaded: Bool = false
+    
+    private var stuffModuleInput: StuffModuleInput?
 
     init(model: StuffListsModelInput, moduleType: ModuleType) {
         self.model = model
         self.moduleType = moduleType
         switch moduleType {
-        case .stuffListsAdding(let baggage): self.baggage = baggage
+        case let .stuffListsAdding(baggage, stuffModuleInput):
+            self.baggage = baggage
+            self.stuffModuleInput = stuffModuleInput
         default: break
         }
     }
@@ -61,21 +65,27 @@ extension StuffListsPresenter: StuffListsViewOutput {
         case .usual:
             moduleOutput?.openCertainStuffListModule(for: stuffLists[indexPath.row])
         case .stuffListsAdding:
-            guard let baggage else { return }
-            if let stuffListId = stuffLists[indexPath.row].id,
-                baggage.addedStuffListsIDs.contains(stuffListId) {
-                deleteStuffListFromBagagge(baggage: baggage, stuffList: stuffLists[indexPath.row]) { [weak self] in
-                    self?.view?.setCheckmarkVisibility(to: false, at: indexPath)
-                }
-            } else {
-                addStuffListToBagagge(baggage: baggage, stuffList: stuffLists[indexPath.row]) { [weak self] in
-                    self?.view?.setCheckmarkVisibility(to: true, at: indexPath)
-                }
+            addOrDeleteStuffListFromBaggage(at: indexPath)
+        }
+    }
+    
+    private func addOrDeleteStuffListFromBaggage(at indexPath: IndexPath) {
+        guard let baggage else { return }
+        if let stuffListId = stuffLists[indexPath.row].id,
+            baggage.addedStuffListsIDs.contains(stuffListId) {
+            deleteStuffListFromBagagge(baggage: baggage, stuffList: stuffLists[indexPath.row]) { [weak self] in
+                self?.view?.setCheckmarkVisibility(to: false, at: indexPath)
+                self?.stuffModuleInput?.didChangeBaggage()
+            }
+        } else {
+            addStuffListToBagagge(baggage: baggage, stuffList: stuffLists[indexPath.row]) { [weak self] in
+                self?.view?.setCheckmarkVisibility(to: true, at: indexPath)
+                self?.stuffModuleInput?.didChangeBaggage()
             }
         }
     }
     
-    func addStuffListToBagagge(baggage: Baggage, stuffList: StuffList, completion: @escaping () -> Void) {
+    private func addStuffListToBagagge(baggage: Baggage, stuffList: StuffList, completion: @escaping () -> Void) {
         model.addStuffListToBaggage(baggage: baggage,
                                     stuffList: stuffList) { [weak self] baggage in
             self?.baggage = baggage
@@ -83,7 +93,7 @@ extension StuffListsPresenter: StuffListsViewOutput {
         }
     }
     
-    func deleteStuffListFromBagagge(baggage: Baggage, stuffList: StuffList, completion: @escaping () -> Void) {
+    private func deleteStuffListFromBagagge(baggage: Baggage, stuffList: StuffList, completion: @escaping () -> Void) {
         model.deleteStuffListFromBaggage(baggage: baggage, stuffList: stuffList) { [weak self] baggage in
             self?.baggage = baggage
             completion()
@@ -138,5 +148,9 @@ extension StuffListsPresenter: StuffListsModelOutput {
         } else {
             view?.hidePlaceholder()
         }
+    }
+    
+    func nothingToAdd() {
+        view?.showAlert(title: "Nothing to add", message: "")
     }
 }

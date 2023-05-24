@@ -15,5 +15,5 @@ protocol TripInfoModuleInput: AnyObject {
 protocol TripInfoModuleOutput: AnyObject {
     func tripInfoModuleWantsToClose()
     func openEventsModule(with coordinates: Coordinates)
-    func openAddStuffListModule(baggage: Baggage)
+    func openAddStuffListModule(baggage: Baggage, stuffModuleInput: StuffModuleInput)
 }

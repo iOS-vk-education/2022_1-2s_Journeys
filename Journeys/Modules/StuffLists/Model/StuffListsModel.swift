@@ -17,6 +17,8 @@ final class StuffListsModel {
     private let dataLoadDispatchGroup = DispatchGroup()
     private var didReceiveErrorWhileObtainingData: Bool = false
     
+    private let dataSaveQueue = DispatchQueue(label: "ru.Journeys.StuffListsModel.dataSaveQueue")
+    
     private let dataDeleteQueue = DispatchQueue.global()
     private let dataDeleteDispatchGroup = DispatchGroup()
     private var didReceiveErrorWhileDeletingData: Bool = false
@@ -44,28 +46,40 @@ extension StuffListsModel: StuffListsModelInput {
         var newBaggage = baggage
         guard let stuffListId = stuffList.id else { return }
         newBaggage.addedStuffListsIDs.append(stuffListId)
-        newBaggage.stuffIDs.append(contentsOf: stuffList.stuffIDs)
         
-        obtainStuffListStuff(with: stuffList.stuffIDs) { [weak self] stuffListStuff in
-            self?.saveBaggage(newBaggage) { [weak self] savedBagagge in
-                stuffListStuff.forEach { curStuffListStuff in
-                    self?.saveStuff(curStuffListStuff, baggageId: savedBagagge.id) { _ in
-                        completion(savedBagagge)
+        let baggageStuffIDsSet = Set(baggage.stuffIDs)
+        let stuffListStuffIDsSet = Set(stuffList.stuffIDs)
+        let substractedStuffIDs = Array(stuffListStuffIDsSet.subtracting(baggageStuffIDsSet))
+        
+        if substractedStuffIDs.count == 0 {
+            output?.nothingToAdd()
+        }
+        
+        newBaggage.stuffIDs.append(contentsOf: substractedStuffIDs)
+//        dataLoadQueue.async { [weak self] in
+            self.obtainStuffListStuff(with: substractedStuffIDs) { [weak self] stuffListStuff in
+                self?.saveBaggage(newBaggage) { [weak self] savedBagagge in
+                    stuffListStuff.forEach { curStuffListStuff in
+                        self?.saveStuff(curStuffListStuff, baggageId: savedBagagge.id) { _ in
+                            completion(savedBagagge)
+                        }
                     }
                 }
-            }
+//            }
         }
     }
     
     private func saveBaggage(_ baggage: Baggage, completion: @escaping (Baggage) -> Void) {
-        firebaseService.storeBaggageData(baggage: baggage) { [weak self] result in
-            guard let self else { return }
-            switch result {
-            case .failure:
-                self.output?.didReceiveError(Errors.saveDataError)
-            case .success(let savedBaggage):
-                completion(savedBaggage)
-            }
+//        dataSaveQueue.async { [weak self] in
+            self.firebaseService.storeBaggageData(baggage: baggage) { [weak self] result in
+                guard let self else { return }
+                switch result {
+                case .failure:
+                    self.output?.didReceiveError(Errors.saveDataError)
+                case .success(let savedBaggage):
+                    completion(savedBaggage)
+                }
+//            }
         }
     }
     
@@ -96,28 +110,31 @@ extension StuffListsModel: StuffListsModelInput {
     }
     
     private func obtainBaggageStuff(baggage: Baggage, completion: @escaping ([Stuff]) -> Void) {
-        firebaseService.obtainBaggage(baggageId: baggage.id) { [weak self]  result in
-            guard let self else { return }
-            switch result {
-            case .failure:
-                self.output?.didReceiveError(Errors.obtainDataError)
-            case .success(let stuff):
-                completion(stuff)
+//        dataLoadQueue.async { [weak self] in
+            self.firebaseService.obtainBaggage(baggageId: baggage.id) { [weak self]  result in
+                guard let self else { return }
+                switch result {
+                case .failure:
+                    self.output?.didReceiveError(Errors.obtainDataError)
+                case .success(let stuff):
+                    completion(stuff)
+                }
             }
-        }
+//        }
     }
     
     private func saveStuff(_ stuff: Stuff, baggageId: String, completion: @escaping (Stuff) -> Void) {
-        firebaseService.storeStuffData(baggageId: baggageId, stuff: stuff) {[weak self] result in
-            guard let self else { return }
-            switch result {
-            case .failure:
-                self.output?.didReceiveError(Errors.saveDataError)
-            case .success(let savedStuff):
-                completion(savedStuff)
+//        dataSaveQueue.async { [weak self] in
+            self.firebaseService.storeStuffData(baggageId: baggageId, stuff: stuff) {[weak self] result in
+                guard let self else { return }
+                switch result {
+                case .failure:
+                    self.output?.didReceiveError(Errors.saveDataError)
+                case .success(let savedStuff):
+                    completion(savedStuff)
+                }
             }
-
-        }
+//        }
     }
     
     func deleteStuffListFromBaggage(baggage: Baggage,
@@ -156,20 +173,20 @@ extension StuffListsModel: StuffListsModelInput {
     }
     
     private func deleteStuffFromBaggage(stuffIds: [String],
-                                baggageId: String,
-                                completion: @escaping ([String]) -> Void) {
+                                        baggageId: String,
+                                        completion: @escaping ([String]) -> Void) {
         didReceiveErrorWhileObtainingData = false
         var deletedStuffIds: [String] = []
         for stuffId in stuffIds {
             dataDeleteDispatchGroup.enter()
             dataDeleteQueue.async(group: dataDeleteDispatchGroup) { [weak self] in
                 self?.firebaseService.deleteStuffData(stuffId, baggageId: baggageId) { [weak self] error in
-                    self?.dataDeleteDispatchGroup.leave()
                     if let error {
-                        self?.output?.didReceiveError(error)
+                        self?.didReceiveErrorWhileDeletingData = true
                     } else {
                         deletedStuffIds.append(stuffId)
                     }
+                    self?.dataDeleteDispatchGroup.leave()
                 }
             }
         }
