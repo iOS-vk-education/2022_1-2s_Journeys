@@ -14,4 +14,5 @@ protocol StuffModuleInput: AnyObject {
 
 protocol StuffModuleOutput: AnyObject {
     func stuffModuleWantsToClose()
+    func openAddStuffListModule(baggage: Baggage)
 }

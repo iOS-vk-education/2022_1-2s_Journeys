@@ -28,6 +28,7 @@ protocol StuffViewInput: AnyObject {
 
 protocol StuffViewOutput: AnyObject {
     func viewDidLoad()
+    func didTapAddStuffListButton()
     func didTapScreen(tableView: UITableView)
     func didTapExitButton()
 }

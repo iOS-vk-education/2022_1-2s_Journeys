@@ -70,6 +70,10 @@ extension TripInfoPresenter: PlacesInfoModuleOutput {
 }
 
 extension TripInfoPresenter: StuffModuleOutput {
+    func openAddStuffListModule(baggage: Baggage) {
+        moduleOutput?.openAddStuffListModule(baggage: baggage)
+    }
+    
     func stuffModuleWantsToClose() {
         moduleOutput?.tripInfoModuleWantsToClose()
     }

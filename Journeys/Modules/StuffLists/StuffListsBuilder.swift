@@ -10,12 +10,13 @@ import UIKit
 // MARK: - StuffListsModuleBuilder
 
 final class StuffListsModuleBuilder {
-    func build(firebaseService: FirebaseServiceProtocol,
+    func build(moduleType: StuffListsPresenter.ModuleType,
+               firebaseService: FirebaseServiceProtocol,
                moduleOutput: StuffListsModuleOutput) -> UIViewController {
 
         let model = StuffListsModel(firebaseService: firebaseService)
         let viewController = StuffListsViewController()
-        let presenter = StuffListsPresenter(model: model)
+        let presenter = StuffListsPresenter(model: model, moduleType: moduleType)
         viewController.output = presenter
         presenter.view = viewController
         presenter.moduleOutput = moduleOutput

@@ -139,11 +139,29 @@ extension JourneysCoordinator: PlaceModuleOutput {
 }
 
 extension JourneysCoordinator: TripInfoModuleOutput {
+    func openAddStuffListModule(baggage: Baggage) {
+        
+        let builder = StuffListsModuleBuilder()
+        let stuffListsViewController = builder.build(moduleType: .stuffListsAdding(baggage),
+                                                     firebaseService: firebaseService,
+                                                     moduleOutput: self)
+        navigationController.present(stuffListsViewController, animated: true)
+    }
     // TODO: openEventsModule func after pull request #30 merge
     func openEventsModule(with coordinates: Coordinates) {
     }
     
     func tripInfoModuleWantsToClose() {
         navigationController.popToViewController(navigationController.viewControllers[0], animated: true)
+    }
+}
+
+extension JourneysCoordinator: StuffListsModuleOutput {
+    func closeStuffListsModule() {
+        navigationController.popViewController(animated: true)
+    }
+    
+    func openCertainStuffListModule(for stuffList: StuffList?) {
+        return
     }
 }

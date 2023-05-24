@@ -343,6 +343,11 @@ extension StuffPresenter: StuffViewOutput {
         model.obtainData(baggageId: baggageId)
     }
     
+    func didTapAddStuffListButton() {
+        guard let baggage else { return }
+        moduleOutput.openAddStuffListModule(baggage: baggage)
+    }
+    
     func didTapScreen(tableView: UITableView) {
         guard let lastChangedIndexPath = lastChangedIndexPath else { return }
         if let cell = view?.getCell(for: lastChangedIndexPath) as? StuffCell {
