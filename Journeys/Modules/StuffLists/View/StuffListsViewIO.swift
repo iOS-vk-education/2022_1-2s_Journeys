@@ -13,6 +13,9 @@ import Foundation
 protocol StuffListsViewInput: AnyObject {
     func reloadData()
     
+    func showNewStuffListButton()
+    func setCheckmarkVisibility(to value: Bool, at indexPath: IndexPath)
+    
     func embedPlaceholder()
     func hidePlaceholder()
 }

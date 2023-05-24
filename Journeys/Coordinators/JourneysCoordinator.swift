@@ -140,11 +140,17 @@ extension JourneysCoordinator: PlaceModuleOutput {
 
 extension JourneysCoordinator: TripInfoModuleOutput {
     func openAddStuffListModule(baggage: Baggage) {
-        
         let builder = StuffListsModuleBuilder()
         let stuffListsViewController = builder.build(moduleType: .stuffListsAdding(baggage),
                                                      firebaseService: firebaseService,
                                                      moduleOutput: self)
+        if let sheet = stuffListsViewController.sheetPresentationController {
+            sheet.detents = [.medium(), .large()]
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+            sheet.largestUndimmedDetentIdentifier = .medium
+            sheet.prefersGrabberVisible = true
+            sheet.preferredCornerRadius = 28
+        }
         navigationController.present(stuffListsViewController, animated: true)
     }
     // TODO: openEventsModule func after pull request #30 merge

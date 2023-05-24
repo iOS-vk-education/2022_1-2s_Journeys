@@ -43,6 +43,7 @@ final class StuffListsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        newStuffListFloatingButton.isHidden = true
         output?.viewWillAppear()
     }
 
@@ -141,6 +142,15 @@ extension StuffListsViewController: StuffListsViewInput {
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.reloadData()
         }
+    }
+    
+    func showNewStuffListButton() {
+        newStuffListFloatingButton.isHidden = false
+    }
+    
+    func setCheckmarkVisibility(to value: Bool, at indexPath: IndexPath) {
+        guard let stuffListCell = collectionView.cellForItem(at: indexPath) as? StuffListCell else { return }
+        stuffListCell.setCheckmarkVisibility(to: value)
     }
 }
 

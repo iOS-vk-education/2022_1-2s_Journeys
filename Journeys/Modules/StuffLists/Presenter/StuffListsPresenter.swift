@@ -25,11 +25,16 @@ final class StuffListsPresenter {
     private let moduleType: ModuleType
     
     private var stuffLists: [StuffList] = []
+    private var baggage: Baggage?
     private var isDataLoaded: Bool = false
 
     init(model: StuffListsModelInput, moduleType: ModuleType) {
         self.model = model
         self.moduleType = moduleType
+        switch moduleType {
+        case .stuffListsAdding(let baggage): self.baggage = baggage
+        default: break
+        }
     }
 }
 
@@ -38,23 +43,50 @@ extension StuffListsPresenter: StuffListsModuleInput {
 
 extension StuffListsPresenter: StuffListsViewOutput {
     func viewWillAppear() {
+        switch moduleType {
+        case .usual: view?.showNewStuffListButton()
+        default: break
+        }
         view?.reloadData()
         model.obtainStuffLists()
     }
     
     func didTapBackBarButton() {
-        switch moduleType {
-        case .stuffListsAdding: moduleOutput?.closePresentedStuffListsModule()
-        case .usual: moduleOutput?.closePushedStuffListsModule()
-        default: break
-        }
+        moduleOutput?.closeStuffListsModule()
     }
     
     func didSelectCell(at indexPath: IndexPath) {
         guard stuffLists.count > indexPath.row else { return }
         switch moduleType {
-        case .usual: moduleOutput?.openCertainStuffListModule(for: stuffLists[indexPath.row])
-        case .stuffListsAdding: print("\(indexPath) was tapped")
+        case .usual:
+            moduleOutput?.openCertainStuffListModule(for: stuffLists[indexPath.row])
+        case .stuffListsAdding:
+            guard let baggage else { return }
+            if let stuffListId = stuffLists[indexPath.row].id,
+                baggage.addedStuffListsIDs.contains(stuffListId) {
+                deleteStuffListFromBagagge(baggage: baggage, stuffList: stuffLists[indexPath.row]) { [weak self] in
+                    self?.view?.setCheckmarkVisibility(to: false, at: indexPath)
+                }
+            } else {
+                addStuffListToBagagge(baggage: baggage, stuffList: stuffLists[indexPath.row]) { [weak self] in
+                    self?.view?.setCheckmarkVisibility(to: true, at: indexPath)
+                }
+            }
+        }
+    }
+    
+    func addStuffListToBagagge(baggage: Baggage, stuffList: StuffList, completion: @escaping () -> Void) {
+        model.addStuffListToBaggage(baggage: baggage,
+                                    stuffList: stuffList) { [weak self] baggage in
+            self?.baggage = baggage
+            completion()
+        }
+    }
+    
+    func deleteStuffListFromBagagge(baggage: Baggage, stuffList: StuffList, completion: @escaping () -> Void) {
+        model.deleteStuffListFromBaggage(baggage: baggage, stuffList: stuffList) { [weak self] baggage in
+            self?.baggage = baggage
+            completion()
         }
     }
     
@@ -69,7 +101,8 @@ extension StuffListsPresenter: StuffListsViewOutput {
         guard stuffLists.count > indexPath.row else { return nil }
         var showCheckmark: Bool = false
         switch moduleType {
-        case .stuffListsAdding(let baggage):
+        case .stuffListsAdding:
+            guard let baggage else { return nil }
             if let curStuffListId = stuffLists[indexPath.row].id,
                baggage.addedStuffListsIDs.contains(curStuffListId) {
                 showCheckmark = true

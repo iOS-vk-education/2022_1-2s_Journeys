@@ -103,6 +103,10 @@ final class StuffListCell: UICollectionViewCell {
         titleTextFieldLayer.cornerRadius = titleTextFieldLayer.bounds.height / 2
     }
     
+    func setCheckmarkVisibility(to value: Bool) {
+        checkmarkImageView.isHidden = !value
+    }
+    
     func changeColoredViewColor(to color: UIColor) {
         coloredRoundView.backgroundColor = color
     }
