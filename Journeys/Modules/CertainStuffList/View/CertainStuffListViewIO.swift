@@ -22,7 +22,7 @@ protocol CertainStuffListViewInput: AnyObject {
     func getTableCell(for indexpath: IndexPath) -> UITableViewCell?
     func getTableCellsData(from indexPath: IndexPath) -> StuffCell.StuffData?
     
-    func showAlert(title: String, message: String)
+    func showAlert(title: String, message: String, actionHandler: ((UIAlertAction) -> Void)?)
     func deleteCell(at indexPath: IndexPath)
 }
 

@@ -250,12 +250,12 @@ extension CertainStuffListViewController: CertainStuffListViewInput {
         stuffTableView.endUpdates()
     }
     
-    func showAlert(title: String, message: String) {
+    func showAlert(title: String, message: String, actionHandler: ((UIAlertAction) -> Void)?) {
         DispatchQueue.main.async { [weak self] in
             let alert = UIAlertController(title: title,
                                           message: message,
                                           preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
+            alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: actionHandler))
             self?.present(alert, animated: true, completion: nil)
         }
     }

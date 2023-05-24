@@ -88,7 +88,10 @@ extension CertainStuffListPresenter: CertainStuffListViewOutput {
     }
     
     func didTapTrashButton() {
-        guard let stuffList else { return }
+        guard let stuffList else {
+            didDeleteStuffList()
+            return
+        }
         model.deleteStuffList(stuffList, stuff: stuff)
     }
     
@@ -200,26 +203,21 @@ extension CertainStuffListPresenter: CertainStuffListModelOutput {
     }
     
     func didReceiveError(_ error: Error) {
-        view?.showAlert(title: "ERROR", message: error.localizedDescription)
+        view?.showAlert(title: "ERROR", message: error.localizedDescription, actionHandler: nil)
     }
     
     func didSaveStuffList(stuffList: StuffList, stuff: [Stuff]) {
         self.stuffList = stuffList
         self.stuff = stuff
         view?.reloadData()
-        view?.showAlert(title: "Save successful", message: "")
+        view?.showAlert(title: "Save successful", message: "", actionHandler: nil)
     }
     
     func didDeleteStuffList() {
-        view?.showAlert(title: "Delete successful", message: "")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+        view?.showAlert(title: "Delete successful", message: "") { [weak self] _ in
             self?.moduleOutput.closeCertainStuffListsModule()
         }
     }
 }
 extension CertainStuffListPresenter: CertainStuffListModuleInput {
-    
 }
-
-
-
