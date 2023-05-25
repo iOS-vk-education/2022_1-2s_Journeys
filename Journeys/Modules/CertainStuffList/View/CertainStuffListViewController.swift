@@ -31,8 +31,9 @@ final class CertainStuffListViewController: UIViewController {
     
     private let alwaysAddToTripsLabel: UILabel = {
         let label = UILabel()
-        label.text = "Always add to trips"
+        label.text = L10n.autoAddToTrips
         label.font = .systemFont(ofSize: 17, weight: .regular)
+        label.numberOfLines = 0
         label.textColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
         return label
     }()
@@ -147,6 +148,7 @@ final class CertainStuffListViewController: UIViewController {
         alwaysAddToTripsLabel.snp.makeConstraints { make in
             make.centerY.equalTo(alwaysAddToTripsSwitch.snp.centerY)
             make.leading.equalTo(stuffTableView.snp.leading)
+            make.trailing.lessThanOrEqualTo(alwaysAddToTripsSwitch.snp.leading).offset(-16)
         }
         alwaysAddToTripsSwitch.snp.makeConstraints { make in
             make.top.equalTo(collectionView.snp.bottom).offset(10)

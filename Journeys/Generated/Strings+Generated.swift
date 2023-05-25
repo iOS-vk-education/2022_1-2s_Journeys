@@ -28,6 +28,8 @@ public enum L10n {
   public static var arrivalTown: String { return L10n.tr("Localizable", "ArrivalTown") }
   /// Авторизация
   public static var auth: String { return L10n.tr("Localizable", "Auth") }
+  /// Добавлять ко всем поездкам
+  public static var autoAddToTrips: String { return L10n.tr("Localizable", "AutoAddToTrips") }
   /// Базовый список вещей
   public static var baseStuffList: String { return L10n.tr("Localizable", "BaseStuffList") }
   /// Некоторые поля не заполнены

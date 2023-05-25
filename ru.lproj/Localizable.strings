@@ -93,6 +93,7 @@
 "AddStuffList" = "Новый список";
 "Name" = "Название";
 "BaseStuffList" = "Базовый список вещей";
+"AutoAddToTrips" = "Добавлять ко всем поездкам";
 
 // MARK: Alerts
 "Alerts.Titles.Success" = "Успех";
