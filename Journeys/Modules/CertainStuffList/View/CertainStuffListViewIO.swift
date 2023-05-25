@@ -14,6 +14,8 @@ protocol CertainStuffListViewInput: AnyObject {
     func reloadData()
     func reloadTableView()
     
+    func switchValue() -> Bool
+    
     func showColorPicker(selectedColor: UIColor)
     func changeStuffListCellColoredViewColor(to color: UIColor, at indexPath: IndexPath)
     func tableViewBackgroundColor() -> UIColor?

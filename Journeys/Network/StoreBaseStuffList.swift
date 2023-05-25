@@ -64,7 +64,8 @@ final class StoreBaseStuffList {
                                   color: ColorForFB(color: .blue),
                                   name: L10n.baseStuffList,
                                   stuffIDs: stuffIds,
-                                  autoAddToAllTrips: true)
+                                  autoAddToAllTrips: true,
+                                  dateCreated: Date())
         firebaseService.storeStuffList(stuffList: stuffList) { _ in }
     }
 }

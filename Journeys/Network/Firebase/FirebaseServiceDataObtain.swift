@@ -195,6 +195,7 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
                     stuffLists.append(stuffList)
                 }
             }
+            stuffLists.sort(by: {$0.dateCreated.timeIntervalSinceNow < $1.dateCreated.timeIntervalSinceNow})
             completion(.success(stuffLists))
         }
     }

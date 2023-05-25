@@ -151,7 +151,6 @@ final class CertainStuffListViewController: UIViewController {
         alwaysAddToTripsSwitch.snp.makeConstraints { make in
             make.top.equalTo(collectionView.snp.bottom).offset(10)
             make.trailing.equalTo(stuffTableView.snp.trailing)
-//            make.height.equalTo(48)
             make.width.equalTo(58)
         }
         
@@ -248,6 +247,10 @@ extension CertainStuffListViewController: CertainStuffListViewInput {
     }
     func reloadTableView() {
         stuffTableView.reloadData()
+    }
+    
+    func switchValue() -> Bool {
+        alwaysAddToTripsSwitch.isOn
     }
     
     func showColorPicker(selectedColor: UIColor) {

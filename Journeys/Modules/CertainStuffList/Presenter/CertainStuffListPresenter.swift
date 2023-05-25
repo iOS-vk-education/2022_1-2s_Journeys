@@ -84,13 +84,15 @@ extension CertainStuffListPresenter: CertainStuffListViewOutput {
     
     func didTapSaveButton() {
         guard let stuffListData = view?.getCollectionCellData(for: IndexPath(item: 0, section: 0)),
-                let stuffList
-        else { return }
-        let stuffListToSave = StuffList(id: stuffList.id,
+                let view else { return }
+        
+        var autoAdd: Bool = view.switchValue()
+        let stuffListToSave = StuffList(id: stuffList?.id,
                                         color: ColorForFB(color: stuffListData.roundColor),
                                         name: stuffListData.title,
                                         stuffIDs: [],
-                                        autoAddToAllTrips: stuffList.autoAddToAllTrips)
+                                        autoAddToAllTrips: autoAdd,
+                                        dateCreated: Date())
         let stuffToSave = stuff.filter({ $0.name != nil && $0.name?.count != 0 })
         model.saveStuffList(stuffListToSave, stuff: stuffToSave)
     }
