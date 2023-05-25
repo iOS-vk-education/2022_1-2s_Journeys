@@ -127,7 +127,7 @@ extension RoutePresenter: RouteViewOutput {
     }
     
     func didTapFloatingSaveButton() {
-        guard let route = route else {
+        guard var route = route else {
             view.showAlert(title: "Ошибка", message: "Введите хотябы один город")
             return
         }
@@ -142,7 +142,17 @@ extension RoutePresenter: RouteViewOutput {
             return
         }
         showLoadingView()
-        model.storeRouteData(route: route, tripImage: tripImage, tripId: tripId)
+        
+        if route.id != nil {
+            model.deleteNotifications(for: route)
+            for index in 0..<route.places.count {
+                route.places[index].notificationId = nil
+            }
+        }
+        model.saveNotifications(for: route) { [weak self] newRoute in
+            self?.route = newRoute
+            self?.model.storeRouteData(route: newRoute, tripImage: tripImage, tripId: tripId)
+        }
     }
     
     func didSelectRow(at indexpath: IndexPath) -> ((RouteViewController, UITableView)->())? {

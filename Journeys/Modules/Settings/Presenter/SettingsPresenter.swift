@@ -37,6 +37,16 @@ final class SettingsPresenter {
         self.router = router
         self.appRateManager = appRateManager
         self.moduleOutput = moduleOutput
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(didBecomeAvtive),
+                                               name: UIApplication.didBecomeActiveNotification,
+                                               object: nil)
+    }
+    
+    @objc
+    private func didBecomeAvtive() {
+        viewWillAppear()
     }
 }
 

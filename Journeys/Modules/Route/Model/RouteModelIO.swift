@@ -11,6 +11,9 @@ import UIKit
 protocol RouteModelInput: AnyObject {
     func storeRouteData(route: Route, tripImage: UIImage, tripId: String)
     func storeNewTrip(route: Route, tripImage: UIImage)
+    
+    func saveNotifications(for route: Route, completion: @escaping (Route) -> Void)
+    func deleteNotifications(for route: Route) 
 }
 
 protocol RouteModelOutput: AnyObject {

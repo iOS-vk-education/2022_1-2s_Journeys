@@ -15,6 +15,10 @@ protocol NotificationsManagerProtocol {
     func hasUserEnabledNotifications(completion: @escaping (Bool) -> Void)
     func toggleNotifications(isOn: Bool, completion: @escaping (Bool) -> Void)
     func areNotificationsEnabledAtIOSLevel(completion: @escaping (Bool) -> Void)
+    
+    func deleteNotifications(with identifiers: [String])
+    func sheduleNewNotification(_ notificationRequest: UNNotificationRequest,
+                                completion: @escaping (Error?) -> Void)
 }
 
 // MARK: - NotificationsManager
@@ -22,9 +26,13 @@ protocol NotificationsManagerProtocol {
 final class NotificationsManager: NotificationsManagerProtocol {
     
     static let shared = NotificationsManager()
+    private let notificationCenter = UNUserNotificationCenter.current()
     
     private enum Constants {
         static let key = "jrns.notifications.is.enabled"
+    }
+    
+    private init() {
     }
     
     private func askNotificationsPermission(completion: @escaping (Bool) -> Void) {
@@ -55,7 +63,7 @@ final class NotificationsManager: NotificationsManagerProtocol {
             }
         }
     }
-
+    
     func hasUserEnabledNotifications(completion: @escaping (Bool) -> Void) {
         areNotificationsEnabledAtIOSLevel()  { result in
             guard result else {
@@ -65,7 +73,7 @@ final class NotificationsManager: NotificationsManagerProtocol {
             completion(UserDefaults.standard.bool(forKey: Constants.key))
         }
     }
-
+    
     func toggleNotifications(isOn: Bool, completion: @escaping (Bool) -> Void) {
         guard isOn else {
             UserDefaults.standard.set(false, forKey: Constants.key)
@@ -87,5 +95,14 @@ final class NotificationsManager: NotificationsManagerProtocol {
                 completion(true)
             }
         }
+    }
+    
+    func deleteNotifications(with identifiers: [String]) {
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: identifiers)
+    }
+    
+    func sheduleNewNotification(_ notificationRequest: UNNotificationRequest,
+                                completion: @escaping (Error?) -> Void) {
+        notificationCenter.add(notificationRequest, withCompletionHandler: completion)
     }
 }

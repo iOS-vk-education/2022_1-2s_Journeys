@@ -12,11 +12,14 @@ struct Place {
     var location: Location
     var arrive: Date
     var depart: Date
+    var notificationId: String?
+    var areNotificationsOn: Bool
     
-    internal init(location: Location, arrive: Date, depart: Date) {
+    internal init(location: Location, arrive: Date, depart: Date, areNotificationsOn: Bool, notificationId: String? = nil) {
         self.location = location
         self.arrive = arrive
         self.depart = depart
+        self.notificationId = notificationId
     }
     
     init?(from dictionary: [String: Any]) {
@@ -41,6 +44,10 @@ struct Place {
         self.arrive = arriveDate
         guard let departDate = dateFormatter.date(from: depart) else { return nil }
         self.depart = departDate
+        
+        if let notificationId = dictionary[CodingKeys.depart.rawValue] as? String {
+            self.notificationId = notificationId
+        }
     }
     
     func toDictionary() -> [String: Any] {
@@ -52,6 +59,10 @@ struct Place {
         
         dictionary[CodingKeys.arrive.rawValue] = dateFormatter.string(from: arrive)
         dictionary[CodingKeys.depart.rawValue] = dateFormatter.string(from: depart)
+        if let notificationId {
+            dictionary[CodingKeys.notificationId.rawValue] = notificationId
+        }
+        
         return dictionary
     }
     
@@ -59,6 +70,7 @@ struct Place {
         case location
         case arrive
         case depart
+        case notificationId = "notification_id"
     }
 }
 
