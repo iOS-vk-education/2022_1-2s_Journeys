@@ -30,6 +30,10 @@ protocol CertainStuffListViewInput: AnyObject {
 
 protocol CertainStuffListViewOutput: AnyObject {
     func viewDidLoad()
+    
+    func switchValue() -> Bool?
+    func switchValueHasChanged(_ value: Bool)
+    
     func didTapBackBarButton()
     func cellData(for indexPath: IndexPath) -> StuffListCell.Displaydata?
     

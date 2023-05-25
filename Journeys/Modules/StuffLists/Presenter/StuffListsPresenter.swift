@@ -71,15 +71,18 @@ extension StuffListsPresenter: StuffListsViewOutput {
     
     private func addOrDeleteStuffListFromBaggage(at indexPath: IndexPath) {
         guard let baggage else { return }
+        view?.setCollectionViewAllowsSelection(to: false)
         if let stuffListId = stuffLists[indexPath.row].id,
             baggage.addedStuffListsIDs.contains(stuffListId) {
             deleteStuffListFromBagagge(baggage: baggage, stuffList: stuffLists[indexPath.row]) { [weak self] in
                 self?.view?.setCheckmarkVisibility(to: false, at: indexPath)
+                self?.view?.setCollectionViewAllowsSelection(to: true)
                 self?.stuffModuleInput?.didChangeBaggage()
             }
         } else {
             addStuffListToBagagge(baggage: baggage, stuffList: stuffLists[indexPath.row]) { [weak self] in
                 self?.view?.setCheckmarkVisibility(to: true, at: indexPath)
+                self?.view?.setCollectionViewAllowsSelection(to: true)
                 self?.stuffModuleInput?.didChangeBaggage()
             }
         }
@@ -143,6 +146,7 @@ extension StuffListsPresenter: StuffListsModelOutput {
     }
     
     func didReceiveError(_ error: Error) {
+        view?.setCollectionViewAllowsSelection(to: true)
         if stuffLists.isEmpty {
             view?.embedPlaceholder()
         } else {
@@ -151,6 +155,7 @@ extension StuffListsPresenter: StuffListsModelOutput {
     }
     
     func nothingToAdd() {
+        view?.setCollectionViewAllowsSelection(to: true)
         view?.showAlert(title: "Nothing to add", message: "")
     }
 }

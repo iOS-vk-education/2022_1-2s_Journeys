@@ -29,6 +29,19 @@ final class CertainStuffListViewController: UIViewController {
         return button
     }()
     
+    private let alwaysAddToTripsLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Always add to trips"
+        label.font = .systemFont(ofSize: 17, weight: .regular)
+        label.textColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
+        return label
+    }()
+    private lazy var alwaysAddToTripsSwitch: UISwitch = {
+        let newSwitch = UISwitch()
+        newSwitch.addTarget(self, action: #selector(switchValueHasChanged), for: .valueChanged)
+        return newSwitch
+    }()
+    
     private let colorPicker = UIColorPickerViewController()
     private lazy var backgroundView: UIView = {
         let view = UIView()
@@ -72,6 +85,8 @@ final class CertainStuffListViewController: UIViewController {
         setupCollectionView()
         setupTableView()
         
+        setSwitchValue()
+        
         let tap = UITapGestureRecognizer(target: self, action: #selector(didTapScreen))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
@@ -79,10 +94,18 @@ final class CertainStuffListViewController: UIViewController {
         colorPicker.delegate = self
         makeConstraints()
     }
+    
+    private func setSwitchValue() {
+        if let switchValue = output?.switchValue() {
+            alwaysAddToTripsSwitch.isOn = switchValue
+        }
+    }
 
     private func setupCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
+        
+        collectionView.isScrollEnabled = false
         collectionView.backgroundColor = backgroundView.backgroundColor
         collectionView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 10, right: 0)
 
@@ -106,6 +129,8 @@ final class CertainStuffListViewController: UIViewController {
     private func makeConstraints() {
         view.addSubview(backgroundView)
         view.addSubview(collectionView)
+        view.addSubview(alwaysAddToTripsLabel)
+        view.addSubview(alwaysAddToTripsSwitch)
         view.addSubview(stuffTableView)
         view.addSubview(saveFloatingButton)
         
@@ -119,8 +144,19 @@ final class CertainStuffListViewController: UIViewController {
             make.trailing.equalToSuperview()
         }
         
+        alwaysAddToTripsLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(alwaysAddToTripsSwitch.snp.centerY)
+            make.leading.equalTo(stuffTableView.snp.leading)
+        }
+        alwaysAddToTripsSwitch.snp.makeConstraints { make in
+            make.top.equalTo(collectionView.snp.bottom).offset(10)
+            make.trailing.equalTo(stuffTableView.snp.trailing)
+//            make.height.equalTo(48)
+            make.width.equalTo(58)
+        }
+        
         stuffTableView.snp.makeConstraints { make in
-            make.top.equalTo(collectionView.snp.bottom)
+            make.top.equalTo(alwaysAddToTripsSwitch.snp.bottom).offset(10)
             make.bottom.equalToSuperview()
             make.leading.equalToSuperview().inset(30)
             make.trailing.equalToSuperview().inset(30)
@@ -131,6 +167,11 @@ final class CertainStuffListViewController: UIViewController {
             make.width.equalToSuperview().inset(Constants.SaveFloatingaButton.horisontslInsets)
             make.height.equalTo(Constants.SaveFloatingaButton.height)
         }
+    }
+    
+    @objc
+    private func switchValueHasChanged() {
+        output?.switchValueHasChanged(alwaysAddToTripsSwitch.isOn)
     }
     
     @objc
@@ -202,6 +243,7 @@ extension CertainStuffListViewController: CertainStuffListViewInput {
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.reloadData()
             self?.stuffTableView.reloadData()
+            self?.setSwitchValue()
         }
     }
     func reloadTableView() {

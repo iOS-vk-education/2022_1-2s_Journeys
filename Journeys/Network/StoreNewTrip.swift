@@ -18,7 +18,8 @@ final class StoreNewTrip {
     private var stuffIds: [String]?
     private var stuff: [Stuff]?
     
-    private var count: Int?
+    private let dataLoadQueue = DispatchQueue.global()
+    private let dataLoadDispatchGroup = DispatchGroup()
     
     internal init(route: Route,
                   tripImage: UIImage,
@@ -45,6 +46,10 @@ final class StoreNewTrip {
         }
     }
     
+    private func didSaveImage(url: String) {
+        storeRoute(imageURL: url)
+    }
+    
     private func storeRoute(imageURL: String) {
         route = Route(id: route.id,
                       imageURLString: imageURL,
@@ -61,41 +66,120 @@ final class StoreNewTrip {
         }
     }
     
-    private func obtainBaseStuff() {
-        firebaseService.obtainBaseStuff { result in
+    private func didSaveRouteData() {
+        obtainAlwaysAddingStuffLists()
+    }
+    
+    private func obtainAlwaysAddingStuffLists() {
+        firebaseService.obtainStuffLists(type: .alwaysAdding) { [weak self] result in
+            guard let self else { return }
             switch result {
             case .failure:
-                assertionFailure()
                 self.didRecieveError()
-            case .success(let baseStuff):
-                self.didRecieveBaseStuffData(baseStuff)
+            case .success(let stuffLists):
+                self.obtainStuffListsStuff(stuffLists)
             }
-            
         }
     }
     
-    private func storeBaggage(baggage: Baggage) {
+    private func obtainStuffListsStuff(_ stuffLists: [StuffList]) {
+        var allStuff: [Stuff] = []
+        let stuffQueue = DispatchQueue.global()
+        let stuffDispatchGroup = DispatchGroup()
+        if stuffLists.isEmpty {
+            didReceiveStuffLists(stuffLists, stuff: allStuff)
+        }
+        for stuffList in stuffLists {
+            stuffDispatchGroup.enter()
+            stuffQueue.async(group: stuffDispatchGroup) { [weak self] in
+                self?.obtainStuffListStuff(with: stuffList.stuffIDs) { stuff in
+                    allStuff.append(contentsOf: stuff)
+                    stuffDispatchGroup.leave()
+                }
+            }
+        }
+        stuffDispatchGroup.notify(queue: stuffQueue) { [weak self] in
+            self?.didReceiveStuffLists(stuffLists, stuff: allStuff)
+        }
+    }
+    
+    private func obtainStuffListStuff(with ids: [String], completion: @escaping ([Stuff]) -> Void) {
+        var stuff: [Stuff] = []
+        if ids.isEmpty {
+            completion(stuff)
+        }
+        for id in ids {
+            dataLoadDispatchGroup.enter()
+            dataLoadQueue.async(group: dataLoadDispatchGroup) { [weak self] in
+                self?.firebaseService.obtainCertainUserStuff(stuffId: id) { [weak self] result in
+                    switch result {
+                    case .failure:
+                        break
+                    case .success(let certainStuff):
+                        stuff.append(certainStuff)
+                    }
+                    self?.dataLoadDispatchGroup.leave()
+                }
+            }
+        }
+        
+        dataLoadDispatchGroup.notify(queue: dataLoadQueue) {
+            completion(stuff)
+        }
+    }
+    
+    private func didReceiveStuffLists(_ stuffLists: [StuffList], stuff: [Stuff]) {
+        let stuffIDs = stuff.compactMap { $0.id }
+        let stuffListsIDs = stuffLists.compactMap { $0.id }
+        var baggage = Baggage(id: nil, stuffIDs: stuffIDs, addedStuffListsIDs: stuffListsIDs)
+        storeBaggage(baggage: baggage, stuff: stuff)
+    }
+    
+    private func storeBaggage(baggage: Baggage, stuff: [Stuff]) {
         firebaseService.storeBaggageData(baggage: baggage) { result in
             switch result {
             case .failure:
                 self.didRecieveError()
             case .success(let baggage):
-                self.didSaveBaggageData(baggage: baggage)
+                self.didSaveBaggageData(baggage: baggage, stuff: stuff)
             }
         }
     }
     
-    private func storeStuff(baggageId: String, stuff: Stuff) {
-        firebaseService.storeStuffData(baggageId: baggageId, stuff: stuff) { result in
-            switch result {
-            case .failure:
-                self.didRecieveError()
-            case .success(let baggage):
-                self.count? -= 1
-                if self.count == 0 {
-                    self.saveSuccesful()
+    private func didSaveBaggageData(baggage: Baggage, stuff: [Stuff]) {
+        guard let routeId = route.id else {
+            didRecieveError()
+            return
+        }
+        let trip = Trip(id: nil, routeId: routeId, baggageId: baggage.id, dateChanged: Date())
+        storeTrip(trip: trip)
+        storeStuff(baggageId: baggage.id, stuff: stuff)
+    }
+    
+    private func storeStuff(baggageId: String, stuff: [Stuff]) {
+        let storeStuffQueue = DispatchQueue.global()
+        let storeStuffDispatchGroup = DispatchGroup()
+        if stuff.isEmpty {
+            saveSuccesful()
+        }
+        for curStuff in stuff {
+            storeStuffDispatchGroup.enter()
+            storeStuffQueue.async(group: storeStuffDispatchGroup) { [weak self] in
+                self?.firebaseService.storeStuffData(baggageId: baggageId,
+                                                     stuff: curStuff) { [weak self] result in
+                    switch result {
+                    case .failure:
+                        self?.didRecieveError()
+                    case .success:
+                        break
+                    }
+                    storeStuffDispatchGroup.leave()
                 }
             }
+        }
+        
+        storeStuffDispatchGroup.notify(queue: storeStuffQueue) { [weak self] in
+            self?.saveSuccesful()
         }
     }
     
@@ -110,55 +194,17 @@ final class StoreNewTrip {
         }
     }
     
-    private func didSaveImage(url: String) {
-        storeRoute(imageURL: url)
-    }
-    
-    private func didSaveRouteData() {
-        obtainBaseStuff()
-    }
-    
-    private func didRecieveBaseStuffData(_ baseStuff: [BaseStuff]) {
-        self.stuff = baseStuff.compactMap { Stuff(baseStuff: $0) }
-        var stuffIDs: [String] = []
-        guard let stuff = stuff else {
-            didRecieveError()
-            return
-        }
-        for curStuff in stuff {
-            if let id = curStuff.id {
-                stuffIDs.append(id)
-            }
-        }
-        var baggage = Baggage(id: nil, stuffIDs: stuffIDs)
-        storeBaggage(baggage: baggage)
-    }
-    
-    private func didSaveBaggageData(baggage: Baggage) {
-        guard let routeId = route.id,
-              let stuff = stuff else {
-            didRecieveError()
-            return
-        }
-        let trip = Trip(id: nil, routeId: routeId, baggageId: baggage.id, dateChanged: Date())
-        storeTrip(trip: trip)
-        
-        self.count = stuff.count
-        for surStuff in stuff {
-            storeStuff(baggageId: baggage.id, stuff: surStuff)
-        }
-    }
-    
     private func didRecieveError() {
         output.saveError()
     }
     
     private func saveSuccesful() {
-        guard let trip else {
-            output.saveError()
-            return
+        DispatchQueue.main.async { [weak self] in
+            guard let self, let trip = self.trip else {
+                return
+            }
+            self.output.saveFinished(trip: trip, route: self.route)
         }
-        output.saveFinished(trip: trip, route: route)
     }
 }
 

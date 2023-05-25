@@ -8,6 +8,11 @@
 import Foundation
 import UIKit
 
+enum StuffListType {
+    case all
+    case alwaysAdding
+}
+
 struct StuffList {
     let id: String?
     var color: ColorForFB

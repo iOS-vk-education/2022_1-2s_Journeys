@@ -13,6 +13,7 @@ import UIKit
 final class RouteModel {
     weak var output: RouteModelOutput!
     private let FBService: FirebaseServiceProtocol
+    private var helper: StoreNewTrip?
     
     internal init(firebaseService: FirebaseServiceProtocol) {
         self.FBService = firebaseService
@@ -50,11 +51,11 @@ extension RouteModel: RouteModelInput {
     }
     
     func storeNewTrip(route: Route, tripImage: UIImage) {
-        let helper = StoreNewTrip(route: route,
-                                  tripImage: tripImage,
-                                  firebaseService: FBService,
-                                  output: self)
-        helper.start()
+        helper = StoreNewTrip(route: route,
+                              tripImage: tripImage,
+                              firebaseService: FBService,
+                              output: self)
+        helper?.start()
     }
 }
 

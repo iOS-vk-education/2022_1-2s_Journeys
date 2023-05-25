@@ -92,6 +92,7 @@
 "AddStuff" = "Новая вещь";
 "AddStuffList" = "Новый список";
 "Name" = "Название";
+"BaseStuffList" = "Базовый список вещей";
 
 // MARK: Alerts
 "Alerts.Titles.Success" = "Успех";

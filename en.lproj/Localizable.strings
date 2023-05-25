@@ -92,6 +92,7 @@
 "AddStuff" = "New stuff";
 "AddStuffList" = "New list";
 "Name" = "Name";
+"BaseStuffList" = "Base stuff list";
 
 // MARK: Alerts
 "Alerts.Titles.Success" = "Success";

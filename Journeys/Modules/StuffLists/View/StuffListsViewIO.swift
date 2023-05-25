@@ -16,6 +16,8 @@ protocol StuffListsViewInput: AnyObject {
     func showNewStuffListButton()
     func setCheckmarkVisibility(to value: Bool, at indexPath: IndexPath)
     
+    func setCollectionViewAllowsSelection(to value: Bool)
+    
     func embedPlaceholder()
     func hidePlaceholder()
     

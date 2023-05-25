@@ -169,7 +169,6 @@ extension StuffPresenter: StuffModelOutput {
             view?.changeIsPickedCellFlag(at: indexPath)
             let newIndexPath: IndexPath = IndexPath(row: packedStuff.count - 1, section: 1)
             view?.moveTableViewRow(at: indexPath, to: newIndexPath)
-//            view?.setCellIndexPath(newIndexPath)
         } else if indexPath.section == 1 {
             guard packedStuff.count > indexPath.row else { return }
             unpackedStuff.append(stuff)
@@ -177,9 +176,7 @@ extension StuffPresenter: StuffModelOutput {
             view?.changeIsPickedCellFlag(at: indexPath)
             let newIndexPath: IndexPath = IndexPath(row: unpackedStuff.count - 1, section: 0)
             view?.moveTableViewRow(at: indexPath, to: newIndexPath)
-//            view?.setCellIndexPath(newIndexPath)
         }
-//        view?.reloadData()
         view?.refreshAllCellsIndexPaths()
     }
 }

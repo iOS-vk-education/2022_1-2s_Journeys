@@ -144,6 +144,10 @@ extension StuffListsViewController: StuffListsViewInput {
         }
     }
     
+    func setCollectionViewAllowsSelection(to value: Bool) {
+        collectionView.allowsSelection = value
+    }
+    
     func showNewStuffListButton() {
         newStuffListFloatingButton.isHidden = false
     }

@@ -147,7 +147,6 @@ extension JourneysCoordinator: TripInfoModuleOutput {
         if let sheet = stuffListsViewController.sheetPresentationController {
             sheet.detents = [.medium(), .large()]
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-            sheet.largestUndimmedDetentIdentifier = .medium
             sheet.prefersGrabberVisible = true
             sheet.preferredCornerRadius = 28
         }

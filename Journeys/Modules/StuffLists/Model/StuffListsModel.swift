@@ -30,7 +30,7 @@ final class StuffListsModel {
 
 extension StuffListsModel: StuffListsModelInput {
     func obtainStuffLists() {
-        firebaseService.obtainStuffLists { [weak self] result in
+        firebaseService.obtainStuffLists(type: .all) { [weak self] result in
             switch result {
             case .failure(let error):
                 self?.output?.didReceiveError(error)
