@@ -108,7 +108,8 @@ final class AddingEventViewController: UIViewController {
                                      floor: floor ?? " ",
                                      room: ofice ?? " ",
                                      description: eventDescription ?? " ",
-                                     isLiked: false)
+                                     isLiked: false,
+                                    userID: "22")
 
         output?.saveData(post: post)
         output?.openEventsVC()

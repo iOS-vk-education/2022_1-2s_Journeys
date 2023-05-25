@@ -7,11 +7,6 @@
 
 import Foundation
 
-enum EventType: String {
-    case usual
-    case unusual
-}
-
 struct Event {
     var address: String
     var startDate: String
@@ -24,6 +19,7 @@ struct Event {
     var room: String
     var description: String
     var isLiked: Bool
+    var userID: String
     
     internal init(address: String,
                   startDate: String,
@@ -35,7 +31,8 @@ struct Event {
                   floor: String,
                   room: String,
                   description: String,
-                  isLiked: Bool) {
+                  isLiked: Bool,
+                  userID: String) {
         self.address = address
         self.startDate = startDate
         self.finishDate = finishDate
@@ -47,9 +44,10 @@ struct Event {
         self.photoURL = photoURL
         self.description = description
         self.isLiked = isLiked
+        self.userID = userID
     }
     
-    init?(dictionary: [String: Any]) {
+    init?(dictionary: [String: Any], userID: String) {
         guard
             let address = dictionary[CodingKeys.address.rawValue] as? String,
             let startDate = dictionary[CodingKeys.startDate.rawValue] as? String,
@@ -66,6 +64,7 @@ struct Event {
             return nil
         }
         self.address = address
+        self.userID = userID
         self.startDate = startDate
         self.finishDate = finishDate
         self.type = type
@@ -91,6 +90,7 @@ struct Event {
         dictionary[CodingKeys.floor.rawValue] = floor
         dictionary[CodingKeys.description.rawValue] = description
         dictionary[CodingKeys.isLiked.rawValue] = isLiked
+        dictionary[CodingKeys.userID.rawValue] = userID
         
         return dictionary
     }
@@ -107,5 +107,6 @@ struct Event {
         case floor
         case description
         case isLiked
+        case userID
     }
 }

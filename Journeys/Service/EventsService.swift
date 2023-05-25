@@ -51,12 +51,17 @@ final class EventsService: EventsServiceDescription {
     }
     func storeAddingData(event: Event, coordinatesId: String, completion: @escaping (Result<Event, Error>) -> Void) {
         var ref: DocumentReference?
+        guard let userID = FBManager.auth.currentUser?.uid else {
+            return
+        }
+        var eventWithUserID = event
+        eventWithUserID.userID = userID
         ref = FBManager.firestore.collection("events").document(coordinatesId)
-        ref?.setData(event.toDictionary()) { error in
+        ref?.setData(eventWithUserID.toDictionary()) { error in
             if let error = error {
                 completion(.failure(error))
-            } else if let id = ref?.documentID, let route = Event(dictionary: event.toDictionary()) {
-                completion(.success(route))
+            } else if let eventService = Event(dictionary: event.toDictionary(), userID: userID) {
+                completion(.success(eventService))
             } else {
                 completion(.failure(FBError.noData))
             }
@@ -102,7 +107,7 @@ final class EventsService: EventsServiceDescription {
                 assertionFailure("No data found")
                 return
             }
-            guard let event = Event(dictionary: data) else {
+           guard let event = Event(dictionary: data, userID: "") else {
                 completion(.failure(FBError.noData))
                 return
             }

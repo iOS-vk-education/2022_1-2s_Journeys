@@ -21,13 +21,12 @@ extension AddingModel: AddingModelInput {
 //MARK: - private functions
 //MARK: - functions
     func storeAddingData(event: Event, eventImage: UIImage, coordinatesId: String) {
-        service.storeAddingImage(image: eventImage) { [weak self] result in
-            guard let strongSelf = self else { return }
+        service.storeAddingImage(image: eventImage) { result in
             switch result {
             case .failure:
-                strongSelf.output?.didRecieveError(error: Errors.saveDataError)
+                self.output?.didRecieveError(error: Errors.saveDataError)
             case .success(let url):
-                strongSelf.didStoreImageData(url: url, event: event, coordinatesId: coordinatesId)
+                self.didStoreImageData(url: url, event: event, coordinatesId: coordinatesId)
             }
         }
     }
@@ -43,14 +42,14 @@ extension AddingModel: AddingModelInput {
                              floor: event.floor,
                              room: event.room,
                              description: event.description,
-                            isLiked: false)
-        service.storeAddingData(event: newEvent, coordinatesId: coordinatesId) { [weak self] result in
-            guard let strongSelf = self else { return }
+                            isLiked: false,
+                            userID: "")
+        service.storeAddingData(event: newEvent, coordinatesId: coordinatesId) { result in
             switch result {
             case .failure:
-                strongSelf.output?.didRecieveError(error: Errors.saveDataError)
-            case .success(let event):
-                strongSelf.output?.didSaveAddingData(event: event)
+                self.output?.didRecieveError(error: Errors.saveDataError)
+            case .success(let eventModel):
+                self.output?.didSaveAddingData(event: eventModel)
             }
         }
     }

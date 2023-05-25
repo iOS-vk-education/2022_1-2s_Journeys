@@ -17,7 +17,5 @@ target 'Journeys' do
   pod 'FirebaseFirestore'
   pod 'FirebaseAnalytics'
   pod 'FirebaseStorage'
-  pod 'BottomSheet', :git => 'https://github.com/joomcode/BottomSheet'
-  pod "DGRunkeeperSwitch", "~> 1.1.4"
 
 end

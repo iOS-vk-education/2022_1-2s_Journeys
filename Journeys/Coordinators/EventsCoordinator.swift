@@ -105,6 +105,8 @@ extension EventsCoordinator: SelectedEventsModuleOutput {
 
 extension EventsCoordinator: AddingModuleOutput {
     func wantsToOpenEventsVC() {
+        let moduleInput: EventsModuleInput?
+        moduleInput?.loadPlacemarks()
         navigationController.popToRootViewController(animated: false)
     }
     func backToSuggestionVC() {
