@@ -13,7 +13,8 @@ protocol RouteModelInput: AnyObject {
     func storeNewTrip(route: Route, tripImage: UIImage)
     
     func saveNotifications(for route: Route, completion: @escaping (Route) -> Void)
-    func deleteNotifications(for route: Route) 
+    func deleteOutDatedNotifications(oldNotifications: [PlaceNotification], newNotifications: [PlaceNotification])
+    func deleteNotification(_ notification: PlaceNotification)
 }
 
 protocol RouteModelOutput: AnyObject {

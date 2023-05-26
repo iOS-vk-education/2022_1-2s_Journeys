@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
         
-        UNUserNotificationCenter.current().delegate = self
+        NotificationsManager.shared.notificationCenter.delegate = self
         
         window = UIWindow(windowScene: scene)
         window?.initTheme()

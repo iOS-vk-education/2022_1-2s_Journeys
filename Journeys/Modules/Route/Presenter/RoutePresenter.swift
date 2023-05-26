@@ -144,11 +144,16 @@ extension RoutePresenter: RouteViewOutput {
         showLoadingView()
         
         if route.id != nil {
-            model.deleteNotifications(for: route)
             for index in 0..<route.places.count {
-                route.places[index].notificationId = nil
+                if !route.places[index].allowNotification,
+                    let notification = route.places[index].notification,
+                    notification.id != nil {
+                    model.deleteNotification(notification)
+                    route.places[index].notification = nil
+                }
             }
         }
+        self.route = route
         model.saveNotifications(for: route) { [weak self] newRoute in
             self?.route = newRoute
             self?.model.storeRouteData(route: newRoute, tripImage: tripImage, tripId: tripId)

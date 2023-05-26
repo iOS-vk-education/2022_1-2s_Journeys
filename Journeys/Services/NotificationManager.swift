@@ -26,7 +26,7 @@ protocol NotificationsManagerProtocol {
 final class NotificationsManager: NotificationsManagerProtocol {
     
     static let shared = NotificationsManager()
-    private let notificationCenter = UNUserNotificationCenter.current()
+    let notificationCenter = UNUserNotificationCenter.current()
     
     private enum Constants {
         static let key = "jrns.notifications.is.enabled"
@@ -36,7 +36,7 @@ final class NotificationsManager: NotificationsManagerProtocol {
     }
     
     private func askNotificationsPermission(completion: @escaping (Bool) -> Void) {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound], completionHandler: { granted, error in
+        notificationCenter.requestAuthorization(options: [.alert, .badge, .sound], completionHandler: { granted, error in
             if let error {
                 assertionFailure(error.localizedDescription)
                 return
@@ -52,7 +52,7 @@ final class NotificationsManager: NotificationsManagerProtocol {
     }
     
     func areNotificationsEnabledAtIOSLevel(completion: @escaping (Bool) -> Void) {
-        UNUserNotificationCenter.current().getNotificationSettings { settings in
+        notificationCenter.getNotificationSettings { settings in
             switch settings.authorizationStatus {
             case .authorized:
                 completion(true)
@@ -80,7 +80,7 @@ final class NotificationsManager: NotificationsManagerProtocol {
             completion(false)
             return
         }
-        UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
+        notificationCenter.getNotificationSettings { [weak self] settings in
             switch settings.authorizationStatus {
             case .authorized:
                 UserDefaults.standard.set(true, forKey: Constants.key)

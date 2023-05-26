@@ -12,14 +12,23 @@ struct Place {
     var location: Location
     var arrive: Date
     var depart: Date
-    var notificationId: String?
-    var areNotificationsOn: Bool
+    var allowNotification: Bool
+    var notification: PlaceNotification?
     
-    internal init(location: Location, arrive: Date, depart: Date, areNotificationsOn: Bool, notificationId: String? = nil) {
+    internal init(location: Location,
+                  arrive: Date,
+                  depart: Date,
+                  allowNotification: Bool? = nil,
+                  notification: PlaceNotification? = nil) {
         self.location = location
         self.arrive = arrive
         self.depart = depart
-        self.notificationId = notificationId
+        if let allowNotification {
+            self.allowNotification = allowNotification
+        } else {
+            self.allowNotification = notification != nil
+        }
+        self.notification = notification
     }
     
     init?(from dictionary: [String: Any]) {
@@ -32,7 +41,8 @@ struct Place {
         }
        
         guard
-            let location = Location(from: locationDict) else {
+            let location = Location(from: locationDict)
+                else {
             return nil
         }
         self.location = location
@@ -45,8 +55,11 @@ struct Place {
         guard let departDate = dateFormatter.date(from: depart) else { return nil }
         self.depart = departDate
         
-        if let notificationId = dictionary[CodingKeys.depart.rawValue] as? String {
-            self.notificationId = notificationId
+        self.allowNotification = false
+        if let notificationDict = dictionary[CodingKeys.notification.rawValue]  as? [String : Any],
+           let notification = PlaceNotification(from: notificationDict) {
+            self.notification = notification
+            self.allowNotification = true
         }
     }
     
@@ -59,8 +72,8 @@ struct Place {
         
         dictionary[CodingKeys.arrive.rawValue] = dateFormatter.string(from: arrive)
         dictionary[CodingKeys.depart.rawValue] = dateFormatter.string(from: depart)
-        if let notificationId {
-            dictionary[CodingKeys.notificationId.rawValue] = notificationId
+        if let notification {
+            dictionary[CodingKeys.notification.rawValue] = notification.toDictionary()
         }
         
         return dictionary
@@ -70,7 +83,7 @@ struct Place {
         case location
         case arrive
         case depart
-        case notificationId = "notification_id"
+        case notification
     }
 }
 

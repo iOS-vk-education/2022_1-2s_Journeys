@@ -17,14 +17,9 @@ final class RouteModel {
     internal init(firebaseService: FirebaseServiceProtocol) {
         self.FBService = firebaseService
     }
-    
-    private func daysBetween(start: Date, end: Date) -> Int? {
-        return Calendar.current.dateComponents([.day], from: start, to: end).day
-    }
 }
 
 extension RouteModel: RouteModelInput {
-    
     func storeRouteData(route: Route, tripImage: UIImage, tripId: String) {
         FBService.storeTripImage(image: tripImage) { [weak self] result in
             guard let strongSelf = self else { return }
@@ -64,60 +59,77 @@ extension RouteModel: RouteModelInput {
     func saveNotifications(for route: Route, completion: @escaping (Route) -> Void) {
         var newRoute: Route = route
         for (index, place) in newRoute.places.enumerated() {
-            let content = UNMutableNotificationContent()
-            content.title = "У вас запланирована поездка"
-            content.body = "Завтра Вы отпрвляетесь в \(place.location.toString())"
-            if let daysCount: Int = daysBetween(start: place.arrive, end: place.depart) {
-                content.body.append(" на \(daysCount) дней")
-            }
+            // Schedule the request with the system.
+            let notificationCenterQueue = DispatchQueue.global()
+            let notificationCenterDispatchGroup = DispatchGroup()
             
-            // Configure the recurring date.
-            if let date = Calendar.current.date(byAdding: .day, value: -1, to: place.arrive) {
-                var dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: date)
-                dateComponents.hour = 12
-                // Create the trigger as a repeating event.
-                let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
-                
-                // Create the request
-                let uuidString = UUID().uuidString
-                let request = UNNotificationRequest(identifier: uuidString,
-                                                    content: content,
-                                                    trigger: trigger)
-                
-                newRoute.places[index].notificationId = uuidString
-                
-                // Schedule the request with the system.
-                let notificationCenterQueue = DispatchQueue.global()
-                let notificationCenterDispatchGroup = DispatchGroup()
+            if let notification = place.notification {
                 
                 notificationCenterDispatchGroup.enter()
-                notificationCenterQueue.async(group: notificationCenterDispatchGroup) {
-                    NotificationsManager.shared.sheduleNewNotification(request) { (error) in
-                        if error == nil,
-                           let indexToCorrect = newRoute.places.firstIndex(where: { $0.notificationId == uuidString} ) {
-                            newRoute.places[indexToCorrect].notificationId = nil
+                notificationCenterQueue.async(group: notificationCenterDispatchGroup, flags: .barrier) { [weak self] in
+                    self?.storeNotification(notification) { notification in
+                        if let notification {
+                            newRoute.places[index].notification = notification
                         }
                         notificationCenterDispatchGroup.leave()
                     }
                 }
-                
-                notificationCenterDispatchGroup.notify(queue: notificationCenterQueue) {
-                    completion(newRoute)
-                }
+            }
+            
+            notificationCenterDispatchGroup.notify(queue: notificationCenterQueue) {
+                completion(newRoute)
             }
         }
     }
     
-    func deleteNotifications(for route: Route) {
+    private func storeNotification(_ notification: PlaceNotification, completion: @escaping (PlaceNotification?) -> Void) {
+        var newNotification = notification
+        
+        let uuidString =  UUID().uuidString
+        newNotification.id = uuidString
+        
+        let content = UNMutableNotificationContent()
+        content.title = newNotification.contentTitle
+        content.body = newNotification.contentBody
+        content.badge = 1
+        
+        // Configure the recurring date.
+        var dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: newNotification.date)
+        // Create the trigger as a repeating event.
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        
+        // Create the request
+        let request = UNNotificationRequest(identifier: uuidString,
+                                            content: content,
+                                            trigger: trigger)
+        
+        NotificationsManager.shared.sheduleNewNotification(request) { (error) in
+            if error == nil {
+                completion(newNotification)
+                return
+            }
+            completion(nil)
+        }
+    }
+    
+    func deleteOutDatedNotifications(oldNotifications: [PlaceNotification], newNotifications: [PlaceNotification]) {
         var notificationsIds: [String] = []
-        for place in route.places {
-            if let placeNotificationId = place.notificationId {
-                notificationsIds.append(placeNotificationId)
+        for newNotification in newNotifications {
+            let sameNotifications: [PlaceNotification] = oldNotifications.filter {
+                $0.id == newNotification.id && $0 != newNotification
+            }
+            if !sameNotifications.isEmpty {
+                notificationsIds.append(contentsOf: sameNotifications.compactMap {$0.id})
             }
         }
         if !notificationsIds.isEmpty {
             NotificationsManager.shared.deleteNotifications(with: notificationsIds)
         }
+    }
+    
+    func deleteNotification(_ notification: PlaceNotification) {
+        guard let notificationId = notification.id else { return }
+        NotificationsManager.shared.deleteNotifications(with: [notificationId])
     }
 }
 

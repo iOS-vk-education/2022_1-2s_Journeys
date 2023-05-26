@@ -73,7 +73,7 @@ final class StuffTableViewController: UITableViewController {
             var aRect: CGRect = tableView.bounds
             aRect.size.height -= keyboardHeight
             var keyboardMinY: CGFloat = tableView.bounds.maxY - keyboardHeight
-
+            
             if !aRect.contains(CGPoint(x: cellFrame.origin.x, y: cellFrame.maxY)) {
                 tableView.setContentOffset(CGPoint(x:0, y: cellFrame.maxY - keyboardHeight), animated: true)
             }

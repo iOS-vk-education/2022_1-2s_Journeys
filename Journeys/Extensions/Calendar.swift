@@ -1,21 +1,14 @@
-////
-////  Calendar.swift
-////  Journeys
-////
-////  Created by Сергей Адольевич on 26.05.2023.
-////
 //
-//import Foundation
+//  Calendar.swift
+//  Journeys
 //
-//extension Calendar {
-//    func numberOfDaysBetween(from: Date, to: Date) -> Int? {
-//        let fromDate = startOfDay(for: from)
-//        let toDate = startOfDay(for: to)
-//        let numberOfDays = dateComponents([.day], from: fromDate, to: toDate)
-//        
-//        guard let daysCount = numberOfDays.day else {
-//            return nil
-//        }
-//        return daysCount + 1
-//    }
-//}
+//  Created by Сергей Адольевич on 26.05.2023.
+//
+
+import Foundation
+
+extension Calendar {
+    static func daysBetween(start: Date, end: Date) -> Int? {
+        return Calendar.current.dateComponents([.day], from: start, to: end).day
+    }
+}

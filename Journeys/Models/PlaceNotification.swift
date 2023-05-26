@@ -1,5 +1,5 @@
 //
-//  Notification.swift
+//  PlaceNotification.swift
 //  Journeys
 //
 //  Created by Сергей Адольевич on 26.05.2023.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Notification {
+struct PlaceNotification {
     var id: String?
     var date: Date
     var contentTitle: String
@@ -71,8 +71,8 @@ struct Notification {
     }
 }
 
-extension Notification: Equatable {
-    static func == (lhs: Notification, rhs: Notification) -> Bool {
+extension PlaceNotification: Equatable {
+    static func == (lhs: PlaceNotification, rhs: PlaceNotification) -> Bool {
         lhs.date == rhs.date && lhs.contentTitle == rhs.contentTitle && lhs.contentBody == rhs.contentBody
     }
 }
