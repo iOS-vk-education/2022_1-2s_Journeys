@@ -89,8 +89,7 @@ final class PlacemarkCell: UICollectionViewCell {
         }
     
     func returnText() -> String {
-        guard let text = inputField.text else { return " "}
-        return text
+        return inputField.text ?? " "
     }
 }
     

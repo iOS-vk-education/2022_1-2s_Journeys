@@ -25,7 +25,7 @@ final class AddingPresenter {
     }
     
     func displayAddress() -> String? {
-        return address
+        address
     }
     
 }

@@ -26,8 +26,9 @@ final class TimeCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         datePicker.datePickerMode = .dateAndTime
-        guard let localeID = Locale.preferredLanguages.first else { return }
-        datePicker.locale = Locale(identifier: localeID)
+        if let localeID = Locale.preferredLanguages.first {
+            datePicker.locale = Locale(identifier: localeID)
+        }
         setupCell()
         setupSubviews()
         setupConstraints()
@@ -36,8 +37,9 @@ final class TimeCell: UICollectionViewCell {
         super.init(frame: frame)
         datePicker.datePickerMode = .dateAndTime
         datePicker.minimumDate = Calendar.current.date(byAdding: .year, value: 0, to: Date())
-        guard let localeID = Locale.preferredLanguages.first else { return }
-        datePicker.locale = Locale(identifier: localeID)
+        if let localeID = Locale.preferredLanguages.first {
+            datePicker.locale = Locale(identifier: localeID)
+        }
         setupCell()
         setupSubviews()
         setupConstraints()

@@ -90,11 +90,7 @@ final class DescriptionCell: UICollectionViewCell {
         guard let text = inputField.text else {
             return L10n.descriptionIsMissing
         }
-        if text == "" {
-            return L10n.descriptionIsMissing
-        } else {
-            return text
-        }
+        return text == "" ? L10n.descriptionIsMissing : text
     }
 }
     private extension DescriptionCell {

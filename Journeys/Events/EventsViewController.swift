@@ -65,8 +65,9 @@ class EventsViewController: UIViewController {
             placemark.opacity = 1
             placemark.direction = 10
             placemark.isDraggable = false
-            guard let placemarkImage = UIImage(asset: Asset.Assets.PlacemarkIcons.defaultPlacemark) else { return }
-            placemark.setIconWith(placemarkImage)
+            if let placemarkImage = UIImage(asset: Asset.Assets.PlacemarkIcons.defaultPlacemark) {
+                placemark.setIconWith(placemarkImage)
+            }
             placemark.addTapListener(with: self)
             placemark.userData = String(place.id)
             

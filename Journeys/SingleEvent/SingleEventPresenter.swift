@@ -31,12 +31,6 @@ final class SingleEventPresenter {
         guard let id = self.id else { return }
         loadData(id: id)
     }
-    
-    func userTapLink() {
-        guard let link = data?.link else { return }
-        guard let url = URL(string: link) else { return }
-        moduleOutput?.wantsToOpenLink(link: url)
-    }
 
 }
 
@@ -48,11 +42,11 @@ private extension SingleEventPresenter {
 
 extension SingleEventPresenter: SingleEventViewOutput {
     func displayingData() -> Event? {
-        return data
+        data
     }
     
     func displayImage() -> UIImage? {
-        return image
+        image
     }
 }
 

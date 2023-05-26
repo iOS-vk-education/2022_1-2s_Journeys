@@ -162,7 +162,7 @@ extension SingleEventViewController: UICollectionViewDataSource {
             ) as? DurationCell else {
                 return cell
             }
-            placemarkCell.configure(data: DurationCellDisplayData(sartTime: data?.startDate ?? " ", endTime: data?.finishDate ?? " "))
+            placemarkCell.configure(data: DurationCellDisplayData(startTime: data?.startDate ?? " ", endTime: data?.finishDate ?? " "))
             cell = placemarkCell
         }
         
@@ -196,7 +196,6 @@ extension SingleEventViewController: UICollectionViewDataSource {
             guard let url = URL(string: link) else { return }
             let svc = SFSafariViewController(url: url)
             present(svc, animated: false, completion: nil)
-            output?.userTapLink()
         }
     }
     
@@ -204,9 +203,7 @@ extension SingleEventViewController: UICollectionViewDataSource {
 
 extension SingleEventViewController: DescriptionCellDelegate & UINavigationControllerDelegate{
     func editingBegan() {
-        return
     }
-    
 }
 
 private extension SingleEventViewController {

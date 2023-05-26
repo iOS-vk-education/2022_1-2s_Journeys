@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 
 struct DurationCellDisplayData {
-    let sartTime: String
+    let startTime: String
     let endTime: String
 }
 
@@ -126,7 +126,7 @@ final class DurationCell: UICollectionViewCell {
         
         
         func configure(data: DurationCellDisplayData) {
-            startTime.text = data.sartTime
+            startTime.text = data.startTime
             endTime.text = data.endTime
         }
 }

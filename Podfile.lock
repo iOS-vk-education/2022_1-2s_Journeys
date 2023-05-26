@@ -602,7 +602,6 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.24):
     - BoringSSL-GRPC/Interface (= 0.0.24)
   - BoringSSL-GRPC/Interface (0.0.24)
-  - BottomSheet (2.0.2)
   - FirebaseAnalytics (10.2.0):
     - FirebaseAnalytics/AdIdSupport (= 10.2.0)
     - FirebaseCore (~> 10.0)
@@ -772,7 +771,6 @@ PODS:
   - YandexMapsMobile (4.2.2-full)
 
 DEPENDENCIES:
-  - BottomSheet (from `https://github.com/joomcode/BottomSheet`)
   - FirebaseAnalytics
   - FirebaseAuth
   - FirebaseFirestore
@@ -814,19 +812,9 @@ SPEC REPOS:
     - SwiftLint
     - YandexMapsMobile
 
-EXTERNAL SOURCES:
-  BottomSheet:
-    :git: https://github.com/joomcode/BottomSheet
-
-CHECKOUT OPTIONS:
-  BottomSheet:
-    :commit: b847e09e40a833593b29475f2f1c94e8260befe2
-    :git: https://github.com/joomcode/BottomSheet
-
 SPEC CHECKSUMS:
   abseil: ebe5b5529fb05d93a8bdb7951607be08b7fa71bc
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
-  BottomSheet: bd3d79027e5b50b98ca870f4c62a0f4d85de9656
   FirebaseAnalytics: 24a15e58e505abcedc3017b6f7c206fbfa964580
   FirebaseAppCheckInterop: af164d9c623f82174e3ffa54394dee189587c601
   FirebaseAuth: 08e7739244eeae5216d0a3f8d9f16a76be9c252e
@@ -853,6 +841,6 @@ SPEC CHECKSUMS:
   SwiftLint: f80f1be7fa96d30e0aa68e58d45d4ea1ccaac519
   YandexMapsMobile: 1fd5f86bc368ad6ba528b199f9477e4a26796567
 
-PODFILE CHECKSUM: 2cac2021e6bb9832a4a1a4672995fb235434a717
+PODFILE CHECKSUM: 715fd1608b2310a9915bd818b007e1cd3bd5b7df
 
 COCOAPODS: 1.11.3

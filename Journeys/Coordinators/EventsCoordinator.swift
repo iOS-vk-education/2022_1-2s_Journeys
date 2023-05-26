@@ -11,7 +11,8 @@ import FirebaseFirestore
 import SafariServices
 
 
-final class EventsCoordinator: CoordinatorProtocol {
+final class EventsCoordinator: CoordinatorProtocol, SingleEventModuleOutput {
+    
     
     // MARK: Private Properties
     
@@ -78,12 +79,13 @@ extension EventsCoordinator: EventsModuleOutput {
         let builder = SingleEventModuleBuilder()
 
         let viewController = builder.build(output: self, id: id)
-               if let sheet = viewController.sheetPresentationController {
-                   sheet.detents = [.medium(), .large()]
-                   sheet.largestUndimmedDetentIdentifier = .medium
-                   sheet.prefersScrollingExpandsWhenScrolledToEdge = true
-                   sheet.prefersGrabberVisible = true
-               }
+        if let sheet = viewController.sheetPresentationController {
+            sheet.detents = [.medium(), .large()]
+            sheet.largestUndimmedDetentIdentifier = .medium
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = true
+            sheet.prefersGrabberVisible = true
+        }
+        
         navigationController.present(viewController, animated: true, completion: nil)
     }
 }
@@ -96,12 +98,5 @@ extension EventsCoordinator: AddingModuleOutput {
     }
     func backToSuggestionVC() {
         navigationController.popViewController(animated: true)
-    }
-}
-
-extension EventsCoordinator: SingleEventModuleOutput {
-    func wantsToOpenLink(link: URL) {
-        let svc = SFSafariViewController(url: link)
-        //navigationController.pushViewController(svc, animated: false)
     }
 }

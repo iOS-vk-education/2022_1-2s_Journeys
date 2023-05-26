@@ -21,5 +21,4 @@ protocol SingleEventViewOutput: AnyObject {
     func didLoadView()
     func displayingData() -> Event?
     func displayImage() -> UIImage?
-    func userTapLink()
 }

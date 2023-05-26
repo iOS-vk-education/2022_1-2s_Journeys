@@ -369,7 +369,6 @@ private extension AddingEventViewController {
     }
 }
 
-
 extension AddingEventViewController: AddingViewInput {
+    
 }
-

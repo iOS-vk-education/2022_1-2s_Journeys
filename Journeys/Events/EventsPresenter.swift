@@ -31,7 +31,7 @@ final class EventsPresenter {
     }
     
     func displayMap() -> (Double?, Double?, Float?) {
-        return (lalitude, longitude, zoom)
+        (lalitude, longitude, zoom)
     }
     
     func didLoadView() {
