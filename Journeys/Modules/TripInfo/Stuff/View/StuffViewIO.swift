@@ -22,12 +22,18 @@ protocol StuffViewInput: AnyObject {
     
     func getCell(for indexpath: IndexPath) -> UITableViewCell?
     func deleteCell(at indexPath: IndexPath)
+    
+    func setCellIndexPath(_ indexPath: IndexPath)
+    
+    func refreshAllCellsIndexPaths()
 }
 
 // MARK: - Stuff ViewOutput
 
 protocol StuffViewOutput: AnyObject {
     func viewDidLoad()
+    func didTapAddStuffListButton()
     func didTapScreen(tableView: UITableView)
     func didTapExitButton()
+    func didChangeBaggage()
 }

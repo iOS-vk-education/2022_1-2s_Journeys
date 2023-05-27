@@ -20,12 +20,13 @@ protocol FirebaseServiceObtainProtocol {
     func obtainBaggage(baggageId: String, completion: @escaping (Result<[Stuff], Error>) -> Void)
     func obtainBaggageData(baggageId: String, completion: @escaping (Result<Baggage, Error>) -> Void)
     
-    func obtainStuffLists(completion: @escaping (Result<[StuffList], Error>) -> Void)
+    func obtainStuffLists(type: StuffListType, completion: @escaping (Result<[StuffList], Error>) -> Void)
     func obtainCertainUserStuff(stuffId: String, completion: @escaping (Result<Stuff, Error>) -> Void)
     
     func obtainCurrentUserData(completion: @escaping (Result<User, Error>) -> Void)
     func currentUserEmail() -> String?
 }
+
 
 extension FirebaseService: FirebaseServiceObtainProtocol {
     // MARK: Obtarin data
@@ -35,22 +36,12 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
             return
         }
         
-        let query: Query?
-        switch type {
-        case .all:
-            query = firebaseManager.firestore.collection("trips")
-                .document(userId).collection("user_trips")
-        case .saved:
-            query = firebaseManager.firestore.collection("trips")
-                .document(userId).collection("user_trips").whereField("is_saved", isEqualTo: true)
-        default:
-            break
+        var query: Query = firebaseManager.firestore.collection("trips")
+            .document(userId).collection("user_trips")
+        if type == .saved {
+            query = query.whereField("is_saved", isEqualTo: true)
         }
         
-        guard let query else {
-            assertionFailure("Error while creating query")
-            return
-        }
         query.getDocuments { (snapshot, error) in
             if let error = error {
                 completion(.failure(error))
@@ -168,7 +159,7 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
                 return
             }
             guard let data = document?.data() else {
-                assertionFailure("No data found")
+                completion(.failure(Errors.obtainDataError))
                 return
             }
             guard let baggage = Baggage(from: data, id: document!.documentID) else {
@@ -179,28 +170,35 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
         }
     }
     
-    func obtainStuffLists(completion: @escaping (Result<[StuffList], Error>) -> Void) {
+    func obtainStuffLists(type: StuffListType, completion: @escaping (Result<[StuffList], Error>) -> Void) {
         guard let userId = firebaseManager.auth.currentUser?.uid else {
             return
         }
-        firebaseManager.firestore.collection("stuff_lists")
-            .document(userId).collection("user_stuff_lists").getDocuments { (snapshot, error) in
-                if let error = error {
-                    completion(.failure(error))
-                    return
-                }
-                guard let snapshot = snapshot else {
-                    return
-                }
-                
-                var stuffLists: [StuffList] = []
-                for document in snapshot.documents {
-                    if let stuffList = StuffList(from: document.data(), id: document.documentID) {
-                        stuffLists.append(stuffList)
-                    }
-                }
-                completion(.success(stuffLists))
+        var query: Query = firebaseManager.firestore.collection("stuff_lists")
+            .document(userId).collection("user_stuff_lists")
+        if type == .alwaysAdding {
+            query = query.whereField("auto_add", isEqualTo: true)
+        }
+        
+        query.getDocuments { (snapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
             }
+            guard let snapshot = snapshot else {
+                completion(.failure(Errors.obtainDataError))
+                return
+            }
+            
+            var stuffLists: [StuffList] = []
+            for document in snapshot.documents {
+                if let stuffList = StuffList(from: document.data(), id: document.documentID) {
+                    stuffLists.append(stuffList)
+                }
+            }
+            stuffLists.sort(by: {$0.dateCreated.timeIntervalSinceNow < $1.dateCreated.timeIntervalSinceNow})
+            completion(.success(stuffLists))
+        }
     }
     
     func obtainCertainUserStuff(stuffId: String, completion: @escaping (Result<Stuff, Error>) -> Void) {
@@ -225,7 +223,8 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
                 completion(.success(stuff))
             }
     }
-        func obtainCurrentUserData(completion: @escaping (Result<User, Error>) -> Void) {
+    
+    func obtainCurrentUserData(completion: @escaping (Result<User, Error>) -> Void) {
         guard let userId = firebaseManager.auth.currentUser?.uid else {
             completion(.failure(Errors.obtainDataError))
             return

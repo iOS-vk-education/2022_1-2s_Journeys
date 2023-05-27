@@ -14,6 +14,8 @@ protocol CertainStuffListViewInput: AnyObject {
     func reloadData()
     func reloadTableView()
     
+    func switchValue() -> Bool
+    
     func showColorPicker(selectedColor: UIColor)
     func changeStuffListCellColoredViewColor(to color: UIColor, at indexPath: IndexPath)
     func tableViewBackgroundColor() -> UIColor?
@@ -30,6 +32,10 @@ protocol CertainStuffListViewInput: AnyObject {
 
 protocol CertainStuffListViewOutput: AnyObject {
     func viewDidLoad()
+    
+    func switchValue() -> Bool?
+    func switchValueHasChanged(_ value: Bool)
+    
     func didTapBackBarButton()
     func cellData(for indexPath: IndexPath) -> StuffListCell.Displaydata?
     

@@ -37,9 +37,8 @@ final class CertainStuffListPresenter {
     }
 }
 
-extension CertainStuffListPresenter: CertainStuffListViewOutput {
+extension CertainStuffListPresenter: CertainStuffListViewOutput {    
     func viewDidLoad() {
-        view?.reloadData()
         if let stuffList {
             model.obtainStuff(with: stuffList.stuffIDs)
         }
@@ -60,6 +59,14 @@ extension CertainStuffListPresenter: CertainStuffListViewOutput {
                                          cellType: .editable(delegate: self))
     }
     
+    func switchValue() -> Bool? {
+        stuffList?.autoAddToAllTrips
+    }
+    
+    func switchValueHasChanged(_ value: Bool) {
+        stuffList?.autoAddToAllTrips = value
+    }
+    
     func didPickColor(color: UIColor) {
         view?.changeStuffListCellColoredViewColor(to: color, at: IndexPath(row: 0, section: 0))
     }
@@ -76,13 +83,16 @@ extension CertainStuffListPresenter: CertainStuffListViewOutput {
     }
     
     func didTapSaveButton() {
-        guard let stuffListData = view?.getCollectionCellData(for: IndexPath(item: 0, section: 0))
-        else { return }
+        guard let stuffListData = view?.getCollectionCellData(for: IndexPath(item: 0, section: 0)),
+                let view else { return }
+        
+        var autoAdd: Bool = view.switchValue()
         let stuffListToSave = StuffList(id: stuffList?.id,
                                         color: ColorForFB(color: stuffListData.roundColor),
                                         name: stuffListData.title,
                                         stuffIDs: [],
-                                        autoAddToAllTrips: false)
+                                        autoAddToAllTrips: autoAdd,
+                                        dateCreated: Date())
         let stuffToSave = stuff.filter({ $0.name != nil && $0.name?.count != 0 })
         model.saveStuffList(stuffListToSave, stuff: stuffToSave)
     }

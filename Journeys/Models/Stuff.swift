@@ -59,6 +59,12 @@ struct Stuff {
     }
 }
 
+extension Stuff: Equatable {
+    static func == (lhs: Stuff, rhs: Stuff) -> Bool {
+        lhs.id == rhs.id && lhs.emoji == rhs.emoji && lhs.name == rhs.name
+    }
+}
+
 struct BaseStuff {
     var id: String
     var emoji: String

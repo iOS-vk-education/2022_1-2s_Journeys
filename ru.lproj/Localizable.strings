@@ -92,6 +92,8 @@
 "AddStuff" = "Новая вещь";
 "AddStuffList" = "Новый список";
 "Name" = "Название";
+"BaseStuffList" = "Базовый список вещей";
+"AutoAddToTrips" = "Добавлять ко всем поездкам";
 
 // MARK: Events
 "AddressSearch" = "Поиск адреса";

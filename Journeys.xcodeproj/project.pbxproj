@@ -228,6 +228,9 @@
 		EED2A75E294FB874003A9A1A /* StuffCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED2A75D294FB874003A9A1A /* StuffCell.swift */; };
 		EED2A760294FCAF9003A9A1A /* StuffTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED2A75F294FCAF9003A9A1A /* StuffTableViewHeader.swift */; };
 		EED2A762294FCE4E003A9A1A /* AddStuffCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED2A761294FCE4E003A9A1A /* AddStuffCell.swift */; };
+		EED65F1E2A1E8D0700E7867A /* StuffRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED65F1D2A1E8D0700E7867A /* StuffRouter.swift */; };
+		EED65F202A1E8D1300E7867A /* StuffRouterInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED65F1F2A1E8D1300E7867A /* StuffRouterInput.swift */; };
+		EED7AF132A1EE3A900A86464 /* StoreBaseStuffList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED7AF122A1EE3A900A86464 /* StoreBaseStuffList.swift */; };
 		EEDAF553291C05B300E6DDB9 /* JourneysCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDAF552291C05B300E6DDB9 /* JourneysCoordinator.swift */; };
 		EEDAF555291C0F2200E6DDB9 /* AddTripCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDAF554291C0F2200E6DDB9 /* AddTripCell.swift */; };
 		EEDAF557291C302500E6DDB9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDAF556291C302500E6DDB9 /* SceneDelegate.swift */; };
@@ -484,6 +487,9 @@
 		EED2A75D294FB874003A9A1A /* StuffCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffCell.swift; sourceTree = "<group>"; };
 		EED2A75F294FCAF9003A9A1A /* StuffTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffTableViewHeader.swift; sourceTree = "<group>"; };
 		EED2A761294FCE4E003A9A1A /* AddStuffCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStuffCell.swift; sourceTree = "<group>"; };
+		EED65F1D2A1E8D0700E7867A /* StuffRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffRouter.swift; sourceTree = "<group>"; };
+		EED65F1F2A1E8D1300E7867A /* StuffRouterInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffRouterInput.swift; sourceTree = "<group>"; };
+		EED7AF122A1EE3A900A86464 /* StoreBaseStuffList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreBaseStuffList.swift; sourceTree = "<group>"; };
 		EEDAF552291C05B300E6DDB9 /* JourneysCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneysCoordinator.swift; sourceTree = "<group>"; };
 		EEDAF554291C0F2200E6DDB9 /* AddTripCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTripCell.swift; sourceTree = "<group>"; };
 		EEDAF556291C302500E6DDB9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -524,6 +530,7 @@
 		063D1D8FE326808F195E1017 /* Stuff */ = {
 			isa = PBXGroup;
 			children = (
+				EED65F1C2A1E8CF900E7867A /* Router */,
 				A20F5F32455A7BFE5DF0D2C9 /* View */,
 				2D0FC3A9AE711EFFA9399F3C /* Presenter */,
 				7980974EADD02AE737987C1C /* Model */,
@@ -1566,6 +1573,15 @@
 			path = StuffCell;
 			sourceTree = "<group>";
 		};
+		EED65F1C2A1E8CF900E7867A /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				EED65F1D2A1E8D0700E7867A /* StuffRouter.swift */,
+				EED65F1F2A1E8D1300E7867A /* StuffRouterInput.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
 		EEDAF55D291D65C300E6DDB9 /* FloatingButton */ = {
 			isa = PBXGroup;
 			children = (
@@ -1646,6 +1662,7 @@
 				EEAC1D2D2952717800237331 /* Services */,
 				EE910DC62958AE820094F5C8 /* Firebase */,
 				EE00AC1929561F7C00FAFDCD /* StoreNewTrip.swift */,
+				EED7AF122A1EE3A900A86464 /* StoreBaseStuffList.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -2001,6 +2018,7 @@
 				9C60B5C563DCB01932E87E34 /* AccountInfoModel.swift in Sources */,
 				CE4CCC9F295859150057455D /* PlacemarkCell.swift in Sources */,
 				CE7F42CF29594BE1000CBA63 /* AddPhotoCell.swift in Sources */,
+				EED65F202A1E8D1300E7867A /* StuffRouterInput.swift in Sources */,
 				56EF0E642A137FE400038A6F /* SingleEventViewIO.swift in Sources */,
 				EE02E54C2950D9EA002BE87E /* Weather.swift in Sources */,
 				56EF0E6B2A137FED00038A6F /* SingleEventViewController.swift in Sources */,
@@ -2023,6 +2041,7 @@
 				EEA76C652951325E00250B06 /* ShortRouteCell.swift in Sources */,
 				50505393A370F99E10E3F864 /* TripInfoViewIO.swift in Sources */,
 				EE910DBB29588F420094F5C8 /* AccountInfoModelIO.swift in Sources */,
+				EED65F1E2A1E8D0700E7867A /* StuffRouter.swift in Sources */,
 				4F445FB920C9EB3384DA16BA /* TripInfoViewController.swift in Sources */,
 				EEAF2E662A223DFE00B586FC /* TimeCell.swift in Sources */,
 				EE9DDF9329E473CA002781C7 /* PlacesInfoRouterInput.swift in Sources */,
@@ -2051,6 +2070,7 @@
 				A9DD1DEF7782DE6C939585EA /* TripInfoModel.swift in Sources */,
 				EE910DCD295913860094F5C8 /* PlacesInfoPlaceholderCell.swift in Sources */,
 				EEA76C642951325E00250B06 /* WeatherCollection.swift in Sources */,
+				EED7AF132A1EE3A900A86464 /* StoreBaseStuffList.swift in Sources */,
 				A4F278F34637C60C2ED5A34D /* TripInfoBuilder.swift in Sources */,
 				EE7968EA29B92DEE00F777FE /* SettingsCellDisplayDataFactory.swift in Sources */,
 				CE7F42D3295ACFE4000CBA63 /* Event.swift in Sources */,

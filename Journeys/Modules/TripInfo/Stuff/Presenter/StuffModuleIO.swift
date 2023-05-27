@@ -8,10 +8,12 @@
 // MARK: - Stuff ModuleInput
 
 protocol StuffModuleInput: AnyObject {
+    func didChangeBaggage()
 }
 
 // MARK: - Stuff ModuleOutput
 
 protocol StuffModuleOutput: AnyObject {
     func stuffModuleWantsToClose()
+    func openAddStuffListModule(baggage: Baggage, stuffModuleInput: StuffModuleInput)
 }
