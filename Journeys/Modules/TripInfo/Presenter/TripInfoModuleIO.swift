@@ -14,4 +14,5 @@ protocol TripInfoModuleInput: AnyObject {
 
 protocol TripInfoModuleOutput: AnyObject {
     func tripInfoModuleWantsToClose()
+    func openEventsModule(with coordinates: Coordinates)
 }

@@ -2,7 +2,7 @@
 //  AccountBuilder.swift
 //  Journeys
 //
-//  Created by Nastya Ischenko on 07/12/2022.
+//  Created by Nastya Ischenko on 18/03/2023.
 //
 
 import UIKit
@@ -10,19 +10,17 @@ import UIKit
 // MARK: - AccountModuleBuilder
 
 final class AccountModuleBuilder {
-    func build(output: AccountModuleOutput,
-               firebaseService: FirebaseServiceProtocol) -> UIViewController {
-
+    func build(firebaseService: FirebaseServiceProtocol, moduleOutput: AccountModuleOutput) -> UIViewController {
         let viewController = AccountViewController()
-        let presenter = AccountPresenter()
+        let presenter = AccountPresenter(firebaseService: firebaseService,
+                                         moduleOutput: moduleOutput)
         let model = AccountModel(firebaseService: firebaseService)
         
-        model.output = presenter
         presenter.view = viewController
         presenter.model = model
-        presenter.moduleOutout = output
+        model.output = presenter
         viewController.output = presenter
-
+        
         return viewController
     }
 }

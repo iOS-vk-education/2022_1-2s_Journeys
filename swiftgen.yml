@@ -13,9 +13,10 @@ xcassets:
 ## Strings
 strings:
   inputs:
-    - Journeys/ru.lproj
+    - ru.lproj
   outputs:
     - templateName: structured-swift5
       params:
         publicAccess: true
+        lookupFunction: LocalizationSystem.sharedInstance.localizedString
       output: Journeys/Generated/Strings+Generated.swift

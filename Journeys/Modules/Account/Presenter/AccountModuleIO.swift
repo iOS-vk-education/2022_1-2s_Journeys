@@ -2,7 +2,7 @@
 //  AccountModuleIO.swift
 //  Journeys
 //
-//  Created by Nastya Ischenko on 07/12/2022.
+//  Created by Nastya Ischenko on 18/03/2023.
 //
 
 // MARK: - Account ModuleInput
@@ -13,7 +13,7 @@ protocol AccountModuleInput: AnyObject {
 // MARK: - Account ModuleOutput
 
 protocol AccountModuleOutput: AnyObject {
-    func showLoadingView()
-    func hideLoadingView()
-    func logout()
+    func accountModuleWantsToOpenAccountInfoModule(with userData: User?)
+    func accountModuleWantsToOpenStuffListsModule()
+    func accountModuleWantsToOpenSettingsModule()
 }

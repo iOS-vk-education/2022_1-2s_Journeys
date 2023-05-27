@@ -28,6 +28,7 @@ internal enum Asset {
     internal enum PlacemarkIcons {
       internal static let defaultPlacemark = ImageAsset(name: "DefaultPlacemark")
     }
+    internal static let stuffListsPlaceholder = ImageAsset(name: "StuffListsPlaceholder")
     internal enum TripCell {
       internal static let tripCellImage1 = ImageAsset(name: "TripCellImage1")
       internal static let tripCellImage2 = ImageAsset(name: "TripCellImage2")
@@ -56,16 +57,26 @@ internal enum Asset {
       internal static let iconsColor = ColorAsset(name: "IconsColor")
       internal static let tappedIconsColor = ColorAsset(name: "TappedIconsColor")
     }
+    internal static let launchScreen = ColorAsset(name: "LaunchScreen")
     internal enum Placeholder {
       internal static let placeholderColor = ColorAsset(name: "PlaceholderColor")
     }
     internal enum PlacesInfo {
+      internal enum ProgressView {
+        internal static let background = ColorAsset(name: "background")
+        internal static let progress = ColorAsset(name: "progress")
+      }
       internal enum SectionHeader {
         internal static let background = ColorAsset(name: "background")
       }
       internal enum WeatherCell {
         internal static let dateColor = ColorAsset(name: "dateColor")
       }
+      internal static let currencyTextFieldBorder = ColorAsset(name: "currencyTextFieldBorder")
+    }
+    internal enum Skeleton {
+      internal static let dark = ColorAsset(name: "dark")
+      internal static let light = ColorAsset(name: "light")
     }
     internal static let searchBar = ColorAsset(name: "SearchBar")
     internal enum SpecifyAdress {
@@ -83,6 +94,7 @@ internal enum Asset {
     internal enum Text {
       internal static let addressTextColor = ColorAsset(name: "AddressTextColor")
       internal static let mainTextColor = ColorAsset(name: "MainTextColor")
+      internal static let secondaryTextColor = ColorAsset(name: "SecondaryTextColor")
     }
     internal enum Trips {
       internal static let tripsPlaceholder = ColorAsset(name: "TripsPlaceholder")

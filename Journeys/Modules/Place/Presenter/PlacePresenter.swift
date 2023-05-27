@@ -73,7 +73,7 @@ extension PlacePresenter: PlaceViewOutput {
               }
         guard let country = countryCell.getTextFieldValue(),
               let city = cityCell.getTextFieldValue() else {
-            view.showAlert(title: "Заполните данные", message: "Заполните поля страны и города")
+            view.showAlert(title: L10n.blanckFields, message: L10n.fillTheCountryAndTownFields)
             return
         }
         
@@ -84,7 +84,7 @@ extension PlacePresenter: PlaceViewOutput {
         let dates = calendarCell.getDates()
         guard let arrivaleDate = dates?.first,
               let departDate = dates?.last else {
-            view.showAlert(title: "Заполните данные", message: "Выберите даты")
+            view.showAlert(title: L10n.blanckFields, message: L10n.selectDates)
             return
         }
         

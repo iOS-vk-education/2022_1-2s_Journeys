@@ -9,12 +9,12 @@ import UIKit
 
 // MARK: - TripsViewController
 
+enum TripsCellType {
+    case skeleton
+    case usual
+}
+
 final class TripsViewController: UIViewController {
-    
-    enum ScreenType {
-        case usual
-        case saved
-    }
 
     // MARK: Private properties
     private lazy var collectionView: UICollectionView = {
@@ -31,16 +31,18 @@ final class TripsViewController: UIViewController {
     
     private let loadingView = LoadingView()
     private var placeholderView = UIView()
+    
+    private lazy var cellsType: TripsCellType = {
+        output.getCellType()
+    }()
 
     // MARK: Public properties
     var output: TripsViewOutput!
-    var tripsViewControllerType: ScreenType?
 
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
-        tabBarController?.tabBar.items?.forEach { $0.isEnabled = true }
         placeholderView.isHidden = true
         setupNavBar()
         setupCollectionView()
@@ -48,16 +50,16 @@ final class TripsViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        output.viewDidLoad()
         super.viewWillAppear(animated)
+        output.viewWillAppear()
     }
 
     private func setupNavBar() {
         navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
         navigationItem.setHidesBackButton(true, animated: false)
 
-        switch output.getScreenType() {
-        case .usual:
+        switch output.tripsType {
+        case .all:
             let buttonItem = UIBarButtonItem(image: UIImage(systemName: "bookmark"),
                                              style: .plain,
                                              target: self,
@@ -72,7 +74,7 @@ final class TripsViewController: UIViewController {
                                              action: #selector(didTapBackButton))
             
             navigationItem.leftBarButtonItem = buttonItem
-            title = "Избранное"
+            title = L10n.saved
         }
     }
 
@@ -82,12 +84,15 @@ final class TripsViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
         collectionView.alwaysBounceVertical = true
 
         collectionView.register(AddTripCell.self,
                                 forCellWithReuseIdentifier: "AddTripCell")
         collectionView.register(TripCell.self,
                                 forCellWithReuseIdentifier: "TripCell")
+        collectionView.register(SkeletonTripCell.self,
+                                forCellWithReuseIdentifier: "SkeletonTripCell")
     }
 
     private func makeConstraints() {
@@ -133,7 +138,6 @@ extension TripsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
         output.didSelectCell(at: indexPath)
-        collectionView.deselectItem(at: indexPath, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -144,8 +148,8 @@ extension TripsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
-        switch output.getScreenType() {
-        case .usual:
+        switch output.tripsType {
+        case .all:
             if section == 0 {
                 return UIEdgeInsets(top: 30, left: 0, bottom: 8, right: 0)
             } else {
@@ -159,6 +163,19 @@ extension TripsViewController: UICollectionViewDelegate {
             }
         }
     }
+    func collectionView(_ collectionView: UICollectionView,
+                        willDisplay cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
+        if indexPath.section != 0 {
+            cell.alpha = 0
+            UIView.animate(
+                withDuration: 0.5,
+                animations: {
+                    cell.alpha = 1
+                })
+        }
+    }
+    
 }
 
 extension TripsViewController: UICollectionViewDataSource {
@@ -180,8 +197,18 @@ extension TripsViewController: UICollectionViewDataSource {
             ) as? AddTripCell else {
                 return cell
             }
-            cell = addCell
-        } else {
+            return addCell
+        }
+        switch cellsType {
+        case .skeleton:
+            guard let skeletonCell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "SkeletonTripCell",
+                for: indexPath
+            ) as? SkeletonTripCell else {
+                return cell
+            }
+            cell = skeletonCell
+        case .usual:
             guard let tripCell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "TripCell",
                 for: indexPath
@@ -190,19 +217,24 @@ extension TripsViewController: UICollectionViewDataSource {
             }
             
             guard let data = output.getCellData(for: indexPath.row) else {
-                return UICollectionViewCell()
+                return cell
             }
             tripCell.configure(data: data,
                                delegate: self, indexPath: indexPath)
             cell = tripCell
+        default:
+            break
         }
         return cell
     }
 }
 
 extension TripsViewController: TripsViewInput {
+    
     func endRefresh() {
-        refreshControl.endRefreshing()
+        DispatchQueue.main.async { [weak self] in
+            self?.refreshControl.endRefreshing()
+        }
     }
     
     func showAlert(title: String, message: String, actionTitle: String) {
@@ -230,7 +262,9 @@ extension TripsViewController: TripsViewInput {
     
     func reloadData() {
         DispatchQueue.main.async { [weak self] in
-            self?.collectionView.reloadData()
+            guard let self else { return }
+            self.cellsType = self.output.getCellType()
+            self.collectionView.reloadData()
         }
     }
     
@@ -254,17 +288,30 @@ extension TripsViewController: TripsViewInput {
             self?.loadingView.removeFromSuperview()
         }
     }
+    
+    func changeIsSavedCellStatus(at indexPath: IndexPath, status: Bool) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? TripCell else { return }
+        cell.changeIsSavedStatus(status: status)
+    }
+
+    func setupCellImage(at indexPath: IndexPath, image: UIImage) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            guard let cell = self.collectionView.cellForItem(at: indexPath) as? TripCell else { return }
+            cell.setupImage(image)
+        }
+    }
 }
 
-extension TripsViewController: TripsTransitionHandlerProtocol {
+extension TripsViewController: TransitionHandlerProtocol {
     func embedPlaceholder(_ viewController: UIViewController) {
-        guard let placeholderViewController = viewController as? PlaceHolderViewController else { return }
+        guard let placeholderViewController = viewController as? PlaceholderViewController else { return }
 
         guard placeholderView.isHidden == true else {
             return
         }
         placeholderViewController
-            .configure(with: PlaceHolderViewController.DisplayData(title: "Пока что маршрутов нет",
+            .configure(with: PlaceholderViewController.DisplayData(title: L10n.noTrips,
                                                                    imageName: "TripsPlaceholder"))
         addChild(placeholderViewController)
         placeholderViewController.didMove(toParent: self)
@@ -279,13 +326,12 @@ extension TripsViewController: TripsTransitionHandlerProtocol {
         }
     }
     
-    func hidePlaceholder() {
-        placeholderView.isHidden = true
+    func showPlaceholder() {
+        placeholderView.isHidden = false
     }
     
-    func changeIsSavedCellStatus(at indexPath: IndexPath, status: Bool) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? TripCell else { return }
-        cell.changeIsSavedStatus(status: status)
+    func hidePlaceholder() {
+        placeholderView.isHidden = true
     }
 }
 

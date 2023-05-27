@@ -1,0 +1,105 @@
+/* 
+  Localizable.strings
+  Journeys
+
+  Created by Сергей Адольевич on 18.11.2022.
+  
+*/
+
+// MARK: Main screen
+"NoTrips" = "So far there are no trips";
+
+"Add" = "New trip";
+"Trips" = "Trips";
+"Edit" = "Edit";
+"Saved" = "Saved";
+
+// MARK: Route creation
+"Country" = "Страна";
+"Town" = "Город";
+"DepartureTown" = "Departure town";
+"ArrivalTown" = "Arrival town";
+"AddTown" = "Add town";
+"NewRoute" = "New route";
+"BlanckFields" = "Some fields are blank";
+"FillTheCountryAndTownFields" = "Fill the country and town fields";
+"SelectDates" = "Select dates";
+"BuildRoute" = "Build route";
+"Delete" = "Delete";
+"AddingTown" = "Adding town";
+
+// MARK: Tabbar
+"Journeys" = "Journeys";
+"Events" = "Events";
+"Settings" = "Settings";
+"Account" = "Account";
+
+// MARK: Trip info
+"PlaceInfo" = "Place info";
+"Stuff" = "Stuff";
+"StuffList" = "Stuff list";
+"Packed" = "Packed";
+"Unpacked" = "Unpacked";
+"Weather" = "Weather";
+"Route" = "Route";
+"NoSelectedPlaces" = "No places to stay selected";
+"NoMeteoDataForPlacesOrDates" = "No meteo data for selected places or dates";
+"Currency" = "Currency";
+
+// MARK: Account
+"AccountInfo" = "Account info";
+"StuffLists" = "Stuff lists";
+"Exit" = "Exit";
+"DeleteAccount" = "Delete account";
+"Save" = "Save";
+"PersonalInfo" = "Personal info";
+"LoginInfo" = "Login info";
+"Email" = "Email";
+"Password" = "Password";
+"NewPassword" = "New password";
+"FirstName" = "First name";
+"LastName" = "Last name";
+"ConfirmPassword" = "Confirm password";
+"ResetPassword" = "Reset password";
+"Continue" = "Continue";
+
+// MARK: Settings
+"Notifications" = "Notifications";
+"Style" = "Style";
+"Language" = "Language";
+"Help" = "Help";
+"RateApp" = "Rate the app";
+"Information" = "Information";
+"Mail" = "Mail";
+"Telegram" = "Telegram";
+"style.system" = "System";
+"style.light" = "Light";
+"style.dark" = "Dark";
+"YouNeetToTurnTheApplicationNotificationOn" = "To turn on the notifications you need to allow them for Journeys app in the device settings (Settings → Journeys → Notifications → Allow notifications)";
+
+// MARK: Help
+"Message.Theme" = "Issue with Journeys IOS app";
+"Message.Text" = "Hello, ";
+
+// MARK: Auth
+"Auth" = "Auth";
+"Registration" = "Registration";
+
+// MARK: Stuff
+"StuffList" = "Stuff list";
+"StuffLists" = "Stuff lists";
+"NoStuffLists" = "So far there are no stuff lists";
+"AddStuff" = "New stuff";
+"AddStuffList" = "New list";
+"Name" = "Name";
+
+// MARK: Alerts
+"Alerts.Titles.Success" = "Success";
+"Alerts.Messages.PasswordResetDone" = "A password reset email was has been sent to the specified email adress";
+"Alerts.Actions.Ok" = "Ok";
+"Alerts.Actions.Next" = "Next";
+"Alerts.Actions.Delete" = "Delete";
+"Alerts.Titles.DeleteAccount" = "Delete account";
+"Alerts.Messages.DeleteAccount" = "To confirm account deletion, enter your password";
+"Alerts.Messages.AccountWasDeleted" = "Account successfully deleted";
+"Alerts.Messages.EnterYourPassword" = "Enter your password";

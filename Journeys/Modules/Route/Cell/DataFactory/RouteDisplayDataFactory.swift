@@ -49,10 +49,8 @@ final class RouteCellDisplayDataFactory: RouteCellDisplayDataFactoryProtocol {
             color = UIColor(asset: Asset.Colors.Placeholder.placeholderColor) ?? .black
             iconName = "plus"
         }
-        
         let icon = UIImage(systemName: iconName) ?? UIImage()
         
-        textfield.backgroundColor = .red
         return RouteCell.DisplayData(icon: icon, color: color, text: text)
     }
     

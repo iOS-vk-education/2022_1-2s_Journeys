@@ -117,9 +117,9 @@ final class LocationCell: UITableViewCell, UITextFieldDelegate {
         }
         switch data.cellType {
         case .country:
-            locationTextField.placeholder = "Страна"
+            locationTextField.placeholder = L10n.country
         case .city:
-            locationTextField.placeholder = "Город"
+            locationTextField.placeholder = L10n.town
         }
     }
 }
