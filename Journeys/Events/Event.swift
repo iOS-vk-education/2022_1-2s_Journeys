@@ -13,85 +13,99 @@ enum EventType: String {
 }
 
 struct Event {
-    let id: String
-    var adress: String
-    var date: String
+    var address: String
+    var startDate: String
+    var finishDate: String
     var type: String
     var name: String
     var link: String
     var photoURL: String
     var floor: String
     var room: String
+    var description: String
+    var isLiked: Bool
     
-    internal init(id: String,
-                  adress: String,
-                  date: String,
+    internal init(address: String,
+                  startDate: String,
+                  finishDate: String,
                   type: String,
                   name: String,
                   link: String,
+                  photoURL: String,
                   floor: String,
                   room: String,
-                  photoURL: String) {
-        self.id = id
-        self.adress = adress
-        self.date = date
+                  description: String,
+                  isLiked: Bool) {
+        self.address = address
+        self.startDate = startDate
+        self.finishDate = finishDate
         self.type = type
         self.name = name
         self.room = room
         self.floor = floor
         self.link = link
         self.photoURL = photoURL
+        self.description = description
+        self.isLiked = isLiked
     }
     
-    init?(from dictionary: [String: Any], id: String) {
+    init?(dictionary: [String: Any]) {
         guard
-            let adress = dictionary[CodingKeys.adress.rawValue] as? String,
-            let date = dictionary[CodingKeys.date.rawValue] as? String,
+            let address = dictionary[CodingKeys.address.rawValue] as? String,
+            let startDate = dictionary[CodingKeys.startDate.rawValue] as? String,
+            let finishDate = dictionary[CodingKeys.finishDate.rawValue] as? String,
             let type = dictionary[CodingKeys.type.rawValue] as? String,
             let name = dictionary[CodingKeys.name.rawValue] as? String,
             let link = dictionary[CodingKeys.link.rawValue] as? String,
             let floor = dictionary[CodingKeys.floor.rawValue] as? String,
             let room = dictionary[CodingKeys.room.rawValue] as? String,
-            let photoURL = dictionary[CodingKeys.photoURL.rawValue] as? String
+            let photoURL = dictionary[CodingKeys.photoURL.rawValue] as? String,
+            let description = dictionary[CodingKeys.description.rawValue] as? String,
+            let isLiked = dictionary[CodingKeys.isLiked.rawValue] as? Bool
         else {
             return nil
         }
-        
-        self.id = id
-        self.adress = adress
-        self.date = date
+        self.address = address
+        self.startDate = startDate
+        self.finishDate = finishDate
         self.type = type
         self.name = name
         self.link = link
         self.photoURL = photoURL
         self.floor = floor
         self.room = room
+        self.description = description
+        self.isLiked = isLiked
     }
     
     func toDictionary() -> [String: Any] {
         var dictionary: [String: Any] = [:]
-        dictionary[CodingKeys.id.rawValue] = id
-        dictionary[CodingKeys.adress.rawValue] = adress
-        dictionary[CodingKeys.date.rawValue] = date
+        dictionary[CodingKeys.address.rawValue] = address
+        dictionary[CodingKeys.startDate.rawValue] = startDate
+        dictionary[CodingKeys.finishDate.rawValue] = finishDate
         dictionary[CodingKeys.type.rawValue] = type
         dictionary[CodingKeys.name.rawValue] = name
         dictionary[CodingKeys.link.rawValue] = link
         dictionary[CodingKeys.photoURL.rawValue] = photoURL
         dictionary[CodingKeys.room.rawValue] = room
         dictionary[CodingKeys.floor.rawValue] = floor
+        dictionary[CodingKeys.description.rawValue] = description
+        dictionary[CodingKeys.isLiked.rawValue] = isLiked
         
         return dictionary
     }
     
     enum CodingKeys: String {
-        case id
-        case adress
-        case date
+        case address
+        case startDate
+        case finishDate
         case type
         case name
         case link
         case photoURL
         case room
         case floor
+        case description
+        case isLiked
     }
 }

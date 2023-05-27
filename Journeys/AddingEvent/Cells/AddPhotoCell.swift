@@ -15,24 +15,21 @@ struct ImageEventCellDisplayData {
 }
 
 final class ImageEventCell: UICollectionViewCell {
-    
-    
-    var editImage : UIImage!
-    private var delegate: ImageEventCellDelegate!
-    
+    private var delegate: ImageEventCellDelegate?
+
     private let photoLabel: UILabel = {
         let inpField = UILabel()
-        inpField.text = "Фотография"
-        
+        inpField.text = L10n.photo
+
         return inpField
     }()
-    
+
     private let addPhotoButton: UIButton = {
-        let inpField = UIButton()
-        inpField.backgroundColor = UIColor(asset: Asset.Colors.SpecifyAdress.photoButton)
-        inpField.layer.cornerRadius = 10
-        inpField.setImage(UIImage(systemName: "photo.on.rectangle.angled")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
-        return inpField
+        let addPhotoButton = UIButton()
+        addPhotoButton.backgroundColor = UIColor(asset: Asset.Colors.SpecifyAdress.photoButton)
+        addPhotoButton.layer.cornerRadius = Constants.cornerRadius
+        addPhotoButton.setImage(UIImage(systemName: "photo.on.rectangle.angled")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
+        return addPhotoButton
     }()
     
     
@@ -56,7 +53,7 @@ final class ImageEventCell: UICollectionViewCell {
     // MARK: Private functions
     
     private func setupCell() {
-        layer.cornerRadius = 10
+        layer.cornerRadius = Constants.cornerRadius
         layer.masksToBounds = false
         
         layer.shadowRadius = 3.0
@@ -102,20 +99,22 @@ final class ImageEventCell: UICollectionViewCell {
     }
         
     @objc
-    private func didTapAddPhotoButton(){
-        delegate.didTapAddPhotoButton()
+    private func didTapAddPhotoButton() {
+        delegate?.didTapAddPhotoButton()
     }
     
     func configure(delegate: ImageEventCellDelegate) {
         self.delegate = delegate
     }
     
-    func configure2(image: UIImage) {
+    func configureAddPhotoButton(image: UIImage) {
         addPhotoButton.setImage(image, for: .normal)
+        addPhotoButton.imageView?.clipsToBounds = true
+        addPhotoButton.imageView?.layer.cornerRadius = Constants.cornerRadius
+        addPhotoButton.imageView?.contentMode = .scaleAspectFill
     }
-    func returnPhoto() {
-        
-    }
+    
+    
 }
 
 
@@ -140,3 +139,8 @@ protocol ImageEventCellDelegate: AnyObject {
     func didTapAddPhotoButton()
 }
 
+private extension ImageEventCell {
+    struct Constants {
+        static let cornerRadius : CGFloat = 10
+    }
+}
