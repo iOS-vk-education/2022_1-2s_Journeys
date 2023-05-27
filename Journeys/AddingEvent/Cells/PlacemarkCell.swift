@@ -11,8 +11,6 @@ import SnapKit
 
 struct PlacemarkCellDisplayData {
     let placeholder: String
-    let text : String
-    let isInFavourites: Bool
 }
 
 final class PlacemarkCell: UICollectionViewCell {
@@ -23,7 +21,6 @@ final class PlacemarkCell: UICollectionViewCell {
     }()
     
     private var isInFavourites = Bool()
-    private var delegate: PlacemarkCellDelegate!
 
     
     required init?(coder: NSCoder) {
@@ -41,7 +38,6 @@ final class PlacemarkCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         inputField.placeholder = nil
-        inputField.text = nil
         setupSubviews()
     }
     
@@ -88,15 +84,12 @@ final class PlacemarkCell: UICollectionViewCell {
         }
     }
         
-        func configure(data: PlacemarkCellDisplayData, delegate: PlacemarkCellDelegate) {
+        func configure(data: PlacemarkCellDisplayData) {
             inputField.placeholder = data.placeholder
-            inputField.text = data.text
-            isInFavourites = data.isInFavourites
-            self.delegate = delegate
         }
     
     func returnText() -> String {
-        return inputField.text!
+        return inputField.text ?? " "
     }
 }
     
@@ -114,8 +107,4 @@ final class PlacemarkCell: UICollectionViewCell {
                 static let borderRadius: CGFloat = 10.0
             }
         }
-}
-
-protocol PlacemarkCellDelegate: AnyObject {
-    func editingBegan()
 }

@@ -18,12 +18,16 @@ public enum L10n {
   public static var add: String { return L10n.tr("Localizable", "Add") }
   /// Добавление маршрута
   public static var addingTown: String { return L10n.tr("Localizable", "AddingTown") }
+  /// Поиск адреса
+  public static var addressSearch: String { return L10n.tr("Localizable", "AddressSearch") }
   /// Новая вещь
   public static var addStuff: String { return L10n.tr("Localizable", "AddStuff") }
   /// Новый список
   public static var addStuffList: String { return L10n.tr("Localizable", "AddStuffList") }
   /// Добавить город
   public static var addTown: String { return L10n.tr("Localizable", "AddTown") }
+  /// Кв/офис
+  public static var apartmentOffice: String { return L10n.tr("Localizable", "Apartment/office") }
   /// Город прибытия
   public static var arrivalTown: String { return L10n.tr("Localizable", "ArrivalTown") }
   /// Авторизация
@@ -32,6 +36,8 @@ public enum L10n {
   public static var autoAddToTrips: String { return L10n.tr("Localizable", "AutoAddToTrips") }
   /// Базовый список вещей
   public static var baseStuffList: String { return L10n.tr("Localizable", "BaseStuffList") }
+  /// Начало
+  public static var begin: String { return L10n.tr("Localizable", "Begin") }
   /// Некоторые поля не заполнены
   public static var blanckFields: String { return L10n.tr("Localizable", "BlanckFields") }
   /// Построить маршрут
@@ -42,6 +48,10 @@ public enum L10n {
   public static var `continue`: String { return L10n.tr("Localizable", "Continue") }
   /// Страна
   public static var country: String { return L10n.tr("Localizable", "Country") }
+  /// Созданные
+  public static var created: String { return L10n.tr("Localizable", "Created") }
+  /// Создание мероприятия
+  public static var createEvent: String { return L10n.tr("Localizable", "CreateEvent") }
   /// Валюта
   public static var currency: String { return L10n.tr("Localizable", "Currency") }
   /// Удалить
@@ -50,18 +60,42 @@ public enum L10n {
   public static var deleteAccount: String { return L10n.tr("Localizable", "DeleteAccount") }
   /// Город отправления
   public static var departureTown: String { return L10n.tr("Localizable", "DepartureTown") }
+  /// Описание отсутствует
+  public static var descriptionIsMissing: String { return L10n.tr("Localizable", "Description is missing") }
+  /// Описание мероприятия
+  public static var descriptionOfTheEvent: String { return L10n.tr("Localizable", "Description of the event") }
+  /// ГОТОВО
+  public static var done: String { return L10n.tr("Localizable", "DONE") }
+  /// Длительность:
+  public static var duration: String { return L10n.tr("Localizable", "Duration:") }
   /// Редактировать
   public static var edit: String { return L10n.tr("Localizable", "Edit") }
   /// Email
   public static var email: String { return L10n.tr("Localizable", "Email") }
+  /// Конец
+  public static var end: String { return L10n.tr("Localizable", "End") }
+  /// Введите адрес
+  public static var enterTheAddress: String { return L10n.tr("Localizable", "Enter the address") }
+  /// Ошибка
+  public static var error: String { return L10n.tr("Localizable", "Error") }
+  /// Название мероприятия
+  public static var eventName: String { return L10n.tr("Localizable", "Event Name") }
   /// Мероприятия
   public static var events: String { return L10n.tr("Localizable", "Events") }
   /// Выход
   public static var exit: String { return L10n.tr("Localizable", "Exit") }
+  /// Избранные
+  public static var favorites: String { return L10n.tr("Localizable", "Favorites") }
+  /// Заполните: офис, этаж, название, тип
+  public static var fillInOfficeFloorNameType: String { return L10n.tr("Localizable", "Fill in: office, floor, name, type") }
   /// Заполните поля страны и города
   public static var fillTheCountryAndTownFields: String { return L10n.tr("Localizable", "FillTheCountryAndTownFields") }
   /// Имя
   public static var firstName: String { return L10n.tr("Localizable", "FirstName") }
+  /// Этаж
+  public static var floor: String { return L10n.tr("Localizable", "Floor") }
+  /// С/до:
+  public static var fromTo: String { return L10n.tr("Localizable", "From/to:") }
   /// Поддержка
   public static var help: String { return L10n.tr("Localizable", "Help") }
   /// Информация
@@ -72,6 +106,8 @@ public enum L10n {
   public static var language: String { return L10n.tr("Localizable", "Language") }
   /// Фамилия
   public static var lastName: String { return L10n.tr("Localizable", "LastName") }
+  /// Ссылка на источник
+  public static var linkToTheSource: String { return L10n.tr("Localizable", "Link to the source") }
   /// Информация для входа
   public static var loginInfo: String { return L10n.tr("Localizable", "LoginInfo") }
   /// Почта
@@ -88,6 +124,8 @@ public enum L10n {
   public static var noSelectedPlaces: String { return L10n.tr("Localizable", "NoSelectedPlaces") }
   /// Нет списков вещей
   public static var noStuffLists: String { return L10n.tr("Localizable", "NoStuffLists") }
+  /// Не все обязательные поля заполнены
+  public static var notAllRequiredFieldsAreFilled: String { return L10n.tr("Localizable", "Not all required fields are filled") }
   /// Уведомления
   public static var notifications: String { return L10n.tr("Localizable", "Notifications") }
   /// Пока что маршрутов нет
@@ -98,6 +136,8 @@ public enum L10n {
   public static var password: String { return L10n.tr("Localizable", "Password") }
   /// Личная информация
   public static var personalInfo: String { return L10n.tr("Localizable", "PersonalInfo") }
+  /// Фотография
+  public static var photo: String { return L10n.tr("Localizable", "Photo") }
   /// Общая информация
   public static var placeInfo: String { return L10n.tr("Localizable", "PlaceInfo") }
   /// Оценить приложение
@@ -116,6 +156,8 @@ public enum L10n {
   public static var selectDates: String { return L10n.tr("Localizable", "SelectDates") }
   /// Настройки
   public static var settings: String { return L10n.tr("Localizable", "Settings") }
+  /// Источник
+  public static var sourse: String { return L10n.tr("Localizable", "Sourse") }
   /// Вещи
   public static var stuff: String { return L10n.tr("Localizable", "Stuff") }
   /// Список вещей
@@ -126,10 +168,18 @@ public enum L10n {
   public static var style: String { return L10n.tr("Localizable", "Style") }
   /// Телеграм
   public static var telegram: String { return L10n.tr("Localizable", "Telegram") }
+  /// Неверно указана дата или время
+  public static var theDateOrTimeIsIncorrect: String { return L10n.tr("Localizable", "The date or time is incorrect") }
+  /// Для создания мероприятия нужно указать более точный адрес
+  public static var toCreateAnEventYouNeedToSpecifyAMorePreciseAddress: String { return L10n.tr("Localizable", "To create an event you need to specify a more precise address") }
   /// Город
   public static var town: String { return L10n.tr("Localizable", "Town") }
+  /// Уточните адрес
+  public static var trippleTheAddress: String { return L10n.tr("Localizable", "Tripple the address") }
   /// Поездки
   public static var trips: String { return L10n.tr("Localizable", "Trips") }
+  /// Тип мероприятия
+  public static var typeOfEvent: String { return L10n.tr("Localizable", "Type of event") }
   /// Не собрано
   public static var unpacked: String { return L10n.tr("Localizable", "Unpacked") }
   /// Погода
