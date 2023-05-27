@@ -19,4 +19,5 @@ protocol EventsViewOutput: AnyObject {
     func didLoadView()
     func didTapOnPlacemark(id: String)
     func displayMap() -> (Double?, Double?, Float?)
+    func didTapScreen()
 }

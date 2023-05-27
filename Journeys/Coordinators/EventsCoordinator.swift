@@ -53,6 +53,9 @@ final class EventsCoordinator: CoordinatorProtocol, SingleEventModuleOutput {
 }
 
 extension EventsCoordinator: EventsModuleOutput {
+    func closeOpenSingleEventVCIfExists() {
+        navigationController.dismiss(animated: true)
+    }
     
     func openSuggestionViewController() {
         let eventsViewController = SuggestionViewController()

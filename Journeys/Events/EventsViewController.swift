@@ -11,15 +11,7 @@ import PureLayout
 
 class EventsViewController: UIViewController {
     var output: EventsViewOutput?
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupNavBar()
-        self.view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
-        self.addSubviews()
-        self.setupConstraints()
-        setupAddingButton()
-        output?.didLoadView()
-    }
+    
     private func setupNavBar() {
         navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
         let favouritesButtonItem = UIBarButtonItem(image: UIImage(systemName: "bookmark.fill"),
@@ -73,10 +65,28 @@ class EventsViewController: UIViewController {
             
         }
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupNavBar()
+        view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
+        addSubviews()
+        setupTapGestureRecognizer()
+        
+        setupConstraints()
+        setupAddingButton()
+        output?.didLoadView()
+    }
 
     private func addSubviews() {
         self.view.addSubview(map)
         self.view.addSubview(addingButton)
+    }
+    
+    private func setupTapGestureRecognizer() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapScreen))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
 
     private func setupConstraints() {
@@ -98,6 +108,11 @@ class EventsViewController: UIViewController {
 
     @objc
     private func didTapFavouritesButton() {
+    }
+    
+    @objc
+    private func didTapScreen() {
+        output?.didTapScreen()
     }
 }
 private extension EventsViewController {

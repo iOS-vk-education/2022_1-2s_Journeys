@@ -74,11 +74,11 @@ internal enum Asset {
       }
       internal static let currencyTextFieldBorder = ColorAsset(name: "currencyTextFieldBorder")
     }
+    internal static let searchBar = ColorAsset(name: "SearchBar")
     internal enum Skeleton {
       internal static let dark = ColorAsset(name: "dark")
       internal static let light = ColorAsset(name: "light")
     }
-    internal static let searchBar = ColorAsset(name: "SearchBar")
     internal enum SpecifyAdress {
       internal static let buttonSpecifyAdress = ColorAsset(name: "ButtonSpecifyAdress")
       internal static let photoButton = ColorAsset(name: "photoButton")

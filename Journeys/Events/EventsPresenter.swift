@@ -68,7 +68,9 @@ private extension EventsPresenter {
 }
 
 extension EventsPresenter: EventsViewOutput {
-    
+    func didTapScreen() {
+        moduleOutput?.closeOpenSingleEventVCIfExists()
+    }
     
     func didTapAddingButton() {
         moduleOutput?.wantsToOpenAddEventVC()
