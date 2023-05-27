@@ -259,14 +259,14 @@ extension StuffPresenter: StuffTableViewControllerOutput {
     
     func numberOfRows(in section: Int) -> Int? {
         guard isDataObtained else {
-            return 0
+            return 1
         }
         if section == 0 {
             return unpackedStuff.count + 1
         } else if section == 1 {
             return packedStuff.count + 1
         }
-        return 0
+        return 1
     }
     
     func sectionHeaderText(_ section: Int) -> String {

@@ -193,7 +193,7 @@ final class CertainStuffListViewController: UIViewController {
     @objc
     private func didTapScreen() {
         output?.didTapScreen(tableView: stuffTableView)
-//        view.endEditing(true)
+        view.endEditing(true)
     }
 }
 
