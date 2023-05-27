@@ -159,7 +159,7 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
                 return
             }
             guard let data = document?.data() else {
-                assertionFailure("No data found")
+                completion(.failure(Errors.obtainDataError))
                 return
             }
             guard let baggage = Baggage(from: data, id: document!.documentID) else {
@@ -186,6 +186,7 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
                 return
             }
             guard let snapshot = snapshot else {
+                completion(.failure(Errors.obtainDataError))
                 return
             }
             
