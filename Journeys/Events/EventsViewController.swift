@@ -21,7 +21,7 @@ class EventsViewController: UIViewController {
         navigationItem.rightBarButtonItem = favouritesButtonItem
         title = L10n.events
     }
-    lazy var addingButton: UIButton = {
+    private lazy var addingButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(asset: Asset.Assets.addIcon), for: .normal)
         button.layer.cornerRadius = AddingButtonConstants.cornerRadius
@@ -33,10 +33,10 @@ class EventsViewController: UIViewController {
         button.autoSetDimension(.height, toSize: AddingButtonConstants.height)
         return button
     }()
-    lazy var map: YMKMapView = {
+    private lazy var map: YMKMapView = {
         
         let map1 = YMKMapView()
-        guard let (latitude, longitude, zoom) = output?.displayMap() else { return map1}
+        guard let (latitude, longitude, zoom) = output?.displayMap() else { return map1 }
         map1.mapWindow.map.move(
             with: YMKCameraPosition.init(target: YMKPoint(latitude: latitude ?? AddingButtonConstants.Coordinates.latitude,
                                                           longitude: longitude ?? AddingButtonConstants.Coordinates.longitude),
@@ -149,6 +149,22 @@ extension EventsViewController: EventsViewInput {
         present(alertViewController, animated: true)
     }
 }
+
+extension EventsViewController {
+    func setCoordinates(_ coordinates: Coordinates) {
+        DispatchQueue.main.async { [weak self] in
+            self?.map.mapWindow.map.move(
+                with: YMKCameraPosition.init(target: YMKPoint(latitude: coordinates.latitude,
+                                                              longitude: coordinates.longitude),
+                                             zoom: 14,
+                                             azimuth: 0,
+                                             tilt: 0),
+                animationType: YMKAnimation(type: YMKAnimationType.smooth, duration: 3),
+                cameraCallback: nil)
+        }
+    }
+}
+
 
 extension EventsViewController: YMKMapObjectTapListener {
     func onMapObjectTap(with mapObject: YMKMapObject, point: YMKPoint) -> Bool {

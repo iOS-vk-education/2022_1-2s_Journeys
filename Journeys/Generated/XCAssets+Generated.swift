@@ -46,6 +46,9 @@ internal enum Asset {
     internal enum Auth {
       internal static let continueButton = ColorAsset(name: "ContinueButton")
     }
+    internal enum Avatar {
+      internal static let background = ColorAsset(name: "background")
+    }
     internal enum Background {
       internal static let brightColor = ColorAsset(name: "BrightColor")
       internal static let dimColor = ColorAsset(name: "DimColor")
