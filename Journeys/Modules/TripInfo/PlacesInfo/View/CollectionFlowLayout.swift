@@ -11,7 +11,7 @@ import UIKit
 final class CustomFlowLayout: UICollectionViewFlowLayout {
 
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        let layoutAttributesObjects = super.layoutAttributesForElements(in: rect)?.map{ $0.copy() } as? [UICollectionViewLayoutAttributes]
+        let layoutAttributesObjects = super.layoutAttributesForElements(in: rect)?.map { $0.copy() } as? [UICollectionViewLayoutAttributes]
         layoutAttributesObjects?.forEach({ layoutAttributes in
             if layoutAttributes.representedElementCategory == .cell {
                 if let newFrame = layoutAttributesForItem(at: layoutAttributes.indexPath)?.frame {

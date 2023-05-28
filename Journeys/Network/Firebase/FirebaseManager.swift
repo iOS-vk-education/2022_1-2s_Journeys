@@ -27,4 +27,3 @@ final class FirebaseManager {
         self.firestore = Firestore.firestore()
     }
 }
-

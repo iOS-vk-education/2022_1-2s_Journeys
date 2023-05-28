@@ -23,4 +23,3 @@ final class EventsModuleBuilder {
         return viewController
     }
 }
-

@@ -100,14 +100,14 @@ final class DescriptionCell: UICollectionViewCell {
                 static let horisontalIndent: CGFloat = horisontalIndentForAllSubviews
                 static let verticalIndent: CGFloat = 16
                 static let cornerRadius: CGFloat = 15.0
-                static let fontSize : CGFloat = 17
+                static let fontSize: CGFloat = 17
             }
             struct Cell {
                 static let borderRadius: CGFloat = 10.0
                 static let shadowRadius: CGFloat = 3
                 static let shadowOpacity: CGFloat = 0.1
                 static let shadowOffset = 2
-                static let fontSize : CGFloat = 20
+                static let fontSize: CGFloat = 20
                 static let verticalIndent: CGFloat = 46
             }
         }

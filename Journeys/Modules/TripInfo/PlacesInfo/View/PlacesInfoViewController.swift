@@ -379,7 +379,6 @@ extension PlacesInfoViewController: WeatherCollectionDelegate {
     }
 }
 
-
 private extension PlacesInfoViewController {
     enum Constants {
         static let contentBlocksSpacing: CGFloat = 30

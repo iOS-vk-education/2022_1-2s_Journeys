@@ -87,7 +87,7 @@ extension CertainStuffListPresenter: CertainStuffListViewOutput {
         if let cell = view?.getTableCell(for: lastChangedIndexPath) as? StuffCell {
             let data = cell.getData()
             cell.finishEditMode()
-            if data.name.count == 0 {
+            if data.name.isEmpty {
                 deleteCell(at: lastChangedIndexPath)
             }
         }
@@ -97,7 +97,7 @@ extension CertainStuffListPresenter: CertainStuffListViewOutput {
         guard let stuffListData = view?.getCollectionCellData(for: IndexPath(item: 0, section: 0)),
                 let view else { return }
         
-        var autoAdd: Bool = view.switchValue()
+        let autoAdd: Bool = view.switchValue()
         let stuffListToSave = StuffList(id: stuffList?.id,
                                         color: ColorForFB(color: stuffListData.roundColor),
                                         name: stuffListData.title,

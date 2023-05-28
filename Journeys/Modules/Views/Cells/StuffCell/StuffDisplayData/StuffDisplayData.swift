@@ -6,14 +6,3 @@
 //
 
 import Foundation
-
-//protocol StuffDisplayDataProtocol: AnyObject {
-//    func displayData(model: Stuff) -> StuffCell.DisplayData
-//}
-//
-//final class StuffDisplayData: StuffDisplayDataProtocol {
-//    func displayData(model: Stuff) -> StuffCell.DisplayData {
-//        
-//        return StuffCell.DisplayData(emoji: <#T##String?#>, name: <#T##String?#>, isPacked: <#T##Bool#>)
-//    }
-//}
