@@ -143,15 +143,6 @@ extension AccountViewController: AccountViewInput {
     func deselectCell(_ indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
-    func showAlert(title: String,
-                   message: String) {
-        let alert = UIAlertController(title: title,
-                                      message: message,
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default))
-        present(alert, animated: true)
-    }
 }
 
 private extension AccountViewController {

@@ -9,15 +9,9 @@ import UIKit
 
 // MARK: - AccountViewController
 
-final class AccountInfoViewController: AlertShowingViewController {
+final class AccountInfoViewController: ViewControllerWithDimBackground {
     
     // MARK: Private properties
-    
-    let backgroundView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
-        return view
-    }()
     
     private lazy var tableView: UITableView = .init(frame: CGRect.zero, style: .insetGrouped)
     
@@ -75,8 +69,6 @@ final class AccountInfoViewController: AlertShowingViewController {
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
         
-        view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
-        
         setupNavBar()
         setupTableView()
         makeConstraints()
@@ -116,18 +108,10 @@ final class AccountInfoViewController: AlertShowingViewController {
     }
     
     private func makeConstraints() {
-        view.addSubview(backgroundView)
         view.addSubview(tableView)
         view.addSubview(saveFloatingButton)
         view.addSubview(exitButton)
         view.addSubview(deleteAccountButton)
-        
-        backgroundView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.bottom.equalToSuperview()
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-        }
         
         var tableViewHeight: CGFloat = tableView.tableHeaderView?.frame.height ?? 0
         for section in 0..<tableView.numberOfSections {

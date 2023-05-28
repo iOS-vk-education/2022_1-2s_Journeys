@@ -13,5 +13,5 @@ protocol AccountModelInput: AnyObject {
 
 protocol AccountModelOutput: AnyObject {
     func didObtainUserData(data: User)
-    func didRecieveError(error: Error)
+    func didRecieveError(error: Errors)
 }

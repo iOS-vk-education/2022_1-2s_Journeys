@@ -28,6 +28,10 @@ final class AccountPresenter {
         self.moduleOutput = moduleOutput
     }
 
+    private func showAlert(error: Errors) {
+        guard let alertShowingVC = view as? AlertShowingViewController else { return }
+        askToShowErrorAlert(error, alertShowingVC: alertShowingVC)
+    }
 }
 
 extension AccountPresenter: AccountModuleInput {
@@ -78,8 +82,10 @@ extension AccountPresenter: AccountModelOutput {
         view?.reloadView()
     }
     
-    func didRecieveError(error: Error) {
-        view?.showAlert(title: "Error",
-                        message: error.localizedDescription)
+    func didRecieveError(error: Errors) {
+        showAlert(error: error)
     }
+}
+
+extension AccountPresenter: AskToShowAlertProtocol {
 }

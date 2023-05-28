@@ -20,8 +20,8 @@ extension AccountModel: AccountModelInput {
     func getUserData() {
         firebaseService.obtainCurrentUserData { [weak self] result in
             switch result {
-            case .failure(let error):
-                self?.output?.didRecieveError(error: error)
+            case .failure:
+                self?.output?.didRecieveError(error: .obtainDataError)
             case .success(let user):
                 self?.output?.didObtainUserData(data: user)
             }

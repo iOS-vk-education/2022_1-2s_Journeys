@@ -13,9 +13,6 @@ import Foundation
 protocol AccountViewInput: AnyObject {
     func deselectCell(_ indexPath: IndexPath)
     func reloadView()
-    
-    func showAlert(title: String,
-                   message: String)
 }
 
 // MARK: - Account ViewOutput
