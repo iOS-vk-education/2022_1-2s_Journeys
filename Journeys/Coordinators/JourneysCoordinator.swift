@@ -16,14 +16,18 @@ final class JourneysCoordinator: CoordinatorProtocol {
     private let rootTabBarController: UITabBarController
     private var navigationController = UINavigationController()
     private let tabBarItemFactory: TabBarItemFactoryProtocol
+    private let eventsCoordinator: EventsCoordinatorInput
     private let firebaseService: FirebaseServiceProtocol
     
     // MARK: Lifecycle
 
     let lock = NSLock()
     private let loadingViewGroup = DispatchGroup()
-    init(rootTabBarController: UITabBarController, firebaseService: FirebaseServiceProtocol) {
+    init(rootTabBarController: UITabBarController,
+         firebaseService: FirebaseServiceProtocol,
+         eventsCoordinator: EventsCoordinatorInput) {
         self.rootTabBarController = rootTabBarController
+        self.eventsCoordinator = eventsCoordinator
         self.firebaseService = firebaseService
         tabBarItemFactory = TabBarItemFactory()
     }
@@ -32,9 +36,9 @@ final class JourneysCoordinator: CoordinatorProtocol {
 
     func start() {
         let builder = TripsModuleBuilder()
-        let viewController = builder.build(firebaseService: self.firebaseService, output: self)
+        let viewController = builder.build(firebaseService: firebaseService, output: self)
         
-        self.navigationController.setViewControllers([viewController], animated: false)
+        navigationController.setViewControllers([viewController], animated: false)
         navigationController.tabBarItem = tabBarItemFactory.getTabBarItem(from: TabBarPage.journeys)
         
         var controllers = rootTabBarController.viewControllers
@@ -154,6 +158,7 @@ extension JourneysCoordinator: TripInfoModuleOutput {
     }
     // TODO: openEventsModule func after pull request #30 merge
     func openEventsModule(with coordinates: Coordinates) {
+        eventsCoordinator.openEventsModule(with: coordinates)
     }
     
     func tripInfoModuleWantsToClose() {

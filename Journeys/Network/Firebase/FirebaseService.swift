@@ -7,6 +7,12 @@
 
 import Foundation
 
+enum FirebaseStoreageImageType {
+    case trip
+    case avatar
+}
+
+
 protocol FirebaseServiceProtocol: AnyObject,
                                   FirebaseServiceStoreProtocol,
                                   FirebaseServiceDeleteProtocol,

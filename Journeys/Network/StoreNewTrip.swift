@@ -36,7 +36,7 @@ final class StoreNewTrip {
     }
     
     private func storeImage() {
-        firebaseService.storeTripImage(image: tripImage) { result in
+        firebaseService.storeImage(image: tripImage, imageType: .trip) { result in
             switch result {
             case .failure:
                 self.didRecieveError()
