@@ -48,6 +48,7 @@ final class TripsPresenter {
     private func loadTripsData() {
         hidePlaceholder()
         dataIsLoaded = false
+        tripsData = []
         interactor.obtainTripsDataFromSever(type: tripsType)
     }
     

@@ -11,6 +11,12 @@ import Foundation
 
 protocol StuffListsModelInput: AnyObject {
     func obtainStuffLists()
+    func addStuffListToBaggage(baggage: Baggage,
+                               stuffList: StuffList,
+                               completion: @escaping (Baggage) -> Void)
+    func deleteStuffListFromBaggage(baggage: Baggage,
+                                    stuffList: StuffList,
+                                    completion: @escaping (Baggage) -> Void)
 }
 
 // MARK: - StuffLists ModelOutput
@@ -18,4 +24,5 @@ protocol StuffListsModelInput: AnyObject {
 protocol StuffListsModelOutput: AnyObject {
     func didReceiveStuffLists(_ stuffLists: [StuffList])
     func didReceiveError(_ error: Error)
+    func nothingToAdd()
 }

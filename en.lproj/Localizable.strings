@@ -92,6 +92,8 @@
 "AddStuff" = "New stuff";
 "AddStuffList" = "New list";
 "Name" = "Name";
+"BaseStuffList" = "Base stuff list";
+"AutoAddToTrips" = "Add to all trips";
 
 // MARK: Alerts
 "Alerts.Titles.Success" = "Success";

@@ -170,15 +170,15 @@ extension RoutePresenter: RouteViewOutput {
     }
 
     func userWantsToDeleteCell(indexPath: IndexPath) -> ((UITableView, IndexPath) -> [UITableViewRowAction]?)? {
-        if indexPath.section != 2 || arrivalCellsCount < 2 {
+        if indexPath.section != 2 || (route?.places.count == 0 && indexPath.row == 0) {
             return nil
         }
         guard var route = route else {
             return nil
         }
+        arrivalCellsCount -= 1
         if route.places.count > indexPath.row {
             route.places.remove(at: indexPath.row)
-            arrivalCellsCount -= 1
         }
         self.route = route
         return deleteRow

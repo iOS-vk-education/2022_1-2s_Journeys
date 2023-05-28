@@ -217,7 +217,7 @@ extension TripsViewController: UICollectionViewDataSource {
             }
             
             guard let data = output.getCellData(for: indexPath.row) else {
-                return cell
+                return tripCell
             }
             tripCell.configure(data: data,
                                delegate: self, indexPath: indexPath)
