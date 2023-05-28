@@ -43,7 +43,7 @@ class EventsViewController: UIViewController {
                                                           zoom: zoom ?? AddingButtonConstants.Coordinates.zoom,
                                                           azimuth: 0,
                                                           tilt: 0),
-            animationType: YMKAnimation(type: YMKAnimationType.smooth, duration: 5),
+            animationType: YMKAnimation(type: YMKAnimationType.smooth, duration: 3),
             cameraCallback: nil)
         map1.autoSetDimension(.height, toSize: 1000)
         return map1
