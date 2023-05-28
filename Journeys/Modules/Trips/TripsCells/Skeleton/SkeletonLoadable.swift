@@ -42,7 +42,7 @@ extension SkeletonLoadable {
         group.isRemovedOnCompletion = false
 
         if let previousGroup = previousGroup {
-            group.beginTime = previousGroup.beginTime + 0.33
+            group.beginTime = previousGroup.beginTime
         }
 
         return group
