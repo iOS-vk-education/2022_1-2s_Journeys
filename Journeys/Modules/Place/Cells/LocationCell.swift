@@ -55,10 +55,8 @@ final class LocationCell: UITableViewCell, UITextFieldDelegate {
 
     private func setupViews() {
         contentView.addSubview(locationTextField)
-//        contentView.addSubview(chevronButton)
         contentView.addSubview(icon)
 
-//        locationTextField.becomeFirstResponder()
         locationTextField.autocorrectionType = .no
         locationTextField.delegate = self
 
@@ -81,15 +79,8 @@ final class LocationCell: UITableViewCell, UITextFieldDelegate {
             make.trailing.equalToSuperview()
                 .inset(Constants.LocationTextField.minTraillingIndent)
             make.centerY.equalTo(icon.snp.centerY)
+            make.height.equalToSuperview()
         }
-
-//        chevronButton.snp.makeConstraints { make in
-//            make.trailing.equalToSuperview()
-//                .inset(Constants.Chevron.trailingIndent)
-//            make.centerY.equalTo(icon.snp.centerY)
-//            make.height.equalTo(Constants.Chevron.height)
-//            make.width.equalTo(Constants.Chevron.width)
-//        }
     }
     
     @objc

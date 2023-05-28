@@ -9,9 +9,16 @@ import UIKit
 
 // MARK: - AccountViewController
 
-final class AccountInfoViewController: ViewControllerWithDimBackground {
+final class AccountInfoViewController: AlertShowingViewController {
     
     // MARK: Private properties
+    
+    let backgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
+        return view
+    }()
+    
     private lazy var tableView: UITableView = .init(frame: CGRect.zero, style: .insetGrouped)
     
     private lazy var saveFloatingButton: FloatingButton = {
@@ -67,7 +74,8 @@ final class AccountInfoViewController: ViewControllerWithDimBackground {
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
-
+        
+        view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         
         setupNavBar()
         setupTableView()
@@ -89,7 +97,7 @@ final class AccountInfoViewController: ViewControllerWithDimBackground {
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-
+        
         tableView.allowsSelection = false
         tableView.backgroundColor = backgroundView.backgroundColor
         tableView.separatorColor = tableView.backgroundColor
@@ -106,12 +114,20 @@ final class AccountInfoViewController: ViewControllerWithDimBackground {
     private func registerCell() {
         tableView.register(AccountInfoCell.self, forCellReuseIdentifier: "AccountInfoCell")
     }
-
+    
     private func makeConstraints() {
+        view.addSubview(backgroundView)
         view.addSubview(tableView)
         view.addSubview(saveFloatingButton)
         view.addSubview(exitButton)
         view.addSubview(deleteAccountButton)
+        
+        backgroundView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.bottom.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+        }
         
         var tableViewHeight: CGFloat = tableView.tableHeaderView?.frame.height ?? 0
         for section in 0..<tableView.numberOfSections {
@@ -221,28 +237,25 @@ extension AccountInfoViewController: AccountInfoViewInput {
         }
     }
     
-    func showAlert(title: String,
-                   message: String,
-                   textFieldPlaceholder: String?) {
+    func showPasswordAlert(title: String?,
+                           message: String,
+                           textFieldPlaceholder: String) {
         let alert = UIAlertController(title: title,
                                       message: message,
                                       preferredStyle: .alert)
-        if let textFieldPlaceholder {
-            alert.addTextField { (textField) in
-                textField.placeholder = textFieldPlaceholder
-                textField.isSecureTextEntry = true
-            }
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-            alert.addAction(UIAlertAction(title: "Delete", style: .destructive){ [weak self, weak alert] (_) in
-                guard let textField = alert?.textFields?[0],
-                      let self else { return }
-                self.output?.deleteAccount(with: textField.text ?? "")
-            })
-        } else {
-            alert.addAction(UIAlertAction(title: "Ok", style: .default))
+        alert.addTextField { (textField) in
+            textField.placeholder = textFieldPlaceholder
+            textField.isSecureTextEntry = true
         }
+        alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
+        alert.addAction(UIAlertAction(title: L10n.delete, style: .destructive){ [weak self, weak alert] (_) in
+            guard let textField = alert?.textFields?[0],
+                  let self else { return }
+            self.output?.deleteAccount(with: textField.text ?? "")
+        })
         present(alert, animated: true)
     }
+    
     func cellValue(for indexPath: IndexPath) -> String? {
         guard let cell = tableView.cellForRow(at: indexPath) as? AccountInfoCell
         else { return nil }

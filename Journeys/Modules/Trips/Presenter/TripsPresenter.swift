@@ -188,9 +188,7 @@ extension TripsPresenter: TripsViewOutput {
             moduleOutput?.tripsCollectionWantsToOpenNewRouteModule()
         default:
             guard tripsData.indices.contains(indexPath.row) else {
-                view?.showAlert(title: "Ошибка",
-                                message: "Возникла ошибка при открытии данных маршрута",
-                                actionTitle: "Ок")
+                didRecieveError(error: .obtainDataError)
                 return
             }
             moduleOutput?.tripCollectionWantsToOpenTripInfoModule(trip: Trip(tripWithOtherData: tripsData[indexPath.row]),
@@ -213,9 +211,7 @@ extension TripsPresenter: TripsViewOutput {
     
     func didTapEditButton(at indexPath: IndexPath) {
         guard tripsData.indices.contains(indexPath.row) else {
-            view?.showAlert(title: "Ошибка",
-                           message: "Возникла ошибка при попытке отредактировать данные маршрута",
-                           actionTitle: "Ок")
+            didRecieveError(error: .obtainDataError)
             return
         }
         moduleOutput?.tripsCollectionWantsToOpenExistingRoute(with: tripsData[indexPath.item])
@@ -223,19 +219,19 @@ extension TripsPresenter: TripsViewOutput {
     
     func didTapDeleteButton(at indexPath: IndexPath) {
         guard tripsData.indices.contains(indexPath.row) else {
-            view?.showAlert(title: "Ошибка",
-                           message: "Возникла ошибка при удалении данных маршрута",
-                           actionTitle: "Ок")
+            didRecieveError(error: .deleteDataError)
             return
         }
-        view?.showChoiceAlert(title: "Удалить маршрут", message: "Вы уверены, что хотите удалиь маршрут?", agreeActionTitle: "Да", disagreeActionTitle: "Нет", cellIndexPath: indexPath)
+        view?.showChoiceAlert(title: "Удалить маршрут",
+                              message: "Вы уверены, что хотите удалиь маршрут?",
+                              agreeActionTitle: "Да",
+                              disagreeActionTitle: "Нет",
+                              cellIndexPath: indexPath)
     }
     
     func didSelectAgreeAlertAction(cellIndexPath: IndexPath) {
         guard tripsData.indices.contains(cellIndexPath.row) else {
-            view?.showAlert(title: "Ошибка",
-                           message: "Возникла ошибка при удалении данных маршрута",
-                           actionTitle: "Ок")
+            didRecieveError(error: .deleteDataError)
             return
         }
         cellToDeleteIndexPath = cellIndexPath
@@ -262,12 +258,10 @@ extension TripsPresenter: TripsInteractorOutput {
     
     func didFetchTripsData(trips: [TripWithRouteAndImage]) {
         dataIsLoaded = true
-        
         tripsData = trips
         tripsData.sort(by: {$0.dateChanged.timeIntervalSinceNow > $1.dateChanged.timeIntervalSinceNow})
         
         reloadView()
-        
         loadImagesForTrips()
     }
     
@@ -293,23 +287,21 @@ extension TripsPresenter: TripsInteractorOutput {
     }
     
     func didRecieveError(error: Errors) {
+        guard let alertShowingVC = view as? AlertShowingViewController else { return }
+        
         switch error {
         case .obtainDataError:
             dataIsLoaded = true
             hideLoadingView()
-            view?.showAlert(title: "Ошибка",
-                           message: "Возникла ошибка при получении данных",
-                           actionTitle: "Ок")
+            alertShowingVC.showDisappearingAlert(title: L10n.error, message: L10n.Alerts.Messages.errorWhileObtainingData)
             view?.endRefresh()
         case .saveDataError:
-            view?.showAlert(title: "Ошибка",
-                           message: "Возникла ошибка при сохранении данных. Проверьте корректность данных и поробуйте снова",
-                           actionTitle: "Ок")
+            alertShowingVC.showDisappearingAlert(title: L10n.error,
+                                                 message: L10n.Alerts.Messages.errorWhileSavingData)
         case .deleteDataError:
             cellToDeleteIndexPath = nil
-            view?.showAlert(title: "Ошибка",
-                           message: "Возникла ошибка при удалении данных",
-                           actionTitle: "Ок")
+            alertShowingVC.showDisappearingAlert(title: L10n.error,
+                                                 message: L10n.Alerts.Messages.errorWhileDeletingData)
         default:
             break
         }

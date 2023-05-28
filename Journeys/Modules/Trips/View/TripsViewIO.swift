@@ -11,7 +11,6 @@ import UIKit
 // MARK: - Trips ViewInput
 
 protocol TripsViewInput: AnyObject {
-    func showAlert(title: String, message: String, actionTitle: String)
     func showChoiceAlert(title: String,
                          message: String,
                          agreeActionTitle: String,

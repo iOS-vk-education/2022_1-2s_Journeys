@@ -20,8 +20,6 @@ protocol StuffListsViewInput: AnyObject {
     
     func embedPlaceholder()
     func hidePlaceholder()
-    
-    func showAlert(title: String, message: String)
 }
 
 // MARK: - StuffLists ViewOutput

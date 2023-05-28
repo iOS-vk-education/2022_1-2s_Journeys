@@ -40,6 +40,11 @@ final class StuffListsPresenter {
         default: break
         }
     }
+    
+    private func showAlert(error: Errors) {
+        guard let alertShowingVC = view as? AlertShowingViewController else { return }
+        askToShowErrorAlert(error, alertShowingVC: alertShowingVC)
+    }
 }
 
 extension StuffListsPresenter: StuffListsModuleInput {
@@ -145,17 +150,21 @@ extension StuffListsPresenter: StuffListsModelOutput {
         }
     }
     
-    func didReceiveError(_ error: Error) {
+    func didReceiveError(_ error: Errors) {
         view?.setCollectionViewAllowsSelection(to: true)
         if stuffLists.isEmpty {
             view?.embedPlaceholder()
         } else {
             view?.hidePlaceholder()
         }
+        showAlert(error: error)
     }
     
     func nothingToAdd() {
         view?.setCollectionViewAllowsSelection(to: true)
-        view?.showAlert(title: "Nothing to add", message: "")
+        showAlert(error: .custom(title: nil, message: L10n.nothingToAdd))
     }
+}
+
+extension StuffListsPresenter: AskToShowAlertProtocol {
 }

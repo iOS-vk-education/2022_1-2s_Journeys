@@ -14,7 +14,7 @@ final class AddStuffCell: UITableViewCell {
 
     private var title: UILabel = {
         let label = UILabel()
-        label.text = L10n.addStuff
+        label.text = L10n.newStuff
         label.tintColor = UIColor(asset: Asset.Colors.Stuff.addCellColor)
         return label
     }()

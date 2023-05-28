@@ -68,6 +68,15 @@ final class AccountInfoPresenter {
     private func hideLoadingView() {
         view?.hideLoadingView()
     }
+    
+    private func showAlert(error: Errors, isOkActionNeeded: Bool = false) {
+        guard let alertShowingVC = view as? AlertShowingViewController else { return }
+        if isOkActionNeeded {
+            askToShowAlertWithOKAction(error, alertShowingVC: alertShowingVC, handler: nil)
+        } else {
+            askToShowErrorAlert(error, alertShowingVC: alertShowingVC)
+        }
+    }
 }
 
 extension AccountInfoPresenter: AccountInfoModuleInput {
@@ -128,9 +137,9 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
     
     private func saveLoginInfo(_ loginInfo: LoginInfo) {
         guard let email = userData?.email else {
-            view?.showAlert(title: "Ошибка",
-                            message: "Возникли проблемы с вашим Email адресом, перезайдите в аккаунт",
-                            textFieldPlaceholder: nil)
+            showAlert(error: .custom(title: L10n.error,
+                                     message: L10n.emailProblems),
+                      isOkActionNeeded: true)
             return
         }
         if let newEmail = loginInfo.newEmail, newEmail != email {
@@ -156,9 +165,8 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
                                         password: String?,
                                         completion: @escaping (String) -> Void) {
         guard let password else {
-            view?.showAlert(title: "Ошибка",
-                            message: "Для сменя информации для авторизации необходимо ввести пароль",
-                            textFieldPlaceholder: nil)
+            showAlert(error: .custom(title: L10n.error,
+                                     message: L10n.enterPasswordToChangeAuthInfo))
             return
         }
         dataStoreDispatchGroup.enter()
@@ -176,15 +184,13 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
                                            confirmPassword: String?) {
         if let newPassword {
             guard let password else {
-                view?.showAlert(title: "Ошибка",
-                                message: "Для сменя информации для авторизации необходимо ввести пароль",
-                                textFieldPlaceholder: nil)
+                showAlert(error: .custom(title: L10n.error,
+                                         message: L10n.enterPasswordToChangeAuthInfo))
                 return
             }
             guard confirmPassword == newPassword else {
-                view?.showAlert(title: "Ошибка",
-                                message: "Новые пароли не совпадают!",
-                                textFieldPlaceholder: nil)
+                showAlert(error: .custom(title: L10n.error,
+                                         message: L10n.passwordsDontMatch))
                 return
             }
             dataStoreDispatchGroup.enter()
@@ -199,9 +205,9 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
     }
     
     func didTapDeleteAccountButton() {
-        view?.showAlert(title: L10n.Alerts.Titles.deleteAccount,
-                        message: L10n.Alerts.Messages.deleteAccount,
-                        textFieldPlaceholder: L10n.Alerts.Messages.enterYourPassword)
+        view?.showPasswordAlert(title: L10n.Alerts.Titles.deleteAccount,
+                                message: L10n.Alerts.Messages.deleteAccount,
+                                textFieldPlaceholder: L10n.Alerts.Messages.enterYourPassword)
     }
     
     func displayData(for indexPath: IndexPath) -> AccountInfoCell.DisplayData? {
@@ -253,9 +259,9 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
     
     func deleteAccount(with passwordApprove: String?) {
         guard let passwordApprove else {
-            view?.showAlert(title: "Enter your password",
-                            message: "Account was not deleted, pleace try again",
-                            textFieldPlaceholder: nil)
+            showAlert(error: .custom(title: nil,
+                                     message: L10n.accountWasntDeleted),
+                      isOkActionNeeded: true)
             return
         }
         model?.deleteUser(with: passwordApprove)
@@ -271,9 +277,13 @@ extension AccountInfoPresenter: AccountInfoModelOutput {
     func didRecieveError(error: Error) {
         self.view?.hideLoadingView()
         didReceiveAnyError = true
-        view?.showAlert(title: "Error",
-                        message: error.localizedDescription,
-                        textFieldPlaceholder: nil)
+        if let customError = error as? Errors {
+            showAlert(error: customError)
+        } else {
+            showAlert(error: .custom(title: L10n.error,
+                                     message: error.localizedDescription),
+                      isOkActionNeeded: true)
+        }
     }
     
     func didStoreData(_ data: StorableData) {
@@ -305,9 +315,7 @@ extension AccountInfoPresenter: AccountInfoModelOutput {
     }
     
     func saveSuccesfull() {
-        view?.showAlert(title: "Данные сохранены",
-                        message: "Данные успешно сохранены",
-                        textFieldPlaceholder: nil)
+        showAlert(error: .custom(title: nil, message: L10n.Alerts.Messages.saveSuccessful))
         var indexPaths: [IndexPath] = []
         for loginInfo in AccountInfoCell.CellType.LoginInfo.allCases {
             if loginInfo != .email {
@@ -318,9 +326,9 @@ extension AccountInfoPresenter: AccountInfoModelOutput {
     }
     
     func deleteSuccesfull() {
-        view?.showAlert(title: L10n.Alerts.Titles.success,
-                        message: L10n.Alerts.Messages.accountWasDeleted,
-                        textFieldPlaceholder: nil)
+        showAlert(error: .custom(title: nil, message: L10n.Alerts.Messages.accountWasDeleted))
     }
-    
+}
+
+extension AccountInfoPresenter: AskToShowAlertProtocol {
 }

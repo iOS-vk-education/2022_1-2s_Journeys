@@ -9,7 +9,7 @@ import UIKit
 
 // MARK: - StuffListsViewController
 
-final class StuffListsViewController: UIViewController {
+final class StuffListsViewController: AlertShowingViewController {
     
     // MARK: Private properties
     private lazy var collectionView: UICollectionView = {
@@ -21,7 +21,7 @@ final class StuffListsViewController: UIViewController {
     private lazy var newStuffListFloatingButton: FloatingButton = {
         let button = FloatingButton()
         button.backgroundColor = UIColor(asset: Asset.Colors.BaseColors.contrastToThemeColor)
-        button.configure(title: L10n.addStuffList)
+        button.configure(title: L10n.newStuffList)
         button.addTarget(self, action: #selector(didTapNewStuffListButton), for: .touchUpInside)
         view.addSubview(button)
         return button
@@ -155,14 +155,6 @@ extension StuffListsViewController: StuffListsViewInput {
     func setCheckmarkVisibility(to value: Bool, at indexPath: IndexPath) {
         guard let stuffListCell = collectionView.cellForItem(at: indexPath) as? StuffListCell else { return }
         stuffListCell.setCheckmarkVisibility(to: value)
-    }
-    
-    func showAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title,
-                                      message: message,
-                          preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
     }
 }
 

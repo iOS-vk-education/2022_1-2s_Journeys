@@ -115,7 +115,7 @@ extension CertainStuffListModel: CertainStuffListModelInput {
         }
         firebaseService.deleteStuffList(stuffListId) { [weak self] error in
             if let error {
-                self?.output?.didReceiveError(error)
+                self?.output?.didReceiveError(.deleteDataError)
             } else {
                 self?.deleteStuff(stuff) { [weak self] in
                     self?.output?.didDeleteStuffList()

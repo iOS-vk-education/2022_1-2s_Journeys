@@ -7,6 +7,7 @@ target 'Journeys' do
 
   # Pods for Journeys
   pod 'SnapKit', '5.6.0'
+  pod 'PinLayout'
   pod 'SwiftLint'
   pod 'SwiftGen', '~> 6.5.1'
   pod 'PureLayout'

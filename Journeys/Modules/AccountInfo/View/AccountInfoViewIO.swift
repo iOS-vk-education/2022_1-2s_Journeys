@@ -13,9 +13,9 @@ import Foundation
 protocol AccountInfoViewInput: AnyObject {
     func reloadData()
     func cellValue(for indexPath: IndexPath) -> String?
-    func showAlert(title: String,
-                   message: String,
-                   textFieldPlaceholder: String?)
+    func showPasswordAlert(title: String?,
+                           message: String,
+                           textFieldPlaceholder: String)
     func showLoadingView()
     func hideLoadingView()
     

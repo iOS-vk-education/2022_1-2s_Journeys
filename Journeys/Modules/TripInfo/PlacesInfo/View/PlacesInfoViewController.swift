@@ -17,7 +17,7 @@ enum SectionType {
 
 // MARK: - PlacesIngoViewController
 
-final class PlacesInfoViewController: UIViewController {
+final class PlacesInfoViewController: AlertShowingViewController {
 
     var output: PlacesInfoViewOutput?
     
@@ -265,16 +265,6 @@ extension PlacesInfoViewController: PlacesInfoViewInput {
     func reloadData() {
         DispatchQueue.main.async { [weak self] in
             self?.mainCollectionView.reloadData()
-        }
-    }
-    
-    func showAlert(title: String, message: String) {
-        DispatchQueue.main.async {
-            let alert = UIAlertController(title: title,
-                              message: message,
-                              preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
         }
     }
     

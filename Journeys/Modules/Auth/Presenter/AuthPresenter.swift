@@ -74,15 +74,19 @@ extension AuthPresenter: AuthViewOutput {
     func authData(email: String?, password: String?, confirmPassword: String? = nil) {
         if moduleType == .registration {
             guard password == confirmPassword else {
-                view?.showAlert(title: "Ошибка", message: "Пароли не совпадают", textFieldPlaceholder: nil)
+                view?.showAlert(title: nil,
+                                message: L10n.passwordsDontMatch,
+                                textFieldPlaceholder: nil,
+                                autoClose: false)
                 return
             }
         }
         guard let email,
               let password else {
-            view?.showAlert(title: "Ошибка",
-                            message: "Заполните все поля для авторизации",
-                            textFieldPlaceholder: nil)
+            view?.showAlert(title: nil,
+                            message: L10n.notAllRequiredFieldsAreFilled,
+                            textFieldPlaceholder: nil,
+                            autoClose: false)
             return
         }
         switch moduleType {
@@ -115,16 +119,18 @@ extension AuthPresenter: AuthViewOutput {
     }
     
     func didTapResetPasswordButton() {
-        view?.showAlert(title: "Reset",
-                        message: "Enter your email",
-                        textFieldPlaceholder: "Enter email")
+        view?.showAlert(title: L10n.resetingPassword,
+                        message: nil,
+                        textFieldPlaceholder: L10n.enterEmail,
+                        autoClose: false)
     }
     
     func emailForReset(_ email: String?) {
         guard let email else {
-            view?.showAlert(title: "Ошибка",
-                            message: "Email не заполнен",
-                            textFieldPlaceholder: nil)
+            view?.showAlert(title: nil,
+                            message: L10n.enterEmail,
+                            textFieldPlaceholder: nil,
+                            autoClose: true)
             return
         }
         model?.resetPassword(for: email)
@@ -134,7 +140,10 @@ extension AuthPresenter: AuthViewOutput {
 
 extension AuthPresenter: AuthModelOutput {
     func didRecieveError(error: Error) {
-        view?.showAlert(title: "Error", message: "\(error.localizedDescription)", textFieldPlaceholder: nil)
+        view?.showAlert(title: L10n.error,
+                        message: "\(error.localizedDescription)",
+                        textFieldPlaceholder: nil,
+                        autoClose: false)
     }
     
     func authSuccesfull() {
@@ -145,6 +154,7 @@ extension AuthPresenter: AuthModelOutput {
     func resetSuccesfull(for email: String) {
         view?.showAlert(title: L10n.Alerts.Titles.success,
                         message: "\(L10n.Alerts.Messages.passwordResetDone) (\(email))",
-                        textFieldPlaceholder: nil)
+                        textFieldPlaceholder: nil,
+                        autoClose: true)
     }
 }

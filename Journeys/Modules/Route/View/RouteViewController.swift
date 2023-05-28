@@ -9,7 +9,7 @@ import UIKit
 
 // MARK: - RouteViewController
 
-final class RouteViewController: UIViewController {
+final class RouteViewController: AlertShowingViewController {
 
     // MARK: Private properties
     private var floatingRouteBuildButton = FloatingButton()
@@ -172,14 +172,6 @@ extension RouteViewController: RouteViewInput {
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
         }
-    }
-    
-    func showAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title,
-                                      message: message,
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
     }
     
     func showLoadingView() {

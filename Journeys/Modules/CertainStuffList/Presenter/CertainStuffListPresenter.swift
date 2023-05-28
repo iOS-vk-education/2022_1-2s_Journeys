@@ -35,6 +35,17 @@ final class CertainStuffListPresenter {
         stuff.remove(at: indexPath.row)
         view?.deleteCell(at: indexPath)
     }
+    
+    private func showAlert(error: Errors, okActionHandler: ((UIAlertAction) -> Void)? = nil) {
+        guard let alertShowingVC = view as? AlertShowingViewController else { return }
+        if let okActionHandler {
+            askToShowAlertWithOKAction(error,
+                                       alertShowingVC: alertShowingVC,
+                                       handler: okActionHandler)
+        } else {
+            askToShowErrorAlert(error, alertShowingVC: alertShowingVC)
+        }
+    }
 }
 
 extension CertainStuffListPresenter: CertainStuffListViewOutput {    
@@ -188,11 +199,9 @@ extension CertainStuffListPresenter: StuffCellDelegate {
         }
         guard stuff.indices.contains(indexPath.row) else { return }
         stuff[indexPath.row].emoji = text
-//        didFinishEditMode()
     }
     
     func nameTextFieldDidChange(_ text: String, at indexPath: IndexPath) {
-//        didFinishEditMode()
         guard text.count > 0 else {
             deleteCell(at: indexPath)
             return
@@ -212,22 +221,25 @@ extension CertainStuffListPresenter: CertainStuffListModelOutput {
         view?.reloadData()
     }
     
-    func didReceiveError(_ error: Error) {
-        view?.showAlert(title: "ERROR", message: error.localizedDescription, actionHandler: nil)
+    func didReceiveError(_ error: Errors) {
+        showAlert(error: error)
     }
     
     func didSaveStuffList(stuffList: StuffList, stuff: [Stuff]) {
         self.stuffList = stuffList
         self.stuff = stuff
         view?.reloadData()
-        view?.showAlert(title: "Save successful", message: "", actionHandler: nil)
+        showAlert(error: .custom(title: nil, message: L10n.Alerts.Messages.saveSuccessful))
     }
     
     func didDeleteStuffList() {
-        view?.showAlert(title: "Delete successful", message: "") { [weak self] _ in
+        showAlert(error: .custom(title: nil, message: L10n.Alerts.Messages.deleteSuccessful)) { [weak self] _ in
             self?.moduleOutput.closeCertainStuffListsModule()
         }
     }
 }
 extension CertainStuffListPresenter: CertainStuffListModuleInput {
+}
+
+extension CertainStuffListPresenter: AskToShowAlertProtocol {
 }
