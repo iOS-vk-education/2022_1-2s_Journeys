@@ -9,12 +9,12 @@ import Foundation
 import UIKit
 import FirebaseFirestore
 import FirebaseAuth
+import FirebaseStorage
 
 protocol FirebaseServiceObtainProtocol {
     func obtainTrip(with identifier: String, completion: @escaping (Result<Trip, Error>) -> Void)
     func obtainRoute(with identifier: String, completion: @escaping (Result<Route, Error>) -> Void)
     func obtainTrips(type: TripsType, completion: @escaping (Result<[Trip], Error>) -> Void)
-    func obtainTripImage(for imageURLString: String, completion: @escaping (Result<UIImage, Error>) -> Void)
     
     func obtainBaseStuff(completion: @escaping (Result<[BaseStuff], Error>) -> Void)
     func obtainBaggage(baggageId: String, completion: @escaping (Result<[Stuff], Error>) -> Void)
@@ -25,6 +25,10 @@ protocol FirebaseServiceObtainProtocol {
     
     func obtainCurrentUserData(completion: @escaping (Result<User, Error>) -> Void)
     func currentUserEmail() -> String?
+    
+    func obtainImage(for url: String?,
+                     imageType: FirebaseStoreageImageType,
+                     completion: @escaping (Result<UIImage, Error>) -> Void)
 }
 
 extension FirebaseService: FirebaseServiceObtainProtocol {
@@ -104,21 +108,6 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
                 return
             }
             completion(.success(route))
-        }
-    }
-    
-    func obtainTripImage(for imageURLString: String, completion: @escaping (Result<UIImage, Error>) -> Void) {
-        let ref = firebaseManager.storage.reference(forURL: imageURLString)
-        let maxSize = Int64(10 * 1024 * 1024)
-        ref.getData(maxSize: maxSize) { (data, error) in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            if let imageData = data {
-                guard let image = UIImage(data: imageData) else { return }
-                completion(.success(image))
-            }
         }
     }
     
@@ -225,7 +214,7 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
                 completion(.success(stuff))
             }
     }
-        func obtainCurrentUserData(completion: @escaping (Result<User, Error>) -> Void) {
+    func obtainCurrentUserData(completion: @escaping (Result<User, Error>) -> Void) {
         guard let userId = firebaseManager.auth.currentUser?.uid else {
             completion(.failure(Errors.obtainDataError))
             return
@@ -253,5 +242,37 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
     
     func currentUserEmail() -> String? {
         firebaseManager.auth.currentUser?.email
+    }
+    
+    func obtainImage(for url: String?,
+                     imageType: FirebaseStoreageImageType,
+                     completion: @escaping (Result<UIImage, Error>) -> Void) {
+        var reference: StorageReference?
+        if imageType == .avatar {
+            guard let userId = firebaseManager.auth.currentUser?.uid else {
+                completion(.failure(Errors.obtainDataError))
+                return
+            }
+            reference = firebaseManager.storage.reference(withPath: "avatars/\(userId)")
+        }
+        if let url {
+            reference = firebaseManager.storage.reference(forURL: url)
+        }
+        let maxSize = Int64(10 * 1024 * 1024)
+        
+        guard let reference else {
+            completion(.failure(Errors.obtainDataError))
+            return
+        }
+        reference.getData(maxSize: maxSize) { (data, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            if let imageData = data {
+                guard let image = UIImage(data: imageData) else { return }
+                completion(.success(image))
+            }
+        }
     }
 }
