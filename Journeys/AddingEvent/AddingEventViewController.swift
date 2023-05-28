@@ -15,6 +15,8 @@ final class AddingEventViewController: UIViewController {
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
     
+    private let loadingView = LoadingView()
+    
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +57,7 @@ final class AddingEventViewController: UIViewController {
 
     @objc
     func didTapReadyButton() {
+        showLoadingView()
         let flatCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 1)) as? PlacemarkCell
         let ofice = flatCell?.returnText()
 
@@ -110,15 +113,14 @@ final class AddingEventViewController: UIViewController {
                                      description: eventDescription ?? " ",
                                      isLiked: false,
                                     userID: "22")
-
         output?.saveData(post: post)
-        output?.openEventsVC()
     }
 
     private func setupCollectionView() {
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
+
         collectionView.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
         collectionView.contentInset = AddingConstants.collectionInset
         collectionView.register(PlacemarkCell.self,
@@ -132,6 +134,17 @@ final class AddingEventViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
+    }
+    
+    func showLoadingView() {
+        view.addSubview(loadingView)
+        loadingView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+        }
+        view.bringSubviewToFront(loadingView)
     }
 
     private func makeConstraints() {
@@ -322,7 +335,6 @@ extension AddingEventViewController: UICollectionViewDataSource {
 
 extension AddingEventViewController: DescriptionCellDelegate & UINavigationControllerDelegate {
     func editingBegan() {
-        return
     }
     
 }

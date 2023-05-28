@@ -52,6 +52,7 @@ final class SelectedEventsViewController: UIViewController {
         setupCollectionView(collectionView: collectionViewFavorites)
         segmentControl.frame = CGRect(x: 50.0, y: 70.0, width: view.bounds.width, height: 30.0)
         makeConstraints()
+        output?.didLoadView()
     }
     
     private func setupCollectionView(collectionView: UICollectionView) {
@@ -62,6 +63,9 @@ final class SelectedEventsViewController: UIViewController {
         collectionView.contentInset = SelectedEventsConstants.collectionInset
         collectionView.register(FavoriteEventCell.self, forCellWithReuseIdentifier: "FavoriteEventCell")
         makeConstanceCollectionView(collectionView: collectionView)
+    }
+    func obtainData() {
+        collectionViewCreated.reloadData()
     }
     
     @objc
@@ -128,7 +132,17 @@ extension SelectedEventsViewController: UICollectionViewDelegate {
 
 extension SelectedEventsViewController: UICollectionViewDataSource{
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 5
+        switch segmentControl.selectedSegmentIndex {
+        case 0:
+            return 5
+        case 1:
+            if let createdEvents = output?.displayingData() {
+                return createdEvents.count
+            }
+            return 0
+        default:
+            return 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -156,20 +170,18 @@ extension SelectedEventsViewController: UICollectionViewDataSource{
             return cell
         case 1:
             var cell = UICollectionViewCell()
-            guard let placemarkCell = collectionView.dequeueReusableCell(
+            guard let eventCell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "FavoriteEventCell",
                 for: indexPath
             ) as? FavoriteEventCell else {
                 return cell
             }
-            placemarkCell.configure(data: FavoriteEventCell.DisplayData(picture: UIImage(asset: Asset.Assets.TripCell.tripCellImage2)!,
-                                                                        startDate: "22.05.2023   03:58",
-                                                                        endDate: "22.05.2023   03:58",
-                                                                        name: "Читательский клуб",
-                                                                        address: "Милицейская, 11",
-                                                                        isInFavourites: true,
-                                                                        cellType: .created), delegate: self, indexPath: indexPath)
-            cell = placemarkCell
+            
+            guard let data = output?.displayingCreatedEvent(for: indexPath.section) else {
+                return UICollectionViewCell()
+            }
+            eventCell.configure(data: data, delegate: self, indexPath: indexPath)
+            cell = eventCell
             return cell
         default:
             var cell = UICollectionViewCell()
@@ -179,6 +191,22 @@ extension SelectedEventsViewController: UICollectionViewDataSource{
 }
 
 extension SelectedEventsViewController: SelectedEventsViewInput {
+    func reloadImage() {
+        collectionViewCreated.reloadData()
+    }
+    
+    func show(error: Error) {
+        let alertViewController = UIAlertController(title: L10n.error, message: error.localizedDescription, preferredStyle: .alert)
+        
+        alertViewController.addAction(UIAlertAction(title: "OK", style: .cancel))
+        
+        present(alertViewController, animated: true)
+    }
+    
+    func reload() {
+        self.obtainData()
+    }
+    
 }
 
 extension SelectedEventsViewController: FavoriteEventCellDelegate {

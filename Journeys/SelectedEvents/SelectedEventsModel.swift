@@ -14,4 +14,22 @@ final class SelectedEventsModel {
 }
 
 extension SelectedEventsModel: SelectedEventsModelInput {
+    func loadEvents(completion: @escaping (Result<[Event], Error>) -> Void) {
+        service.loadEvents { result in
+            completion(result)
+        }
+    }
+    
+    func loadImage(photoURL: String) {
+        service.obtainEventImage(for: photoURL) { [weak self]  result in
+            guard let self else { return }
+            switch result {
+            case .failure:
+                self.output?.didRecieveError(error: .obtainDataError)
+            case .success(let image):
+                self.output?.didReciveImage(image: image)
+            }
+        }
+    }
+    
 }

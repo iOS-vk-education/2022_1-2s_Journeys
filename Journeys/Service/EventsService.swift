@@ -16,6 +16,7 @@ protocol EventsServiceDescription {
     func create(coordinates: Address, completion: @escaping (Result<Address, Error>) -> Void)
     func obtainEventData(eventId: String, completion: @escaping (Result<Event, Error>) -> Void)
     func obtainEventImage(for imageURLString: String, completion: @escaping (Result<UIImage, Error>) -> Void)
+    func loadEvents(completion: @escaping (Result<[Event], Error>) -> Void)
 }
 
 enum EventsServiceError: Error {
@@ -81,6 +82,25 @@ final class EventsService: EventsServiceDescription {
             completion(.success(events))
         }
     }
+    
+    func loadEvents(completion: @escaping (Result<[Event], Error>) -> Void) {
+        guard let userID = FBManager.auth.currentUser?.uid else {
+            return
+        }
+        db.collection("events").whereField("userID", isEqualTo: userID).getDocuments { querySnapshot, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            guard let documents = querySnapshot?.documents else {
+                completion(.failure(EventsServiceError.noDocuments))
+                return
+            }
+            let events = documents.compactMap { Event(dictionary: $0.data(), userID: userID) }
+            completion(.success(events))
+        }
+    }
+
     
     func create(coordinates: Address, completion: @escaping (Result<Address, Error>) -> Void) {
         var ref: DocumentReference?

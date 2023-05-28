@@ -204,7 +204,6 @@ extension SingleEventViewController: UICollectionViewDataSource {
 
 extension SingleEventViewController: DescriptionCellDelegate & UINavigationControllerDelegate{
     func editingBegan() {
-        return
     }
     
 }

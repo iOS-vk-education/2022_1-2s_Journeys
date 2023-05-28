@@ -24,10 +24,12 @@ internal enum Asset {
   internal enum Assets {
     internal static let accentColor = ColorAsset(name: "AccentColor")
     internal static let addIcon = ImageAsset(name: "AddIcon")
+    internal static let icon = ImageAsset(name: "Icon")
     internal static let noPhotoPlaceholder = ImageAsset(name: "NoPhotoPlaceholder")
     internal enum PlacemarkIcons {
       internal static let defaultPlacemark = ImageAsset(name: "DefaultPlacemark")
     }
+    internal static let searchResult = ImageAsset(name: "SearchResult")
     internal enum TripCell {
       internal static let tripCellImage1 = ImageAsset(name: "TripCellImage1")
       internal static let tripCellImage2 = ImageAsset(name: "TripCellImage2")
@@ -36,6 +38,7 @@ internal enum Asset {
       internal static let tripCellImage5 = ImageAsset(name: "TripCellImage5")
     }
     internal static let tripsPlaceholder = ImageAsset(name: "TripsPlaceholder")
+    internal static let userArrow = ImageAsset(name: "UserArrow")
   }
   internal enum Colors {
     internal enum Auth {
@@ -52,6 +55,7 @@ internal enum Asset {
     internal enum Calendar {
       internal static let header = ColorAsset(name: "header")
     }
+    internal static let eventButtons = ColorAsset(name: "EventButtons")
     internal enum Icons {
       internal static let iconsColor = ColorAsset(name: "IconsColor")
       internal static let tappedIconsColor = ColorAsset(name: "TappedIconsColor")
