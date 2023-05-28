@@ -109,8 +109,12 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
             default: break
             }
         }
-        if userData?.name != userNewData.name || userData?.lastName != userNewData.lastName {
+        if (userData?.name != userNewData.name && userNewData.name != nil) ||
+            (userData?.lastName != userNewData.lastName && userNewData.name != nil) {
             saveUserData(userNewData)
+        } else {
+            hideLoadingView()
+            showAlert(error: .custom(title: nil, message: L10n.nothingToSave))
         }
         
         var loginNewData = LoginInfo()

@@ -144,6 +144,8 @@ public enum L10n {
   public static var notAllRequiredFieldsAreFilled: String { return L10n.tr("Localizable", "Not all required fields are filled") }
   /// Нечего добавить
   public static var nothingToAdd: String { return L10n.tr("Localizable", "NothingToAdd") }
+  /// Нет изменений для сохранения
+  public static var nothingToSave: String { return L10n.tr("Localizable", "NothingToSave") }
   /// Уведомления
   public static var notifications: String { return L10n.tr("Localizable", "Notifications") }
   /// Пока что маршрутов нет

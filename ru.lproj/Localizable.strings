@@ -70,6 +70,7 @@
 "EmailProblems" = "Возникли проблемы с вашим Email адресом, перезайдите в аккаунт";
 "EnterPasswordToChangeAuthInfo" = "Для смены информации для авторизации необходимо ввести пароль";
 "AccountWasntDeleted" = "Аккаунт не был удален, попробуйте позднее";
+"NothingToSave" = "Нет изменений для сохранения";
 
 // MARK: Settings
 "Notifications" = "Уведомления";

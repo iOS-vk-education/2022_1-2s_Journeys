@@ -70,6 +70,7 @@
 "EmailProblems" = "There are problems with your Email address, please log in to your account";
 "EnterPasswordToChangeAuthInfo" = "You must enter a password to change the authorization information";
 "AccountWasntDeleted" = "Account was not deleted, pleace try again";
+"NothingToSave" = "No changes to save";
 
 // MARK: Settings
 "Notifications" = "Notifications";
