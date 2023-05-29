@@ -96,14 +96,14 @@ extension EventsCoordinator: EventsModuleOutput {
 
 extension EventsCoordinator: SelectedEventsModuleOutput {
     func closeSelectedEvents() {
-        navigationController.popViewController(animated: true)
+        navigationController.popToRootViewController(animated: false)
     }
 }
 
 
 
 extension EventsCoordinator: AddingModuleOutput {
-    func wantsToOpenEventsVC() {
+    func wantsToOpenEventsVC(coordinates: GeoPoint?) {
         navigationController.popToRootViewController(animated: false)
     }
     func backToSuggestionVC() {

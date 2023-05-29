@@ -15,6 +15,30 @@ final class SingleEventModel {
 }
 
 extension SingleEventModel: SingleEventModelInput {
+    func checkLike(completion: @escaping (Result<[FavoritesEvent], Error>) -> Void) {
+        service.checkLike { result in
+            completion(result)
+        }
+    }
+    
+    func setLike(eventId: String) {
+        service.setLike(eventId: eventId)  { [weak self]  error in
+            guard let self else { return }
+            if error != nil {
+                self.output?.didRecieveError(error: .deleteDataError)
+            }
+        }
+    }
+    
+    func removeLike(eventId: String) {
+        service.removeLike(eventId: eventId)  { [weak self]  error in
+            guard let self else { return }
+            if error != nil {
+                self.output?.didRecieveError(error: .deleteDataError)
+            }
+        }
+    }
+    
     func loadEvent(eventId: String) {
         service.obtainEventData(eventId: eventId) { [weak self]  result in
             guard let self else { return }

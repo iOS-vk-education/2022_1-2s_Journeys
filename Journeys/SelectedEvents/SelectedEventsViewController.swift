@@ -32,6 +32,28 @@ final class SelectedEventsViewController: UIViewController {
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
     
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Идет обновление...")
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        return refreshControl
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
+        setupNavBar()
+        view.addSubview(segmentControl)
+        collectionViewFavorites.addSubview(refreshControl)
+        setupCollectionView(collectionView: collectionViewFavorites)
+        segmentControl.frame = CGRect(x: 50.0, y: 70.0, width: view.bounds.width, height: 30.0)
+        makeConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        output?.didLoadView()
+        super.viewWillAppear(animated)
+    }
     
     private func setupNavBar() {
         navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
@@ -44,28 +66,46 @@ final class SelectedEventsViewController: UIViewController {
         title = L10n.favorites
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
-        setupNavBar()
-        view.addSubview(segmentControl)
-        setupCollectionView(collectionView: collectionViewFavorites)
-        segmentControl.frame = CGRect(x: 50.0, y: 70.0, width: view.bounds.width, height: 30.0)
-        makeConstraints()
-        output?.didLoadView()
-    }
-    
     private func setupCollectionView(collectionView: UICollectionView) {
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
-        collectionView.contentInset = SelectedEventsConstants.collectionInset
         collectionView.register(FavoriteEventCell.self, forCellWithReuseIdentifier: "FavoriteEventCell")
         makeConstanceCollectionView(collectionView: collectionView)
     }
     func obtainData() {
         collectionViewCreated.reloadData()
+        collectionViewFavorites.reloadData()
+    }
+
+    func showChoiceAlert(title: String,
+                         message: String,
+                         agreeActionTitle: String,
+                         disagreeActionTitle: String,
+                         cellIndexPath: IndexPath) {
+        let alert = UIAlertController(title: title,
+                                      message: message,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: agreeActionTitle, style: .default) { _ in
+            self.output?.didSelectAgreeAlertAction(cellIndexPath: cellIndexPath)
+        })
+        alert.addAction(UIAlertAction(title: disagreeActionTitle, style: .default))
+        present(alert, animated: true)
+    }
+    
+    private func makeConstanceCollectionView(collectionView: UICollectionView) {
+        collectionView.snp.makeConstraints { make in
+            make.top.equalTo(segmentControl).inset(40)
+            make.bottom.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+        }
+    }
+
+    
+    @objc
+    private func refresh() {
     }
     
     @objc
@@ -75,6 +115,7 @@ final class SelectedEventsViewController: UIViewController {
             title = L10n.favorites
             collectionViewCreated.isHidden = true
             collectionViewFavorites.isHidden = false
+            collectionViewFavorites.addSubview(refreshControl)
         case 1:
             title = L10n.created
             setupCollectionView(collectionView: collectionViewCreated)
@@ -96,15 +137,6 @@ final class SelectedEventsViewController: UIViewController {
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(10)
             make.leading.equalToSuperview().inset(20)
             make.trailing.equalToSuperview().inset(20)
-        }
-    }
-    
-    private func makeConstanceCollectionView(collectionView: UICollectionView) {
-        collectionView.snp.makeConstraints { make in
-            make.top.equalTo(segmentControl).inset(40)
-            make.bottom.equalToSuperview()
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
         }
     }
 }
@@ -134,12 +166,9 @@ extension SelectedEventsViewController: UICollectionViewDataSource{
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         switch segmentControl.selectedSegmentIndex {
         case 0:
-            return 5
+            return output?.countOfFavorites() ?? 0
         case 1:
-            if let createdEvents = output?.displayingData() {
-                return createdEvents.count
-            }
-            return 0
+            return output?.countOfCreated() ?? 0
         default:
             return 0
         }
@@ -153,20 +182,19 @@ extension SelectedEventsViewController: UICollectionViewDataSource{
         switch segmentControl.selectedSegmentIndex {
         case 0:
             var cell = UICollectionViewCell()
-            guard let placemarkCell = collectionView.dequeueReusableCell(
+            guard let eventCell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "FavoriteEventCell",
                 for: indexPath
             ) as? FavoriteEventCell else {
                 return cell
             }
-            placemarkCell.configure(data: FavoriteEventCell.DisplayData(picture: UIImage(asset: Asset.Assets.TripCell.tripCellImage2)!,
-                                                                        startDate: "22.05.2023   03:58",
-                                                                        endDate: "22.05.2023   03:58",
-                                                                        name: "Читательский клуб",
-                                                                        address: "Милицейская, 11",
-                                                                        isInFavourites: true,
-                                                                        cellType: .favoretes), delegate: self, indexPath: indexPath)
-            cell = placemarkCell
+            
+            guard let data = output?.displayingCreatedEvent(for: indexPath.section, cellType: .favoretes) else {
+                return UICollectionViewCell()
+            }
+            let image = 
+            eventCell.configure(data: data, delegate: self, indexPath: indexPath)
+            cell = eventCell
             return cell
         case 1:
             var cell = UICollectionViewCell()
@@ -177,7 +205,7 @@ extension SelectedEventsViewController: UICollectionViewDataSource{
                 return cell
             }
             
-            guard let data = output?.displayingCreatedEvent(for: indexPath.section) else {
+            guard let data = output?.displayingCreatedEvent(for: indexPath.section, cellType: .created) else {
                 return UICollectionViewCell()
             }
             eventCell.configure(data: data, delegate: self, indexPath: indexPath)
@@ -207,21 +235,25 @@ extension SelectedEventsViewController: SelectedEventsViewInput {
         self.obtainData()
     }
     
+    func endRefresh() {
+        refreshControl.endRefreshing()
+    }
+    
 }
 
 extension SelectedEventsViewController: FavoriteEventCellDelegate {
     func didTapLikeButton(_ indexPath: IndexPath) {
-        
+        output?.didTapLikeButton(at: indexPath)
     }
-    
+
     func didTapEditButton(_ indexPath: IndexPath) {
-        
+
     }
-    
+
     func didTapDeleteButton(_ indexPath: IndexPath) {
-        
+        output?.didTapDeleteButton(at: indexPath)
     }
-    
+
 }
 
 private extension SelectedEventsViewController {

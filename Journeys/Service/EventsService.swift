@@ -17,6 +17,13 @@ protocol EventsServiceDescription {
     func obtainEventData(eventId: String, completion: @escaping (Result<Event, Error>) -> Void)
     func obtainEventImage(for imageURLString: String, completion: @escaping (Result<UIImage, Error>) -> Void)
     func loadEvents(completion: @escaping (Result<[Event], Error>) -> Void)
+    func deleteEventData(eventId: String, completion: @escaping (Error?) -> Void)
+    func deleteAddressData(eventId: String, completion: @escaping (Error?) -> Void)
+    func setLike(eventId: String, completion: @escaping (Error?) -> Void)
+    func removeLike(eventId: String, completion: @escaping (Error?) -> Void)
+    func checkLike(completion: @escaping (Result<[FavoritesEvent], Error>) -> Void)
+    func loadLikedEvents(identifiers: [String], events: [Event], completion: @escaping (Result<[Event], Error>) -> Void)
+    
 }
 
 enum EventsServiceError: Error {
@@ -96,11 +103,11 @@ final class EventsService: EventsServiceDescription {
                 completion(.failure(EventsServiceError.noDocuments))
                 return
             }
-            let events = documents.compactMap { Event(dictionary: $0.data(), userID: userID) }
+            let events = documents.compactMap { Event(dictionary: $0.data(), userID: $0.documentID) }
             completion(.success(events))
         }
     }
-
+    
     
     func create(coordinates: Address, completion: @escaping (Result<Address, Error>) -> Void) {
         var ref: DocumentReference?
@@ -117,21 +124,21 @@ final class EventsService: EventsServiceDescription {
     }
     
     func obtainEventData(eventId: String, completion: @escaping (Result<Event, Error>) -> Void) {
-       db.collection("events").document(eventId).getDocument { (document, error) in
+        db.collection("events").document(eventId).getDocument { (document, error) in
             if let error = error {
                 completion(.failure(error))
-                assertionFailure("Error while obtaining trips data")
+                assertionFailure("Error while obtaining data")
                 return
             }
             guard let data = document?.data() else {
                 assertionFailure("No data found")
                 return
             }
-           guard let event = Event(dictionary: data, userID: "") else {
+            guard let event = Event(dictionary: data, userID: "") else {
                 completion(.failure(FBError.noData))
                 return
             }
-           
+            
             completion(.success(event))
         }
     }
@@ -151,5 +158,98 @@ final class EventsService: EventsServiceDescription {
             }
         }
     }
-
+    
+    func deleteEventData(eventId: String, completion: @escaping (Error?) -> Void) {
+        FBManager.firestore.collection("events").document(eventId).delete { error in
+            if let error = error {
+                completion(error)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
+    func deleteAddressData(eventId: String, completion: @escaping (Error?) -> Void) {
+        FBManager.firestore.collection("address").document(eventId).delete { error in
+            if let error = error {
+                completion(error)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
+    func setLike(eventId: String, completion: @escaping (Error?) -> Void) {
+        var ref: DocumentReference?
+        guard let userID = FBManager.auth.currentUser?.uid else {
+            return
+        }
+        let newDocument: FavoritesEvent = .init(id: userID)
+        ref = db.collection("user_liked").document(userID).collection("likes").document(eventId)
+        ref?.setData(newDocument.dict()) { error in
+            if let error = error {
+                completion(error)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
+    func removeLike(eventId: String, completion: @escaping (Error?) -> Void) {
+        var ref: DocumentReference?
+        guard let userID = FBManager.auth.currentUser?.uid else {
+            return
+        }
+        FBManager.firestore.collection("user_liked").document(userID).collection("likes").document(eventId).delete { error in
+            if let error = error {
+                completion(error)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
+    func checkLike(completion: @escaping (Result<[FavoritesEvent], Error>) -> Void) {
+        guard let userID = FBManager.auth.currentUser?.uid else {
+            return
+        }
+        db.collection("user_liked").document(userID).collection("likes").getDocuments { querySnapshot, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            guard let documents = querySnapshot?.documents else {
+                completion(.failure(EventsServiceError.noDocuments))
+                return
+            }
+            let events = documents.compactMap { FavoritesEvent(id: $0.documentID) }
+            completion(.success(events))
+        }
+    }
+    
+    func loadLikedEvents(identifiers: [String], events: [Event], completion: @escaping (Result<[Event], Error>) -> Void) {
+        guard let userID = FBManager.auth.currentUser?.uid else {
+            return
+        }
+        var likedEvents = events
+        for id in identifiers {
+            db.collection("events").document(id).getDocument { (document, error) in
+                if let error = error {
+                    completion(.failure(error))
+                    assertionFailure("Error while obtaining data")
+                    return
+                }
+                guard let data = document?.data() else {
+                    assertionFailure("No data found")
+                    return
+                }
+                guard let event = Event(dictionary: data, userID: id) else {
+                    completion(.failure(FBError.noData))
+                    return
+                }
+                likedEvents.append(event)
+                completion(.success(likedEvents))
+            }
+        }
+    }
 }

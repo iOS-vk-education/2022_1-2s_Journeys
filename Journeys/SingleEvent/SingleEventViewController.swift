@@ -20,6 +20,12 @@ class SingleEventViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        
+        return UICollectionView(frame: .zero, collectionViewLayout: layout)
+    }()
+    
     override func viewDidLoad() {
         output?.didLoadView()
         super.viewDidLoad()
@@ -27,12 +33,6 @@ class SingleEventViewController: UIViewController {
         setupCollectionView()
         makeConstraints()
     }
-    
-    private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        
-        return UICollectionView(frame: .zero, collectionViewLayout: layout)
-    }()
     
     func obtainData() {
         collectionView.reloadData()
@@ -119,10 +119,9 @@ extension SingleEventViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let data = output?.displayingData()
-        let image = output?.displayImage()
-        
         var cell = UICollectionViewCell()
+        guard let (data, liked) = output?.displayingData() else { return cell}
+        let image = output?.displayImage()
         if indexPath.section == 0 {
             guard let placemarkCell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "NameEventCell",
@@ -130,8 +129,8 @@ extension SingleEventViewController: UICollectionViewDataSource {
             ) as? NameEventCell else {
                 return cell
             }
-            
-            placemarkCell.configure(data: NameEventCellDisplayData(name: data?.name ?? " ", type: data?.type ?? " "))
+            placemarkCell.configure(data: NameEventCellDisplayData(name: data?.name ?? " ", type: data?.type ?? " "), isLiked: liked ?? false)
+            placemarkCell.delegate = self
             cell = placemarkCell
         }
         if indexPath.section == 1 {
@@ -191,7 +190,7 @@ extension SingleEventViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 5 {
-            let data = output?.displayingData()
+            guard let (data, liked) = output?.displayingData() else { return }
             guard let link = data?.link else { return }
             guard let url = URL(string: link) else { return }
             let svc = SFSafariViewController(url: url)
@@ -244,4 +243,17 @@ extension SingleEventViewController: SingleEventViewInput {
         alertViewController.addAction(UIAlertAction(title: "OK", style: .cancel))
         present(alertViewController, animated: true)
     }
+}
+
+extension SingleEventViewController: NameEventCellDelegate {
+    func didLike(isLiked: Bool) {
+        switch isLiked {
+        case true:
+            output?.newLike()
+        case false:
+            output?.removeLike()
+        }
+    }
+    
+    
 }

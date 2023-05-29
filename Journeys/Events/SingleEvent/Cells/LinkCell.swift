@@ -95,6 +95,9 @@ final class LinkCell: UICollectionViewCell {
         
     func configure(data: AddressCellDisplayData) {
             link.text = data.text
+        if data.text == "" {
+            source.text = "Источник: отсутствует"
+        }
         }
 }
     

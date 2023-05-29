@@ -112,7 +112,7 @@ final class AddingEventViewController: UIViewController {
                                      room: ofice ?? " ",
                                      description: eventDescription ?? " ",
                                      isLiked: false,
-                                    userID: "22")
+                                     userID: "22")
         output?.saveData(post: post)
     }
 
@@ -174,7 +174,7 @@ final class AddingEventViewController: UIViewController {
     }
 
     private func address() -> String {
-        guard let address = output?.displayAddress() else {return "No address" }
+        guard let address = output?.displayAddress() else { return "No address" }
         return address
     }
 }

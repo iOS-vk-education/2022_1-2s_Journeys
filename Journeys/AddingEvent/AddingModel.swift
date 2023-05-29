@@ -42,8 +42,8 @@ extension AddingModel: AddingModelInput {
                              floor: event.floor,
                              room: event.room,
                              description: event.description,
-                            isLiked: false,
-                            userID: "")
+                             isLiked: false,
+                             userID: "")
         service.storeAddingData(event: newEvent, coordinatesId: coordinatesId) { result in
             switch result {
             case .failure:

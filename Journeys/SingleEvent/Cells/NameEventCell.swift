@@ -72,6 +72,7 @@ final class NameEventCell: UICollectionViewCell {
     private func setupLike() {
         updateLikeImage(with: !isLiked)
         isLiked = !isLiked
+        delegate?.didLike(isLiked: isLiked)
     }
         
     
@@ -82,8 +83,6 @@ final class NameEventCell: UICollectionViewCell {
         likeImageView.isUserInteractionEnabled = true
         likeImageView.tintColor = .systemPink
         likeImageView.contentMode = .scaleAspectFill
-        
-        likeImageView.image = UIImage(systemName: "heart")
     }
     
     private func setupSubviews() {
@@ -123,9 +122,11 @@ final class NameEventCell: UICollectionViewCell {
     }
     
         
-    func configure(data: NameEventCellDisplayData) {
+    func configure(data: NameEventCellDisplayData, isLiked: Bool) {
         nameField.text = data.name
         typeField.text = data.type
+        self.isLiked = isLiked
+        updateLikeImage(with: isLiked)
     }
 }
     

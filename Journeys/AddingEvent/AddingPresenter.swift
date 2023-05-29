@@ -16,7 +16,6 @@ final class AddingPresenter {
     var coordinates: GeoPoint?
     var address: String?
     var eventImage: UIImage?
-    var delegate: ReloadViewDelegate?
     private let model: AddingModelInput
     init(view: AddingViewInput, model: AddingModelInput, coordinates: GeoPoint?, address: String?) {
         self.view = view
@@ -55,8 +54,7 @@ extension AddingPresenter: AddingModelOutput {
     }
     
     func didSaveAddingData(event: Event) {
-        //delegate?.didEventAdded()
-        moduleOutput?.wantsToOpenEventsVC()
+        moduleOutput?.wantsToOpenEventsVC(coordinates: coordinates)
     }
     
     func didSaveData(address: Address, event: Event) {

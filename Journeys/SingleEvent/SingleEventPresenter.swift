@@ -16,8 +16,9 @@ final class SingleEventPresenter {
     var data: Event?
     var image: UIImage?
     var url: URL?
+    var isLikedImage: Bool? = false
+    var likesViewObjects = [FavoritesEvent]()
     private let model: SingleEventModelInput
-    var addressViewObjects = [Event]()
     init(view: SingleEventViewInput, model: SingleEventModelInput, id: String) {
         self.view = view
         self.model = model
@@ -30,6 +31,7 @@ final class SingleEventPresenter {
     func didLoadView() {
         guard let id = self.id else { return }
         loadData(id: id)
+        isLiked()
     }
     
     func userTapLink() {
@@ -47,16 +49,64 @@ private extension SingleEventPresenter {
 }
 
 extension SingleEventPresenter: SingleEventViewOutput {
-    func displayingData() -> Event? {
-        return data
+    
+    func isLiked() {
+        model.checkLike { [weak self] result in
+            switch result {
+            case .success(let addressNetworkObjects):
+                var likesViewObjects = [FavoritesEvent]()
+                
+                likesViewObjects = addressNetworkObjects.map { networkObject in
+                    FavoritesEvent(
+                        id: networkObject.id
+                    )
+                }
+                
+                self?.likesViewObjects = likesViewObjects
+            case .failure(let error):
+                self?.view?.show(error: error)
+                
+            }
+        }
+    }
+
+    func removeLike() {
+        if let id = id {
+            model.removeLike(eventId: id)
+        }
+    }
+    
+    func newLike() {
+        if let id = id {
+            model.setLike(eventId: id)
+        }
+    }
+    
+    func displayingData() -> (Event?, Bool?) {
+        checkLike()
+        return (data, isLikedImage)
     }
     
     func displayImage() -> UIImage? {
         return image
     }
+    
+    func checkLike() {
+        let likes = likesViewObjects.compactMap { $0.id }
+        if let id = id {
+            if likes.contains(id) {
+                isLikedImage = true
+            }
+        }
+    }
 }
 
 extension SingleEventPresenter: SingleEventModelOutput {
+    func didResiveLikeTrue() {
+        self.isLikedImage = true
+        view?.reload()
+    }
+    
     func didRecieveError(error: Errors) {
     }
 
