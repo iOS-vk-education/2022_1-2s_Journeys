@@ -44,6 +44,8 @@ final class WeatherCollection: UICollectionViewCell {
     private func setupView() {
         addSubview(collectionView)
         addSubview(townNameView)
+        
+        backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
 
         placeholderView.isHidden = true
         setupCollectionView()
@@ -58,6 +60,7 @@ final class WeatherCollection: UICollectionViewCell {
 
         collectionView.register(WeatherCell.self,
                                 forCellWithReuseIdentifier: "WeatherCell")
+        collectionView.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
     }
 
     private func setupConstraints() {
@@ -76,6 +79,11 @@ final class WeatherCollection: UICollectionViewCell {
             make.bottom.equalToSuperview()
             make.height.equalTo(50)
         }
+    }
+    
+    func reloadData() {
+        collectionView.contentInset = UIEdgeInsets(top: .zero, left: .zero, bottom: .zero, right: .zero)
+        collectionView.reloadData()
     }
     
     func configure(data: DisplayData, delegate: WeatherCollectionDelegate, indexPath: IndexPath) {
@@ -145,7 +153,7 @@ class HorizontallyCenteredCollectionViewFlowLayout: UICollectionViewFlowLayout {
                 }
             return newAttributes
         }
-        collectionView.contentInset = UIEdgeInsets(top: .zero, left: 20, bottom: .zero, right: 50)
+        collectionView.contentInset = UIEdgeInsets(top: .zero, left: 20, bottom: .zero, right: 65)
         return attributes
     }
 }

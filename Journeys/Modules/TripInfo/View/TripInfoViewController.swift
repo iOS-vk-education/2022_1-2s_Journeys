@@ -44,8 +44,6 @@ final class TripInfoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        pageViewController.delegate = self
-//        pageViewController.dataSource = self
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         setupViews()
     }
