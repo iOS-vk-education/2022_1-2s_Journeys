@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 
 // MARK: - Account ViewInput
@@ -13,7 +14,7 @@ import Foundation
 protocol AccountViewInput: AnyObject {
     func deselectCell(_ indexPath: IndexPath)
     func reloadView()
-    
+    func setImageView(image: UIImage?, didFinishLoading: Bool)
     func showAlert(title: String,
                    message: String)
 }
@@ -26,4 +27,7 @@ protocol AccountViewOutput: AnyObject {
     func didSelectCell(at indexPath: IndexPath)
     func numberOfRows(in section: Int) -> Int
     func username() -> String
+    func setAvatar(_ image: UIImage)
+    
+    func deleteAvatar()
 }

@@ -10,11 +10,14 @@ import UIKit
 import FirebaseFirestore
 import FirebaseAuth
 
+
 protocol FirebaseServiceStoreProtocol {
     
     func storeTripData(trip: Trip, completion: @escaping (Result<Trip, Error>) -> Void)
     func storeRouteData(route: Route, completion: @escaping (Result<Route, Error>) -> Void)
-    func storeTripImage(image: UIImage, completion: @escaping (Result<String, Error>) -> Void)
+    func storeImage(image: UIImage,
+                    imageType: FirebaseStoreageImageType,
+                    completion: @escaping (Result<String, Error>) -> Void)
     func storeStuffData(baggageId: String, stuff: Stuff, completion: @escaping (Result<Stuff, Error>) -> Void)
     func storeBaggageData(baggage: Baggage, completion: @escaping (Result<Baggage, Error>) -> Void)
     
@@ -64,8 +67,14 @@ extension FirebaseService: FirebaseServiceStoreProtocol {
         }
     }
     
-    func storeTripImage(image: UIImage, completion: @escaping (Result<String, Error>) -> Void) {
-        let ref = firebaseManager.storage.reference(withPath: "trips_images/\(UUID().uuidString)")
+    func storeImage(image: UIImage, imageType: FirebaseStoreageImageType, completion: @escaping (Result<String, Error>) -> Void) {
+        var ref = firebaseManager.storage.reference(withPath: "trips_images/\(UUID().uuidString)")
+        if imageType == .avatar {
+            guard let userId = firebaseManager.auth.currentUser?.uid else {
+                return
+            }
+            ref = firebaseManager.storage.reference(withPath: "avatars/\(userId)")
+        }
         guard let imageData = image.jpegData(compressionQuality: 0.4) else {
             return
         }

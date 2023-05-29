@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import FirebaseFirestore
 import FirebaseAuth
+import FirebaseStorage
 
 protocol FirebaseServiceDeleteProtocol {
     func deleteTripData(_ trip: Trip, completion: @escaping (Error?) -> Void)
@@ -23,6 +24,10 @@ protocol FirebaseServiceDeleteProtocol {
     func deleteStuffData(_ stuffId: String, baggageId: String, completion: @escaping (Error?) -> Void)
     func deleteUserCertainStuff(_ stuffId: String, completion: @escaping (Error?) -> Void)
     func deleteStuffList(_ stuffListId: String, completion: @escaping (Error?) -> Void)
+    
+    func deleteImage(url: String?,
+                     imageType: FirebaseStoreageImageType,
+                     completion: @escaping (Error?) -> Void)
 }
 
 extension FirebaseService: FirebaseServiceDeleteProtocol {
@@ -91,6 +96,27 @@ extension FirebaseService: FirebaseServiceDeleteProtocol {
         }
         
         firebaseManager.firestore.collection("users").document(userId).delete(completion: completion)
+    }
+    
+    func deleteImage(url: String?,
+                     imageType: FirebaseStoreageImageType,
+                     completion: @escaping (Error?) -> Void) {
+        var storageRef: StorageReference?
+        if let url {
+            storageRef = firebaseManager.storage.reference(forURL: url)
+        }
+        
+        if imageType == .avatar {
+            if let userId = firebaseManager.auth.currentUser?.uid {
+                storageRef = firebaseManager.storage.reference(withPath: "avatars/\(userId)")
+            }
+        }
+        
+        guard let storageRef else {
+            completion(Errors.deleteDataError)
+            return
+        }
+        storageRef.delete(completion: completion)
     }
 }
     

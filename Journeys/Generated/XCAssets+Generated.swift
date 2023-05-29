@@ -24,6 +24,10 @@ internal enum Asset {
   internal enum Assets {
     internal static let accentColor = ColorAsset(name: "AccentColor")
     internal static let addIcon = ImageAsset(name: "AddIcon")
+    internal enum LaunchScreen {
+      internal static let background = ImageAsset(name: "Background")
+      internal static let journeys = ImageAsset(name: "Journeys")
+    }
     internal static let noPhotoPlaceholder = ImageAsset(name: "NoPhotoPlaceholder")
     internal enum PlacemarkIcons {
       internal static let defaultPlacemark = ImageAsset(name: "DefaultPlacemark")
@@ -41,6 +45,9 @@ internal enum Asset {
   internal enum Colors {
     internal enum Auth {
       internal static let continueButton = ColorAsset(name: "ContinueButton")
+    }
+    internal enum Avatar {
+      internal static let background = ColorAsset(name: "background")
     }
     internal enum Background {
       internal static let brightColor = ColorAsset(name: "BrightColor")

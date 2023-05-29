@@ -23,7 +23,7 @@ final class RouteModel {
 extension RouteModel: RouteModelInput {
     
     func storeRouteData(route: Route, tripImage: UIImage, tripId: String) {
-        FBService.storeTripImage(image: tripImage) { [weak self] result in
+        FBService.storeImage(image: tripImage, imageType: .trip) { [weak self] result in
             guard let strongSelf = self else { return }
             switch result {
             case .failure:
