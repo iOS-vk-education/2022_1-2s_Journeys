@@ -91,13 +91,12 @@ class EventsViewController: UIViewController {
         var isNightModeEnabled: Bool = false
         switch theme {
         case .dark:
-            isNightModeEnabled = true
+            map.mapWindow.map.isNightModeEnabled = true
         case .light:
-            isNightModeEnabled = false
+            map.mapWindow.map.isNightModeEnabled = false
         default: break
         }
         
-        map.mapWindow.map.isNightModeEnabled = isNightModeEnabled
         UIView.animate(withDuration: 0.7) { [weak self] in
             self?.map.alpha = 1
         }
