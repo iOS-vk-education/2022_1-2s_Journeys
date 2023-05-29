@@ -16,16 +16,15 @@ struct PlaceNotification {
     internal init(id: String?,
                   date: Date,
                   placeForContent: Place,
-                  contentTitle: String = "У вас запланирована поездка") {
+                  contentTitle: String = L10n.youHavePlannedATrip) {
         self.id = id
         self.date = date
         self.contentTitle = contentTitle
-        self.contentBody = "Завтра Вы отпрвляетесь в \(placeForContent.location.toString())"
-        if let daysCount: Int = Calendar.daysBetween(start: placeForContent.arrive,
-                                                     end: placeForContent.depart) {
-            self.contentBody.append(" на \(daysCount) дней")
-        }
-        
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.current
+        dateFormatter.dateFormat = "dd MMMM yyyy"
+        let stringDate = dateFormatter.string(from: placeForContent.arrive)
+        self.contentBody = "\(stringDate) \(L10n.youGoToTown) \(placeForContent.location.city)"
     }
     
     init?(from dictionary: [String: Any]) {

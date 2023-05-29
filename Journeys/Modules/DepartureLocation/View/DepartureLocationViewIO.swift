@@ -13,13 +13,11 @@ import UIKit
 
 protocol DepartureLocationViewInput: AnyObject {
     func getCell(at indexPath: IndexPath) -> UITableViewCell?
-    func showAlert(title: String, message: String)
 }
 
 // MARK: - DepartureLocation ViewOutput
 
 protocol DepartureLocationViewOutput: AnyObject {
-    func didSelectCell(at indexpath: IndexPath)
     func didTapExitButton()
     func didTapDoneButton()
     

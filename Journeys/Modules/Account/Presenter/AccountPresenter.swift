@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 // MARK: - AccountPresenter
 
@@ -21,6 +22,7 @@ final class AccountPresenter {
     private let firebaseService: FirebaseServiceProtocol
     
     private var userData: User?
+    private var isAvatarLoaded: Bool = false
     
     init(firebaseService: FirebaseServiceProtocol,
          moduleOutput: AccountModuleOutput) {
@@ -28,6 +30,10 @@ final class AccountPresenter {
         self.moduleOutput = moduleOutput
     }
 
+    private func showAlert(error: Errors) {
+        guard let alertShowingVC = view as? AlertShowingViewController else { return }
+        askToShowErrorAlert(error, alertShowingVC: alertShowingVC)
+    }
 }
 
 extension AccountPresenter: AccountModuleInput {
@@ -35,7 +41,24 @@ extension AccountPresenter: AccountModuleInput {
 
 extension AccountPresenter: AccountViewOutput {
     func viewWillAppear() {
+        isAvatarLoaded = false
         model?.getUserData()
+        model?.obtainAvatar() { [weak self] image in
+            guard let self else { return }
+            self.isAvatarLoaded = true
+            self.view?.setImageView(image: image, didFinishLoading: self.isAvatarLoaded)
+        }
+    }
+    
+    func deleteAvatar() {
+        model?.deleteAvatar()
+    }
+    
+    func setAvatar(_ image: UIImage) {
+        model?.storeAvatar(image) { [weak self] image in
+            guard let self else { return }
+            self.view?.setImageView(image: image, didFinishLoading: self.isAvatarLoaded)
+        }
     }
     
     func username() -> String {
@@ -73,13 +96,20 @@ extension AccountPresenter: AccountViewOutput {
 }
 
 extension AccountPresenter: AccountModelOutput {
+    func didDeleteImage() {
+        isAvatarLoaded = true
+        view?.setImageView(image: nil, didFinishLoading: isAvatarLoaded)
+    }
+    
     func didObtainUserData(data: User) {
         userData = data
         view?.reloadView()
     }
     
-    func didRecieveError(error: Error) {
-        view?.showAlert(title: "Error",
-                        message: error.localizedDescription)
+    func didRecieveError(error: Errors) {
+        showAlert(error: error)
     }
+}
+
+extension AccountPresenter: AskToShowAlertProtocol {
 }

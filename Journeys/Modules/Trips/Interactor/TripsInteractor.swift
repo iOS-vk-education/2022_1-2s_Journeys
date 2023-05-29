@@ -106,7 +106,7 @@ extension TripsInteractor: TripsInteractorInput {
 
     func obtainTripImageFromServer(withURL imageURLString: String,
                                    completion: @escaping (Result <UIImage, Error>)-> Void)  {
-        FBService.obtainTripImage(for: imageURLString) { result in
+        FBService.obtainImage(for: imageURLString, imageType: .trip) { result in
             switch result {
             case .failure(let error):
                 completion(.failure(error))

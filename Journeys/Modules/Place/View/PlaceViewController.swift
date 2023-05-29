@@ -9,7 +9,7 @@ import UIKit
 
 // MARK: - PlaceViewController
 
-final class PlaceViewController: UIViewController {
+final class PlaceViewController: AlertShowingViewController {
     
     // MARK: Public properties
     
@@ -114,6 +114,8 @@ final class PlaceViewController: UIViewController {
         
         tableView.backgroundColor = UIColor(asset: Asset.Colors.Background.dimColor)
         tableView.separatorColor = tableView.backgroundColor
+        
+        tableView.allowsSelection = false
         
         registerCell()
     }
@@ -275,20 +277,11 @@ extension PlaceViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        output?.didSelectCell(at: indexPath)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
 extension PlaceViewController: PlaceViewInput {
-    func showAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title,
-                                      message: message,
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
-    
     func getCell(at indexPath: IndexPath) -> UITableViewCell? {
         return tableView.cellForRow(at: indexPath)
     }

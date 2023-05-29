@@ -31,8 +31,9 @@ struct WeatherWithLocation: Decodable {
     }
     
     func isMatchToPlace(_ place: Place) -> Bool {
-        place.location == location
+        guard let lastWeatherdate = weather.last?.date else { return false }
+        return place.location == location
         && DateFormatter.fullDateWithDash.string(from: place.arrive) == weather.first?.date
-        && DateFormatter.fullDateWithDash.string(from: place.depart) == weather.last?.date
+        && DateFormatter.fullDateWithDash.string(from: place.depart) >= lastWeatherdate
     }
 }

@@ -16,8 +16,11 @@ final class CertainStuffListModel {
     private let dataLoadDispatchGroup = DispatchGroup()
     private var didReceiveErrorWhileObtainingData: Bool = false
     
-    private let dataStoreQueue = DispatchQueue(label: "ru.journeys.stuffStoreDispatchQueue")
-    private let dataStoreDispatchGroup = DispatchGroup()
+    private let dataQueue = DispatchQueue.global()
+    private let dataDispatchGroup = DispatchGroup()
+    
+    private let stuffStoreQueue = DispatchQueue.global()
+    private let stuffStoreDispatchGroup = DispatchGroup()
     private var didReceiveErrorWhileSavingData: Bool = false
     
     private let dataDeleteQueue = DispatchQueue.global()
@@ -56,18 +59,20 @@ extension CertainStuffListModel: CertainStuffListModelInput {
     
     func saveStuffList(_ stuffList: StuffList, stuff: [Stuff]) {
         didReceiveErrorWhileSavingData = false
-        storeStuff(stuff) { [weak self] savedStuff in
-            var newStuffList = stuffList
-            newStuffList.stuffIDs = savedStuff.compactMap( { $0.id })
-            self?.storeStuffList(newStuffList) { result in
-                switch result {
-                case .failure:
-                    self?.output?.didReceiveError(Errors.saveDataError)
-                case .success(let savedStuffList):
-                    if self?.didReceiveErrorWhileSavingData == true {
+        dataQueue.async(flags: .barrier) { [weak self] in
+            self?.storeStuff(stuff) { [weak self] savedStuff in
+                var newStuffList = stuffList
+                newStuffList.stuffIDs = savedStuff.compactMap( { $0.id })
+                self?.storeStuffList(newStuffList) { result in
+                    switch result {
+                    case .failure:
                         self?.output?.didReceiveError(Errors.saveDataError)
+                    case .success(let savedStuffList):
+                        if self?.didReceiveErrorWhileSavingData == true {
+                            self?.output?.didReceiveError(Errors.saveDataError)
+                        }
+                        self?.output?.didSaveStuffList(stuffList: savedStuffList, stuff: savedStuff)
                     }
-                    self?.output?.didSaveStuffList(stuffList: savedStuffList, stuff: savedStuff)
                 }
             }
         }
@@ -77,8 +82,8 @@ extension CertainStuffListModel: CertainStuffListModelInput {
         var savedStuff: [Stuff] = []
         
         for curStuff in stuff {
-            dataStoreDispatchGroup.enter()
-            dataStoreQueue.async(group: dataStoreDispatchGroup) { [weak self] in
+            stuffStoreDispatchGroup.enter()
+            stuffStoreQueue.async(group: stuffStoreDispatchGroup, flags: .barrier) { [weak self] in
                 self?.firebaseService.storeSertainStuffListStuff (stuff: curStuff) { [weak self] result in
                     switch result {
                     case .failure:
@@ -86,17 +91,17 @@ extension CertainStuffListModel: CertainStuffListModelInput {
                     case .success(let curStuff):
                         savedStuff.append(curStuff)
                     }
-                    self?.dataStoreDispatchGroup.leave()
+                    self?.stuffStoreDispatchGroup.leave()
                 }
             }
         }
-        dataStoreDispatchGroup.notify(queue: dataStoreQueue) {
+        stuffStoreDispatchGroup.notify(queue: stuffStoreQueue) {
             completion(savedStuff)
         }
     }
     
     private func storeStuffList(_ stuffList: StuffList, completion: @escaping (Result<StuffList, Error>) -> Void) {
-        firebaseService.storeStuffList(stuffList: stuffList) { [weak self] result in
+        firebaseService.storeStuffList(stuffList: stuffList) { result in
             completion(result)
         }
     }
@@ -109,8 +114,8 @@ extension CertainStuffListModel: CertainStuffListModelInput {
             return
         }
         firebaseService.deleteStuffList(stuffListId) { [weak self] error in
-            if let error {
-                self?.output?.didReceiveError(error)
+            if error != nil {
+                self?.output?.didReceiveError(.deleteDataError)
             } else {
                 self?.deleteStuff(stuff) { [weak self] in
                     self?.output?.didDeleteStuffList()
@@ -122,7 +127,7 @@ extension CertainStuffListModel: CertainStuffListModelInput {
     private func deleteStuff(_ stuff: [Stuff], completion: @escaping () -> Void) {
         for curStuff in stuff {
             dataDeleteDispatchGroup.enter()
-            dataDeleteQueue.async(group: dataDeleteDispatchGroup) { [weak self] in
+            dataDeleteQueue.async(group: dataDeleteDispatchGroup, flags: .barrier) { [weak self] in
                 if let stuffId = curStuff.id {
                     self?.firebaseService.deleteUserCertainStuff(stuffId) { [weak self] _ in
                         self?.dataDeleteDispatchGroup.leave()

@@ -28,6 +28,9 @@
 "Delete" = "Delete";
 "AddingTown" = "Adding town";
 "Reming" = "Remind";
+"YouGoToTown" = "You have a trip to";
+"InvalidNotificationDate" = "Notification date should be in future";
+"YouHavePlannedATrip" = "You have planned a trip";
 
 // MARK: Tabbar
 "Journeys" = "Journeys";
@@ -46,6 +49,8 @@
 "NoSelectedPlaces" = "No places to stay selected";
 "NoMeteoDataForPlacesOrDates" = "No meteo data for selected places or dates";
 "Currency" = "Currency";
+"UnknownPlace" = "Unknown place";
+"DidntFindPlaces" = "Unfortunately, we couldn't find the places from your route";
 
 // MARK: Account
 "AccountInfo" = "Account info";
@@ -63,6 +68,14 @@
 "ConfirmPassword" = "Confirm password";
 "ResetPassword" = "Reset password";
 "Continue" = "Continue";
+"ResetingPassword" = "Password reset";
+"EnterEmail" = "Enter your Email";
+"PasswordsDontMatch" = "Passwords don't match";
+"EmailProblems" = "There are problems with your Email address, please log in to your account";
+"EnterPasswordToChangeAuthInfo" = "You must enter a password to change the authorization information";
+"AccountWasntDeleted" = "Account was not deleted, please try again";
+"NothingToSave" = "No changes to save";
+"SentPasswordReset" = "Email with a reset password link has been sent to";
 
 // MARK: Settings
 "Notifications" = "Notifications";
@@ -90,9 +103,27 @@
 "StuffList" = "Stuff list";
 "StuffLists" = "Stuff lists";
 "NoStuffLists" = "So far there are no stuff lists";
-"AddStuff" = "New stuff";
-"AddStuffList" = "New list";
+"NewStuff" = "New stuff";
+"NewStuffList" = "New list";
+"AddStuffList" = "Add stuff list";
 "Name" = "Name";
+"BaseStuffList" = "Base stuff list";
+"AutoAddToTrips" = "Add to all trips";
+"NothingToAdd" = "Nothing to add";
+
+// MARK: FirebaseAuth errors
+"FirebaseAuth.Errors.EmailAlreadyInUse" = "Email is already in use";
+"FirebaseAuth.Errors.UserDisabled" = "User is disabled";
+"FirebaseAuth.Errors.OperationNotAllowed" = "Auth is not allowed, try again later";
+"FirebaseAuth.Errors.InvalidEmail" = "Invalid Email";
+"FirebaseAuth.Errors.WrongPassword" = "Wrong password";
+"FirebaseAuth.Errors.UserNotFound" = "No user account was found with the specified email";
+"FirebaseAuth.Errors.NetworkError" = "Problem when trying to connect to the server";
+"FirebaseAuth.Errors.WeakPassword" = "Weak or invalid password";
+"FirebaseAuth.Errors.MissingEmail" = "You need to register an Email";
+"FirebaseAuth.Errors.InternalError" = "Internal error, try again later";
+"FirebaseAuth.Errors.InvalidCustomToken" = "Invalid custom token, try again later";
+"FirebaseAuth.Errors.TooManyRequests" = "Too many requests have already been sent to the server, try again later ";
 
 // MARK: Alerts
 "Alerts.Titles.Success" = "Success";
@@ -104,3 +135,14 @@
 "Alerts.Messages.DeleteAccount" = "To confirm account deletion, enter your password";
 "Alerts.Messages.AccountWasDeleted" = "Account successfully deleted";
 "Alerts.Messages.EnterYourPassword" = "Enter your password";
+
+"Alerts.Messages.ErrorWhileObtainingData" = "An error occurred while receiving the data try again later";
+"Alerts.Messages.ErrorWhileDeletingData" = "An error occurred while deleting the data try again later";
+"Alerts.Messages.ErrorWhileSavingData" = "An error occurred while saving the data try again later";
+"Alerts.Messages.EnterDepartureTown" = "Enter the departure city";
+
+"Alerts.Messages.Route.EnterAtleastOneTown" = "Enter at least one city";
+"Alerts.Messages.Route.AddTripPhoto" = "Add a photo for the trip";
+
+"Alerts.Messages.DeleteSuccessful" = "Deleted successfully";
+"Alerts.Messages.SaveSuccessful" = "Saved successfully";

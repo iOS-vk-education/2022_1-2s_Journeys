@@ -38,7 +38,7 @@ final class CalendarCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
     }
-    
+
     func setupViews() {
         let calendarFrame = CGRect(x: contentView.frame.minX + 10,
                                    y: contentView.frame.minY + 10,

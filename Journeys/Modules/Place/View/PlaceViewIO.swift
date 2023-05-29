@@ -13,7 +13,6 @@ import UIKit
 
 protocol PlaceViewInput: AnyObject {
     func getCell(at indexPath: IndexPath) -> UITableViewCell?
-    func showAlert(title: String, message: String)
     
     func setNotificationDateViewsVisibility(to value: Bool)
     func setDatePickerDefaultValue(_ date: Date)
@@ -30,7 +29,6 @@ protocol PlaceViewInput: AnyObject {
 protocol PlaceViewOutput: AnyObject {
     func viewDidLoad()
     
-    func didSelectCell(at indexpath: IndexPath)
     func didTapExitButton()
     func didTapDoneButton()
     

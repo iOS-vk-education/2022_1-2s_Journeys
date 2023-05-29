@@ -23,6 +23,15 @@ internal typealias AssetImageTypeAlias = ImageAsset.Image
 internal enum Asset {
   internal enum Assets {
     internal static let accentColor = ColorAsset(name: "AccentColor")
+    internal static let addIcon = ImageAsset(name: "AddIcon")
+    internal enum LaunchScreen {
+      internal static let background = ImageAsset(name: "Background")
+      internal static let journeys = ImageAsset(name: "Journeys")
+    }
+    internal static let noPhotoPlaceholder = ImageAsset(name: "NoPhotoPlaceholder")
+    internal enum PlacemarkIcons {
+      internal static let defaultPlacemark = ImageAsset(name: "DefaultPlacemark")
+    }
     internal static let stuffListsPlaceholder = ImageAsset(name: "StuffListsPlaceholder")
     internal enum TripCell {
       internal static let tripCellImage1 = ImageAsset(name: "TripCellImage1")
@@ -34,8 +43,14 @@ internal enum Asset {
     internal static let tripsPlaceholder = ImageAsset(name: "TripsPlaceholder")
   }
   internal enum Colors {
+    internal enum Alert {
+      internal static let background = ColorAsset(name: "background")
+    }
     internal enum Auth {
       internal static let continueButton = ColorAsset(name: "ContinueButton")
+    }
+    internal enum Avatar {
+      internal static let background = ColorAsset(name: "background")
     }
     internal enum Background {
       internal static let brightColor = ColorAsset(name: "BrightColor")
@@ -58,17 +73,18 @@ internal enum Asset {
     }
     internal enum PlacesInfo {
       internal enum ProgressView {
-        internal static let background = ColorAsset(name: "background")
         internal static let progress = ColorAsset(name: "progress")
+        internal static let progressViewBackground = ColorAsset(name: "progressViewBackground")
       }
       internal enum SectionHeader {
-        internal static let background = ColorAsset(name: "background")
+        internal static let sectionHeaderBackground = ColorAsset(name: "sectionHeaderBackground")
       }
       internal enum WeatherCell {
         internal static let dateColor = ColorAsset(name: "dateColor")
       }
       internal static let currencyTextFieldBorder = ColorAsset(name: "currencyTextFieldBorder")
     }
+    internal static let searchBar = ColorAsset(name: "SearchBar")
     internal enum Skeleton {
       internal static let dark = ColorAsset(name: "dark")
       internal static let light = ColorAsset(name: "light")
@@ -86,6 +102,7 @@ internal enum Asset {
       }
     }
     internal enum Text {
+      internal static let addressTextColor = ColorAsset(name: "AddressTextColor")
       internal static let mainTextColor = ColorAsset(name: "MainTextColor")
       internal static let secondaryTextColor = ColorAsset(name: "SecondaryTextColor")
     }

@@ -53,12 +53,18 @@ final class PlacePresenter {
     private func didBecomeAvtive() {
         setupNotifications()
     }
+
+    private func showAlert(error: Errors) {
+        guard let alertShowingVC = view as? AlertShowingViewController else { return }
+        askToShowErrorAlert(error, alertShowingVC: alertShowingVC)
+    }
 }
 
 extension PlacePresenter: PlaceModuleInput {
 }
 
 extension PlacePresenter: PlaceViewOutput {
+    
     func viewDidLoad() {
         setupNotifications()
     }
@@ -137,23 +143,21 @@ extension PlacePresenter: PlaceViewOutput {
         guard let view,
               let countryCell = view.getCell(at: IndexPath(row: 0, section: 0)) as? LocationCell,
               let cityCell = view.getCell(at: IndexPath(row: 1, section: 0)) as? LocationCell else {
-            assertionFailure("Error while getting Place Data")
             return
         }
         guard let country = countryCell.getTextFieldValue(),
               let city = cityCell.getTextFieldValue() else {
-            view.showAlert(title: L10n.blanckFields, message: L10n.fillTheCountryAndTownFields)
+            showAlert(error: .custom(title: nil, message: L10n.fillTheCountryAndTownFields))
             return
         }
         
         guard let calendarCell = view.getCell(at: IndexPath(row: 0, section: 1)) as? CalendarCell else {
-            assertionFailure("Error while getting calendat Data")
             return
         }
         let dates = calendarCell.getDates()
         guard let arrivaleDate = dates?.first,
               let departDate = dates?.last else {
-            view.showAlert(title: L10n.blanckFields, message: L10n.selectDates)
+            showAlert(error: .custom(title: nil, message: L10n.selectDates))
             return
         }
         
@@ -163,13 +167,13 @@ extension PlacePresenter: PlaceViewOutput {
                       depart: departDate,
                       allowNotification: view.addNotificationSwitchValue())
         guard var place = place else {
-            view.showAlert(title: "Ошибка", message: "Ошибка при сохранении данных")
+            showAlert(error: .saveDataError)
             return
         }
         
         if view.addNotificationSwitchValue() {
             if view.datePickerValue() < Date() {
-                view.showAlert(title: "Ошибка", message: "Уведомление должно быть в будущем")
+                showAlert(error: .custom(title: nil, message: L10n.invalidNotificationDate))
                 return
             }
             let notification = PlaceNotification(id: nil,
@@ -183,10 +187,6 @@ extension PlacePresenter: PlaceViewOutput {
         moduleOutput?.placeModuleWantsToClose()
     }
     
-    func didSelectCell(at indexpath: IndexPath) {
-        return
-    }
-    
     func userSelectedDateRange(range: [Date]) {
         selectedStartDate = range.first
         selectedEndDate = range.last
@@ -194,5 +194,7 @@ extension PlacePresenter: PlaceViewOutput {
 }
 
 extension PlacePresenter: PlaceModelOutput {
-    
+}
+
+extension PlacePresenter: AskToShowAlertProtocol {
 }

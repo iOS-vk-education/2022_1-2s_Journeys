@@ -37,7 +37,6 @@ final class RoutePresenter {
     private let addNewCellClosure: (RouteViewController, UITableView)->() = { view, tableView in
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "RouteCell") as? RouteCell
         else {
-            assertionFailure("Error while creating cell")
             return
         }
         let indexPath = NSIndexPath(row: tableView.numberOfRows(inSection: 2), section: 2)
@@ -63,6 +62,11 @@ final class RoutePresenter {
     }
     private func hideLoadingView() {
         view.hideLoadingView()
+    }
+    
+    private func showAlert(error: Errors) {
+        guard let alertShowingVC = view as? AlertShowingViewController else { return }
+        askToShowErrorAlert(error, alertShowingVC: alertShowingVC)
     }
 }
 
@@ -128,11 +132,11 @@ extension RoutePresenter: RouteViewOutput {
     
     func didTapFloatingSaveButton() {
         guard var route = route else {
-            view.showAlert(title: "Ошибка", message: "Введите хотябы один город")
+            showAlert(error: .custom(title: nil, message:  L10n.Alerts.Messages.Route.enterDepartureTown))
             return
         }
         guard let tripImage = tripImage else {
-            view.showAlert(title: "Ошибка", message: "Выберите титульное фото для поездки")
+            showAlert(error: .custom(title: nil, message:  L10n.Alerts.Messages.Route.addTripPhoto))
             return
         }
         guard let trip = trip,
@@ -173,27 +177,26 @@ extension RoutePresenter: RouteViewOutput {
             return nil
         case 3:
             guard route != nil else {
-                view.showAlert(title: "Введите город отправления", message: "Сначала введите город отправления")
+                showAlert(error: .custom(title: nil, message: L10n.Alerts.Messages.Route.enterDepartureTown))
                 return nil
             }
             arrivalCellsCount += 1
             return addNewCellClosure
         default:
-            assertionFailure("Cell selection error: too much sections")
             return nil
         }
     }
 
     func userWantsToDeleteCell(indexPath: IndexPath) -> ((UITableView, IndexPath) -> [UITableViewRowAction]?)? {
-        if indexPath.section != 2 || arrivalCellsCount < 2 {
+        if indexPath.section != 2 || (route?.places.count == 0 && indexPath.row == 0) {
             return nil
         }
         guard var route = route else {
             return nil
         }
+        arrivalCellsCount -= 1
         if route.places.count > indexPath.row {
             route.places.remove(at: indexPath.row)
-            arrivalCellsCount -= 1
         }
         self.route = route
         return deleteRow
@@ -207,26 +210,13 @@ extension RoutePresenter: RouteViewOutput {
 extension RoutePresenter: RouteModelOutput {
     func didRecieveError(error: Errors) {
         hideLoadingView()
-        switch error {
-        case .obtainDataError:
-            view.showAlert(title: "Ошибка",
-                           message: "Возникла ошибка при получении данных")
-        case .saveDataError:
-            view.showAlert(title: "Ошибка",
-                           message: "Возникла ошибка при сохранении данных")
-        case .deleteDataError:
-            view.showAlert(title: "Ошибка",
-                           message: "Возникла ошибка при удалении данных")
-        default:
-            break
-        }
+        showAlert(error: error)
     }
     
     func didSaveRouteData(route: Route) {
         guard let trip else {
             hideLoadingView()
-            view.showAlert(title: "Ошибка",
-                           message: "Возникла ошибка при открытии данных поездки")
+            showAlert(error: .obtainDataError)
             return
         }
         moduleOutput.routeModuleWantsToOpenTripInfoModule(trip: Trip(tripWithOtherData: trip),
@@ -241,7 +231,7 @@ extension RoutePresenter: RouteModelOutput {
     }
     
     func notificationDateMustBeFutureError() {
-        view?.showAlert(title: "Future date", message: "Error")
+        showAlert(error: .custom(title: "Future date", message: "Error"))
     }
 }
 
@@ -290,4 +280,7 @@ private extension RoutePresenter {
         moduleOutput.routeModuleWantsToOpenDepartureLocationModule(departureLocation: route?.departureLocation,
                                                                    routeModuleInput: self)
     }
+}
+
+extension RoutePresenter: AskToShowAlertProtocol {
 }

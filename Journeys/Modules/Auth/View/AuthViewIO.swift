@@ -13,9 +13,10 @@ import Foundation
 
 protocol AuthViewInput: AnyObject {
     func cellsValues()
-    func showAlert(title: String,
-                   message: String,
-                   textFieldPlaceholder: String?)
+    func showAlert(title: String?,
+                   message: String?,
+                   textFieldPlaceholder: String?,
+                   autoClose: Bool)
     func showTabbar()
     func hideResetPasswordButton()
     func showResetPasswordButton()

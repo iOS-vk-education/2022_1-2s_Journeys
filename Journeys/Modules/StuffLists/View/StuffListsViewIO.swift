@@ -13,6 +13,11 @@ import Foundation
 protocol StuffListsViewInput: AnyObject {
     func reloadData()
     
+    func showNewStuffListButton()
+    func setCheckmarkVisibility(to value: Bool, at indexPath: IndexPath)
+    
+    func setCollectionViewAllowsSelection(to value: Bool)
+    
     func embedPlaceholder()
     func hidePlaceholder()
 }

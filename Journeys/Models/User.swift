@@ -14,7 +14,10 @@ struct User {
     var name: String?
     var lastName: String?
     
-    internal init(id: String? = nil, email: String? = nil, name: String? = nil, lastName: String? = nil) {
+    internal init(id: String? = nil,
+                  email: String? = nil,
+                  name: String? = nil,
+                  lastName: String? = nil) {
         self.id = id
         self.email = email
         self.name = name
@@ -27,14 +30,11 @@ struct User {
     }
     
     init?(from dictionary: [String: Any], id: String) {
-        guard let email = dictionary[CodingKeys.email.rawValue] as? String?,
-              let name = dictionary[CodingKeys.name.rawValue] as? String?,
-              let lastName = dictionary[CodingKeys.lastName.rawValue] as? String? else {
-            return nil
-        }
-        self.email = email
-        self.name = name
-        self.lastName = lastName
+        self.id = id
+        email = dictionary[CodingKeys.email.rawValue] as? String
+        name = dictionary[CodingKeys.name.rawValue] as? String
+        lastName = dictionary[CodingKeys.lastName.rawValue] as? String
+        
     }
     
     func toDictionary() -> [String: Any] {
@@ -51,6 +51,8 @@ struct User {
                 return name + " " + lastName
             }
             return name
+        } else if let lastName {
+            return lastName
         }
         return nil
     }
