@@ -116,6 +116,7 @@ final class PlaceViewController: AlertShowingViewController {
         tableView.separatorColor = tableView.backgroundColor
         
         tableView.allowsSelection = false
+        tableView.isScrollEnabled = false
         
         registerCell()
     }
@@ -152,7 +153,8 @@ final class PlaceViewController: AlertShowingViewController {
         enableNotificationsLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(addNotificationSwitch.snp.bottom).offset(10)
-            make.width.equalToSuperview().inset(40)
+            make.leading.equalTo(addNotificationLabel.snp.leading)
+            make.trailing.equalTo(addNotificationSwitch.snp.trailing)
         }
         
         notificationsDateLabel.snp.makeConstraints { make in

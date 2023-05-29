@@ -38,7 +38,7 @@ final class NotificationsManager: NotificationsManagerProtocol {
     private func askNotificationsPermission(completion: @escaping (Bool) -> Void) {
         notificationCenter.requestAuthorization(options: [.alert, .badge, .sound], completionHandler: { granted, error in
             if let error {
-                assertionFailure(error.localizedDescription)
+                completion(false)
                 return
             }
             guard granted else {
@@ -52,12 +52,16 @@ final class NotificationsManager: NotificationsManagerProtocol {
     }
     
     func areNotificationsEnabledAtIOSLevel(completion: @escaping (Bool) -> Void) {
-        notificationCenter.getNotificationSettings { settings in
+        notificationCenter.getNotificationSettings { [weak self] settings in
             switch settings.authorizationStatus {
             case .authorized:
                 completion(true)
             case .denied:
                 completion(false)
+            case .notDetermined, .ephemeral, .provisional:
+                self?.askNotificationsPermission { result in
+                    completion(result)
+                }
             default:
                 completion(false)
             }
@@ -65,7 +69,7 @@ final class NotificationsManager: NotificationsManagerProtocol {
     }
     
     func hasUserEnabledNotifications(completion: @escaping (Bool) -> Void) {
-        areNotificationsEnabledAtIOSLevel()  { result in
+        areNotificationsEnabledAtIOSLevel  { result in
             guard result else {
                 completion(false)
                 return
