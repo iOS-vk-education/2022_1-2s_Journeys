@@ -236,6 +236,10 @@ extension RoutePresenter: RouteModelOutput {
 }
 
 extension RoutePresenter: RouteModuleInput {
+    func getTripId() -> String? {
+        trip?.id
+    }
+    
     func updateRouteDepartureLocation(location: Location) {
         if self.route != nil {
             self.route!.departureLocation = location

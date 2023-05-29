@@ -21,7 +21,7 @@ final class FirebaseManager {
     
     static let shared = FirebaseManager()
     
-    init() {
+    private init() {
         self.auth = Auth.auth()
         self.storage = Storage.storage()
         self.firestore = Firestore.firestore()

@@ -14,6 +14,7 @@ final class StoreNewTrip {
     private var trip: Trip?
     private let tripImage: UIImage
     private let output: StoreNewTripOutput
+    private let tripId: String = UUID().uuidString
     
     private var stuffIds: [String]?
     private var stuff: [Stuff]?
@@ -47,12 +48,19 @@ final class StoreNewTrip {
     }
     
     private func didSaveImage(url: String) {
+        var newPlaces: [Place] = []
+        for place in route.places {
+            var newPlace = place
+            newPlace.notification?.tripId = tripId
+            newPlaces.append(newPlace)
+        }
         let newRoute = Route(id: route.id,
                       imageURLString: url,
                       departureLocation: route.departureLocation,
-                      places: route.places)
+                      places: newPlaces)
         
         saveNotifications(for: newRoute) { [weak self] routeWithNotifications in
+            self?.route = routeWithNotifications
             self?.storeRoute(routeWithNotifications)
         }
     }
@@ -93,6 +101,7 @@ final class StoreNewTrip {
         let content = UNMutableNotificationContent()
         content.title = newNotification.contentTitle
         content.body = newNotification.contentBody
+        content.userInfo = ["tripId": notification.tripId ?? ""]
         content.badge = 1
         
         // Create the trigger as a repeating event.
@@ -214,7 +223,7 @@ final class StoreNewTrip {
             didRecieveError()
             return
         }
-        let trip = Trip(id: nil, routeId: routeId, baggageId: baggage.id, dateChanged: Date())
+        let trip = Trip(id: tripId, routeId: routeId, baggageId: baggage.id, dateChanged: Date())
         storeTrip(trip: trip)
         storeStuff(baggageId: baggage.id, stuff: stuff)
     }

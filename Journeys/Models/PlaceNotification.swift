@@ -12,14 +12,17 @@ struct PlaceNotification {
     var date: Date
     var contentTitle: String
     var contentBody: String
+    var tripId: String?
     
     internal init(id: String?,
                   date: Date,
                   placeForContent: Place,
+                  tripId: String?,
                   contentTitle: String = L10n.youHavePlannedATrip) {
         self.id = id
         self.date = date
         self.contentTitle = contentTitle
+        self.tripId = tripId
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale.current
         dateFormatter.dateFormat = "dd MMMM yyyy"
@@ -32,7 +35,8 @@ struct PlaceNotification {
             let id = dictionary[CodingKeys.id.rawValue]  as? String,
             let dateString = dictionary[CodingKeys.date.rawValue] as? String,
             let contentTitle = dictionary[CodingKeys.contentTitle.rawValue] as? String,
-            let contentBody = dictionary[CodingKeys.contentBody.rawValue] as? String else {
+            let contentBody = dictionary[CodingKeys.contentBody.rawValue] as? String,
+            let tripId = dictionary[CodingKeys.tripId.rawValue] as? String else {
             return nil
             
         }
@@ -46,6 +50,7 @@ struct PlaceNotification {
         
         self.contentTitle = contentTitle
         self.contentBody = contentBody
+        self.tripId = tripId
     }
     
     func toDictionary() -> [String: Any] {
@@ -58,6 +63,7 @@ struct PlaceNotification {
         
         dictionary[CodingKeys.contentTitle.rawValue] = contentTitle
         dictionary[CodingKeys.contentBody.rawValue] = contentBody
+        dictionary[CodingKeys.tripId.rawValue] = tripId
         
         return dictionary
     }
@@ -67,6 +73,7 @@ struct PlaceNotification {
         case date
         case contentTitle = "content_title"
         case contentBody = "content_body"
+        case tripId = "trip_id"
     }
 }
 

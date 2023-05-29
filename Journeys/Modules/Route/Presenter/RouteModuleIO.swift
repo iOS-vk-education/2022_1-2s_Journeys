@@ -11,6 +11,7 @@ import UIKit
 protocol RouteModuleInput: AnyObject {
     func updateRoutePlaces(place: Place, placeIndex: Int)
     func updateRouteDepartureLocation(location: Location)
+    func getTripId() -> String?
 }
 
 // MARK: - Route ModuleOutput

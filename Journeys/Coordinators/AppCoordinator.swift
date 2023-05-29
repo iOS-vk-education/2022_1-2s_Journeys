@@ -12,7 +12,7 @@ class AppCoordinator: NSObject, AppCoordinatorProtocol {
 
     var childCoordinators = [CoordinatorProtocol]()
     let tabBarController: UITabBarController
-    weak var journeysCoordinatorInput: CoordinatorProtocol?
+    weak var journeysCoordinatorInput: JourneysCoordinatorProtocol?
     weak var eventsCoordinatorInput: CoordinatorProtocol?
     weak var accountCoordinatorInput: CoordinatorProtocol?
     
@@ -75,6 +75,10 @@ class AppCoordinator: NSObject, AppCoordinatorProtocol {
             childCoordinators.append(accountCoordinator)
             accountCoordinatorInput = accountCoordinator
         }
+    }
+    
+    func openTripInfoModule(for tripId: String) {
+        journeysCoordinatorInput?.openTripInfoModule(for: tripId)
     }
 }
 

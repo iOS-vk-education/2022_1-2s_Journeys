@@ -92,6 +92,7 @@ extension RouteModel: RouteModelInput {
         let content = UNMutableNotificationContent()
         content.title = newNotification.contentTitle
         content.body = newNotification.contentBody
+        content.userInfo = ["tripId": notification.tripId ?? ""]
         content.badge = 1
         
         // Create the trigger as a repeating event.

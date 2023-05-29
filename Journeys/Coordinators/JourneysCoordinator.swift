@@ -53,6 +53,42 @@ final class JourneysCoordinator: CoordinatorProtocol {
     }
 }
 
+extension JourneysCoordinator: JourneysCoordinatorProtocol {
+    func openTripInfoModule(for tripId: String) {
+        obtainTrip(for: tripId) { [weak self] trip in
+            guard let self, let trip else { return }
+            self.obtainRoute(for: trip.routeId) { [weak self] route in
+                guard let self, let route else { return }
+                let builder = TripInfoModuleBuilder()
+                let tripInfoViewController = builder.build(firebaseService: self.firebaseService,
+                                                                    output: self,
+                                                                    firstPageMode: .stuff,
+                                                                    trip: trip,
+                                                                    route: route)
+                self.navigationController.pushViewController(tripInfoViewController, animated: true)
+            }
+        }
+    }
+    
+    private func obtainTrip(for id: String, completion: @escaping (Trip?) -> Void) {
+        FirebaseService().obtainTrip(with: id) { result in
+            switch result {
+            case .failure: completion(nil)
+            case .success(let trip): completion(trip)
+            }
+        }
+    }
+    
+    private func obtainRoute(for id: String, completion: @escaping (Route?) -> Void) {
+        FirebaseService().obtainRoute(with: id) { result in
+            switch result {
+            case .failure: completion(nil)
+            case .success(let route): completion(route)
+            }
+        }
+    }
+}
+
 // MARK: TripsModuleOutput
 
 extension JourneysCoordinator: TripsModuleOutput {

@@ -13,6 +13,11 @@ protocol CoordinatorProtocol: AnyObject {
     func finish()
 }
 
+protocol JourneysCoordinatorProtocol: CoordinatorProtocol {
+    func openTripInfoModule(for tripId: String)
+}
+
 protocol AppCoordinatorProtocol: CoordinatorProtocol {
     func reload()
+    func openTripInfoModule(for tripId: String)
 }

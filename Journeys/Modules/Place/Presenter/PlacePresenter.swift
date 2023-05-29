@@ -178,7 +178,8 @@ extension PlacePresenter: PlaceViewOutput {
             }
             let notification = PlaceNotification(id: nil,
                                                  date: view.datePickerValue(),
-                                                 placeForContent: place)
+                                                 placeForContent: place,
+                                                 tripId: routeModule?.getTripId())
             place.notification = notification
             self.place?.notification = notification
         }
