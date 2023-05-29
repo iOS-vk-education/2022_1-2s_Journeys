@@ -70,11 +70,11 @@ internal enum Asset {
     }
     internal enum PlacesInfo {
       internal enum ProgressView {
-        internal static let background = ColorAsset(name: "background")
         internal static let progress = ColorAsset(name: "progress")
+        internal static let progressViewBackground = ColorAsset(name: "progressViewBackground")
       }
       internal enum SectionHeader {
-        internal static let background = ColorAsset(name: "background")
+        internal static let sectionHeaderBackground = ColorAsset(name: "sectionHeaderBackground")
       }
       internal enum WeatherCell {
         internal static let dateColor = ColorAsset(name: "dateColor")

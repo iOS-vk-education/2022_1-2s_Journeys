@@ -17,7 +17,6 @@ final class JourneysCoordinator: CoordinatorProtocol {
     private let rootTabBarController: UITabBarController
     private var navigationController = UINavigationController()
     private let tabBarItemFactory: TabBarItemFactoryProtocol
-    private let eventsCoordinator: EventsCoordinatorInput
     private let firebaseService: FirebaseServiceProtocol
     
     // MARK: Lifecycle
@@ -25,10 +24,8 @@ final class JourneysCoordinator: CoordinatorProtocol {
     let lock = NSLock()
     private let loadingViewGroup = DispatchGroup()
     init(rootTabBarController: UITabBarController,
-         firebaseService: FirebaseServiceProtocol,
-         eventsCoordinator: EventsCoordinatorInput) {
+         firebaseService: FirebaseServiceProtocol) {
         self.rootTabBarController = rootTabBarController
-        self.eventsCoordinator = eventsCoordinator
         self.firebaseService = firebaseService
         tabBarItemFactory = TabBarItemFactory()
     }

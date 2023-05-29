@@ -50,6 +50,7 @@ class EventsViewController: UIViewController {
             animationType: YMKAnimation(type: YMKAnimationType.smooth, duration: 3),
             cameraCallback: nil)
         map1.autoSetDimension(.height, toSize: 1000)
+        map1.alpha = 0
         return map1
     }()
 

@@ -10,10 +10,6 @@ import UIKit
 import FirebaseFirestore
 import SafariServices
 
-protocol EventsCoordinatorInput: AnyObject {
-    func openEventsModule(with coordinates: Coordinates)
-}
-
 final class EventsCoordinator: CoordinatorProtocol, SingleEventModuleOutput {
     
     
@@ -101,21 +97,5 @@ extension EventsCoordinator: AddingModuleOutput {
     }
     func backToSuggestionVC() {
         navigationController.popViewController(animated: true)
-    }
-}
-
-extension EventsCoordinator: EventsCoordinatorInput {
-    func openEventsModule(with coordinates: Coordinates) {
-        rootTabBarController.selectedIndex = 1
-        if navigationController.viewControllers.count > 0 {
-            navigationController.popToViewController(navigationController.viewControllers[0], animated: false)
-            if let eventsVC = navigationController.viewControllers[0] as? EventsViewController {
-                eventsVC.setCoordinates(coordinates)
-            }
-        } else {
-            let eventsModuleBuilder = EventsModuleBuilder()
-            let eventsViewController = eventsModuleBuilder.build(output: self, latitude: coordinates.latitude, longitude: coordinates.longitude, zoom: 14)
-            navigationController.setViewControllers([eventsViewController], animated: false)
-        }
     }
 }

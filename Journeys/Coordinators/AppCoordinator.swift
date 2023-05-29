@@ -53,18 +53,17 @@ class AppCoordinator: NSObject, AppCoordinatorProtocol {
     // MARK: Private
 
     private func getTabController(_ page: TabBarPage) {
-        let eventsCoordinator = EventsCoordinator(rootTabBarController: tabBarController,
-                                                  firebaseService: firebaseService)
         switch page {
         case .journeys:
             let journeysCoordinator = JourneysCoordinator(rootTabBarController: tabBarController,
-                                                          firebaseService: firebaseService,
-                                                          eventsCoordinator: eventsCoordinator)
+                                                          firebaseService: firebaseService)
             journeysCoordinator.start()
             childCoordinators.append(journeysCoordinator)
             journeysCoordinatorInput = journeysCoordinator
 
         case .events:
+            let eventsCoordinator = EventsCoordinator(rootTabBarController: tabBarController,
+                                                      firebaseService: firebaseService)
             eventsCoordinator.start()
             childCoordinators.append(eventsCoordinator)
             eventsCoordinatorInput = eventsCoordinator
