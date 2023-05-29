@@ -78,6 +78,35 @@ class EventsViewController: UIViewController {
         output?.didLoadView()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        var theme = Theme.current
+        if theme == .system {
+            switch UIScreen.main.traitCollection.userInterfaceStyle {
+            case .light, .unspecified: theme = .light
+            case .dark: theme = .dark
+            @unknown default: break
+            }
+        }
+        var isNightModeEnabled: Bool = false
+        switch theme {
+        case .dark:
+            map.mapWindow.map.isNightModeEnabled = true
+        case .light:
+            map.mapWindow.map.isNightModeEnabled = false
+        default: break
+        }
+        
+        UIView.animate(withDuration: 0.7) { [weak self] in
+            self?.map.alpha = 1
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        map.alpha = 0
+    }
+    
     private func addSubviews() {
         self.view.addSubview(map)
         self.view.addSubview(addingButton)
