@@ -11,8 +11,12 @@ import PureLayout
 
 class EventsViewController: UIViewController {
     var output: EventsViewOutput?
+    var showSaveButton: Bool?
     
     private func setupNavBar() {
+        if showSaveButton == false {
+            return
+        }
         navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
         let favouritesButtonItem = UIBarButtonItem(image: UIImage(systemName: "bookmark.fill"),
                                                    style: .plain,
@@ -43,9 +47,10 @@ class EventsViewController: UIViewController {
                                                           zoom: zoom ?? AddingButtonConstants.Coordinates.zoom,
                                                           azimuth: 0,
                                                           tilt: 0),
-            animationType: YMKAnimation(type: YMKAnimationType.smooth, duration: 5),
+            animationType: YMKAnimation(type: YMKAnimationType.smooth, duration: 3),
             cameraCallback: nil)
         map1.autoSetDimension(.height, toSize: 1000)
+        map1.alpha = 0
         return map1
     }()
 
@@ -78,6 +83,35 @@ class EventsViewController: UIViewController {
         output?.didLoadView()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        var theme = Theme.current
+        if theme == .system {
+            switch UIScreen.main.traitCollection.userInterfaceStyle {
+            case .light, .unspecified: theme = .light
+            case .dark: theme = .dark
+            @unknown default: break
+            }
+        }
+        var isNightModeEnabled: Bool = false
+        switch theme {
+        case .dark:
+            map.mapWindow.map.isNightModeEnabled = true
+        case .light:
+            map.mapWindow.map.isNightModeEnabled = false
+        default: break
+        }
+        
+        UIView.animate(withDuration: 0.7) { [weak self] in
+            self?.map.alpha = 1
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        map.alpha = 0
+    }
+    
     private func addSubviews() {
         self.view.addSubview(map)
         self.view.addSubview(addingButton)
