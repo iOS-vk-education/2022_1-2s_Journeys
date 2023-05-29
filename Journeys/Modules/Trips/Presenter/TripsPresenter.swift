@@ -138,8 +138,10 @@ extension TripsPresenter: TripsModuleInput {
     }
     
     func changedTrip(_ trip: Trip) {
-        guard let index = self.tripsData.firstIndex(where: { $0.id == trip.id }) else { return }
+        guard let index = self.tripsData.firstIndex(where: { $0.id == trip.id }),
+              tripsType != .saved else { return }
         if Trip(tripWithOtherData: tripsData[index]) == trip {
+            view?.changeIsSavedCellStatus(at: IndexPath(row: index, section: 1), status: trip.isInfavourites)
             return
         }
         interactor.obtainRouteDataFromServer(for: trip) { [weak self] trip in
@@ -159,10 +161,12 @@ extension TripsPresenter: TripsModuleInput {
 
 extension TripsPresenter: TripsViewOutput {
     func viewDidLoad() {
-        dataIsLoaded = false
         switch tripsType {
-        case .all: loadTripsData()
+        case .all:
+            dataIsLoaded = false
+            loadTripsData()
         case .saved:
+            dataIsLoaded = true
             if tripsData.contains(where: { $0.image == nil }) {
                 loadImagesForTrips()
             }
@@ -177,6 +181,7 @@ extension TripsPresenter: TripsViewOutput {
     }
     
     func refreshView() {
+        dataIsLoaded = false
         hidePlaceholder()
         view?.reloadData()
         loadTripsData()
@@ -205,7 +210,7 @@ extension TripsPresenter: TripsViewOutput {
                 return 0
             }
         }
-        if dataIsLoaded || tripsType == .saved {
+        if dataIsLoaded {
             if tripsData.count == 0 {
                 embedRPlaceholder()
             }
@@ -215,7 +220,6 @@ extension TripsPresenter: TripsViewOutput {
     }
     
     func getCellType() -> TripsCellType {
-        if tripsType == .saved { return .usual }
         if dataIsLoaded { return .usual }
         return .skeleton
     }
@@ -243,7 +247,7 @@ extension TripsPresenter: TripsViewOutput {
         guard tripsData.indices.contains(indexPath.row) else { return }
         tripsData[indexPath.row].isInfavourites.toggle()
         interactor.storeTripData(trip: Trip(tripWithOtherData: tripsData[indexPath.row])) { [weak self] in
-            guard let self else { return }
+            guard let self, self.tripsData.count > indexPath.row  else { return }
             self.view?.changeIsSavedCellStatus(at: indexPath, status: self.tripsData[indexPath.row].isInfavourites)
             if self.tripsType == .saved {
                 self.tripsData.remove(at: indexPath.row)
@@ -308,6 +312,9 @@ extension TripsPresenter: TripsInteractorOutput {
         tripsData.sort(by: {$0.dateChanged.timeIntervalSinceNow > $1.dateChanged.timeIntervalSinceNow})
         
         reloadView()
+        if tripsData.count > 0 {
+            hidePlaceholder()
+        }
         
         loadImagesForTrips()
     }

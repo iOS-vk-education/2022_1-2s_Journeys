@@ -334,11 +334,15 @@ extension TripsViewController: TransitionHandlerProtocol {
     }
     
     func showPlaceholder() {
-        placeholderView.isHidden = false
+        DispatchQueue.main.async { [weak self] in
+            self?.placeholderView.isHidden = false
+        }
     }
     
     func hidePlaceholder() {
-        placeholderView.isHidden = true
+        DispatchQueue.main.async { [weak self] in
+            self?.placeholderView.isHidden = true
+        }
     }
 }
 
