@@ -37,16 +37,6 @@ final class SettingsPresenter {
         self.router = router
         self.appRateManager = appRateManager
         self.moduleOutput = moduleOutput
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(didBecomeAvtive),
-                                               name: UIApplication.didBecomeActiveNotification,
-                                               object: nil)
-    }
-    
-    @objc
-    private func didBecomeAvtive() {
-        viewWillAppear()
     }
 }
 
@@ -54,26 +44,11 @@ final class SettingsPresenter {
 
 extension SettingsPresenter: SettingsViewOutput {
     func viewWillAppear() {
-//        notificationManager.areNotificationsEnabledAtIOSLevel { [weak self] result in
-//            self?.areNotificationsEnabledAtIOSLevel = result
-//            if result {
-//                self?.notificationManager.hasUserEnabledNotifications { [weak self] result in
-//                    self?.areNotificationsEnabled = result
-//                    self?.view?.reloadView()
-//                }
-//            } else {
-//                self?.areNotificationsEnabled = false
-//            }
-//        }
     }
     
     func getDisplayData(for indexPath: IndexPath) -> SettingsCell.DisplayData {
-        let row = indexPath.section == 0 ? 0 : indexPath.row + 1
-        let cellType = SettingsCell.CellType.Settings.allCases[row]
+        let cellType = SettingsCell.CellType.Settings.allCases[indexPath.row]
         let displayDataFactory = SettingsDisplayDataFactory()
-//        if cellType == .notifications {
-//            return displayDataFactory.settingsDisplayData(for: cellType, switchValue: areNotificationsEnabled)
-//        }
         return displayDataFactory.settingsDisplayData(for: cellType)
     }
 

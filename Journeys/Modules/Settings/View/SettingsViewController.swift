@@ -106,7 +106,6 @@ final class SettingsViewController: UIViewController {
 
 extension SettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard indexPath.section != 0 else { return }
         output?.didSelectCell(at: indexPath)
         tableView.deselectRow(at: indexPath, animated: true)
     }

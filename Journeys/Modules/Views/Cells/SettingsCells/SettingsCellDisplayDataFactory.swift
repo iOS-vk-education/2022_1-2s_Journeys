@@ -31,10 +31,10 @@ final class SettingsDisplayDataFactory {
                                             type: .chevronType)
         case .help:
             return SettingsCell.DisplayData(title: L10n.help,
-                                            type: .chevronType)
+                                            type: .usual)
         case .rate:
             return SettingsCell.DisplayData(title: L10n.rateApp,
-                                            type: .chevronType)
+                                            type: .usual)
         default:
             return SettingsCell.DisplayData(title: "",
                                             type: .usual)

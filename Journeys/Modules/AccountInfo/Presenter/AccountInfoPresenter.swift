@@ -377,7 +377,6 @@ extension AccountInfoPresenter: AccountInfoModelOutput {
     }
     
     func deleteSuccesfull() {
-        NotificationsManager.shared.notificationCenter.removeAllPendingNotificationRequests()
         showAlert(error: .custom(title: nil,
                                  message: L10n.Alerts.Messages.accountWasDeleted),
                   isOkActionNeeded: true)
