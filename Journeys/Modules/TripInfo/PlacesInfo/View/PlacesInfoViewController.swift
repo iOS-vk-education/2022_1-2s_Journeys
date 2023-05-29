@@ -18,7 +18,7 @@ enum SectionType {
 // MARK: - PlacesIngoViewController
 
 final class PlacesInfoViewController: UIViewController {
-
+    
     var output: PlacesInfoViewOutput?
     
     private lazy var refreshControl: UIRefreshControl = {
@@ -37,7 +37,7 @@ final class PlacesInfoViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.contentInset = UIEdgeInsets(top: 18, left: 0, bottom: 0, right: 0)
         return collectionView
-   }()
+    }()
     
     private lazy var currenCurrencyPicker: UIPickerView = {
         let picker = UIPickerView()
@@ -49,9 +49,9 @@ final class PlacesInfoViewController: UIViewController {
     }()
     
     private var placeholderView = UIView()
-
+    
     // MARK: Lifecycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         output?.viewDidLoad()
@@ -64,6 +64,8 @@ final class PlacesInfoViewController: UIViewController {
         currenCurrencyPicker.isHidden = true
         placeholderView.isHidden = true
         
+        view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
+        
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
@@ -71,12 +73,12 @@ final class PlacesInfoViewController: UIViewController {
         setupCollectionView()
         setupConstraints()
     }
-
+    
     private func setupCollectionView() {
         mainCollectionView.delegate = self
         mainCollectionView.dataSource = self
         mainCollectionView.alwaysBounceVertical = true
-
+        
         mainCollectionView.addSubview(refreshControl)
         mainCollectionView.contentSize = CGSize(width: mainCollectionView.frame.width,
                                                 height: mainCollectionView.frame.height)
@@ -93,6 +95,8 @@ final class PlacesInfoViewController: UIViewController {
         mainCollectionView.register(MainCollectionHeader.self,
                                     forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                     withReuseIdentifier: "MainCollectionHeader")
+        
+        mainCollectionView.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
     }
     
     private func setupConstraints() {
@@ -120,7 +124,7 @@ extension PlacesInfoViewController: UICollectionViewDelegate, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         CGSize(width: collectionView.frame.width, height: 25)
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let cellType = output?.mainCollectionCellType(for: indexPath)
         else { return CGSize(width: 0.0, height: 0.0) }
@@ -179,33 +183,34 @@ extension PlacesInfoViewController: UICollectionViewDataSource {
                                                                            for: indexPath) as? WeatherCollection else {
                 return cell
             }
-                guard let data = output?.weatherCollectionDisplayData(indexPath.row)
-                else { return placeHolderCell(for: indexPath, cellType: .weather) }
-                
-                weatherCell.configure(data: data, delegate: self, indexPath: indexPath)
+            guard let data = output?.weatherCollectionDisplayData(indexPath.row)
+            else { return placeHolderCell(for: indexPath, cellType: .weather) }
+            
+            weatherCell.configure(data: data, delegate: self, indexPath: indexPath)
+            weatherCell.reloadData()
             cell = weatherCell
         case .currency:
             guard let currencyCell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "CurrencyCell",
                                                                             for: indexPath) as? CurrencyCell else {
                 return cell
             }
-                guard let displatData = output?.currencyCellDisplayData(for: indexPath)
-                else { return placeHolderCell(for: indexPath, cellType: .currency) }
-                
-                let cellDelegate = output as? CurrencyCellDelegate
-                currencyCell.configure(displayData: displatData,
-                                       delegate: cellDelegate,
-                                       indexPath: indexPath)
+            guard let displatData = output?.currencyCellDisplayData(for: indexPath)
+            else { return placeHolderCell(for: indexPath, cellType: .currency) }
+            
+            let cellDelegate = output as? CurrencyCellDelegate
+            currencyCell.configure(displayData: displatData,
+                                   delegate: cellDelegate,
+                                   indexPath: indexPath)
             cell = currencyCell
         case .events:
             guard let mapCell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "EventMapCell",
                                                                        for: indexPath) as? EventMapCell else {
                 return cell
             }
-                guard let displayData = output?.eventCellDisplayData(for: indexPath)
-                else { return placeHolderCell(for: indexPath, cellType: .events) }
-                
-                mapCell.configure(data: displayData)
+            guard let displayData = output?.eventCellDisplayData(for: indexPath)
+            else { return placeHolderCell(for: indexPath, cellType: .events) }
+            
+            mapCell.configure(data: displayData)
             cell = mapCell
         default:
             return cell
@@ -271,8 +276,8 @@ extension PlacesInfoViewController: PlacesInfoViewInput {
     func showAlert(title: String, message: String) {
         DispatchQueue.main.async {
             let alert = UIAlertController(title: title,
-                              message: message,
-                              preferredStyle: .alert)
+                                          message: message,
+                                          preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
@@ -346,7 +351,7 @@ extension PlacesInfoViewController: TransitionHandlerProtocol {
     
     func embedPlaceholder(_ viewController: UIViewController) {
         guard let placeholderViewController = viewController as? PlacesInfoLoadingPlaceholderViewController else { return }
-
+        
         guard placeholderView.isHidden == true else {
             return
         }
@@ -385,7 +390,7 @@ extension PlacesInfoViewController: WeatherCollectionDelegate {
     
     func getCellDisplayData(at collectionIndexPath: IndexPath, for indexpath: IndexPath) -> WeatherCell.DisplayData? {
         output?.weatherCollectionCellDisplayData(collectionRow: collectionIndexPath.row,
-                                                cellRow: indexpath.row)
+                                                 cellRow: indexpath.row)
     }
 }
 
