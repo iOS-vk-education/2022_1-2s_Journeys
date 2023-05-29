@@ -122,3 +122,12 @@ struct TripWithRouteAndImage {
         self.isInfavourites = trip.isInfavourites
     }
 }
+
+extension TripWithRouteAndImage: Equatable {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.id == rhs.id
+        && lhs.routeId == rhs.routeId
+        && lhs.baggageId == rhs.baggageId
+        && lhs.imageURLString == rhs.imageURLString
+    }
+}

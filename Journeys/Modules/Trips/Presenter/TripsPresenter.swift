@@ -40,9 +40,10 @@ final class TripsPresenter {
         self.interactor = interactor
         self.router = router
         self.tripsType = tripsType
-        if let tripsData {
-            self.tripsData = tripsData
-        }
+//        if let tripsData {
+//            self.tripsData = tripsData
+//        }
+        self.interactor.addSnapshotListener(type: tripsType, moduleInput: self)
     }
     
     private func loadTripsData() {
@@ -120,6 +121,65 @@ final class TripsPresenter {
 
 
 extension TripsPresenter: TripsModuleInput {
+    func addedTrip(_ trip: Trip) {
+        obtainTripFulldata(trip)
+        if !tripsData.isEmpty {
+            hidePlaceholder()
+        }
+    }
+    
+    func changedTrip(_ trip: Trip) {
+        guard let index = tripsData.firstIndex(where: { $0.id == trip.id }) else { return }
+        obtainTripFulldata(trip, index: index)
+    }
+    
+    func deletedTrip(_ trip: Trip) {
+        guard let index = tripsData.firstIndex(where: { $0.id == trip.id }) else { return }
+        view?.deleteItem(at: IndexPath(row: index, section: 1))
+        tripsData.remove(at: index)
+        view?.reloadData()
+        if tripsData.isEmpty {
+            embedRPlaceholder()
+        }
+    }
+    
+    func didLoadAllUpdates() {
+        tripsData.sort(by: { $0.dateChanged > $1.dateChanged })
+        dataIsLoaded = true
+    }
+    
+    private func obtainTripFulldata(_ trip: Trip, index: Int? = nil) {
+        interactor.obtainRouteDataFromServer(for: trip) { [weak self] resultData in
+            if let index {
+                if resultData == self?.tripsData[index] {
+                    self?.tripsData.remove(at: index)
+                    self?.tripsData.insert(resultData, at: 0)
+//                    self?.view?.changeIsSavedCellStatus(at: IndexPath(row: index, section: 1),
+//                                                  status: resultData.isInfavourites)
+                    self?.view?.moveCell(from: IndexPath(row: index, section: 1), to: IndexPath(row: 0, section: 1))
+                    self?.view?.reloadData()
+                    return
+                }
+                self?.tripsData[index] = resultData
+            } else {
+                self?.tripsData.insert(resultData, at: 0)
+                if self?.tripsData.isEmpty == false {
+                    self?.hidePlaceholder()
+                }
+            }
+            guard let imageURLString = resultData.imageURLString else { return }
+            self?.interactor.obtainTripImageFromServer(withURL: imageURLString) { [weak self] result in
+                switch result {
+                case .failure: break
+                case .success(let image):
+                    guard let index = self?.tripsData.firstIndex(where: { $0.id == resultData.id }) else { return }
+                    self?.tripsData[index].image = image
+                }
+                self?.view?.reloadData()
+            }
+        }
+    }
+    
 }
 
 extension TripsPresenter: TripsViewOutput {
@@ -127,7 +187,7 @@ extension TripsPresenter: TripsViewOutput {
         authListener()
         dataIsLoaded = false
         switch tripsType {
-        case .all: loadTripsData()
+        case .all: break
         case .saved:
             if tripsData.contains(where: { $0.image == nil }) {
                 loadImagesForTrips()
@@ -174,7 +234,7 @@ extension TripsPresenter: TripsViewOutput {
     }
     
     func getCellType() -> TripsCellType {
-        if tripsType == .saved { return .usual }
+//        if tripsType == .saved { return .usual }
         if dataIsLoaded { return .usual }
         return .skeleton
     }
@@ -199,11 +259,11 @@ extension TripsPresenter: TripsViewOutput {
     }
     
     func didTapCellBookmarkButton(at indexPath: IndexPath) {
-        guard tripsData.indices.contains(indexPath.row) else { return }
+        guard tripsData.count > indexPath.row else { return }
         tripsData[indexPath.row].isInfavourites.toggle()
         interactor.storeTripData(trip: Trip(tripWithOtherData: tripsData[indexPath.row])) { [weak self] in
-            guard let self else { return }
-            self.view?.changeIsSavedCellStatus(at: indexPath, status: self.tripsData[indexPath.row].isInfavourites)
+            guard let self, self.tripsType != .saved, self.tripsData.count > indexPath.row else { return }
+//            self.view?.changeIsSavedCellStatus(at: indexPath, status: self.tripsData[indexPath.row].isInfavourites)
             if self.tripsType == .saved {
                 self.tripsData.remove(at: indexPath.row)
                 self.view?.deleteItem(at: indexPath)
@@ -283,12 +343,12 @@ extension TripsPresenter: TripsInteractorOutput {
     }
     
     func didDeleteTrip() {
-        if let cellToDeleteIndexPath = cellToDeleteIndexPath {
-            if tripsData.indices.contains(cellToDeleteIndexPath.row) {
-                view?.deleteItem(at: cellToDeleteIndexPath)
-                tripsData.remove(at: cellToDeleteIndexPath.row)
-            }
-        }
+//        if let cellToDeleteIndexPath = cellToDeleteIndexPath {
+//            if tripsData.indices.contains(cellToDeleteIndexPath.row) {
+//                view?.deleteItem(at: cellToDeleteIndexPath)
+//                tripsData.remove(at: cellToDeleteIndexPath.row)
+//            }
+//        }
         cellToDeleteIndexPath = nil
     }
     

@@ -42,6 +42,7 @@ final class TripsViewController: UIViewController {
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        output.viewWillAppear()
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         placeholderView.isHidden = true
         setupNavBar()
@@ -49,10 +50,10 @@ final class TripsViewController: UIViewController {
         makeConstraints()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        output.viewWillAppear()
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        output.viewWillAppear()
+//    }
 
     private func setupNavBar() {
         navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
@@ -230,7 +231,6 @@ extension TripsViewController: UICollectionViewDataSource {
 }
 
 extension TripsViewController: TripsViewInput {
-    
     func endRefresh() {
         DispatchQueue.main.async { [weak self] in
             self?.refreshControl.endRefreshing()
@@ -269,7 +269,13 @@ extension TripsViewController: TripsViewInput {
     }
     
     func deleteItem(at indexPath: IndexPath) {
-        self.collectionView.deleteItems(at: [indexPath])
+        collectionView.deleteItems(at: [indexPath])
+    }
+    
+    func moveCell(from: IndexPath, to: IndexPath) {
+//        guard let tripCell = collectionView.cellForItem(at: from) as? TripCell else { return }
+        collectionView.moveItem(at: from, to: to)
+//        tripCell.changeIndexPath(to: to)
     }
     
     func showLoadingView() {

@@ -229,11 +229,6 @@ final class TripCell: UICollectionViewCell {
         routeLabel.alpha = 1
     }
 
-    func changeIsSavedStatus(status: Bool) {
-        isInFavourites = status
-        setBookmarkButtonImage()
-    }
-    // TODO: send data to view
     @objc
     private func didTapBookmarkButton() {
         guard let indexPath = indexPath else { return }
@@ -250,6 +245,15 @@ final class TripCell: UICollectionViewCell {
     private func didTapDeleteButton() {
         guard let indexPath = indexPath else { return }
         delegate?.didTapDeleteButton(indexPath)
+    }
+    
+    func changeIsSavedStatus(status: Bool) {
+        isInFavourites = status
+        setBookmarkButtonImage()
+    }
+    
+    func changeIndexPath(to indexPath: IndexPath) {
+        self.indexPath = indexPath
     }
     
     func configure(data: DisplayData, delegate: TripCellDelegate, indexPath: IndexPath) {

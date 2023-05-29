@@ -40,10 +40,12 @@ extension FirebaseService: FirebaseServiceStoreProtocol {
         if let id = trip.id {
             ref = firebaseManager.firestore.collection("trips").document(userId).collection("user_trips").document(id)
         }
-        ref.setData(trip.toDictionary()) { error in
+        var newTrip = trip
+        newTrip.dateChanged = Date()
+        ref.setData(newTrip.toDictionary()) { error in
             if let error = error {
                 completion(.failure(error))
-            } else if let trip = Trip(from: trip.toDictionary(), id: ref.documentID) {
+            } else if let trip = Trip(from: newTrip.toDictionary(), id: ref.documentID) {
                 completion(.success(trip))
             } else {
                 completion(.failure(FBError.noData))

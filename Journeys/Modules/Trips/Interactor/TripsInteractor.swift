@@ -50,6 +50,10 @@ final class TripsInteractor {
 
 
 extension TripsInteractor: TripsInteractorInput {
+    func addSnapshotListener(type: TripsType, moduleInput: TripsModuleInput) {
+        FBService.tripsListener(type: type, tripsModule: moduleInput)
+    }
+    
     func obtainTripsDataFromSever(type: TripsType) {
         FBService.obtainTrips(type: type) { [weak self] result in
             guard let strongSelf = self else { return }
@@ -58,6 +62,18 @@ extension TripsInteractor: TripsInteractorInput {
                 strongSelf.output?.didRecieveError(error: .obtainDataError)
             case .success(let trips):
                 strongSelf.obtainRoutesDataFromServer(for: trips)
+            }
+        }
+    }
+    
+    func obtainRouteDataFromServer(for trip: Trip, completion: @escaping (TripWithRouteAndImage) -> Void) {
+        self.obtainRouteDataFromSever(with: trip.routeId) { result in
+            switch result {
+            case .failure:
+                self.output?.didRecieveError(error: .obtainDataError)
+            case .success(let route):
+                completion(TripWithRouteAndImage(trip: trip,
+                                                 route: route))
             }
         }
     }

@@ -217,6 +217,9 @@ extension RoutePresenter: RouteModelOutput {
         moduleOutput.routeModuleWantsToOpenTripInfoModule(trip: Trip(tripWithOtherData: trip),
                                                           route: route)
         hideLoadingView()
+        model.storeTripData(trip: Trip(tripWithOtherData: trip)) { [weak self] savedTrip in
+            self?.trip = TripWithRouteAndImage(trip: savedTrip, route: route)
+        }
     }
     
     func didSaveData(trip: Trip, route: Route) {

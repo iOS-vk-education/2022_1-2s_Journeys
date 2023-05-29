@@ -21,6 +21,17 @@ final class RouteModel {
 }
 
 extension RouteModel: RouteModelInput {
+    func storeTripData(trip: Trip, completion: @escaping (Trip) -> Void) {
+        FBService.storeTripData(trip: trip) { [weak self] result in
+            switch result {
+            case .failure(let error):
+                break
+//                strongSelf.output?.didRecieveError(error: .saveDataError)
+            case .success(let savedTrip):
+                completion(savedTrip)
+            }
+        }
+    }
     
     func storeRouteData(route: Route, tripImage: UIImage, tripId: String) {
         FBService.storeImage(image: tripImage, imageType: .trip) { [weak self] result in
