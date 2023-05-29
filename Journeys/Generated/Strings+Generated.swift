@@ -82,7 +82,7 @@ public enum L10n {
   public static var end: String { return L10n.tr("Localizable", "End") }
   /// Введите адрес
   public static var enterTheAddress: String { return L10n.tr("Localizable", "Enter the address") }
-  /// Введите своей Email
+  /// Введите свой Email
   public static var enterEmail: String { return L10n.tr("Localizable", "EnterEmail") }
   /// Для смены информации для авторизации необходимо ввести пароль
   public static var enterPasswordToChangeAuthInfo: String { return L10n.tr("Localizable", "EnterPasswordToChangeAuthInfo") }
@@ -178,6 +178,8 @@ public enum L10n {
   public static var saved: String { return L10n.tr("Localizable", "Saved") }
   /// Выберите даты
   public static var selectDates: String { return L10n.tr("Localizable", "SelectDates") }
+  /// Письмо со ссылкой для сброса пароля отправлено на
+  public static var sentPasswordReset: String { return L10n.tr("Localizable", "SentPasswordReset") }
   /// Настройки
   public static var settings: String { return L10n.tr("Localizable", "Settings") }
   /// Источник
@@ -244,7 +246,7 @@ public enum L10n {
       public enum Route {
         /// Добавьте фото для поездки
         public static var addTripPhoto: String { return L10n.tr("Localizable", "Alerts.Messages.Route.AddTripPhoto") }
-        /// Введите хотябы один город
+        /// Введите хотя бы один город
         public static var enterAtleastOneTown: String { return L10n.tr("Localizable", "Alerts.Messages.Route.EnterAtleastOneTown") }
         /// Введите город отправления
         public static var enterDepartureTown: String { return L10n.tr("Localizable", "Alerts.Messages.Route.EnterDepartureTown") }
@@ -274,7 +276,7 @@ public enum L10n {
       public static var networkError: String { return L10n.tr("Localizable", "FirebaseAuth.Errors.NetworkError") }
       /// Авторизация недоступна, попробуйте позднее
       public static var operationNotAllowed: String { return L10n.tr("Localizable", "FirebaseAuth.Errors.OperationNotAllowed") }
-      /// Jnghfdktyjслишком много запросов, попробуйте позднее
+      /// Отправлено слишком много запросов, попробуйте позднее
       public static var tooManyRequests: String { return L10n.tr("Localizable", "FirebaseAuth.Errors.TooManyRequests") }
       /// Аккаунт отключен
       public static var userDisabled: String { return L10n.tr("Localizable", "FirebaseAuth.Errors.UserDisabled") }

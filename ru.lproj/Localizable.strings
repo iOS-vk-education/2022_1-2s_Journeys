@@ -65,12 +65,13 @@
 "ResetPassword" = "Сбросить пароль";
 "Continue" = "Продолжить";
 "ResetingPassword" = "Сброс пароля";
-"EnterEmail" = "Введите своей Email";
+"EnterEmail" = "Введите свой Email";
 "PasswordsDontMatch" = "Пароли не совпадают";
 "EmailProblems" = "Возникли проблемы с вашим Email адресом, перезайдите в аккаунт";
 "EnterPasswordToChangeAuthInfo" = "Для смены информации для авторизации необходимо ввести пароль";
 "AccountWasntDeleted" = "Аккаунт не был удален, попробуйте позднее";
 "NothingToSave" = "Нет изменений для сохранения";
+"SentPasswordReset" = "Письмо со ссылкой для сброса пароля отправлено на";
 
 // MARK: Settings
 "Notifications" = "Уведомления";
@@ -147,7 +148,7 @@
 "FirebaseAuth.Errors.MissingEmail" = "Вам необходимо зарегистрировать адрес электронной почты";
 "FirebaseAuth.Errors.InternalError" = "Внутренняя ошибка, попробуйте позднее";
 "FirebaseAuth.Errors.InvalidCustomToken" = "Недопустимый пользовательский токен, попробуйте позднее";
-"FirebaseAuth.Errors.TooManyRequests" = "Jnghfdktyjслишком много запросов, попробуйте позднее";
+"FirebaseAuth.Errors.TooManyRequests" = "Отправлено слишком много запросов, попробуйте позднее";
 
 // MARK: Alerts
 "Alerts.Titles.Success" = "Успех";
@@ -165,7 +166,7 @@
 "Alerts.Messages.ErrorWhileSavingData" = "При сохранении данных возникла ошибка, попробуйте снова позднее";
 "Alerts.Messages.Route.EnterDepartureTown" = "Введите город отправления";
 
-"Alerts.Messages.Route.EnterAtleastOneTown" = "Введите хотябы один город";
+"Alerts.Messages.Route.EnterAtleastOneTown" = "Введите хотя бы один город";
 "Alerts.Messages.Route.AddTripPhoto" = "Добавьте фото для поездки";
 
 "Alerts.Messages.DeleteSuccessful" = "Успешно удалено";

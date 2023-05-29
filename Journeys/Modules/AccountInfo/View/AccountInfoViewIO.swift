@@ -35,6 +35,8 @@ protocol AccountInfoViewOutput: AnyObject {
     func didTapSaveButton()
     func didTapExitButton()
     func didTapDeleteAccountButton()
+    func didTapResetPasswordButton()
+    
     
     func deleteAccount(with passwordApprove: String?)
 }

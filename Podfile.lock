@@ -763,7 +763,6 @@ PODS:
     - nanopb/encode (= 2.30909.0)
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
-  - PinLayout (1.10.4)
   - PromisesObjC (2.1.1)
   - PureLayout (3.1.9)
   - SnapKit (5.6.0)
@@ -777,7 +776,6 @@ DEPENDENCIES:
   - FirebaseFirestore
   - FirebaseStorage
   - FSCalendar
-  - PinLayout
   - PureLayout
   - SnapKit (= 5.6.0)
   - SwiftGen (~> 6.5.1)
@@ -807,7 +805,6 @@ SPEC REPOS:
     - leveldb-library
     - Libuv-gRPC
     - nanopb
-    - PinLayout
     - PromisesObjC
     - PureLayout
     - SnapKit
@@ -837,7 +834,6 @@ SPEC CHECKSUMS:
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   Libuv-gRPC: 55e51798e14ef436ad9bc45d12d43b77b49df378
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
-  PinLayout: f8a677ce0cd1cfe96b58435d029b4ceb4ce9c04c
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   PureLayout: 5fb5e5429519627d60d079ccb1eaa7265ce7cf88
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
@@ -845,6 +841,6 @@ SPEC CHECKSUMS:
   SwiftLint: f80f1be7fa96d30e0aa68e58d45d4ea1ccaac519
   YandexMapsMobile: 1fd5f86bc368ad6ba528b199f9477e4a26796567
 
-PODFILE CHECKSUM: f809f32e4db65bfe3e9e1a8e32a54f50f5149886
+PODFILE CHECKSUM: 715fd1608b2310a9915bd818b007e1cd3bd5b7df
 
 COCOAPODS: 1.11.3

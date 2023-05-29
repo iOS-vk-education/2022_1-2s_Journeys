@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 // MARK: - AccountPresenter
 
@@ -53,12 +54,17 @@ final class AccountInfoPresenter {
     
     private var userData: User?
     
-    private let dataStoreQueue = DispatchQueue.global()
-    private let dataStoreDispatchGroup = DispatchGroup()
+//    private let dataStoreQueue = DispatchQueue.global()
+//    private let dataStoreDispatchGroup = DispatchGroup()
     private var didReceiveAnyError: Bool = false
+    
+    private var needsToStore: [StorableData] = []
+    
+    private var authFlag: Bool = true
     
     init(userData: User?) {
         self.userData = userData
+        authListener()
     }
     
     private func showLoadingView() {
@@ -77,6 +83,31 @@ final class AccountInfoPresenter {
             askToShowErrorAlert(error, alertShowingVC: alertShowingVC)
         }
     }
+    
+    private func changeAuthFlag(to flag: Bool) {
+        if authFlag == false, flag == true {
+            loadData()
+        } else if authFlag == true, flag == false {
+            userData = nil
+            view?.reloadData()
+        }
+        authFlag = flag
+    }
+    
+    private func authListener() {
+        Auth.auth().addIDTokenDidChangeListener { [weak self] (auth, user) in
+            guard let self else { return }
+            if user == nil {
+                self.changeAuthFlag(to: false)
+            } else {
+                self.changeAuthFlag(to: true)
+            }
+        }
+    }
+    
+    private func loadData() {
+        model?.getUserData()
+    }
 }
 
 extension AccountInfoPresenter: AccountInfoModuleInput {
@@ -85,7 +116,7 @@ extension AccountInfoPresenter: AccountInfoModuleInput {
 extension AccountInfoPresenter: AccountInfoViewOutput {
     func viewDidLoad() {
         if userData == nil {
-            model?.getUserData()
+            loadData()
         }
     }
     
@@ -99,6 +130,7 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
     }
     
     func didTapSaveButton() {
+        showLoadingView()
         var userNewData = User(email: userData?.email)
         for personalInfo in AccountInfoCell.CellType.PersonalInfo.allCases {
             let cellValue = view?.cellValue(for: IndexPath(row: personalInfo.rawValue,
@@ -109,12 +141,13 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
             default: break
             }
         }
-        if (userData?.name != userNewData.name && userNewData.name != nil) ||
-            (userData?.lastName != userNewData.lastName && userNewData.name != nil) {
+        var isSomethingToSaveInAccountData: Bool
+        if (userData?.name != userNewData.name) ||
+            (userData?.lastName != userNewData.lastName) {
+            isSomethingToSaveInAccountData = true
             saveUserData(userNewData)
         } else {
-            hideLoadingView()
-            showAlert(error: .custom(title: nil, message: L10n.nothingToSave))
+            isSomethingToSaveInAccountData = false
         }
         
         var loginNewData = LoginInfo()
@@ -129,14 +162,16 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
             default: break
             }
         }
+        if loginNewData.newEmail == userData?.email, loginNewData.newPassword == nil, !isSomethingToSaveInAccountData {
+            showAlert(error: .custom(title: nil, message: L10n.nothingToSave))
+            hideLoadingView()
+        }
         saveLoginInfo(loginNewData)
     }
     
     private func saveUserData(_ userInfo: User) {
-        dataStoreDispatchGroup.enter()
-        dataStoreQueue.async(group: dataStoreDispatchGroup) { [weak self] in
-            self?.model?.saveUserData(userInfo)
-        }
+        needsToStore.append(.personalInfo(userInfo))
+        model?.saveUserData(userInfo)
     }
     
     private func saveLoginInfo(_ loginInfo: LoginInfo) {
@@ -144,6 +179,7 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
             showAlert(error: .custom(title: L10n.error,
                                      message: L10n.emailProblems),
                       isOkActionNeeded: true)
+            hideLoadingView()
             return
         }
         if let newEmail = loginInfo.newEmail, newEmail != email {
@@ -161,7 +197,6 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
                                       newPassword: loginInfo.newPassword,
                                       confirmPassword: loginInfo.confirmPassword)
         }
-        showLoadingView()
     }
     
     private func saveUsersEmailIfNeeded(currentEmail: String,
@@ -171,14 +206,12 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
         guard let password else {
             showAlert(error: .custom(title: L10n.error,
                                      message: L10n.enterPasswordToChangeAuthInfo))
+            hideLoadingView()
             return
         }
-        dataStoreDispatchGroup.enter()
-        dataStoreQueue.async(group: dataStoreDispatchGroup) { [weak self] in
-            self?.model?.saveEmail(email: currentEmail, newEmail: newEmail, password: password) { [weak self] in
-                guard let self else { return }
-                completion(newEmail)
-            }
+        needsToStore.append(.email(nil))
+        model?.saveEmail(email: currentEmail, newEmail: newEmail, password: password) {
+            completion(newEmail)
         }
     }
     
@@ -190,17 +223,17 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
             guard let password else {
                 showAlert(error: .custom(title: L10n.error,
                                          message: L10n.enterPasswordToChangeAuthInfo))
+                hideLoadingView()
                 return
             }
             guard confirmPassword == newPassword else {
                 showAlert(error: .custom(title: L10n.error,
                                          message: L10n.passwordsDontMatch))
+                hideLoadingView()
                 return
             }
-            dataStoreDispatchGroup.enter()
-            dataStoreQueue.async(group: dataStoreDispatchGroup) { [weak self] in
-                self?.model?.savePassword(email: email, password: password, newPassword: newPassword)
-            }
+            needsToStore.append(.password)
+            model?.savePassword(email: email, password: password, newPassword: newPassword)
         }
     }
     
@@ -270,6 +303,17 @@ extension AccountInfoPresenter: AccountInfoViewOutput {
         }
         model?.deleteUser(with: passwordApprove)
     }
+    
+    func didTapResetPasswordButton() {
+        guard let email = userData?.email else {
+            showAlert(error: .custom(title: nil,
+                                     message: L10n.emailProblems))
+            return
+        }
+        model?.resetPassword(for: email) { [weak self] email in
+            self?.showAlert(error: .custom(title: nil, message: "\(L10n.sentPasswordReset): \(email)"))
+        }
+    }
 }
 
 extension AccountInfoPresenter: AccountInfoModelOutput {
@@ -303,10 +347,12 @@ extension AccountInfoPresenter: AccountInfoModelOutput {
         default:
             break
         }
-        dataStoreDispatchGroup.leave()
+        if needsToStore.count > 0 {
+            needsToStore.remove(at: 0)
+        }
         
-        dataStoreDispatchGroup.notify(queue: dataStoreQueue) { [weak self] in
-            DispatchQueue.main.async {
+        if needsToStore.isEmpty {
+            DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 self.view?.reloadData()
                 self.view?.hideLoadingView()
@@ -330,7 +376,9 @@ extension AccountInfoPresenter: AccountInfoModelOutput {
     }
     
     func deleteSuccesfull() {
-        showAlert(error: .custom(title: nil, message: L10n.Alerts.Messages.accountWasDeleted))
+        showAlert(error: .custom(title: nil,
+                                 message: L10n.Alerts.Messages.accountWasDeleted),
+                  isOkActionNeeded: true)
     }
 }
 

@@ -56,17 +56,3 @@ extension AlertShowingViewController: AlertShowProtocol {
         }
     }
 }
-//
-//struct AlertAction {
-//    let title: String
-//    let style: UIAlertAction.Style?
-//    let completion: ((UIAction) -> Void)?
-//
-//    init(title: String,
-//         style: UIAlertAction.Style? = nil,
-//         completion: ((UIAction) -> Void)? = nil) {
-//        self.title = title
-//        self.style = style
-//        self.completion = completion
-//    }
-//}

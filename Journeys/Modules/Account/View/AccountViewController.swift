@@ -17,8 +17,15 @@ final class AccountViewController: ViewControllerWithDimBackground {
     private lazy var tableView: UITableView = .init(frame: CGRect.zero, style: .insetGrouped)
     
     private let avatarImageView = UIImageView()
-    
     private let avatarPlaceholderView = AvatarPlaceholderView()
+    private lazy var userNameLabel: UILabel = {
+        let label = UILabel()
+        label.text = output?.username()
+        label.font = .systemFont(ofSize: 17)
+        label.textColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
+        label.textAlignment = .center
+        return label
+    }()
 
     var output: AccountViewOutput?
 
@@ -96,11 +103,11 @@ final class AccountViewController: ViewControllerWithDimBackground {
         view.addSubview(tableView)
         view.addSubview(avatarPlaceholderView)
         view.addSubview(avatarImageView)
+        view.addSubview(userNameLabel)
         
         var tableViewHeight: CGFloat = tableView.tableHeaderView?.frame.height ?? 0
         for section in 0..<tableView.numberOfSections {
             tableViewHeight += CGFloat(tableView.numberOfRows(inSection: section)) * Constants.Cells.height
-            tableViewHeight += Constants.tableViewSectionHeaderHeight
         }
         
         tableView.snp.makeConstraints { make in
@@ -111,17 +118,22 @@ final class AccountViewController: ViewControllerWithDimBackground {
         }
         
         avatarImageView.snp.makeConstraints { make in
-            make.bottom.equalTo(tableView.snp.top).offset(10)
+            make.bottom.equalTo(userNameLabel.snp.top).offset(-10)
             make.centerX.equalToSuperview()
             make.height.equalTo(100)
             make.width.equalTo(100)
         }
-        
         avatarPlaceholderView.snp.makeConstraints { make in
             make.bottom.equalTo(avatarImageView.snp.bottom)
             make.centerX.equalTo(avatarImageView.snp.centerX)
             make.height.equalTo(avatarImageView.snp.height)
             make.width.equalTo(avatarImageView.snp.width)
+        }
+        
+        userNameLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(tableView.snp.top).offset(-15)
+            make.centerX.equalToSuperview()
+            make.width.lessThanOrEqualToSuperview().inset(40)
         }
     }
 
@@ -173,24 +185,6 @@ extension AccountViewController: UITableViewDataSource {
         Constants.tableViewSectionHeaderHeight
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView.init(frame: CGRect.init(x: 0,
-                                                        y: 0,
-                                                        width: tableView.bounds.width - Constants.tableViewHorizontalInsets * 2,
-                                                        height: 80))
-        
-        let label = UILabel()
-        label.frame = CGRect.init(x: 0, y: 0, width: headerView.frame.width, height: headerView.frame.height)
-        label.text = output?.username()
-        label.font = .systemFont(ofSize: 17)
-        label.textColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
-        label.textAlignment = .center
-        
-        headerView.addSubview(label)
-        
-        return headerView
-    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingsCell.reuseIdentifier,
                                                        for: indexPath) as? SettingsCell else {
@@ -212,6 +206,7 @@ extension AccountViewController: AccountViewInput {
     func reloadView() {
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
+            self?.userNameLabel.text = self?.output?.username()
         }
     }
     

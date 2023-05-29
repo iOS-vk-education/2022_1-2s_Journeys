@@ -21,6 +21,15 @@ final class AccountInfoModel {
 }
 
 extension AccountInfoModel: AccountInfoModelInput {
+    func resetPassword(for email: String, completion: @escaping (String) -> Void) {
+        firebaseService.resetPassword(for: email) { [weak self] error in
+            guard let error else {
+                completion(email)
+                return
+            }
+            self?.output?.didRecieveError(error: error)
+        }
+    }
     func getUserData() {
         firebaseService.obtainCurrentUserData { [weak self] result in
             switch result {
@@ -67,7 +76,7 @@ extension AccountInfoModel: AccountInfoModelInput {
             guard let self else { return }
             switch result {
             case .failure(let error):
-                self.output?.didRecieveError(error: Errors.saveDataError)
+                self.output?.didRecieveError(error: error)
             case .success:
                 self.firebaseService.updateUserPassword(email: email,
                                                         password: password,
@@ -83,6 +92,7 @@ extension AccountInfoModel: AccountInfoModelInput {
     }
     
     func saveUserData(_ data: User) {
+        
         firebaseService.storeUserData(data) { [weak self] result in
             switch result {
             case .failure(let error):

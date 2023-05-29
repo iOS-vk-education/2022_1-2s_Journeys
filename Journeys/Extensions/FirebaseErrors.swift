@@ -44,12 +44,10 @@ extension AuthErrorCode.Code {
 public extension Error {
     var localizedDescription: String {
         let error = self as NSError
-        if error.domain == AuthErrorDomain {
-            if let code = AuthErrorCode.Code(rawValue: error.code) {
-                if let errorString = code.description {
+        if error.domain == AuthErrorDomain,
+            let code = AuthErrorCode.Code(rawValue: error.code),
+            let errorString = code.description {
                     return errorString
-                }
-            }
         }
         return error.localizedDescription
     }

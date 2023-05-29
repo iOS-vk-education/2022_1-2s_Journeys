@@ -149,7 +149,6 @@
 		EE57FF3F2927E8B000212DC2 /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */; };
 		EE5B6DF529E8377B00F0C79E /* CurrencyRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5B6DF429E8377B00F0C79E /* CurrencyRate.swift */; };
 		EE5B6DF729E83B1F00F0C79E /* Locale.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5B6DF629E83B1F00F0C79E /* Locale.swift */; };
-		EE6585312A23CA540078D336 /* ErrorHUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6585302A23CA540078D336 /* ErrorHUDView.swift */; };
 		EE6585352A23D1850078D336 /* AlertShowingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6585342A23D1850078D336 /* AlertShowingViewController.swift */; };
 		EE6585382A23DFF10078D336 /* AskToShowAlertProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6585372A23DFF10078D336 /* AskToShowAlertProtocol.swift */; };
 		EE7819B0295A69E8008F607E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819AF295A69E8008F607E /* LoadingView.swift */; };
@@ -411,7 +410,6 @@
 		EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Strings+Generated.swift"; sourceTree = "<group>"; };
 		EE5B6DF429E8377B00F0C79E /* CurrencyRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRate.swift; sourceTree = "<group>"; };
 		EE5B6DF629E83B1F00F0C79E /* Locale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locale.swift; sourceTree = "<group>"; };
-		EE6585302A23CA540078D336 /* ErrorHUDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHUDView.swift; sourceTree = "<group>"; };
 		EE6585342A23D1850078D336 /* AlertShowingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertShowingViewController.swift; sourceTree = "<group>"; };
 		EE6585372A23DFF10078D336 /* AskToShowAlertProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskToShowAlertProtocol.swift; sourceTree = "<group>"; };
 		EE7819AF295A69E8008F607E /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
@@ -1254,20 +1252,11 @@
 		EE4FED6B2A12C1D300B48763 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				EE65852F2A23CA460078D336 /* Alerts */,
 				EEDAF55D291D65C300E6DDB9 /* FloatingButton */,
 				EE1108672A08566B00BB7568 /* StuffTableViewController */,
 				EE4FED6A2A12C1B900B48763 /* Cells */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		EE65852F2A23CA460078D336 /* Alerts */ = {
-			isa = PBXGroup;
-			children = (
-				EE6585302A23CA540078D336 /* ErrorHUDView.swift */,
-			);
-			path = Alerts;
 			sourceTree = "<group>";
 		};
 		EE6585362A23DFD20078D336 /* Alerts */ = {
@@ -1890,7 +1879,6 @@
 				EED2A760294FCAF9003A9A1A /* StuffTableViewHeader.swift in Sources */,
 				EEA76C682951325E00250B06 /* MainCollectionHeader.swift in Sources */,
 				EEFA76C7292BE88F00A0B8CA /* RouteModuleIO.swift in Sources */,
-				EE6585312A23CA540078D336 /* ErrorHUDView.swift in Sources */,
 				5601156C29E184D5006881DA /* EventsService.swift in Sources */,
 				EE7819B7295A87DC008F607E /* TransitionHandlerProlocol.swift in Sources */,
 				EE7968FC29B9317600F777FE /* Theme+Userdefaults.swift in Sources */,

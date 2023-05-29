@@ -152,7 +152,7 @@ extension AuthPresenter: AuthModelOutput {
     }
     
     func resetSuccesfull(for email: String) {
-        view?.showAlert(title: L10n.Alerts.Titles.success,
+        view?.showAlert(title: nil,
                         message: "\(L10n.Alerts.Messages.passwordResetDone) (\(email))",
                         textFieldPlaceholder: nil,
                         autoClose: true)

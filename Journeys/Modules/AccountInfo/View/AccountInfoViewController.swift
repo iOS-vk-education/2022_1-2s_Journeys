@@ -41,6 +41,16 @@ final class AccountInfoViewController: ViewControllerWithDimBackground {
         return button
     }()
     
+    private lazy var resetPasswordButton: UIButton = {
+        let button = UIButton()
+        button.tintColor = .none
+        button.setTitleColor(.red, for: .normal)
+        button.setTitle(L10n.resetPassword, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 12)
+        button.addTarget(self, action: #selector(didTapResetPasswordButton), for: .touchUpInside)
+        return button
+    }()
+    
     private let loadingView = LoadingView()
     
     // MARK: public properties
@@ -109,6 +119,7 @@ final class AccountInfoViewController: ViewControllerWithDimBackground {
     
     private func makeConstraints() {
         view.addSubview(tableView)
+        view.addSubview(resetPasswordButton)
         view.addSubview(saveFloatingButton)
         view.addSubview(exitButton)
         view.addSubview(deleteAccountButton)
@@ -125,9 +136,14 @@ final class AccountInfoViewController: ViewControllerWithDimBackground {
             make.height.equalTo(tableViewHeight)
         }
         
+        resetPasswordButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(20)
+            make.top.equalTo(tableView.snp.bottom).offset(10)
+        }
+        
         exitButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(tableView.snp.bottom).offset(Constants.ExitButton.topOffsetFromTableView)
+            make.top.equalTo(resetPasswordButton.snp.bottom).offset(10)
             make.width.equalTo(Constants.ExitButton.width)
             make.height.equalTo(Constants.ExitButton.height)
         }
@@ -160,6 +176,11 @@ final class AccountInfoViewController: ViewControllerWithDimBackground {
     @objc
     private func didTapSaveButton() {
         output?.didTapSaveButton()
+    }
+    
+    @objc
+    private func didTapResetPasswordButton() {
+        output?.didTapResetPasswordButton()
     }
     
     @objc
