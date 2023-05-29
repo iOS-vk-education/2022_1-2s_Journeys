@@ -15,7 +15,7 @@ final class MainCollectionHeader: UICollectionReusableView {
         let view = UIView()
         view.layer.cornerRadius = Constants.BackgroundView.height / 2
         view.layer.masksToBounds = true
-        view.backgroundColor = UIColor(asset: Asset.Colors.PlacesInfo.SectionHeader.background)
+        view.backgroundColor = UIColor(asset: Asset.Colors.PlacesInfo.SectionHeader.sectionHeaderBackground)
         return view
     }()
     

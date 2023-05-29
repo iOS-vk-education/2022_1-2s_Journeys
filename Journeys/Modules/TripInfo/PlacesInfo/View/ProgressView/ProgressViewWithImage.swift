@@ -28,7 +28,7 @@ final class ProgressViewWithImage: UIView {
     private let imageView = UIImageView()
     private let progressBackground: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(asset: Asset.Colors.PlacesInfo.ProgressView.background)
+        view.backgroundColor = UIColor(asset: Asset.Colors.PlacesInfo.ProgressView.progressViewBackground)
         return view
     }()
     private let progressView: UIView = {
