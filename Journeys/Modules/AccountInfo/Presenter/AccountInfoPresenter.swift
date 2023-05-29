@@ -88,6 +88,7 @@ final class AccountInfoPresenter {
         if authFlag == false, flag == true {
             loadData()
         } else if authFlag == true, flag == false {
+            NotificationsManager.shared.notificationCenter.removeAllPendingNotificationRequests()
             userData = nil
             view?.reloadData()
         }
@@ -376,6 +377,7 @@ extension AccountInfoPresenter: AccountInfoModelOutput {
     }
     
     func deleteSuccesfull() {
+        NotificationsManager.shared.notificationCenter.removeAllPendingNotificationRequests()
         showAlert(error: .custom(title: nil,
                                  message: L10n.Alerts.Messages.accountWasDeleted),
                   isOkActionNeeded: true)
