@@ -14,6 +14,7 @@ protocol AccountInfoModelInput: AnyObject {
     func signOut()
     func getUserData()
     func deleteUser(with password: String)
+    func resetPassword(for email: String, completion: @escaping (String) -> Void)
 }
 
 protocol AccountInfoModelOutput: AnyObject {

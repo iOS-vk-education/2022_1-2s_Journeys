@@ -51,6 +51,8 @@ struct User {
                 return name + " " + lastName
             }
             return name
+        } else if let lastName {
+            return lastName
         }
         return nil
     }

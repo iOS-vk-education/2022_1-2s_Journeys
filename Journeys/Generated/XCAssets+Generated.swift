@@ -43,6 +43,9 @@ internal enum Asset {
     internal static let tripsPlaceholder = ImageAsset(name: "TripsPlaceholder")
   }
   internal enum Colors {
+    internal enum Alert {
+      internal static let background = ColorAsset(name: "background")
+    }
     internal enum Auth {
       internal static let continueButton = ColorAsset(name: "ContinueButton")
     }

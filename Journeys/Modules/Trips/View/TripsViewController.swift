@@ -14,7 +14,7 @@ enum TripsCellType {
     case usual
 }
 
-final class TripsViewController: UIViewController {
+final class TripsViewController: AlertShowingViewController {
 
     // MARK: Private properties
     private lazy var collectionView: UICollectionView = {
@@ -235,14 +235,6 @@ extension TripsViewController: TripsViewInput {
         DispatchQueue.main.async { [weak self] in
             self?.refreshControl.endRefreshing()
         }
-    }
-    
-    func showAlert(title: String, message: String, actionTitle: String) {
-        let alert = UIAlertController(title: title,
-                                      message: message,
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: actionTitle, style: .default))
-        present(alert, animated: true)
     }
     
     func showChoiceAlert(title: String,

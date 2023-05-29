@@ -19,7 +19,7 @@ protocol CertainStuffListModelInput: AnyObject {
 
 protocol CertainStuffListModelOutput: AnyObject {
     func didReceiveStuff(_ stuff: [Stuff])
-    func didReceiveError(_ error: Error)
+    func didReceiveError(_ error: Errors)
     func didSaveStuffList(stuffList: StuffList, stuff: [Stuff])
     func didDeleteStuffList()
 }

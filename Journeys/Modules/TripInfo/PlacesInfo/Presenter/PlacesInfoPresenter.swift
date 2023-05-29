@@ -69,7 +69,9 @@ final class PlacesInfoPresenter {
     private func showNoCoordinatesAlert() {
         let locationsWithoutCoordinatesString: String = locationsWithoutCoordinatesList
             .compactMap( { $0.toString() } ).joined(separator: ", ")
-        view?.showAlert(title: "Неизвестное место", message: "К сожалению, мы не смогли найти места из вашего маршрута: \(locationsWithoutCoordinatesString)")
+        showAlert(error: .custom(title: L10n.unknownPlace,
+                                 message: "\(L10n.didntFindPlaces): \(locationsWithoutCoordinatesString)"),
+                  withOkAction: true)
     }
     
     private func embedPlaceholder() {
@@ -90,6 +92,16 @@ final class PlacesInfoPresenter {
         }
     }
     
+    private func showAlert(error: Errors, withOkAction: Bool = false) {
+        DispatchQueue.main.async { [weak self] in
+            guard let alertShowingVC = self?.view as? AlertShowingViewController else { return }
+            if withOkAction {
+                self?.askToShowAlertWithOKAction(error, alertShowingVC: alertShowingVC, handler: nil)
+            } else {
+                self?.askToShowErrorAlert(error, alertShowingVC: alertShowingVC)
+            }
+        }
+    }
 }
 
 extension PlacesInfoPresenter: PlacesInfoModuleInput {
@@ -313,7 +325,7 @@ extension PlacesInfoPresenter: PlacesInfoInteractorOutput {
     }
     
     func didRecieveError(error: Error) {
-        view?.showAlert(title: "Ошибка", message: "Возникла ошибка при загрузке данных")
+        showAlert(error: .obtainDataError)
     }
 }
 
@@ -360,4 +372,7 @@ extension PlacesInfoPresenter: CurrencyCellDelegate {
                                       to: String(format: "%.2f", result).replacingOccurrences(of: ".",
                                                                                               with: ","))
     }
+}
+
+extension PlacesInfoPresenter: AskToShowAlertProtocol {
 }

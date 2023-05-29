@@ -22,8 +22,8 @@ extension AccountModel: AccountModelInput {
     func getUserData() {
         firebaseService.obtainCurrentUserData { [weak self] result in
             switch result {
-            case .failure(let error):
-                self?.output?.didRecieveError(error: error)
+            case .failure:
+                self?.output?.didRecieveError(error: .obtainDataError)
             case .success(let user):
                 self?.output?.didObtainUserData(data: user)
             }
@@ -46,7 +46,7 @@ extension AccountModel: AccountModelInput {
         firebaseService.storeImage(image: avatar, imageType: .avatar) { [weak self] result in
             switch result {
             case .failure(let error):
-                self?.output?.didRecieveError(error: error)
+                self?.output?.didRecieveError(error: .saveDataError)
             case .success(let avatarURL):
                 completion(avatar)
             }
@@ -56,7 +56,7 @@ extension AccountModel: AccountModelInput {
     func deleteAvatar() {
         firebaseService.deleteImage(url: nil, imageType: .avatar) { [weak self] error in
             if let error {
-                self?.output?.didRecieveError(error: error)
+                self?.output?.didRecieveError(error: .deleteDataError)
                 return
             } else {
                 self?.output?.didDeleteImage()

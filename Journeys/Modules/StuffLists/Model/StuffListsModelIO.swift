@@ -23,6 +23,6 @@ protocol StuffListsModelInput: AnyObject {
 
 protocol StuffListsModelOutput: AnyObject {
     func didReceiveStuffLists(_ stuffLists: [StuffList])
-    func didReceiveError(_ error: Error)
+    func didReceiveError(_ error: Errors)
     func nothingToAdd()
 }

@@ -10,7 +10,7 @@ import SnapKit
 
 // MARK: - StuffViewController
 
-final class StuffViewController: UIViewController {
+final class StuffViewController: AlertShowingViewController {
 
     var output: StuffViewOutput?
     
@@ -26,7 +26,7 @@ final class StuffViewController: UIViewController {
     private lazy var addStuffListFloatingButton: FloatingButton = {
         let button = FloatingButton()
         button.backgroundColor = UIColor(asset: Asset.Colors.BaseColors.contrastToThemeColor)
-        button.configure(title: "Add stuff list")
+        button.configure(title: L10n.addStuffList)
         button.addTarget(self, action: #selector(didTapAddStuffListButton), for: .touchUpInside)
         view.addSubview(button)
         return button
@@ -149,14 +149,6 @@ extension StuffViewController: StuffViewInput {
     
     func reloadData() {
         tableViewController.reloadData()
-    }
-    
-    func showAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title,
-                                      message: message,
-                          preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
     }
 }
 

@@ -13,7 +13,6 @@ import Foundation
 
 protocol StuffViewInput: AnyObject {
     func reloadData()
-    func showAlert(title: String, message: String)
     func endRefresh()
     
     func moveTableViewRow(at fromIndexPath: IndexPath, to toIndexPath: IndexPath)

@@ -45,6 +45,8 @@
 "NoSelectedPlaces" = "Не выбрано мест пребывания";
 "NoMeteoDataForPlacesOrDates" = "Нет метео данных для выбранных городов или дат";
 "Currency" = "Валюта";
+"UnknownPlace" = "Неизвестное место";
+"DidntFindPlaces" = "К сожалению, мы не смогли найти места из вашего маршрута";
 
 // MARK: Account
 "AccountInfo" = "Данные аккаунта";
@@ -62,6 +64,14 @@
 "ConfirmPassword" = "Подствердите пароль";
 "ResetPassword" = "Сбросить пароль";
 "Continue" = "Продолжить";
+"ResetingPassword" = "Сброс пароля";
+"EnterEmail" = "Введите свой Email";
+"PasswordsDontMatch" = "Пароли не совпадают";
+"EmailProblems" = "Возникли проблемы с вашим Email адресом, перезайдите в аккаунт";
+"EnterPasswordToChangeAuthInfo" = "Для смены информации для авторизации необходимо ввести пароль";
+"AccountWasntDeleted" = "Аккаунт не был удален, попробуйте позднее";
+"NothingToSave" = "Нет изменений для сохранения";
+"SentPasswordReset" = "Письмо со ссылкой для сброса пароля отправлено на";
 
 // MARK: Settings
 "Notifications" = "Уведомления";
@@ -84,16 +94,20 @@
 // MARK: Auth
 "Auth" = "Авторизация";
 "Registration" = "Регистрация";
+"Next" = "Дальше";
+"Cancel" = "Отмена";
 
 // MARK: Stuff
 "StuffList" = "Список вещей";
 "StuffLists" = "Списки вещей";
 "NoStuffLists" = "Нет списков вещей";
-"AddStuff" = "Новая вещь";
-"AddStuffList" = "Новый список";
+"NewStuff" = "Новая вещь";
+"NewStuffList" = "Новый список";
+"AddStuffList" = "Добавить список вещей";
 "Name" = "Название";
 "BaseStuffList" = "Базовый список вещей";
 "AutoAddToTrips" = "Добавлять ко всем поездкам";
+"NothingToAdd" = "Нечего добавить";
 
 // MARK: Events
 "AddressSearch" = "Поиск адреса";
@@ -122,6 +136,19 @@
 "Duration:" = "Длительность:";
 "From/to:" = "С/до:";
 
+// MARK: FirebaseAuth errors
+"FirebaseAuth.Errors.EmailAlreadyInUse" = "Данный Email уже используется";
+"FirebaseAuth.Errors.UserDisabled" = "Аккаунт отключен";
+"FirebaseAuth.Errors.OperationNotAllowed" = "Авторизация недоступна, попробуйте позднее";
+"FirebaseAuth.Errors.InvalidEmail" = "Неверный Email";
+"FirebaseAuth.Errors.WrongPassword" = "Неверный пароль";
+"FirebaseAuth.Errors.UserNotFound" = "Пользователь с таким Email не найден";
+"FirebaseAuth.Errors.NetworkError" = "Ошибка подключения";
+"FirebaseAuth.Errors.WeakPassword" = "Слабый или недействительный пароль";
+"FirebaseAuth.Errors.MissingEmail" = "Вам необходимо зарегистрировать адрес электронной почты";
+"FirebaseAuth.Errors.InternalError" = "Внутренняя ошибка, попробуйте позднее";
+"FirebaseAuth.Errors.InvalidCustomToken" = "Недопустимый пользовательский токен, попробуйте позднее";
+"FirebaseAuth.Errors.TooManyRequests" = "Отправлено слишком много запросов, попробуйте позднее";
 
 // MARK: Alerts
 "Alerts.Titles.Success" = "Успех";
@@ -133,3 +160,14 @@
 "Alerts.Messages.DeleteAccount" = "Чтобы подтвердить удаление аккаунта, введите пароль";
 "Alerts.Messages.AccountWasDeleted" = "Аккаунт успешно удален";
 "Alerts.Messages.EnterYourPassword" = "Введите пароль";
+
+"Alerts.Messages.ErrorWhileObtainingData" = "При получении данных возникла ошибка, попробуйте снова позднее";
+"Alerts.Messages.ErrorWhileDeletingData" = "При удалении данных возникла ошибка, попробуйте снова позднее";
+"Alerts.Messages.ErrorWhileSavingData" = "При сохранении данных возникла ошибка, попробуйте снова позднее";
+"Alerts.Messages.Route.EnterDepartureTown" = "Введите город отправления";
+
+"Alerts.Messages.Route.EnterAtleastOneTown" = "Введите хотя бы один город";
+"Alerts.Messages.Route.AddTripPhoto" = "Добавьте фото для поездки";
+
+"Alerts.Messages.DeleteSuccessful" = "Успешно удалено";
+"Alerts.Messages.SaveSuccessful" = "Успешно сохранено";

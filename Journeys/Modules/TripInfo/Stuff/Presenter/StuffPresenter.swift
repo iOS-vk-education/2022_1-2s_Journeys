@@ -62,7 +62,7 @@ final class StuffPresenter {
     
     private func saveStuff(_ stuff: Stuff, indexPath: IndexPath) {
         guard let baggage else {
-            view?.showAlert(title: "Ошибка", message: "Произошла ошибка при сохранении данных. Перезайдите в приложение и попробуйте снова")
+            showAlert(error: .obtainDataError)
             return
         }
         model.saveChangedStuff(stuff: stuff, baggage: baggage, indexPath: indexPath)
@@ -77,6 +77,13 @@ final class StuffPresenter {
             packedStuff.remove(at: indexPath.row)
         }
         view?.deleteCell(at: indexPath)
+    }
+    
+    private func showAlert(error: Errors) {
+        DispatchQueue.main.async { [weak self] in
+            guard let alertShowingVC = self?.view as? AlertShowingViewController else { return }
+            self?.askToShowErrorAlert(error, alertShowingVC: alertShowingVC)
+        }
     }
 }
 
@@ -134,19 +141,7 @@ extension StuffPresenter: StuffModelOutput {
     }
     
     func didRecieveError(_ error: Errors) {
-        switch error {
-        case .obtainDataError:
-            view?.showAlert(title: "Ошибка",
-                           message: "Возникла ошибка при получении данных")
-        case .saveDataError:
-            view?.showAlert(title: "Ошибка",
-                           message: "Возникла ошибка при сохранении данных. Проверьте корректность данных и поробуйте снова")
-        case .deleteDataError:
-            view?.showAlert(title: "Ошибка",
-                           message: "Возникла ошибка при удалении данных")
-        default:
-            break
-        }
+        showAlert(error: error)
     }
     
     func didRecieveData(stuff: [Stuff], baggage: Baggage) {
@@ -375,4 +370,7 @@ extension StuffPresenter: StuffTableViewControllerOutput {
     func keyBoardToShowType() -> StuffCell.KeyboardType {
         currenStuffCellKeyboardType
     }
+}
+
+extension StuffPresenter: AskToShowAlertProtocol {
 }

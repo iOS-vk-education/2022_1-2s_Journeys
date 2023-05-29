@@ -17,6 +17,6 @@ protocol AccountModelInput: AnyObject {
 
 protocol AccountModelOutput: AnyObject {
     func didObtainUserData(data: User)
+    func didRecieveError(error: Errors)
     func didDeleteImage()
-    func didRecieveError(error: Error)
 }

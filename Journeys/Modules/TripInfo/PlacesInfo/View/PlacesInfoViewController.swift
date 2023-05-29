@@ -17,8 +17,8 @@ enum SectionType {
 
 // MARK: - PlacesIngoViewController
 
-final class PlacesInfoViewController: UIViewController {
-    
+final class PlacesInfoViewController: AlertShowingViewController {
+
     var output: PlacesInfoViewOutput?
     
     private lazy var refreshControl: UIRefreshControl = {
@@ -273,16 +273,6 @@ extension PlacesInfoViewController: PlacesInfoViewInput {
         }
     }
     
-    func showAlert(title: String, message: String) {
-        DispatchQueue.main.async {
-            let alert = UIAlertController(title: title,
-                                          message: message,
-                                          preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
-    
     func changeCurrencyTextField(at indexPath: IndexPath, viewType: CurrencyView.ViewType, to text: String) {
         guard let cell = mainCollectionView.cellForItem(at: indexPath) as? CurrencyCell else { return }
         cell.setTextFieldText(to: text, viewType: viewType)
@@ -393,7 +383,6 @@ extension PlacesInfoViewController: WeatherCollectionDelegate {
                                                  cellRow: indexpath.row)
     }
 }
-
 
 private extension PlacesInfoViewController {
     enum Constants {

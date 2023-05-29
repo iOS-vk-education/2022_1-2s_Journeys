@@ -11,7 +11,6 @@ import UIKit
 
 protocol PlacesInfoViewInput: AnyObject {
     func reloadData()
-    func showAlert(title: String, message: String)
     func changeCurrencyTextField(at indexPath: IndexPath,
                                  viewType: CurrencyView.ViewType,
                                  to text: String)

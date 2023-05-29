@@ -9,7 +9,7 @@ import UIKit
 
 // MARK: - CertainStuffListViewController
 
-final class CertainStuffListViewController: UIViewController {
+final class CertainStuffListViewController: AlertShowingViewController {
 
     // MARK: Private properties
     

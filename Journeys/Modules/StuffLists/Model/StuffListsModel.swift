@@ -33,7 +33,7 @@ extension StuffListsModel: StuffListsModelInput {
         firebaseService.obtainStuffLists(type: .all) { [weak self] result in
             switch result {
             case .failure(let error):
-                self?.output?.didReceiveError(error)
+                self?.output?.didReceiveError(.obtainDataError)
             case .success(let stuffLists):
                 self?.output?.didReceiveStuffLists(stuffLists)
             }

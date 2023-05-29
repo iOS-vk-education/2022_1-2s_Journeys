@@ -21,11 +21,20 @@ final class AccountInfoModel {
 }
 
 extension AccountInfoModel: AccountInfoModelInput {
+    func resetPassword(for email: String, completion: @escaping (String) -> Void) {
+        firebaseService.resetPassword(for: email) { [weak self] error in
+            guard let error else {
+                completion(email)
+                return
+            }
+            self?.output?.didRecieveError(error: error)
+        }
+    }
     func getUserData() {
         firebaseService.obtainCurrentUserData { [weak self] result in
             switch result {
             case .failure(let error):
-                self?.output?.didRecieveError(error: error)
+                self?.output?.didRecieveError(error: Errors.obtainDataError)
             case .success(let user):
                 self?.output?.didObtainUserData(data: user)
             }
@@ -48,7 +57,7 @@ extension AccountInfoModel: AccountInfoModelInput {
             guard let self else { return }
             switch result {
             case .failure(let error):
-                self.output?.didRecieveError(error: error)
+                self.output?.didRecieveError(error: Errors.saveDataError)
             case .success:
                 self.firebaseService.updateUserEmail(email: newEmail, password: password) { error in
                     if let error {
@@ -83,10 +92,11 @@ extension AccountInfoModel: AccountInfoModelInput {
     }
     
     func saveUserData(_ data: User) {
+        
         firebaseService.storeUserData(data) { [weak self] result in
             switch result {
             case .failure(let error):
-                self?.output?.didRecieveError(error: error)
+                self?.output?.didRecieveError(error: Errors.saveDataError)
             case .success(let user):
                 self?.output?.didStoreData(.personalInfo(user))
             }
@@ -96,12 +106,12 @@ extension AccountInfoModel: AccountInfoModelInput {
     func deleteUser(with password: String) {
         deleteUserData { [weak self] error in
             if let error {
-                self?.output?.didRecieveError(error: error)
+                self?.output?.didRecieveError(error: Errors.deleteDataError)
                 return
             }
             self?.deleteAccount(with: password) { [weak self] error in
                 if let error {
-                    self?.output?.didRecieveError(error: error)
+                    self?.output?.didRecieveError(error: Errors.deleteDataError)
                     return
                 }
                 self?.output?.deleteSuccesfull()

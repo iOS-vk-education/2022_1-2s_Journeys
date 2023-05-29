@@ -149,10 +149,12 @@
 		EE57FF3F2927E8B000212DC2 /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */; };
 		EE5B6DF529E8377B00F0C79E /* CurrencyRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5B6DF429E8377B00F0C79E /* CurrencyRate.swift */; };
 		EE5B6DF729E83B1F00F0C79E /* Locale.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5B6DF629E83B1F00F0C79E /* Locale.swift */; };
+		EE6585352A23D1850078D336 /* AlertShowingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6585342A23D1850078D336 /* AlertShowingViewController.swift */; };
+		EE6585382A23DFF10078D336 /* AskToShowAlertProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6585372A23DFF10078D336 /* AskToShowAlertProtocol.swift */; };
 		EE7819B0295A69E8008F607E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819AF295A69E8008F607E /* LoadingView.swift */; };
 		EE7819B3295A8441008F607E /* PlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819B2295A8441008F607E /* PlaceholderViewController.swift */; };
 		EE7819B5295A8629008F607E /* PlaceholderDisplayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819B4295A8629008F607E /* PlaceholderDisplayData.swift */; };
-		EE7819B7295A87DC008F607E /* TTransitionHandlerProlocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819B6295A87DC008F607E /* TTransitionHandlerProlocol.swift */; };
+		EE7819B7295A87DC008F607E /* TransitionHandlerProlocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819B6295A87DC008F607E /* TransitionHandlerProlocol.swift */; };
 		EE7819B9295B1705008F607E /* EmptyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7819B8295B1705008F607E /* EmptyViewController.swift */; };
 		EE79132129C33F64002629E3 /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE79132029C33F64002629E3 /* UIWindow.swift */; };
 		EE79132A29C4DE88002629E3 /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE79132929C4DE88002629E3 /* MailView.swift */; };
@@ -235,6 +237,7 @@
 		EEDAF555291C0F2200E6DDB9 /* AddTripCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDAF554291C0F2200E6DDB9 /* AddTripCell.swift */; };
 		EEDAF557291C302500E6DDB9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDAF556291C302500E6DDB9 /* SceneDelegate.swift */; };
 		EEDAF55C291D5AF500E6DDB9 /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDAF55B291D5AF500E6DDB9 /* FloatingButton.swift */; };
+		EEDF1B4E2A23FB110046EA55 /* FirebaseErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDF1B4D2A23FB110046EA55 /* FirebaseErrors.swift */; };
 		EEE3ACBB2A23870F004A0618 /* AvatarPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE3ACBA2A23870F004A0618 /* AvatarPlaceholderView.swift */; };
 		EEF01CB029C5C20400A63519 /* ViewControllerWithDimBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF01CAF29C5C20300A63519 /* ViewControllerWithDimBackground.swift */; };
 		EEF01CB229C5D03800A63519 /* AccountInfoCellDisplayDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF01CB129C5D03800A63519 /* AccountInfoCellDisplayDataFactory.swift */; };
@@ -407,10 +410,12 @@
 		EE57FF3E2927E8B000212DC2 /* Strings+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Strings+Generated.swift"; sourceTree = "<group>"; };
 		EE5B6DF429E8377B00F0C79E /* CurrencyRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRate.swift; sourceTree = "<group>"; };
 		EE5B6DF629E83B1F00F0C79E /* Locale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locale.swift; sourceTree = "<group>"; };
+		EE6585342A23D1850078D336 /* AlertShowingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertShowingViewController.swift; sourceTree = "<group>"; };
+		EE6585372A23DFF10078D336 /* AskToShowAlertProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskToShowAlertProtocol.swift; sourceTree = "<group>"; };
 		EE7819AF295A69E8008F607E /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		EE7819B2295A8441008F607E /* PlaceholderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderViewController.swift; sourceTree = "<group>"; };
 		EE7819B4295A8629008F607E /* PlaceholderDisplayData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderDisplayData.swift; sourceTree = "<group>"; };
-		EE7819B6295A87DC008F607E /* TTransitionHandlerProlocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTransitionHandlerProlocol.swift; sourceTree = "<group>"; };
+		EE7819B6295A87DC008F607E /* TransitionHandlerProlocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionHandlerProlocol.swift; sourceTree = "<group>"; };
 		EE7819B8295B1705008F607E /* EmptyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewController.swift; sourceTree = "<group>"; };
 		EE79132029C33F64002629E3 /* UIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindow.swift; sourceTree = "<group>"; };
 		EE79132529C34406002629E3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = ../en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -495,6 +500,7 @@
 		EEDAF554291C0F2200E6DDB9 /* AddTripCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTripCell.swift; sourceTree = "<group>"; };
 		EEDAF556291C302500E6DDB9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		EEDAF55B291D5AF500E6DDB9 /* FloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButton.swift; sourceTree = "<group>"; };
+		EEDF1B4D2A23FB110046EA55 /* FirebaseErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseErrors.swift; sourceTree = "<group>"; };
 		EEE3ACBA2A23870F004A0618 /* AvatarPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarPlaceholderView.swift; sourceTree = "<group>"; };
 		EEECB46D3CD66B269BD0D11E /* AccountInfoBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AccountInfoBuilder.swift; sourceTree = "<group>"; };
 		EEF01CAF29C5C20300A63519 /* ViewControllerWithDimBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerWithDimBackground.swift; sourceTree = "<group>"; };
@@ -1150,8 +1156,9 @@
 		EE29EBF029186D4B008ECFF8 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				EE6585362A23DFD20078D336 /* Alerts */,
 				EEB24AD02A1419390048D35F /* ChangeableTouchableAreaViews */,
-				EE7819B6295A87DC008F607E /* TTransitionHandlerProlocol.swift */,
+				EE7819B6295A87DC008F607E /* TransitionHandlerProlocol.swift */,
 				EE92866229CDDBAB00853998 /* UINavigationController.swift */,
 				EE92866329CDDBAB00853998 /* UITextField.swift */,
 				EE7968FB29B9317600F777FE /* Theme+Userdefaults.swift */,
@@ -1161,6 +1168,7 @@
 				EE5B6DF629E83B1F00F0C79E /* Locale.swift */,
 				EE9BC43529ECB15400091D6B /* String.swift */,
 				EE570CAB2A03BA64006E7077 /* DisplayDataProtocol.swift */,
+				EEDF1B4D2A23FB110046EA55 /* FirebaseErrors.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1249,6 +1257,15 @@
 				EE4FED6A2A12C1B900B48763 /* Cells */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		EE6585362A23DFD20078D336 /* Alerts */ = {
+			isa = PBXGroup;
+			children = (
+				EE6585342A23D1850078D336 /* AlertShowingViewController.swift */,
+				EE6585372A23DFF10078D336 /* AskToShowAlertProtocol.swift */,
+			);
+			path = Alerts;
 			sourceTree = "<group>";
 		};
 		EE7819B1295A8431008F607E /* Placeholder */ = {
@@ -1863,9 +1880,9 @@
 				EEA76C682951325E00250B06 /* MainCollectionHeader.swift in Sources */,
 				EEFA76C7292BE88F00A0B8CA /* RouteModuleIO.swift in Sources */,
 				5601156C29E184D5006881DA /* EventsService.swift in Sources */,
-				EE7819B7295A87DC008F607E /* TTransitionHandlerProlocol.swift in Sources */,
+				EE7819B7295A87DC008F607E /* TransitionHandlerProlocol.swift in Sources */,
 				EE7968FC29B9317600F777FE /* Theme+Userdefaults.swift in Sources */,
-				EE7819B7295A87DC008F607E /* TTransitionHandlerProlocol.swift in Sources */,
+				EE7819B7295A87DC008F607E /* TransitionHandlerProlocol.swift in Sources */,
 				EE02E5472950D9EA002BE87E /* Location.swift in Sources */,
 				EE7968E729B92DEE00F777FE /* SettingsSubViewModel.swift in Sources */,
 				EE5B6DF729E83B1F00F0C79E /* Locale.swift in Sources */,
@@ -1974,6 +1991,7 @@
 				0F6FD83F50CCD8533C888533 /* TripsRouter.swift in Sources */,
 				EE7968E629B92DEE00F777FE /* SettingsHelpers.swift in Sources */,
 				EE497A122940AF41007E8579 /* AccountCoordinator.swift in Sources */,
+				EEDF1B4E2A23FB110046EA55 /* FirebaseErrors.swift in Sources */,
 				7BD7FBF6368C4ADCBC0B8866 /* TripsBuilder.swift in Sources */,
 				EEDAF55C291D5AF500E6DDB9 /* FloatingButton.swift in Sources */,
 				CE4CCC9D2956B6170057455D /* AddingEventViewController.swift in Sources */,
@@ -2065,6 +2083,8 @@
 				A4F278F34637C60C2ED5A34D /* TripInfoBuilder.swift in Sources */,
 				560115D529F84CBA006881DA /* AddingViewIO.swift in Sources */,
 				EE7968F029B92DEE00F777FE /* SettingsInteractorIO.swift in Sources */,
+				EE6585352A23D1850078D336 /* AlertShowingViewController.swift in Sources */,
+				EE6585382A23DFF10078D336 /* AskToShowAlertProtocol.swift in Sources */,
 				CE7F42D9295B1820000CBA63 /* EventMapCell.swift in Sources */,
 				C039CC5FA4AA609C5479897B /* TripInfoPresenter.swift in Sources */,
 				EE79690129B9342400F777FE /* TrackableScrollView.swift in Sources */,

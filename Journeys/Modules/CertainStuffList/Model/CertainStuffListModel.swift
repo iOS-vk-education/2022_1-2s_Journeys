@@ -101,7 +101,7 @@ extension CertainStuffListModel: CertainStuffListModelInput {
     }
     
     private func storeStuffList(_ stuffList: StuffList, completion: @escaping (Result<StuffList, Error>) -> Void) {
-        firebaseService.storeStuffList(stuffList: stuffList) { [weak self] result in
+        firebaseService.storeStuffList(stuffList: stuffList) { result in
             completion(result)
         }
     }
@@ -114,8 +114,8 @@ extension CertainStuffListModel: CertainStuffListModelInput {
             return
         }
         firebaseService.deleteStuffList(stuffListId) { [weak self] error in
-            if let error {
-                self?.output?.didReceiveError(error)
+            if error != nil {
+                self?.output?.didReceiveError(.deleteDataError)
             } else {
                 self?.deleteStuff(stuff) { [weak self] in
                     self?.output?.didDeleteStuffList()
