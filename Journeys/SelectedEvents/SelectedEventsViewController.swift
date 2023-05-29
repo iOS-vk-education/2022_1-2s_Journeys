@@ -45,9 +45,11 @@ final class SelectedEventsViewController: UIViewController {
         setupNavBar()
         view.addSubview(segmentControl)
         collectionViewFavorites.addSubview(refreshControl)
+        collectionViewCreated.addSubview(refreshControl)
         setupCollectionView(collectionView: collectionViewFavorites)
         segmentControl.frame = CGRect(x: 50.0, y: 70.0, width: view.bounds.width, height: 30.0)
         makeConstraints()
+        setupTapGestureRecognizer()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,9 +76,28 @@ final class SelectedEventsViewController: UIViewController {
         collectionView.register(FavoriteEventCell.self, forCellWithReuseIdentifier: "FavoriteEventCell")
         makeConstanceCollectionView(collectionView: collectionView)
     }
-    func obtainData() {
-        collectionViewCreated.reloadData()
+
+    private func makeConstraints() {
+        
+        segmentControl.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(10)
+            make.leading.equalToSuperview().inset(20)
+            make.trailing.equalToSuperview().inset(20)
+        }
+    }
+
+    private func setupTapGestureRecognizer() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapScreen))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    func obtainFavorites() {
         collectionViewFavorites.reloadData()
+    }
+    
+    func obtainCreated() {
+        collectionViewCreated.reloadData()
     }
 
     func showChoiceAlert(title: String,
@@ -106,6 +127,7 @@ final class SelectedEventsViewController: UIViewController {
     
     @objc
     private func refresh() {
+        output?.refreshView()
     }
     
     @objc
@@ -115,7 +137,6 @@ final class SelectedEventsViewController: UIViewController {
             title = L10n.favorites
             collectionViewCreated.isHidden = true
             collectionViewFavorites.isHidden = false
-            collectionViewFavorites.addSubview(refreshControl)
         case 1:
             title = L10n.created
             setupCollectionView(collectionView: collectionViewCreated)
@@ -131,13 +152,9 @@ final class SelectedEventsViewController: UIViewController {
         output?.didTapCloseButton()
     }
     
-    private func makeConstraints() {
-        
-        segmentControl.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(10)
-            make.leading.equalToSuperview().inset(20)
-            make.trailing.equalToSuperview().inset(20)
-        }
+    @objc
+    private func didTapScreen() {
+        output?.didTapScreen()
     }
 }
 
@@ -162,7 +179,7 @@ extension SelectedEventsViewController: UICollectionViewDelegate {
     }
 }
 
-extension SelectedEventsViewController: UICollectionViewDataSource{
+extension SelectedEventsViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         switch segmentControl.selectedSegmentIndex {
         case 0:
@@ -192,7 +209,6 @@ extension SelectedEventsViewController: UICollectionViewDataSource{
             guard let data = output?.displayingCreatedEvent(for: indexPath.section, cellType: .favoretes) else {
                 return UICollectionViewCell()
             }
-            let image = 
             eventCell.configure(data: data, delegate: self, indexPath: indexPath)
             cell = eventCell
             return cell
@@ -216,9 +232,38 @@ extension SelectedEventsViewController: UICollectionViewDataSource{
             return cell
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch segmentControl.selectedSegmentIndex {
+        case 0:
+            output?.didTapFavoriteCell(at: indexPath)
+        case 1:
+            output?.didTapCreatedCell(at: indexPath)
+            
+        default:
+            return
+        }
+    }
+
 }
 
 extension SelectedEventsViewController: SelectedEventsViewInput {
+    func setupFavoriteCellImage(at indexPath: IndexPath, image: UIImage) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            guard let cell = self.collectionViewFavorites.cellForItem(at: indexPath) as? FavoriteEventCell else { return }
+            cell.setupImageFav(image)
+        }
+    }
+    
+    func setupCreatedCellImage(at indexPath: IndexPath, image: UIImage) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            guard let cell = self.collectionViewCreated.cellForItem(at: indexPath) as? FavoriteEventCell else { return }
+            cell.setupImageCre(image)
+        }
+    }
+    
     func reloadImage() {
         collectionViewCreated.reloadData()
     }
@@ -231,8 +276,12 @@ extension SelectedEventsViewController: SelectedEventsViewInput {
         present(alertViewController, animated: true)
     }
     
-    func reload() {
-        self.obtainData()
+    func reloadFavorites() {
+        self.obtainFavorites()
+    }
+    
+    func reloadCreated() {
+        self.obtainCreated()
     }
     
     func endRefresh() {
@@ -247,7 +296,7 @@ extension SelectedEventsViewController: FavoriteEventCellDelegate {
     }
 
     func didTapEditButton(_ indexPath: IndexPath) {
-
+        output?.didTapEditingButton(at: indexPath)
     }
 
     func didTapDeleteButton(_ indexPath: IndexPath) {

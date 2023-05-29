@@ -20,4 +20,7 @@ protocol AddingViewOutput: AnyObject {
     func saveData(post: Event)
     func backToSuggestionVC()
     func displayAddress() -> String?
+    func displayEvent() -> Event?
+    func getTitle() -> String
+    func getImage() -> UIImage?
 }

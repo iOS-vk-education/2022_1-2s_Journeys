@@ -52,6 +52,9 @@ final class EventsCoordinator: CoordinatorProtocol {
 }
 
 extension EventsCoordinator: EventsModuleOutput {
+    func closeOpenSingleEventVCIfExists() {
+        navigationController.dismiss(animated: true)
+    }
     
     func openSuggestionViewController() {
         let eventsViewController = SuggestionViewController()
@@ -67,10 +70,9 @@ extension EventsCoordinator: EventsModuleOutput {
         navigationController.pushViewController(eventsViewController, animated: true)
     }
     
-    func openAddingEventViewController(coordinates: GeoPoint?, address: String?) {
+    func openAddingEventViewController(coordinates: GeoPoint?, address: String?, event: Event?) {
         let builder = AddingModuleBuilder()
-
-        let viewController = builder.build(output: self, coordinates: coordinates, address: address)
+        let viewController = builder.build(output: self, coordinates: coordinates, address: address, event: event, moduleType: .adding, image: nil)
         navigationController.pushViewController(viewController, animated: true)
     }
     
@@ -95,6 +97,12 @@ extension EventsCoordinator: EventsModuleOutput {
 }
 
 extension EventsCoordinator: SelectedEventsModuleOutput {
+    func wantsToOpenEditingVC(event: Event, image: UIImage?) {
+        let builder = AddingModuleBuilder()
+        let viewController = builder.build(output: self, coordinates: nil, address: event.address, event: event, moduleType: .editing, image: image)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+    
     func closeSelectedEvents() {
         navigationController.popToRootViewController(animated: false)
     }
@@ -103,7 +111,7 @@ extension EventsCoordinator: SelectedEventsModuleOutput {
 
 
 extension EventsCoordinator: AddingModuleOutput {
-    func wantsToOpenEventsVC(coordinates: GeoPoint?) {
+    func wantsToOpenEventsVC() {
         navigationController.popToRootViewController(animated: false)
     }
     func backToSuggestionVC() {

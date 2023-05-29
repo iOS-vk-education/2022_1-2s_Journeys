@@ -17,7 +17,7 @@ final class SingleEventPresenter {
     var image: UIImage?
     var url: URL?
     var isLikedImage: Bool? = false
-    var likesViewObjects = [FavoritesEvent]()
+    var likesViewObjects = [Event]()
     private let model: SingleEventModelInput
     init(view: SingleEventViewInput, model: SingleEventModelInput, id: String) {
         self.view = view
@@ -53,17 +53,26 @@ extension SingleEventPresenter: SingleEventViewOutput {
     func isLiked() {
         model.checkLike { [weak self] result in
             switch result {
-            case .success(let addressNetworkObjects):
-                var likesViewObjects = [FavoritesEvent]()
+            case .success(let eventNetworkObjects):
+                var eventViewObjects = [Event]()
                 
-                likesViewObjects = addressNetworkObjects.map { networkObject in
-                    FavoritesEvent(
-                        id: networkObject.id
+                eventViewObjects = eventNetworkObjects.map { networkObject in
+                    return Event(address: networkObject.address,
+                                 startDate: networkObject.startDate,
+                                 finishDate: networkObject.finishDate,
+                                 type: networkObject.type,
+                                 name: networkObject.name,
+                                 link: networkObject.link,
+                                 photoURL: networkObject.photoURL,
+                                 floor: networkObject.floor,
+                                 room: networkObject.room,
+                                 description: networkObject.description,
+                                 isLiked: networkObject.isLiked,
+                                 userID: networkObject.userID
                     )
                 }
-                
-                self?.likesViewObjects = likesViewObjects
-            case .failure(let error):
+                self?.likesViewObjects = eventViewObjects
+            case .failure(let error): break
                 self?.view?.show(error: error)
                 
             }
@@ -77,8 +86,8 @@ extension SingleEventPresenter: SingleEventViewOutput {
     }
     
     func newLike() {
-        if let id = id {
-            model.setLike(eventId: id)
+        if let id = id, let event = data {
+            model.setLike(eventId: id, event: event)
         }
     }
     
@@ -92,7 +101,7 @@ extension SingleEventPresenter: SingleEventViewOutput {
     }
     
     func checkLike() {
-        let likes = likesViewObjects.compactMap { $0.id }
+        let likes = likesViewObjects.compactMap { $0.userID }
         if let id = id {
             if likes.contains(id) {
                 isLikedImage = true
@@ -102,6 +111,11 @@ extension SingleEventPresenter: SingleEventViewOutput {
 }
 
 extension SingleEventPresenter: SingleEventModelOutput {
+    func didReciveImage(image: UIImage) {
+        self.image = image
+        view?.reloadImage()
+    }
+    
     func didResiveLikeTrue() {
         self.isLikedImage = true
         view?.reload()
@@ -113,11 +127,6 @@ extension SingleEventPresenter: SingleEventModelOutput {
     func didRecieveData(event: Event) {
         self.data = event
         view?.reload()
-    }
-
-    func didReciveImage(image: UIImage) {
-        self.image = image
-        view?.reloadImage()
     }
 }
 

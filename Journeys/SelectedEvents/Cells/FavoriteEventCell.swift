@@ -10,9 +10,8 @@ import UIKit
 import SnapKit
 
 final class FavoriteEventCell: UICollectionViewCell {
-    
     struct DisplayData {
-        let picture: UIImage
+        var picture: UIImage?
         let startDate: String
         let endDate: String
         let name: String
@@ -36,6 +35,7 @@ final class FavoriteEventCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = EventCellConstants.Picture.cornerRadius
         imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
@@ -226,7 +226,7 @@ final class FavoriteEventCell: UICollectionViewCell {
         nameField.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(EventCellConstants.BookmarkButton.topIndent)
             make.leading.equalToSuperview().inset(EventCellConstants.TownsRouteLabel.horisontalIndent)
-            make.trailing.equalToSuperview().inset(EventCellConstants.TownsRouteLabel.horisontalIndent)
+            make.trailing.equalToSuperview().inset(80)
         }
         address.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(EventCellConstants.Picture.horisontalIndentOfPicture)
@@ -256,7 +256,6 @@ final class FavoriteEventCell: UICollectionViewCell {
     }
     
     func configure(data: DisplayData, delegate: FavoriteEventCellDelegate, indexPath: IndexPath) {
-        picture.image = data.picture ?? UIImage()
         nameField.text = data.name
         startDate.text = data.startDate
         endDate.text = data.endDate
@@ -268,15 +267,42 @@ final class FavoriteEventCell: UICollectionViewCell {
         self.delegate = delegate
         switch data.cellType {
         case .favoretes:
+            if let image = data.picture {
+                setupImageFav(image)
+            }
             editButton.isHidden = true
             deleteButton.isHidden = true
             likeButton.isHidden = false
         case .created:
+            if let image = data.picture {
+                setupImageCre(image)
+            }
             editButton.isHidden = false
             deleteButton.isHidden = false
             likeButton.isHidden = true
         }
     }
+    
+    func setupImageCre(_ image: UIImage) {
+        //self.pictureLayer.isHidden = true
+        self.picture.image = image
+        UIView.animate(
+            withDuration: 0.5,
+            animations: { [weak self] in
+                self?.picture.alpha = 1
+            })
+    }
+    
+    func setupImageFav(_ image: UIImage) {
+        //self.pictureLayer.isHidden = true
+        self.picture.image = image
+        UIView.animate(
+            withDuration: 0.5,
+            animations: { [weak self] in
+                self?.picture.alpha = 1
+            })
+    }
+
 }
 
 private extension FavoriteEventCell {
@@ -286,8 +312,8 @@ private extension FavoriteEventCell {
         struct Picture {
             static let horisontalIndent: CGFloat = horisontalIndentForAllSubviews
             static let verticalIndent: CGFloat = 46.0
-            static let trailing: CGFloat = 150
-            static let horisontalIndentOfPicture : CGFloat = 202
+            static let trailing: CGFloat = 180
+            static let horisontalIndentOfPicture : CGFloat = 176
             static let cornerRadius: CGFloat = 15.0
         }
         struct Labels {

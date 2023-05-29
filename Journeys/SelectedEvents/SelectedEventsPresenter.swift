@@ -13,11 +13,9 @@ final class SelectedEventsPresenter {
     weak var  view: SelectedEventsViewInput?
     weak var moduleOutput: SelectedEventsModuleOutput?
     var eventViewObjects = [Event]()
-    var likesViewObjects = [FavoritesEvent]()
     var likesDataObjects = [Event]()
-    
-    var image: UIImage?
-    var imagesUrl: [String]?
+    var createdData = [FavoriteEventCell.DisplayData]()
+    var favoritesData = [FavoriteEventCell.DisplayData]()
     
     private let model: SelectedEventsModelInput
     init(view: SelectedEventsViewInput, model: SelectedEventsModelInput) {
@@ -26,10 +24,8 @@ final class SelectedEventsPresenter {
     }
     
     private func loadData() {
-        likesDataObjects = []
         loadCreatedEvents()
-        loadDataLikedEvents()
-        
+        loadLikedEvents()
     }
     
     func didLoadView() {
@@ -53,15 +49,29 @@ private extension SelectedEventsPresenter {
                           name: networkObject.name,
                           link: networkObject.link,
                           photoURL: networkObject.photoURL,
-                          floor: networkObject.finishDate,
+                          floor: networkObject.floor,
                           room: networkObject.room,
                           description: networkObject.description,
                           isLiked: networkObject.isLiked,
                           userID: networkObject.userID
                     )
                 }
-                self?.loadDataLikedEvents()
                 self?.eventViewObjects = eventViewObjects
+                if let eventObjects = self?.eventViewObjects {
+                    var objects = [FavoriteEventCell.DisplayData]()
+                    for item in eventObjects {
+                        objects.append(FavoriteEventCell.DisplayData(picture: nil,
+                                                                     startDate: item.startDate,
+                                                                     endDate: item.finishDate,
+                                                                     name: item.name,
+                                                                     address: item.address,
+                                                                     isInFavourites: true,
+                                                                     cellType: .created))
+                    }
+                    self?.createdData = objects
+                }
+                self?.loadImagesCreated()
+                self?.view?.reloadCreated()
             case .failure(let error): break
                 self?.view?.show(error: error)
                 
@@ -72,66 +82,88 @@ private extension SelectedEventsPresenter {
     func loadLikedEvents() {
         model.checkLike { [weak self] result in
             switch result {
-            case .success(let addressNetworkObjects):
-                var likesViewObjects = [FavoritesEvent]()
-                
-                likesViewObjects = addressNetworkObjects.map { networkObject in
-                    FavoritesEvent(
-                        id: networkObject.id
-                    )
-                }
-                
-                self?.likesViewObjects = likesViewObjects
-            case .failure(let error):
-                self?.view?.show(error: error)
-                
-            }
-        }
-
-    }
-    
-    func loadDataLikedEvents() {
-        self.loadLikedEvents()
-        let likes = likesViewObjects.compactMap { $0.id }
-        likesDataObjects = []
-        model.loadLikedEvents(identifiers: likes, events: likesDataObjects) { [weak self] result in
-            switch result {
             case .success(let eventNetworkObjects):
-                var eventViewObjects = [Event]()
+                var likesDataObjects = [Event]()
                 
-                eventViewObjects = eventNetworkObjects.map { networkObject in
+                likesDataObjects = eventNetworkObjects.map { networkObject in
                     return Event(address: networkObject.address,
-                                 startDate: networkObject.startDate,
-                                 finishDate: networkObject.finishDate,
-                                 type: networkObject.type,
-                                 name: networkObject.name,
-                                 link: networkObject.link,
-                                 photoURL: networkObject.photoURL,
-                                 floor: networkObject.finishDate,
-                                 room: networkObject.room,
-                                 description: networkObject.description,
-                                 isLiked: true,
-                                 userID: networkObject.userID
+                          startDate: networkObject.startDate,
+                          finishDate: networkObject.finishDate,
+                          type: networkObject.type,
+                          name: networkObject.name,
+                          link: networkObject.link,
+                          photoURL: networkObject.photoURL,
+                          floor: networkObject.floor,
+                          room: networkObject.room,
+                          description: networkObject.description,
+                          isLiked: networkObject.isLiked,
+                          userID: networkObject.userID
                     )
                 }
-                
-                self?.likesDataObjects = eventViewObjects
-                self?.view?.reload()
+                self?.likesDataObjects = likesDataObjects
+                if let likeObjects = self?.likesDataObjects {
+                    var objects = [FavoriteEventCell.DisplayData]()
+                    for item in likeObjects {
+                        objects.append(FavoriteEventCell.DisplayData(picture: nil,
+                                                                     startDate: item.startDate,
+                                                                     endDate: item.finishDate,
+                                                                     name: item.name,
+                                                                     address: item.address,
+                                                                     isInFavourites: true,
+                                                                     cellType: .favoretes))
+                    }
+                    self?.favoritesData = objects
+                }
+                self?.loadImagesFavorites()
+                self?.view?.reloadFavorites()
             case .failure(let error): break
                 self?.view?.show(error: error)
                 
             }
         }
     }
-    
-    func loadImage(photoUrl: String) {
-        model.loadImage(photoURL: photoUrl)
-    }
 }
 
 extension SelectedEventsPresenter: SelectedEventsViewOutput {
+    func loadImagesCreated() {
+        for index in 0..<createdData.count {
+            model.loadImage(for: eventViewObjects[index]) { [weak self] image in
+                guard let self else { return }
+                self.createdData[index].picture = image
+                guard self.eventViewObjects.count > index else { return }
+                self.view?.reloadCreated()
+            }
+        }
+    }
+    
+    func loadImagesFavorites() {
+        for index in 0..<favoritesData.count {
+            model.loadImage(for: likesDataObjects[index]) { [weak self] image in
+                guard let self else { return }
+                self.favoritesData[index].picture = image
+                guard self.likesDataObjects.count > index else { return }
+                self.view?.reloadFavorites()
+            }
+        }
+    }
+
+    func didTapScreen() {
+        moduleOutput?.closeOpenSingleEventVCIfExists()
+    }
+    
+    func didTapFavoriteCell(at: IndexPath) {
+        let eventId = likesDataObjects[at.section].userID
+        moduleOutput?.wantsToOpenSingleEventVC(id: eventId)
+    }
+    
+    func didTapCreatedCell(at: IndexPath) {
+        let eventId = eventViewObjects[at.section].userID
+        moduleOutput?.wantsToOpenSingleEventVC(id: eventId)
+    }
+    
     func refreshView() {
         didLoadView()
+        view?.endRefresh()
     }
     
     func didTapLikeButton(at: IndexPath) {
@@ -140,18 +172,22 @@ extension SelectedEventsPresenter: SelectedEventsViewOutput {
         case true:
             model.deleteLike(eventId: eventId)
         case false:
-            model.setLike(eventId: eventId)
+            model.setLike(eventId: eventId, event: likesDataObjects[at.section])
         }
         likesDataObjects[at.section].isLiked = !likesDataObjects[at.section].isLiked
         model.deleteLike(eventId: eventId)
     }
     
+    func didTapEditingButton(at: IndexPath) {
+        moduleOutput?.wantsToOpenEditingVC(event: eventViewObjects[at.section], image: createdData[at.section].picture)
+    }
+    
     func countOfFavorites() -> Int {
-        likesDataObjects.count
+        favoritesData.count
     }
     
     func countOfCreated() -> Int {
-        eventViewObjects.count
+        createdData.count
     }
     
     func didSelectAgreeAlertAction(cellIndexPath: IndexPath) {
@@ -166,27 +202,15 @@ extension SelectedEventsPresenter: SelectedEventsViewOutput {
     func didTapCloseButton() {
         moduleOutput?.closeSelectedEvents()
     }
-    func displayingData() -> [Event]? {
-        return eventViewObjects
-    }
     
     func displayingCreatedEvent(for row: Int, cellType: FavoriteEventCell.CellType) -> FavoriteEventCell.DisplayData? {
-        var event: Event
+        var event: FavoriteEventCell.DisplayData
         if cellType == .created {
-            event = eventViewObjects[row]
+            event = createdData[row]
         } else {
-            event = likesDataObjects[row]
+            event = favoritesData[row]
         }
-        loadImage(photoUrl: event.photoURL)
-        let eventDisplayData = FavoriteEventCell.DisplayData(
-            picture: UIImage(asset: Asset.Assets.noPhotoPlaceholder)!,
-            startDate: event.startDate,
-            endDate: event.finishDate,
-            name: event.name,
-            address: event.address,
-            isInFavourites: true,
-            cellType: cellType)
-        return eventDisplayData
+            return event
     }
 }
 
@@ -198,7 +222,7 @@ extension SelectedEventsPresenter: SelectedEventsModelOutput {
     }
 
     func didReciveImage(image: UIImage) {
-        self.image = image
+        
     }
 
     func didDeleteEvent() {

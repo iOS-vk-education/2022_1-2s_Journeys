@@ -108,7 +108,7 @@ final class ImageEventCell: UICollectionViewCell {
         self.delegate = delegate
     }
     
-    func configureAddPhotoButton(image: UIImage) {
+    func configureAddPhotoButton(image: UIImage?) {
         addPhotoButton.setImage(image, for: .normal)
         addPhotoButton.imageView?.clipsToBounds = true
         addPhotoButton.imageView?.layer.cornerRadius = Constants.cornerRadius

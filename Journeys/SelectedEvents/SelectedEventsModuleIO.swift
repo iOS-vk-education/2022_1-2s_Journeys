@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 // MARK: - Events ViewInput
 protocol SelectedEventsModuleInput: AnyObject {
@@ -14,4 +15,7 @@ protocol SelectedEventsModuleInput: AnyObject {
 // MARK: - Events ViewOutput
 protocol SelectedEventsModuleOutput: AnyObject {
     func closeSelectedEvents()
+    func wantsToOpenSingleEventVC(id: String)
+    func closeOpenSingleEventVCIfExists()
+    func wantsToOpenEditingVC(event: Event, image: UIImage?)
 }

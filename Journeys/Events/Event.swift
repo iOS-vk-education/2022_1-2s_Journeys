@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct Event {
     var address: String
@@ -109,4 +110,49 @@ struct Event {
         case isLiked
         case userID
     }
+}
+
+struct EventViewObject {
+    var address: String
+    var startDate: String
+    var finishDate: String
+    var type: String
+    var name: String
+    var link: String
+    var photoURL: String
+    var image: UIImage?
+    var floor: String
+    var room: String
+    var description: String
+    var isLiked: Bool
+    var userID: String
+    
+    internal init(address: String,
+                  startDate: String,
+                  finishDate: String,
+                  type: String,
+                  name: String,
+                  link: String,
+                  image: UIImage,
+                  photoURL: String,
+                  floor: String,
+                  room: String,
+                  description: String,
+                  isLiked: Bool,
+                  userID: String) {
+        self.address = address
+        self.startDate = startDate
+        self.finishDate = finishDate
+        self.type = type
+        self.image = image
+        self.name = name
+        self.room = room
+        self.floor = floor
+        self.link = link
+        self.photoURL = photoURL
+        self.description = description
+        self.isLiked = isLiked
+        self.userID = userID
+    }
+
 }

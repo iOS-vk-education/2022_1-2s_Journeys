@@ -190,7 +190,7 @@ class SuggestionViewController: UIViewController, UITableViewDataSource, UITable
                 return
             }
             self.coordinates = .init(latitude: lat, longitude: lon)
-            self.moduleOutput?.openAddingEventViewController(coordinates: self.coordinates, address: cell.address.text)
+            self.moduleOutput?.openAddingEventViewController(coordinates: self.coordinates, address: cell.address.text, event: nil)
         }
     }
     

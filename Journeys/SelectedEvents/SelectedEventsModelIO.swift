@@ -11,11 +11,11 @@ import UIKit
 // MARK: - Events ViewInput
 protocol SelectedEventsModelInput: AnyObject {
     func loadEvents(completion: @escaping (Result<[Event], Error>) -> Void)
-    func loadImage(photoURL: String)
+    func loadImage(for event: Event, completion: @escaping (UIImage) -> Void)
     func deleteEvent(eventId: String)
     func deleteLike(eventId: String)
-    func setLike(eventId: String)
-    func checkLike(completion: @escaping (Result<[FavoritesEvent], Error>) -> Void)
+    func setLike(eventId: String, event: Event)
+    func checkLike(completion: @escaping (Result<[Event], Error>) -> Void)
     func loadLikedEvents(identifiers: [String], events: [Event], completion: @escaping (Result<[Event], Error>) -> Void)
 }
 

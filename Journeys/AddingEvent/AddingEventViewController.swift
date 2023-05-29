@@ -37,7 +37,7 @@ final class AddingEventViewController: UIViewController {
         backButtonItem.tintColor = UIColor(asset: Asset.Colors.BaseColors.contrastToThemeColor)
         
         navigationItem.leftBarButtonItem = backButtonItem
-        title = L10n.createEvent
+        title = output?.getTitle()
     }
 
     private func setupFloatingAddButton() {
@@ -49,7 +49,7 @@ final class AddingEventViewController: UIViewController {
     
     func formatDate(startDate: Date, endDate: Date) -> (String, String) {
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd.MM.yyyy   HH:mm"
+        formatter.dateFormat = "dd.MM.yyyy HH:mm"
         let date1 = formatter.string(from: startDate)
         let date2 = formatter.string(from: endDate)
         return (date1, date2)
@@ -57,7 +57,6 @@ final class AddingEventViewController: UIViewController {
 
     @objc
     func didTapReadyButton() {
-        showLoadingView()
         let flatCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 1)) as? PlacemarkCell
         let ofice = flatCell?.returnText()
 
@@ -101,6 +100,7 @@ final class AddingEventViewController: UIViewController {
             present(alert, animated: true, completion: nil)
             return
         }
+        showLoadingView()
         let post: Event = Event.init(address: self.address(),
                                      startDate: startDateStr,
                                      finishDate: endDateStr,
@@ -177,6 +177,17 @@ final class AddingEventViewController: UIViewController {
         guard let address = output?.displayAddress() else { return "No address" }
         return address
     }
+    
+    private func event() -> Event {
+        guard let event = output?.displayEvent() else {
+            return Event(address: "", startDate: "", finishDate: "", type: "", name: "", link: "", photoURL: "", floor: "", room: "", description: "", isLiked: false, userID: "")
+        }
+        return event
+    }
+    
+    private func image() -> UIImage? {
+        output?.getImage()
+    }
 }
 
 // MARK: UICollectionViewDelegateFlowLayout
@@ -222,113 +233,114 @@ extension AddingEventViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var cell = UICollectionViewCell()
-        if indexPath.section == 0 {
-            guard let placemarkCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "AddressCell",
-                for: indexPath
-            ) as? AddressCell else {
-                return cell
+            if indexPath.section == 0 {
+                guard let placemarkCell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: "AddressCell",
+                    for: indexPath
+                ) as? AddressCell else {
+                    return cell
+                }
+                placemarkCell.configure(data: AddressCellDisplayData(text: self.address()))
+                cell = placemarkCell
             }
-            placemarkCell.configure(data: AddressCellDisplayData(text: self.address()))
-            cell = placemarkCell
-        }
-        if indexPath.section == 1 {
-            guard let placemarkCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "PlacemarkCell",
-                for: indexPath
-            ) as? PlacemarkCell else {
-                return cell
+            if indexPath.section == 1 {
+                guard let placemarkCell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: "PlacemarkCell",
+                    for: indexPath
+                ) as? PlacemarkCell else {
+                    return cell
+                }
+                placemarkCell.configure(data: PlacemarkCellDisplayData(
+                    placeholder: L10n.apartmentOffice, text: self.event().room))
+                cell = placemarkCell
             }
-            placemarkCell.configure(data: PlacemarkCellDisplayData(
-                placeholder: L10n.apartmentOffice))
-            cell = placemarkCell
-        }
-        if indexPath.section == 2 {
-            guard let placemarkCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "PlacemarkCell",
-                for: indexPath
-            ) as? PlacemarkCell else {
-                return cell
+            if indexPath.section == 2 {
+                guard let placemarkCell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: "PlacemarkCell",
+                    for: indexPath
+                ) as? PlacemarkCell else {
+                    return cell
+                }
+                placemarkCell.configure(data: PlacemarkCellDisplayData(
+                    placeholder: L10n.floor, text: self.event().floor))
+                cell = placemarkCell
             }
-            placemarkCell.configure(data: PlacemarkCellDisplayData(
-                placeholder: L10n.floor))
-            cell = placemarkCell
-        }
-        if indexPath.section == 3 {
-            guard let placemarkCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "PlacemarkCell",
-                for: indexPath
-            ) as? PlacemarkCell else {
-                return cell
+            if indexPath.section == 3 {
+                guard let placemarkCell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: "PlacemarkCell",
+                    for: indexPath
+                ) as? PlacemarkCell else {
+                    return cell
+                }
+                placemarkCell.configure(data: PlacemarkCellDisplayData(
+                    placeholder: L10n.eventName, text: self.event().name))
+                cell = placemarkCell
             }
-            placemarkCell.configure(data: PlacemarkCellDisplayData(
-                placeholder: L10n.eventName))
-            cell = placemarkCell
-        }
-        if indexPath.section == 4 {
-            guard let placemarkCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "PlacemarkCell",
-                for: indexPath
-            ) as? PlacemarkCell else {
-                return cell
+            if indexPath.section == 4 {
+                guard let placemarkCell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: "PlacemarkCell",
+                    for: indexPath
+                ) as? PlacemarkCell else {
+                    return cell
+                }
+                placemarkCell.configure(data: PlacemarkCellDisplayData(
+                    placeholder: L10n.typeOfEvent, text: self.event().type))
+                cell = placemarkCell
             }
-            placemarkCell.configure(data: PlacemarkCellDisplayData(
-                placeholder: L10n.typeOfEvent))
-            cell = placemarkCell
-        }
-        if indexPath.section == 5 {
-            guard let placemarkCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "TimeCell",
-                for: indexPath
-            ) as? TimeCell else {
-                return cell
+            if indexPath.section == 5 {
+                guard let placemarkCell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: "TimeCell",
+                    for: indexPath
+                ) as? TimeCell else {
+                    return cell
+                }
+                placemarkCell.configure(data: TimeCellDisplayData(text: L10n.begin), date: self.event().startDate)
+                cell = placemarkCell
             }
-            placemarkCell.configure(data: TimeCellDisplayData(text: L10n.begin))
-            cell = placemarkCell
-        }
-        if indexPath.section == 6 {
-            guard let placemarkCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "TimeCell",
-                for: indexPath
-            ) as? TimeCell else {
-                return cell
+            if indexPath.section == 6 {
+                guard let placemarkCell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: "TimeCell",
+                    for: indexPath
+                ) as? TimeCell else {
+                    return cell
+                }
+                placemarkCell.configure(data: TimeCellDisplayData(text: L10n.end), date: self.event().finishDate)
+                cell = placemarkCell
             }
-            placemarkCell.configure(data: TimeCellDisplayData(text: L10n.end))
-            cell = placemarkCell
-        }
-
-        if indexPath.section == 8 {
-            guard let placemarkCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "ImageEventCell",
-                for: indexPath
-            ) as? ImageEventCell else {
-                return cell
+            
+            if indexPath.section == 8 {
+                guard let placemarkCell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: "ImageEventCell",
+                    for: indexPath
+                ) as? ImageEventCell else {
+                    return cell
+                }
+                placemarkCell.configure(delegate: self)
+                placemarkCell.configureAddPhotoButton(image: self.image())
+                cell = placemarkCell
             }
-            placemarkCell.configure(delegate: self)
-            cell = placemarkCell
-        }
-        if indexPath.section == 7 {
-            guard let placemarkCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "DescriptionCell",
-                for: indexPath
-            ) as? DescriptionCell else {
-                return cell
+            if indexPath.section == 7 {
+                guard let placemarkCell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: "DescriptionCell",
+                    for: indexPath
+                ) as? DescriptionCell else {
+                    return cell
+                }
+                placemarkCell.configure(isEditable: true, cornerRadius: 10, text: self.event().description)
+                cell = placemarkCell
             }
-            placemarkCell.configure(isEditable: true, cornerRadius: 10, text: "")
-            cell = placemarkCell
-        }
-        if indexPath.section == 9 {
-            guard let placemarkCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "PlacemarkCell",
-                for: indexPath
-            ) as? PlacemarkCell else {
-                return cell
+            if indexPath.section == 9 {
+                guard let placemarkCell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: "PlacemarkCell",
+                    for: indexPath
+                ) as? PlacemarkCell else {
+                    return cell
+                }
+                placemarkCell.configure(data: PlacemarkCellDisplayData(
+                    placeholder: L10n.linkToTheSource, text: self.event().link))
+                cell = placemarkCell
             }
-            placemarkCell.configure(data: PlacemarkCellDisplayData(
-                placeholder: L10n.linkToTheSource))
-            cell = placemarkCell
-        }
-        return cell
+            return cell
     }
 
 }

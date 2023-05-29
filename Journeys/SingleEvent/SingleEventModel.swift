@@ -15,14 +15,14 @@ final class SingleEventModel {
 }
 
 extension SingleEventModel: SingleEventModelInput {
-    func checkLike(completion: @escaping (Result<[FavoritesEvent], Error>) -> Void) {
+    func checkLike(completion: @escaping (Result<[Event], Error>) -> Void) {
         service.checkLike { result in
             completion(result)
         }
     }
     
-    func setLike(eventId: String) {
-        service.setLike(eventId: eventId)  { [weak self]  error in
+    func setLike(eventId: String, event: Event) {
+        service.setLike(eventId: eventId, event: event)  { [weak self]  error in
             guard let self else { return }
             if error != nil {
                 self.output?.didRecieveError(error: .deleteDataError)

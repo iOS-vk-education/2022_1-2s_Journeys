@@ -11,6 +11,7 @@ import SnapKit
 
 struct PlacemarkCellDisplayData {
     let placeholder: String
+    let text: String
 }
 
 final class PlacemarkCell: UICollectionViewCell {
@@ -86,6 +87,7 @@ final class PlacemarkCell: UICollectionViewCell {
         
         func configure(data: PlacemarkCellDisplayData) {
             inputField.placeholder = data.placeholder
+            inputField.text = data.text
         }
     
     func returnText() -> String {

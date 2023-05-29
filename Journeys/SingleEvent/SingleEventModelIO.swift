@@ -12,9 +12,9 @@ import UIKit
 
 protocol SingleEventModelInput: AnyObject {
     func loadEvent(eventId: String)
-    func setLike(eventId: String)
+    func setLike(eventId: String, event: Event)
     func removeLike(eventId: String)
-    func checkLike(completion: @escaping (Result<[FavoritesEvent], Error>) -> Void)
+    func checkLike(completion: @escaping (Result<[Event], Error>) -> Void)
 }
 
 // MARK: - Place ModuleOutput
