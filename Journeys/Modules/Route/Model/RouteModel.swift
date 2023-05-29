@@ -11,7 +11,7 @@ import UIKit
 // MARK: - RouteModel
 
 final class RouteModel {
-    weak var output: RouteModelOutput!
+    weak var output: RouteModelOutput?
     private let FBService: FirebaseServiceProtocol
     private var helper: StoreNewTrip?
     
@@ -21,13 +21,24 @@ final class RouteModel {
 }
 
 extension RouteModel: RouteModelInput {
+    func storeTripData(trip: Trip, completion: @escaping (Trip) -> Void) {
+        FBService.storeTripData(trip: trip) { [weak self] result in
+            switch result {
+            case .failure(let error):
+                break
+                self?.output?.didRecieveError(error: .saveDataError)
+            case .success(let savedTrip):
+                completion(savedTrip)
+            }
+        }
+    }
     
     func storeRouteData(route: Route, tripImage: UIImage, tripId: String) {
         FBService.storeImage(image: tripImage, imageType: .trip) { [weak self] result in
             guard let strongSelf = self else { return }
             switch result {
             case .failure:
-                strongSelf.output.didRecieveError(error: .saveDataError)
+                strongSelf.output?.didRecieveError(error: .saveDataError)
             case .success(let url):
                 strongSelf.didStoreImageData(url: url, route: route)
             }
@@ -43,9 +54,9 @@ extension RouteModel: RouteModelInput {
             guard let strongSelf = self else { return }
             switch result {
             case .failure:
-                strongSelf.output.didRecieveError(error: .saveDataError)
+                strongSelf.output?.didRecieveError(error: .saveDataError)
             case .success(let route):
-                strongSelf.output.didSaveRouteData(route: route)
+                strongSelf.output?.didSaveRouteData(route: route)
             }
         }
     }
@@ -61,11 +72,11 @@ extension RouteModel: RouteModelInput {
 
 extension RouteModel: StoreNewTripOutput {
     func saveFinished(trip: Trip, route: Route) {
-        output.didSaveData(trip: trip, route: route)
+        output?.didSaveData(trip: trip, route: route)
     }
     
     func saveError() {
-        output.didRecieveError(error: .saveDataError)
+        output?.didRecieveError(error: .saveDataError)
     }
 }
 

@@ -19,7 +19,10 @@ protocol TripsViewInput: AnyObject {
                          cellIndexPath: IndexPath)
     func reloadData()
     func endRefresh()
+    
     func deleteItem(at indexPath: IndexPath)
+    func moveCell(from: IndexPath, to: IndexPath)
+    
     func showLoadingView()
     func hideLoadingView()
     func changeIsSavedCellStatus(at indexPath: IndexPath, status: Bool)
@@ -32,6 +35,7 @@ protocol TripsViewInput: AnyObject {
 protocol TripsViewOutput: AnyObject {
     var tripsType: TripsType { get }
     
+    func viewDidLoad()
     func viewWillAppear()
     func refreshView()
     

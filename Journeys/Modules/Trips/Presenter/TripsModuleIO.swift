@@ -8,6 +8,10 @@
 // MARK: - Trips ModuleInput
 
 protocol TripsModuleInput: AnyObject {
+    func somethingWasChanged()
+    func isDataLoaded() -> Bool
+    func changedTrip(_ trip: Trip)
+    func deletTrip(trip: Trip)
 }
 
 // MARK: - Trips ModuleOutput

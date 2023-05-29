@@ -13,6 +13,7 @@ import FirebaseAuth
 
 protocol FirebaseServiceStoreProtocol {
     
+    func storeTripDataWithoutChangingDate(trip: Trip, completion: @escaping (Result<Trip, Error>) -> Void)
     func storeTripData(trip: Trip, completion: @escaping (Result<Trip, Error>) -> Void)
     func storeRouteData(route: Route, completion: @escaping (Result<Route, Error>) -> Void)
     func storeImage(image: UIImage,
@@ -30,8 +31,7 @@ protocol FirebaseServiceStoreProtocol {
 }
 
 extension FirebaseService: FirebaseServiceStoreProtocol {
-    
-    func storeTripData(trip: Trip, completion: @escaping (Result<Trip, Error>) -> Void) {
+    func storeTripDataWithoutChangingDate(trip: Trip, completion: @escaping (Result<Trip, Error>) -> Void) {
         guard let userId = firebaseManager.auth.currentUser?.uid else {
             return
         }
@@ -44,6 +44,28 @@ extension FirebaseService: FirebaseServiceStoreProtocol {
             if let error = error {
                 completion(.failure(error))
             } else if let trip = Trip(from: trip.toDictionary(), id: ref.documentID) {
+                completion(.success(trip))
+            } else {
+                completion(.failure(FBError.noData))
+            }
+        }
+    }
+    
+    func storeTripData(trip: Trip, completion: @escaping (Result<Trip, Error>) -> Void) {
+        guard let userId = firebaseManager.auth.currentUser?.uid else {
+            return
+        }
+        var ref: DocumentReference = firebaseManager.firestore.collection("trips").document(userId)
+            .collection("user_trips").document()
+        if let id = trip.id {
+            ref = firebaseManager.firestore.collection("trips").document(userId).collection("user_trips").document(id)
+        }
+        var newTrip = trip
+        newTrip.dateChanged = Date()
+        ref.setData(newTrip.toDictionary()) { error in
+            if let error = error {
+                completion(.failure(error))
+            } else if let trip = Trip(from: newTrip.toDictionary(), id: ref.documentID) {
                 completion(.success(trip))
             } else {
                 completion(.failure(FBError.noData))

@@ -12,6 +12,8 @@ import FirebaseAuth
 import FirebaseStorage
 
 protocol FirebaseServiceObtainProtocol {
+    func tripsListener(type: TripsType, tripsModule: TripsModuleInput)
+    
     func obtainTrip(with identifier: String, completion: @escaping (Result<Trip, Error>) -> Void)
     func obtainRoute(with identifier: String, completion: @escaping (Result<Route, Error>) -> Void)
     func obtainTrips(type: TripsType, completion: @escaping (Result<[Trip], Error>) -> Void)
@@ -33,6 +35,44 @@ protocol FirebaseServiceObtainProtocol {
 
 
 extension FirebaseService: FirebaseServiceObtainProtocol {
+    func tripsListener(type: TripsType, tripsModule: TripsModuleInput) {
+        guard let userId = firebaseManager.auth.currentUser?.uid else {
+            return
+        }
+        
+        var query: Query = firebaseManager.firestore.collection("trips")
+            .document(userId).collection("user_trips")
+        if type == .saved {
+            query = query.whereField("is_saved", isEqualTo: true)
+        }
+        
+        query.addSnapshotListener { (snapshot, error) in
+            if let error = error {
+                return
+            }
+            guard let documents = snapshot?.documents else {
+                return
+            }
+            
+            snapshot?.documentChanges.forEach { change in
+                switch change.type {
+                case .modified:
+                    guard let trip = Trip(from: change.document.data(),
+                                          id: change.document.documentID) else { return }
+                    tripsModule.changedTrip(trip)
+                case .removed:
+                    guard let trip = Trip(from: change.document.data(),
+                                          id: change.document.documentID) else { return }
+                    tripsModule.deletTrip(trip: trip)
+                default:
+                    if tripsModule.isDataLoaded() {
+                        tripsModule.somethingWasChanged()
+                    }
+                }
+            }
+        }
+    }
+    
     // MARK: Obtarin data
     
     func obtainTrips(type: TripsType, completion: @escaping (Result<[Trip], Error>) -> Void){

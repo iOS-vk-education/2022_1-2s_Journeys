@@ -229,27 +229,31 @@ final class TripCell: UICollectionViewCell {
         routeLabel.alpha = 1
     }
 
-    func changeIsSavedStatus(status: Bool) {
-        isInFavourites = status
-        setBookmarkButtonImage()
-    }
-    // TODO: send data to view
     @objc
     private func didTapBookmarkButton() {
-        guard let indexPath = indexPath else { return }
-        delegate?.didTapBookmarkButton(indexPath)
+//        guard let indexPath = indexPath else { return }
+        delegate?.didTapBookmarkButton(self)
     }
 
     @objc
     private func didTapEditButton() {
-        guard let indexPath = indexPath else { return }
-        delegate?.didTapEditButton(indexPath)
+//        guard let indexPath = indexPath else { return }
+        delegate?.didTapEditButton(self)
     }
     
     @objc
     private func didTapDeleteButton() {
-        guard let indexPath = indexPath else { return }
-        delegate?.didTapDeleteButton(indexPath)
+//        guard let indexPath = indexPath else { return }
+        delegate?.didTapDeleteButton(self)
+    }
+    
+    func changeIsSavedStatus(status: Bool) {
+        isInFavourites = status
+        setBookmarkButtonImage()
+    }
+    
+    func changeIndexPath(to indexPath: IndexPath) {
+        self.indexPath = indexPath
     }
     
     func configure(data: DisplayData, delegate: TripCellDelegate, indexPath: IndexPath) {
@@ -323,7 +327,7 @@ private extension TripCell {
 }
 
 protocol TripCellDelegate: AnyObject {
-    func didTapBookmarkButton(_ indexPath: IndexPath)
-    func didTapEditButton(_ indexPath: IndexPath)
-    func didTapDeleteButton(_ indexPath: IndexPath)
+    func didTapBookmarkButton(_ cell: TripCell)
+    func didTapEditButton(_ cell: TripCell)
+    func didTapDeleteButton(_ cell: TripCell)
 }

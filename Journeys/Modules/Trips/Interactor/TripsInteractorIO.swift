@@ -11,9 +11,11 @@ import UIKit
 // MARK: - Trips InteractorInput
 
 protocol TripsInteractorInput: AnyObject {
+    func addSnapshotListener(type: TripsType, moduleInput: TripsModuleInput)
     func obtainTripsDataFromSever(type: TripsType)
     func obtainTripImageFromServer(withURL imageURLString: String,
                                    completion: @escaping (Result <UIImage, Error>)-> Void)
+    func obtainRouteDataFromServer(for trip: Trip, completion: @escaping (TripWithRouteAndImage) -> Void)
     func loadImage(for route: Route, completion: @escaping (UIImage) -> Void)
     
     func storeTripData(trip: Trip, completion: @escaping () -> Void)

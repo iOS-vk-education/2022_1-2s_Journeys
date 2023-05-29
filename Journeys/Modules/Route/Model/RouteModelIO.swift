@@ -11,6 +11,7 @@ import UIKit
 protocol RouteModelInput: AnyObject {
     func storeRouteData(route: Route, tripImage: UIImage, tripId: String)
     func storeNewTrip(route: Route, tripImage: UIImage)
+    func storeTripData(trip: Trip, completion: @escaping (Trip) -> Void)
 }
 
 protocol RouteModelOutput: AnyObject {

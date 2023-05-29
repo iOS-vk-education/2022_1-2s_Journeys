@@ -42,6 +42,8 @@ final class TripsViewController: UIViewController {
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        output.viewDidLoad()
+        output.viewWillAppear()
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         placeholderView.isHidden = true
         setupNavBar()
@@ -230,7 +232,6 @@ extension TripsViewController: UICollectionViewDataSource {
 }
 
 extension TripsViewController: TripsViewInput {
-    
     func endRefresh() {
         DispatchQueue.main.async { [weak self] in
             self?.refreshControl.endRefreshing()
@@ -269,7 +270,13 @@ extension TripsViewController: TripsViewInput {
     }
     
     func deleteItem(at indexPath: IndexPath) {
-        self.collectionView.deleteItems(at: [indexPath])
+        collectionView.deleteItems(at: [indexPath])
+    }
+    
+    func moveCell(from: IndexPath, to: IndexPath) {
+//        guard let tripCell = collectionView.cellForItem(at: from) as? TripCell else { return }
+        collectionView.moveItem(at: from, to: to)
+//        tripCell.changeIndexPath(to: to)
     }
     
     func showLoadingView() {
@@ -327,24 +334,31 @@ extension TripsViewController: TransitionHandlerProtocol {
     }
     
     func showPlaceholder() {
-        placeholderView.isHidden = false
+        DispatchQueue.main.async { [weak self] in
+            self?.placeholderView.isHidden = false
+        }
     }
     
     func hidePlaceholder() {
-        placeholderView.isHidden = true
+        DispatchQueue.main.async { [weak self] in
+            self?.placeholderView.isHidden = true
+        }
     }
 }
 
 extension TripsViewController: TripCellDelegate {
-    func didTapEditButton(_ indexPath: IndexPath) {
+    func didTapEditButton(_ cell: TripCell) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
         output.didTapEditButton(at: indexPath)
     }
     
-    func didTapDeleteButton(_ indexPath: IndexPath) {
+    func didTapDeleteButton(_ cell: TripCell) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
         output.didTapDeleteButton(at: indexPath)
     }
     
-    func didTapBookmarkButton(_ indexPath: IndexPath) {
+    func didTapBookmarkButton(_ cell: TripCell) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
         output.didTapCellBookmarkButton(at: indexPath)
     }
 }

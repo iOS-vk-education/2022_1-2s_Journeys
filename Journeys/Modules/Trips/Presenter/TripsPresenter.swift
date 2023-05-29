@@ -24,6 +24,7 @@ final class TripsPresenter {
     
     private var dataIsLoaded: Bool = false
     private var tripsData: [TripWithRouteAndImage] = []
+    private var somethingWasChangedFlag: Bool = false
     
     private var cellToDeleteIndexPath: IndexPath?
     
@@ -43,6 +44,8 @@ final class TripsPresenter {
         if let tripsData {
             self.tripsData = tripsData
         }
+        self.interactor.addSnapshotListener(type: tripsType, moduleInput: self)
+        authListener()
     }
     
     private func loadTripsData() {
@@ -120,22 +123,65 @@ final class TripsPresenter {
 
 
 extension TripsPresenter: TripsModuleInput {
+    func deletTrip(trip: Trip) {
+        guard let index = tripsData.firstIndex(where: { $0.id == trip.id }), trip == Trip(tripWithOtherData: tripsData[index]) else { return }
+        cellToDeleteIndexPath = IndexPath(row: index, section: 1)
+        didDeleteTrip()
+    }
+    
+    func somethingWasChanged() {
+        somethingWasChangedFlag = true
+    }
+    
+    func isDataLoaded() -> Bool {
+        dataIsLoaded
+    }
+    
+    func changedTrip(_ trip: Trip) {
+        guard let index = self.tripsData.firstIndex(where: { $0.id == trip.id }),
+              tripsType != .saved else { return }
+        if Trip(tripWithOtherData: tripsData[index]) == trip {
+            view?.changeIsSavedCellStatus(at: IndexPath(row: index, section: 1), status: trip.isInfavourites)
+            return
+        }
+        interactor.obtainRouteDataFromServer(for: trip) { [weak self] trip in
+            guard let self,
+                  let index = self.tripsData.firstIndex(where: { $0.id == trip.id }) else { return }
+            self.tripsData[index] = trip
+            self.reloadView()
+            self.loadImage(for: trip) { [weak self] image in
+                guard let self,
+                      let index = self.tripsData.firstIndex(where: { $0.id == trip.id }) else { return }
+                self.tripsData[index].image = image
+                self.view?.setupCellImage(at: IndexPath(row: index, section: 1), image: image)
+            }
+        }
+    }
 }
 
 extension TripsPresenter: TripsViewOutput {
-    func viewWillAppear() {
-        authListener()
-        dataIsLoaded = false
+    func viewDidLoad() {
         switch tripsType {
-        case .all: loadTripsData()
+        case .all:
+            dataIsLoaded = false
+            loadTripsData()
         case .saved:
+            dataIsLoaded = true
             if tripsData.contains(where: { $0.image == nil }) {
                 loadImagesForTrips()
             }
         }
     }
     
+    func viewWillAppear() {
+        if somethingWasChangedFlag == true {
+            viewDidLoad()
+        }
+        somethingWasChangedFlag = false
+    }
+    
     func refreshView() {
+        dataIsLoaded = false
         hidePlaceholder()
         view?.reloadData()
         loadTripsData()
@@ -164,7 +210,7 @@ extension TripsPresenter: TripsViewOutput {
                 return 0
             }
         }
-        if dataIsLoaded || tripsType == .saved {
+        if dataIsLoaded {
             if tripsData.count == 0 {
                 embedRPlaceholder()
             }
@@ -174,7 +220,6 @@ extension TripsPresenter: TripsViewOutput {
     }
     
     func getCellType() -> TripsCellType {
-        if tripsType == .saved { return .usual }
         if dataIsLoaded { return .usual }
         return .skeleton
     }
@@ -202,7 +247,7 @@ extension TripsPresenter: TripsViewOutput {
         guard tripsData.indices.contains(indexPath.row) else { return }
         tripsData[indexPath.row].isInfavourites.toggle()
         interactor.storeTripData(trip: Trip(tripWithOtherData: tripsData[indexPath.row])) { [weak self] in
-            guard let self else { return }
+            guard let self, self.tripsData.count > indexPath.row  else { return }
             self.view?.changeIsSavedCellStatus(at: indexPath, status: self.tripsData[indexPath.row].isInfavourites)
             if self.tripsType == .saved {
                 self.tripsData.remove(at: indexPath.row)
@@ -267,19 +312,26 @@ extension TripsPresenter: TripsInteractorOutput {
         tripsData.sort(by: {$0.dateChanged.timeIntervalSinceNow > $1.dateChanged.timeIntervalSinceNow})
         
         reloadView()
+        if tripsData.count > 0 {
+            hidePlaceholder()
+        }
         
         loadImagesForTrips()
     }
     
     func loadImagesForTrips() {
         for index in 0..<tripsData.count {
-            interactor.loadImage(for: tripsData[index].route) { [weak self] image in
+            loadImage(for: tripsData[index]) { [weak self] image in
                 guard let self else { return }
                 guard self.tripsData.count > index else { return }
                 self.tripsData[index].image = image
                 self.view?.setupCellImage(at: IndexPath(row: index, section: 1), image: image)
             }
         }
+    }
+    
+    private func loadImage(for trip: TripWithRouteAndImage, completion: @escaping (UIImage) -> Void) {
+        interactor.loadImage(for: trip.route, completion: completion)
     }
     
     func didDeleteTrip() {
