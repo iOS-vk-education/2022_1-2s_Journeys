@@ -11,8 +11,12 @@ import PureLayout
 
 class EventsViewController: UIViewController {
     var output: EventsViewOutput?
+    var showSaveButton: Bool?
     
     private func setupNavBar() {
+        if showSaveButton == false {
+            return
+        }
         navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
         let favouritesButtonItem = UIBarButtonItem(image: UIImage(systemName: "bookmark.fill"),
                                                    style: .plain,

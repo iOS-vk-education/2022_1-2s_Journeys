@@ -157,7 +157,7 @@ extension JourneysCoordinator: TripInfoModuleOutput {
     func openEventsModule(with coordinates: Coordinates) {
         let eventsModuleBuilder = EventsModuleBuilder()
 
-        let eventsViewController = eventsModuleBuilder.build(output: self, latitude: coordinates.latitude, longitude: coordinates.longitude, zoom: 10)
+        let eventsViewController = eventsModuleBuilder.build(output: self, latitude: coordinates.latitude, longitude: coordinates.longitude, zoom: 10, showSaveButton: false)
         navigationController.pushViewController(eventsViewController, animated: true)
     }
     
