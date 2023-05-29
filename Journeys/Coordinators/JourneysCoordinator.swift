@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 
 final class JourneysCoordinator: CoordinatorProtocol {
+    
 
     // MARK: Private Properties
 
@@ -158,7 +159,10 @@ extension JourneysCoordinator: TripInfoModuleOutput {
     }
     // TODO: openEventsModule func after pull request #30 merge
     func openEventsModule(with coordinates: Coordinates) {
-        eventsCoordinator.openEventsModule(with: coordinates)
+        let eventsModuleBuilder = EventsModuleBuilder()
+
+        let eventsViewController = eventsModuleBuilder.build(output: self, latitude: coordinates.latitude, longitude: coordinates.longitude, zoom: 10, showSaveButton: false)
+        navigationController.pushViewController(eventsViewController, animated: true)
     }
     
     func tripInfoModuleWantsToClose() {
@@ -174,4 +178,30 @@ extension JourneysCoordinator: StuffListsModuleOutput {
     func openCertainStuffListModule(for stuffList: StuffList?) {
         return
     }
+}
+
+extension JourneysCoordinator: EventsModuleOutput {
+    func wantsToOpenAddEventVC() {
+    }
+    
+    func wantsToOpenSingleEventVC(id: String) {
+        let builder = SingleEventModuleBuilder()
+
+        let viewController = builder.build(output: self, id: id)
+        if let sheet = viewController.sheetPresentationController {
+            sheet.detents = [.medium(), .large()]
+            sheet.largestUndimmedDetentIdentifier = .medium
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = true
+            sheet.prefersGrabberVisible = true
+        }
+        
+        navigationController.present(viewController, animated: true, completion: nil)
+    }
+    
+    func closeOpenSingleEventVCIfExists() {
+        navigationController.dismiss(animated: true)
+    }
+}
+
+extension JourneysCoordinator: SingleEventModuleOutput {
 }

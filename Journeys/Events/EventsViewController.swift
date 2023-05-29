@@ -11,8 +11,12 @@ import PureLayout
 
 class EventsViewController: UIViewController {
     var output: EventsViewOutput?
+    var showSaveButton: Bool?
     
     private func setupNavBar() {
+        if showSaveButton == false {
+            return
+        }
         navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
         let favouritesButtonItem = UIBarButtonItem(image: UIImage(systemName: "bookmark.fill"),
                                                    style: .plain,
@@ -43,7 +47,7 @@ class EventsViewController: UIViewController {
                                                           zoom: zoom ?? AddingButtonConstants.Coordinates.zoom,
                                                           azimuth: 0,
                                                           tilt: 0),
-            animationType: YMKAnimation(type: YMKAnimationType.smooth, duration: 5),
+            animationType: YMKAnimation(type: YMKAnimationType.smooth, duration: 3),
             cameraCallback: nil)
         map1.autoSetDimension(.height, toSize: 1000)
         return map1
