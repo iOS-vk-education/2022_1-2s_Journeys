@@ -21,4 +21,5 @@ protocol RouteModelOutput: AnyObject {
     func didRecieveError(error: Errors)
     func didSaveRouteData(route: Route)
     func didSaveData(trip: Trip, route: Route)
+    func notificationDateMustBeFutureError()
 }

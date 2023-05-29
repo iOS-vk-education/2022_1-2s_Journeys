@@ -20,9 +20,6 @@ final class SettingsDisplayDataFactory {
     func settingsDisplayData(for type: SettingsCell.CellType.Settings,
                              switchValue: Bool? = nil) -> SettingsCell.DisplayData {
         switch type {
-        case .notifications:
-            return SettingsCell.DisplayData(title: L10n.notifications,
-                                            type: .switchType(switchValue ?? false))
         case .style:
             return SettingsCell.DisplayData(title: L10n.style,
                                             type: .chevronType)

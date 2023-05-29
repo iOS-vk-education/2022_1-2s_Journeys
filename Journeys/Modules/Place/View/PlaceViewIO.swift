@@ -19,11 +19,17 @@ protocol PlaceViewInput: AnyObject {
     func setDatePickerDefaultValue(_ date: Date)
     func datePickerValue() -> Date
     func addNotificationSwitchValue() -> Bool
+    
+    func setNotificationsSwitchIsEnabled(_ value: Bool)
+    
+    func reloadData()
 }
 
 // MARK: - Place ViewOutput
 
 protocol PlaceViewOutput: AnyObject {
+    func viewDidLoad()
+    
     func didSelectCell(at indexpath: IndexPath)
     func didTapExitButton()
     func didTapDoneButton()
@@ -32,6 +38,7 @@ protocol PlaceViewOutput: AnyObject {
     func notificationDate() -> Date?
     func switchValue() -> Bool?
     func setupDateViews(switchValue: Bool)
+    func isNotificationsSwitchEnabled() -> Bool?
     
     func getPlaceCellData(for indexPath: IndexPath) -> LocationCell.DisplayData
     func getCalendarCellData() -> CalendarCell.DisplayData

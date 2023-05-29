@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 // MARK: - PlacePresenter
 
@@ -19,6 +20,8 @@ final class PlacePresenter {
     var model: PlaceModelInput?
     
     weak var routeModule: RouteModuleInput?
+    private let notificationManager: NotificationsManagerProtocol = NotificationsManager.shared
+    private var areNotificationsEnabledAtIOSLevel: Bool?
     
     private var place: Place?
     private let placeIndex: Int
@@ -32,27 +35,66 @@ final class PlacePresenter {
         selectedStartDate = place?.arrive
         selectedEndDate = place?.depart
         self.routeModule = routeModuleInput
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(didBecomeAvtive),
+                                               name: UIApplication.didBecomeActiveNotification,
+                                               object: nil)
     }
     
+    private func setupNotifications() {
+        notificationManager.areNotificationsEnabledAtIOSLevel { [weak self] result in
+            self?.areNotificationsEnabledAtIOSLevel = result
+            self?.view?.reloadData()
+        }
+    }
+    
+    @objc
+    private func didBecomeAvtive() {
+        setupNotifications()
+    }
 }
 
 extension PlacePresenter: PlaceModuleInput {
 }
 
 extension PlacePresenter: PlaceViewOutput {
+    func viewDidLoad() {
+        setupNotifications()
+    }
+    
+    func isNotificationsSwitchEnabled() -> Bool? {
+        areNotificationsEnabledAtIOSLevel
+    }
+    
     func areNotificationDateViewsVisible() -> Bool? {
-        place?.allowNotification
+        if areNotificationsEnabledAtIOSLevel == true {
+            return place?.allowNotification
+        } else if areNotificationsEnabledAtIOSLevel == false {
+            return false
+        }
+        return nil
     }
     
     func switchValue() -> Bool? {
-        place?.allowNotification
+        if areNotificationsEnabledAtIOSLevel == true {
+            return place?.allowNotification
+        } else if areNotificationsEnabledAtIOSLevel == false {
+            return false
+        }
+        return nil
     }
     
     func setupDateViews(switchValue: Bool) {
-        if switchValue, let date = notificationDate() {
-            view?.setDatePickerDefaultValue(date)
+        if areNotificationsEnabledAtIOSLevel == true {
+            if switchValue, let date = notificationDate() {
+                view?.setDatePickerDefaultValue(date)
+            }
+            view?.setNotificationDateViewsVisibility(to: switchValue)
+        } else {
+            view?.setNotificationDateViewsVisibility(to: false)
         }
-        view?.setNotificationDateViewsVisibility(to: switchValue)
+
     }
     
     func notificationDate() -> Date? {
@@ -126,6 +168,10 @@ extension PlacePresenter: PlaceViewOutput {
         }
         
         if view.addNotificationSwitchValue() {
+            if view.datePickerValue() < Date() {
+                view.showAlert(title: "Ошибка", message: "Уведомление должно быть в будущем")
+                return
+            }
             let notification = PlaceNotification(id: nil,
                                                  date: view.datePickerValue(),
                                                  placeForContent: place)

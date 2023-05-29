@@ -54,35 +54,27 @@ final class SettingsPresenter {
 
 extension SettingsPresenter: SettingsViewOutput {
     func viewWillAppear() {
-        notificationManager.areNotificationsEnabledAtIOSLevel { [weak self] result in
-            self?.areNotificationsEnabledAtIOSLevel = result
-            if result {
-                self?.notificationManager.hasUserEnabledNotifications { [weak self] result in
-                    self?.areNotificationsEnabled = result
-                    self?.view?.reloadView()
-                }
-            } else {
-                self?.areNotificationsEnabled = false
-            }
-        }
+//        notificationManager.areNotificationsEnabledAtIOSLevel { [weak self] result in
+//            self?.areNotificationsEnabledAtIOSLevel = result
+//            if result {
+//                self?.notificationManager.hasUserEnabledNotifications { [weak self] result in
+//                    self?.areNotificationsEnabled = result
+//                    self?.view?.reloadView()
+//                }
+//            } else {
+//                self?.areNotificationsEnabled = false
+//            }
+//        }
     }
     
     func getDisplayData(for indexPath: IndexPath) -> SettingsCell.DisplayData {
         let row = indexPath.section == 0 ? 0 : indexPath.row + 1
         let cellType = SettingsCell.CellType.Settings.allCases[row]
         let displayDataFactory = SettingsDisplayDataFactory()
-        if cellType == .notifications {
-            return displayDataFactory.settingsDisplayData(for: cellType, switchValue: areNotificationsEnabled)
-        }
+//        if cellType == .notifications {
+//            return displayDataFactory.settingsDisplayData(for: cellType, switchValue: areNotificationsEnabled)
+//        }
         return displayDataFactory.settingsDisplayData(for: cellType)
-    }
-    
-    func getFooterText(for section: Int) -> String? {
-        guard section == 0 else { return nil }
-        if areNotificationsEnabledAtIOSLevel != true {
-            return L10n.youNeetToTurnTheApplicationNotificationOn
-        }
-        return nil
     }
 
     func didSelectCell(at indexPath: IndexPath) {

@@ -47,32 +47,6 @@ final class TripsViewController: UIViewController {
         setupNavBar()
         setupCollectionView()
         makeConstraints()
-        
-        var newNotification = PlaceNotification(id: nil, date: Date() + 10, placeForContent: Place(location: Location(country: "lala", city: "lala1"), arrive: Date(), depart: Date() + 100000))
-        
-        let uuidString =  UUID().uuidString
-        newNotification.id = uuidString
-        
-        let content = UNMutableNotificationContent()
-        content.title = newNotification.contentTitle
-        content.body = newNotification.contentBody
-        content.badge = 1
-        
-        // Configure the recurring date.
-        var dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: newNotification.date)
-        // Create the trigger as a repeating event.
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
-        
-        // Create the request
-        let request = UNNotificationRequest(identifier: uuidString,
-                                            content: content,
-                                            trigger: trigger)
-        
-        NotificationsManager.shared.sheduleNewNotification(request) { (error) in
-            if error == nil {
-                return
-            }
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

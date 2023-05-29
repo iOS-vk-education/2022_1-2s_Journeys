@@ -41,7 +41,7 @@ struct PlaceNotification {
         self.id = id
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
         guard let date = dateFormatter.date(from: dateString) else { return nil }
         self.date = date
         
@@ -54,7 +54,7 @@ struct PlaceNotification {
         dictionary[CodingKeys.id.rawValue] = id
 
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
         dictionary[CodingKeys.date.rawValue] = dateFormatter.string(from: date)
         
         dictionary[CodingKeys.contentTitle.rawValue] = contentTitle

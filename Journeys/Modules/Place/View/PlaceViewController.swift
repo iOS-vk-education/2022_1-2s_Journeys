@@ -35,7 +35,7 @@ final class PlaceViewController: UIViewController {
     
     private let notificationsDateLabel: UILabel = {
         let label = UILabel()
-        label.text = "Напомнить"
+        label.text = L10n.reming
         label.font = .systemFont(ofSize: 17, weight: .regular)
         label.isHidden = true
         return label
@@ -49,10 +49,21 @@ final class PlaceViewController: UIViewController {
         return datePicker
     }()
     
+    private let enableNotificationsLabel: UILabel = {
+        let label = UILabel()
+        label.text = L10n.youNeetToTurnTheApplicationNotificationOn
+        label.textColor = UIColor(asset: Asset.Colors.Text.secondaryTextColor)
+        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.numberOfLines = 0
+        label.isHidden = true
+        return label
+    }()
+    
     // MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        output?.viewDidLoad()
         setupView()
     }
     
@@ -95,7 +106,6 @@ final class PlaceViewController: UIViewController {
         setupTableView()
         setupNavBar()
         setupConstrains()
-        setSwitchValue()
     }
     
     private func setupTableView() {
@@ -113,6 +123,8 @@ final class PlaceViewController: UIViewController {
         
         view.addSubview(addNotificationLabel)
         view.addSubview(addNotificationSwitch)
+        
+        view.addSubview(enableNotificationsLabel)
         
         view.addSubview(notificationsDateLabel)
         view.addSubview(datePicker)
@@ -133,6 +145,12 @@ final class PlaceViewController: UIViewController {
             make.trailing.equalTo(tableView.snp.trailing)
             make.width.equalTo(60)
             make.height.equalTo(34)
+        }
+        
+        enableNotificationsLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(addNotificationSwitch.snp.bottom).offset(10)
+            make.width.equalToSuperview().inset(40)
         }
         
         notificationsDateLabel.snp.makeConstraints { make in
@@ -281,7 +299,9 @@ extension PlaceViewController: PlaceViewInput {
     }
     
     func setDatePickerDefaultValue(_ date: Date) {
-        datePicker.date = date
+        DispatchQueue.main.async { [weak self] in
+            self?.datePicker.date = date
+        }
     }
     
     func datePickerValue() -> Date {
@@ -289,6 +309,38 @@ extension PlaceViewController: PlaceViewInput {
     }
     func addNotificationSwitchValue() -> Bool {
         addNotificationSwitch.isOn
+    }
+    
+    func setNotificationsSwitchIsEnabled(_ value: Bool) {
+        DispatchQueue.main.async { [weak self] in
+            self?.addNotificationSwitch.isEnabled = value
+            if value, let switchValue = self?.output?.switchValue() {
+                self?.addNotificationSwitch.isOn = switchValue
+            } else {
+                self?.addNotificationSwitch.isOn = false
+            }
+        }
+    }
+    
+    func reloadData() {
+        DispatchQueue.main.async { [weak self] in
+            if self?.output?.isNotificationsSwitchEnabled() == false {
+                self?.disableNotificationsSwitch()
+                return
+            }
+            self?.enableNotificationsLabel.isHidden = true
+            self?.addNotificationSwitch.isEnabled = true
+            guard let switchValue = self?.output?.switchValue() else { return }
+            self?.addNotificationSwitch.isOn = switchValue
+            self?.output?.setupDateViews(switchValue: switchValue)
+        }
+    }
+    
+    func disableNotificationsSwitch() {
+        addNotificationSwitch.isOn = false
+        addNotificationSwitch.isEnabled = false
+        setNotificationDateViewsVisibility(to: false)
+        enableNotificationsLabel.isHidden = false
     }
 }
 

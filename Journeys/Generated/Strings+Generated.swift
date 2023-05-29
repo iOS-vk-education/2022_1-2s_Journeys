@@ -100,6 +100,8 @@ public enum L10n {
   public static var rateApp: String { return L10n.tr("Localizable", "RateApp") }
   /// Регистрация
   public static var registration: String { return L10n.tr("Localizable", "Registration") }
+  /// Напомнить
+  public static var reming: String { return L10n.tr("Localizable", "Reming") }
   /// Сбросить пароль
   public static var resetPassword: String { return L10n.tr("Localizable", "ResetPassword") }
   /// Маршрут

@@ -93,17 +93,20 @@ extension RouteModel: RouteModelInput {
         content.body = newNotification.contentBody
         content.badge = 1
         
-        // Configure the recurring date.
-        var dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: newNotification.date)
         // Create the trigger as a repeating event.
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        let seconds = newNotification.date.timeIntervalSince1970 - Date().timeIntervalSince1970
+        guard seconds > 0 else {
+            completion(nil)
+            return
+        }
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: seconds, repeats: false)
         
         // Create the request
         let request = UNNotificationRequest(identifier: uuidString,
                                             content: content,
                                             trigger: trigger)
         
-        NotificationsManager.shared.sheduleNewNotification(request) { (error) in
+        NotificationsManager.shared.notificationCenter.add(request) { (error) in
             if error == nil {
                 completion(newNotification)
                 return

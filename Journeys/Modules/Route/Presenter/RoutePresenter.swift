@@ -239,6 +239,10 @@ extension RoutePresenter: RouteModelOutput {
                                                           route: route)
         hideLoadingView()
     }
+    
+    func notificationDateMustBeFutureError() {
+        view?.showAlert(title: "Future date", message: "Error")
+    }
 }
 
 extension RoutePresenter: RouteModuleInput {

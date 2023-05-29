@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: scene)
         window?.initTheme()
-
+        
         let tabBarController = UITabBarController()
         tabBarController.setViewControllers([], animated: false)
         window?.rootViewController = tabBarController
@@ -31,7 +31,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let firebaseService = FirebaseService()
         coordinator = AppCoordinator(tabBarController: tabBarController, firebaseService: firebaseService)
-
+        
         coordinator?.start()
     }
     

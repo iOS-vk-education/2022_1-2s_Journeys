@@ -27,6 +27,7 @@
 "BuildRoute" = "Построить маршрут";
 "Delete" = "Удалить";
 "AddingTown" = "Добавление маршрута";
+"Reming" = "Напомнить";
 
 // MARK: Tabbar
 "Journeys" = "Путешествия";

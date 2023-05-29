@@ -12,7 +12,6 @@ import Foundation
 
 protocol SettingsViewOutput: AnyObject {
     func getDisplayData(for indexPath: IndexPath) -> SettingsCell.DisplayData
-    func getFooterText(for section: Int) -> String?
     func didSelectCell(at indexPath: IndexPath)
     func viewWillAppear()
     func didTapBackBarButton()
