@@ -42,6 +42,7 @@ final class TripsViewController: UIViewController {
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        output.viewDidLoad()
         output.viewWillAppear()
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         placeholderView.isHidden = true
@@ -50,10 +51,10 @@ final class TripsViewController: UIViewController {
         makeConstraints()
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        output.viewWillAppear()
-//    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        output.viewWillAppear()
+    }
 
     private func setupNavBar() {
         navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
@@ -342,15 +343,18 @@ extension TripsViewController: TransitionHandlerProtocol {
 }
 
 extension TripsViewController: TripCellDelegate {
-    func didTapEditButton(_ indexPath: IndexPath) {
+    func didTapEditButton(_ cell: TripCell) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
         output.didTapEditButton(at: indexPath)
     }
     
-    func didTapDeleteButton(_ indexPath: IndexPath) {
+    func didTapDeleteButton(_ cell: TripCell) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
         output.didTapDeleteButton(at: indexPath)
     }
     
-    func didTapBookmarkButton(_ indexPath: IndexPath) {
+    func didTapBookmarkButton(_ cell: TripCell) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
         output.didTapCellBookmarkButton(at: indexPath)
     }
 }

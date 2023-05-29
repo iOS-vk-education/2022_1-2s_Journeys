@@ -55,16 +55,20 @@ extension FirebaseService: FirebaseServiceObtainProtocol {
             }
             
             snapshot?.documentChanges.forEach { change in
-                guard let trip = Trip(from: change.document.data(), id: change.document.documentID) else { return }
                 switch change.type {
-                case .added:
-                    tripsModule.addedTrip(trip)
                 case .modified:
+                    guard let trip = Trip(from: change.document.data(),
+                                          id: change.document.documentID) else { return }
                     tripsModule.changedTrip(trip)
                 case .removed:
-                    tripsModule.deletedTrip(trip)
+                    guard let trip = Trip(from: change.document.data(),
+                                          id: change.document.documentID) else { return }
+                    tripsModule.deletTrip(trip: trip)
+                default:
+                    if tripsModule.isDataLoaded() {
+                        tripsModule.somethingWasChanged()
+                    }
                 }
-                tripsModule.didLoadAllUpdates()
             }
         }
     }

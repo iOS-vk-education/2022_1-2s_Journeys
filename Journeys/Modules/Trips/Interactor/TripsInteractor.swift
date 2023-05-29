@@ -133,7 +133,7 @@ extension TripsInteractor: TripsInteractorInput {
     }
     
     func storeTripData(trip: Trip, completion: @escaping () -> Void) {
-        FBService.storeTripData(trip: trip) { [weak self] result in
+        FBService.storeTripDataWithoutChangingDate(trip: trip) { [weak self] result in
             guard let strongSelf = self else { return }
             switch result {
             case .failure(let error):

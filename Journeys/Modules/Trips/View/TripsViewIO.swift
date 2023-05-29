@@ -35,6 +35,7 @@ protocol TripsViewInput: AnyObject {
 protocol TripsViewOutput: AnyObject {
     var tripsType: TripsType { get }
     
+    func viewDidLoad()
     func viewWillAppear()
     func refreshView()
     

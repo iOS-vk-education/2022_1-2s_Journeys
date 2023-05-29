@@ -82,6 +82,15 @@ struct Trip {
     }
 }
 
+extension Trip: Equatable {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.id == rhs.id
+        && lhs.routeId == rhs.routeId
+        && lhs.baggageId == rhs.baggageId
+        && lhs.dateChanged == rhs.dateChanged
+    }
+}
+
 struct TripWithRouteAndImage {
     let id: String?
     var imageURLString: String?
@@ -91,7 +100,6 @@ struct TripWithRouteAndImage {
     var baggageId: String
     var isInfavourites: Bool
     var dateChanged: Date
-    
     
     internal init(id: String?,
                   imageURLString: String?,
@@ -120,14 +128,5 @@ struct TripWithRouteAndImage {
         self.baggageId = trip.baggageId
         self.dateChanged = trip.dateChanged
         self.isInfavourites = trip.isInfavourites
-    }
-}
-
-extension TripWithRouteAndImage: Equatable {
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.id == rhs.id
-        && lhs.routeId == rhs.routeId
-        && lhs.baggageId == rhs.baggageId
-        && lhs.imageURLString == rhs.imageURLString
     }
 }
