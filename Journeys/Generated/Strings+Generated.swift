@@ -110,6 +110,8 @@ public enum L10n {
   public static var help: String { return L10n.tr("Localizable", "Help") }
   /// Информация
   public static var information: String { return L10n.tr("Localizable", "Information") }
+  /// Дата уведомления должна быть будущей
+  public static var invalidNotificationDate: String { return L10n.tr("Localizable", "InvalidNotificationDate") }
   /// Путешествия
   public static var journeys: String { return L10n.tr("Localizable", "Journeys") }
   /// Язык
@@ -166,6 +168,8 @@ public enum L10n {
   public static var rateApp: String { return L10n.tr("Localizable", "RateApp") }
   /// Регистрация
   public static var registration: String { return L10n.tr("Localizable", "Registration") }
+  /// Напомнить
+  public static var reming: String { return L10n.tr("Localizable", "Reming") }
   /// Сброс пароля
   public static var resetingPassword: String { return L10n.tr("Localizable", "ResetingPassword") }
   /// Сбросить пароль
@@ -212,6 +216,10 @@ public enum L10n {
   public static var unpacked: String { return L10n.tr("Localizable", "Unpacked") }
   /// Погода
   public static var weather: String { return L10n.tr("Localizable", "Weather") }
+  /// Вы направляетесь в город
+  public static var youGoToTown: String { return L10n.tr("Localizable", "YouGoToTown") }
+  /// У вас запланирована поездка
+  public static var youHavePlannedATrip: String { return L10n.tr("Localizable", "YouHavePlannedATrip") }
   /// Чтобы включить уведомления, разрешите их для приложения Journeys в настройках устройства (Настройки → Journeys → Уведомления → Допуск уведомлений)
   public static var youNeetToTurnTheApplicationNotificationOn: String { return L10n.tr("Localizable", "YouNeetToTurnTheApplicationNotificationOn") }
 

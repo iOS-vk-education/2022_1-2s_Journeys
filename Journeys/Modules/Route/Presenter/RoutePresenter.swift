@@ -131,7 +131,7 @@ extension RoutePresenter: RouteViewOutput {
     }
     
     func didTapFloatingSaveButton() {
-        guard let route = route else {
+        guard var route = route else {
             showAlert(error: .custom(title: nil, message:  L10n.Alerts.Messages.Route.enterDepartureTown))
             return
         }
@@ -146,7 +146,21 @@ extension RoutePresenter: RouteViewOutput {
             return
         }
         showLoadingView()
-        model.storeRouteData(route: route, tripImage: tripImage, tripId: tripId)
+        
+        if route.id != nil {
+            for index in 0..<route.places.count {
+                if !route.places[index].allowNotification,
+                   let notification = route.places[index].notification,
+                   notification.id != nil {
+                    model.deleteNotification(notification)
+                    route.places[index].notification = nil
+                }
+            }
+            model.saveNotifications(for: route) { [weak self] newRoute in
+                self?.route = newRoute
+                self?.model.storeRouteData(route: newRoute, tripImage: tripImage, tripId: tripId)
+            }
+        }
     }
     
     func didSelectRow(at indexpath: IndexPath) -> ((RouteViewController, UITableView)->())? {
@@ -214,9 +228,17 @@ extension RoutePresenter: RouteModelOutput {
                                                           route: route)
         hideLoadingView()
     }
+    
+    func notificationDateMustBeFutureError() {
+        showAlert(error: .custom(title: "Future date", message: "Error"))
+    }
 }
 
 extension RoutePresenter: RouteModuleInput {
+    func getTripId() -> String? {
+        trip?.id
+    }
+    
     func updateRouteDepartureLocation(location: Location) {
         if self.route != nil {
             self.route!.departureLocation = location

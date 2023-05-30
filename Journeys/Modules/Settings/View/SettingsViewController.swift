@@ -106,7 +106,6 @@ final class SettingsViewController: UIViewController {
 
 extension SettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard indexPath.section != 0 else { return }
         output?.didSelectCell(at: indexPath)
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -115,24 +114,12 @@ extension SettingsViewController: UITableViewDelegate {
 // MARK: UITableViewDataSource
 
 extension SettingsViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return output?.getFooterText(for: section)
-    }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         Constants.Cells.height
     }
 
-    func numberOfSections(in tableView: UITableView) -> Int {
-        Constants.Section.numberOfSections
-    }
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let section = Section.allCases[section]
-
-        switch section {
-        case .notifications: return Constants.Section.numberOfRowsInNotificationSection
-        case .other: return Constants.Section.numberOfRowsInOtherSection
-        }
+        Constants.Section.numberOfRowsInOtherSection
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

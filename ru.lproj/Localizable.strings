@@ -27,6 +27,10 @@
 "BuildRoute" = "Построить маршрут";
 "Delete" = "Удалить";
 "AddingTown" = "Добавление маршрута";
+"Reming" = "Напомнить";
+"YouGoToTown" = "Вы направляетесь в город";
+"InvalidNotificationDate" = "Дата уведомления должна быть будущей";
+"YouHavePlannedATrip" = "У вас запланирована поездка";
 
 // MARK: Tabbar
 "Journeys" = "Путешествия";

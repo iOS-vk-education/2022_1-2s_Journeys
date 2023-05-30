@@ -27,6 +27,10 @@
 "BuildRoute" = "Build route";
 "Delete" = "Delete";
 "AddingTown" = "Adding town";
+"Reming" = "Remind";
+"YouGoToTown" = "You have a trip to";
+"InvalidNotificationDate" = "Notification date should be in future";
+"YouHavePlannedATrip" = "You have planned a trip";
 
 // MARK: Tabbar
 "Journeys" = "Journeys";

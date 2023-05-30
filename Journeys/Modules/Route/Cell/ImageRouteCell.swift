@@ -40,9 +40,10 @@ final class ImageRouteCell: UITableViewCell {
     // MARK: Private functions
 
     private func setupCell() {
-       layer.cornerRadius = 20
-       layer.masksToBounds = false
-   }
+        layer.cornerRadius = 20
+        layer.masksToBounds = false
+        backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
+    }
     
     private func setupSubviews() {
         contentView.addSubview(picture)

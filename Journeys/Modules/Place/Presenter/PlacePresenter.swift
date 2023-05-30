@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 // MARK: - PlacePresenter
 
@@ -13,12 +14,14 @@ import Foundation
 final class PlacePresenter {
     
     // MARK: - Public Properties
-
-    weak var view: PlaceViewInput!
-    weak var moduleOutput: PlaceModuleOutput!
-    var model: PlaceModelInput!
+    
+    weak var view: PlaceViewInput?
+    weak var moduleOutput: PlaceModuleOutput?
+    var model: PlaceModelInput?
     
     weak var routeModule: RouteModuleInput?
+    private let notificationManager: NotificationsManagerProtocol = NotificationsManager.shared
+    private var areNotificationsEnabledAtIOSLevel: Bool?
     
     private var place: Place?
     private let placeIndex: Int
@@ -32,6 +35,23 @@ final class PlacePresenter {
         selectedStartDate = place?.arrive
         selectedEndDate = place?.depart
         self.routeModule = routeModuleInput
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(didBecomeAvtive),
+                                               name: UIApplication.didBecomeActiveNotification,
+                                               object: nil)
+    }
+    
+    private func setupNotifications() {
+        notificationManager.areNotificationsEnabledAtIOSLevel { [weak self] result in
+            self?.areNotificationsEnabledAtIOSLevel = result
+            self?.view?.reloadData()
+        }
+    }
+    
+    @objc
+    private func didBecomeAvtive() {
+        setupNotifications()
     }
 
     private func showAlert(error: Errors) {
@@ -44,6 +64,56 @@ extension PlacePresenter: PlaceModuleInput {
 }
 
 extension PlacePresenter: PlaceViewOutput {
+    
+    func viewDidLoad() {
+        setupNotifications()
+    }
+    
+    func isNotificationsSwitchEnabled() -> Bool? {
+        areNotificationsEnabledAtIOSLevel
+    }
+    
+    func areNotificationDateViewsVisible() -> Bool? {
+        if areNotificationsEnabledAtIOSLevel == true {
+            return place?.allowNotification
+        } else if areNotificationsEnabledAtIOSLevel == false {
+            return false
+        }
+        return nil
+    }
+    
+    func switchValue() -> Bool? {
+        if areNotificationsEnabledAtIOSLevel == true {
+            return place?.allowNotification
+        } else if areNotificationsEnabledAtIOSLevel == false {
+            return false
+        }
+        return nil
+    }
+    
+    func setupDateViews(switchValue: Bool) {
+        if areNotificationsEnabledAtIOSLevel == true {
+            if switchValue, let date = notificationDate() {
+                view?.setDatePickerDefaultValue(date)
+            }
+            view?.setNotificationDateViewsVisibility(to: switchValue)
+        } else {
+            view?.setNotificationDateViewsVisibility(to: false)
+        }
+
+    }
+    
+    func notificationDate() -> Date? {
+        if let notification = place?.notification {
+            return notification.date
+        } else if let arriveDate = place?.arrive,
+                  let date = Calendar.current.date(byAdding: .day, value: -1, to: arriveDate),
+                  let newDate = Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: date) {
+            return newDate
+        }
+        return nil
+    }
+    
     func getCalendarCellData() -> CalendarCell.DisplayData {
         return CalendarCell.DisplayData(arrivalDate: place?.arrive, departureDate: place?.depart)
     }
@@ -65,16 +135,16 @@ extension PlacePresenter: PlaceViewOutput {
     }
     
     func didTapExitButton() {
-        moduleOutput.placeModuleWantsToClose()
-
+        moduleOutput?.placeModuleWantsToClose()
+        
     }
     
     func didTapDoneButton() {
-        guard let countryCell = view.getCell(at: IndexPath(row: 0, section: 0)) as? LocationCell,
+        guard let view,
+              let countryCell = view.getCell(at: IndexPath(row: 0, section: 0)) as? LocationCell,
               let cityCell = view.getCell(at: IndexPath(row: 1, section: 0)) as? LocationCell else {
-            assertionFailure("Error while getting Place Data")
-                  return
-              }
+            return
+        }
         guard let country = countryCell.getTextFieldValue(),
               let city = cityCell.getTextFieldValue() else {
             showAlert(error: .custom(title: nil, message: L10n.fillTheCountryAndTownFields))
@@ -82,7 +152,6 @@ extension PlacePresenter: PlaceViewOutput {
         }
         
         guard let calendarCell = view.getCell(at: IndexPath(row: 0, section: 1)) as? CalendarCell else {
-            assertionFailure("Error while getting calendat Data")
             return
         }
         let dates = calendarCell.getDates()
@@ -95,14 +164,28 @@ extension PlacePresenter: PlaceViewOutput {
         place = Place(location: Location(country: country,
                                          city: city),
                       arrive: arrivaleDate,
-                      depart: departDate)
-        // TODO: finish save
-        guard let place = place else {
-            showAlert(error: .obtainDataError)
+                      depart: departDate,
+                      allowNotification: view.addNotificationSwitchValue())
+        guard var place = place else {
+            showAlert(error: .saveDataError)
             return
         }
+        
+        if view.addNotificationSwitchValue() {
+            if view.datePickerValue() < Date() {
+                showAlert(error: .custom(title: nil, message: L10n.invalidNotificationDate))
+                return
+            }
+            let notification = PlaceNotification(id: nil,
+                                                 date: view.datePickerValue(),
+                                                 placeForContent: place,
+                                                 tripId: routeModule?.getTripId())
+            place.notification = notification
+            self.place?.notification = notification
+        }
+        
         routeModule?.updateRoutePlaces(place: place, placeIndex: placeIndex)
-        moduleOutput.placeModuleWantsToClose()
+        moduleOutput?.placeModuleWantsToClose()
     }
     
     func userSelectedDateRange(range: [Date]) {

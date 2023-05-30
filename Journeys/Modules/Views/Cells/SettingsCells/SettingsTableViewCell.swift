@@ -20,7 +20,6 @@ protocol SettingsCellDelegate: AnyObject {
 final class SettingsCell: UITableViewCell {
     enum CellType {
         enum Settings: CaseIterable {
-            case notifications
             case style
             case language
             case help

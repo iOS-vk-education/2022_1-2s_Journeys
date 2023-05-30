@@ -52,6 +52,8 @@ final class RouteCell: UITableViewCell {
         contentView.addSubview(locationLabel)
         contentView.addSubview(icon)
         
+        backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
+        
         icon.contentMode = .scaleAspectFit
         makeConstraints()
     }

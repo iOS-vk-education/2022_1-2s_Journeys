@@ -14,6 +14,7 @@ final class StoreNewTrip {
     private var trip: Trip?
     private let tripImage: UIImage
     private let output: StoreNewTripOutput
+    private let tripId: String = UUID().uuidString
     
     private var stuffIds: [String]?
     private var stuff: [Stuff]?
@@ -47,14 +48,85 @@ final class StoreNewTrip {
     }
     
     private func didSaveImage(url: String) {
-        storeRoute(imageURL: url)
+        var newPlaces: [Place] = []
+        for place in route.places {
+            var newPlace = place
+            newPlace.notification?.tripId = tripId
+            newPlaces.append(newPlace)
+        }
+        let newRoute = Route(id: route.id,
+                      imageURLString: url,
+                      departureLocation: route.departureLocation,
+                      places: newPlaces)
+        
+        saveNotifications(for: newRoute) { [weak self] routeWithNotifications in
+            self?.route = routeWithNotifications
+            self?.storeRoute(routeWithNotifications)
+        }
     }
     
-    private func storeRoute(imageURL: String) {
-        route = Route(id: route.id,
-                      imageURLString: imageURL,
-                      departureLocation: route.departureLocation,
-                      places: route.places)
+    private func saveNotifications(for route: Route, completion: @escaping (Route) -> Void) {
+        var newRoute: Route = route
+        let notificationCenterQueue = DispatchQueue.global()
+        let notificationCenterDispatchGroup = DispatchGroup()
+        for (index, place) in newRoute.places.enumerated() {
+            // Schedule the request with the system.
+            
+            if let notification = place.notification {
+                
+                notificationCenterDispatchGroup.enter()
+                notificationCenterQueue.async(group: notificationCenterDispatchGroup, flags: .barrier) { [weak self] in
+                    self?.storeNotification(notification) { notification in
+                        if let notification {
+                            newRoute.places[index].notification = notification
+                        }
+                        notificationCenterDispatchGroup.leave()
+                    }
+                }
+            }
+        }
+        
+        notificationCenterDispatchGroup.notify(queue: notificationCenterQueue) {
+            completion(newRoute)
+        }
+    }
+    
+    private func storeNotification(_ notification: PlaceNotification,
+                                   completion: @escaping (PlaceNotification?) -> Void) {
+        var newNotification = notification
+        
+        let uuidString =  UUID().uuidString
+        newNotification.id = uuidString
+        
+        let content = UNMutableNotificationContent()
+        content.title = newNotification.contentTitle
+        content.body = newNotification.contentBody
+        content.userInfo = ["tripId": notification.tripId ?? ""]
+        content.badge = 1
+        
+        // Create the trigger as a repeating event.
+        let seconds = newNotification.date.timeIntervalSince1970 - Date().timeIntervalSince1970
+        guard seconds > 0 else {
+            completion(nil)
+            return
+        }
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: seconds, repeats: false)
+        
+        // Create the request
+        let request = UNNotificationRequest(identifier: uuidString,
+                                            content: content,
+                                            trigger: trigger)
+        
+        NotificationsManager.shared.notificationCenter.add(request) { (error) in
+            if error == nil {
+                completion(newNotification)
+                return
+            }
+            completion(nil)
+        }
+    }
+    
+    private func storeRoute(_ route: Route) {
         firebaseService.storeRouteData(route: route) { result in
             switch result {
             case .failure:
@@ -151,7 +223,7 @@ final class StoreNewTrip {
             didRecieveError()
             return
         }
-        let trip = Trip(id: nil, routeId: routeId, baggageId: baggage.id, dateChanged: Date())
+        let trip = Trip(id: tripId, routeId: routeId, baggageId: baggage.id, dateChanged: Date())
         storeTrip(trip: trip)
         storeStuff(baggageId: baggage.id, stuff: stuff)
     }

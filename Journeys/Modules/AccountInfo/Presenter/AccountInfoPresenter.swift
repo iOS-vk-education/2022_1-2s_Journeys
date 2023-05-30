@@ -88,6 +88,7 @@ final class AccountInfoPresenter {
         if authFlag == false, flag == true {
             loadData()
         } else if authFlag == true, flag == false {
+            NotificationsManager.shared.notificationCenter.removeAllPendingNotificationRequests()
             userData = nil
             view?.reloadData()
         }

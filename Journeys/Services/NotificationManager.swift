@@ -15,6 +15,10 @@ protocol NotificationsManagerProtocol {
     func hasUserEnabledNotifications(completion: @escaping (Bool) -> Void)
     func toggleNotifications(isOn: Bool, completion: @escaping (Bool) -> Void)
     func areNotificationsEnabledAtIOSLevel(completion: @escaping (Bool) -> Void)
+    
+    func deleteNotifications(with identifiers: [String])
+    func sheduleNewNotification(_ notificationRequest: UNNotificationRequest,
+                                completion: @escaping (Error?) -> Void)
 }
 
 // MARK: - NotificationsManager
@@ -22,15 +26,19 @@ protocol NotificationsManagerProtocol {
 final class NotificationsManager: NotificationsManagerProtocol {
     
     static let shared = NotificationsManager()
+    let notificationCenter = UNUserNotificationCenter.current()
     
     private enum Constants {
         static let key = "jrns.notifications.is.enabled"
     }
     
+    private init() {
+    }
+    
     private func askNotificationsPermission(completion: @escaping (Bool) -> Void) {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound], completionHandler: { granted, error in
+        notificationCenter.requestAuthorization(options: [.alert, .badge, .sound], completionHandler: { granted, error in
             if let error {
-                assertionFailure(error.localizedDescription)
+                completion(false)
                 return
             }
             guard granted else {
@@ -44,20 +52,24 @@ final class NotificationsManager: NotificationsManagerProtocol {
     }
     
     func areNotificationsEnabledAtIOSLevel(completion: @escaping (Bool) -> Void) {
-        UNUserNotificationCenter.current().getNotificationSettings { settings in
+        notificationCenter.getNotificationSettings { [weak self] settings in
             switch settings.authorizationStatus {
             case .authorized:
                 completion(true)
             case .denied:
                 completion(false)
+            case .notDetermined, .ephemeral, .provisional:
+                self?.askNotificationsPermission { result in
+                    completion(result)
+                }
             default:
                 completion(false)
             }
         }
     }
-
+    
     func hasUserEnabledNotifications(completion: @escaping (Bool) -> Void) {
-        areNotificationsEnabledAtIOSLevel()  { result in
+        areNotificationsEnabledAtIOSLevel  { result in
             guard result else {
                 completion(false)
                 return
@@ -65,14 +77,14 @@ final class NotificationsManager: NotificationsManagerProtocol {
             completion(UserDefaults.standard.bool(forKey: Constants.key))
         }
     }
-
+    
     func toggleNotifications(isOn: Bool, completion: @escaping (Bool) -> Void) {
         guard isOn else {
             UserDefaults.standard.set(false, forKey: Constants.key)
             completion(false)
             return
         }
-        UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
+        notificationCenter.getNotificationSettings { [weak self] settings in
             switch settings.authorizationStatus {
             case .authorized:
                 UserDefaults.standard.set(true, forKey: Constants.key)
@@ -87,5 +99,14 @@ final class NotificationsManager: NotificationsManagerProtocol {
                 completion(true)
             }
         }
+    }
+    
+    func deleteNotifications(with identifiers: [String]) {
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: identifiers)
+    }
+    
+    func sheduleNewNotification(_ notificationRequest: UNNotificationRequest,
+                                completion: @escaping (Error?) -> Void) {
+        notificationCenter.add(notificationRequest, withCompletionHandler: completion)
     }
 }

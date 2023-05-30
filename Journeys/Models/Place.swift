@@ -12,11 +12,23 @@ struct Place {
     var location: Location
     var arrive: Date
     var depart: Date
+    var allowNotification: Bool
+    var notification: PlaceNotification?
     
-    internal init(location: Location, arrive: Date, depart: Date) {
+    internal init(location: Location,
+                  arrive: Date,
+                  depart: Date,
+                  allowNotification: Bool? = nil,
+                  notification: PlaceNotification? = nil) {
         self.location = location
         self.arrive = arrive
         self.depart = depart
+        if let allowNotification {
+            self.allowNotification = allowNotification
+        } else {
+            self.allowNotification = notification != nil
+        }
+        self.notification = notification
     }
     
     init?(from dictionary: [String: Any]) {
@@ -29,7 +41,8 @@ struct Place {
         }
        
         guard
-            let location = Location(from: locationDict) else {
+            let location = Location(from: locationDict)
+                else {
             return nil
         }
         self.location = location
@@ -41,6 +54,13 @@ struct Place {
         self.arrive = arriveDate
         guard let departDate = dateFormatter.date(from: depart) else { return nil }
         self.depart = departDate
+        
+        self.allowNotification = false
+        if let notificationDict = dictionary[CodingKeys.notification.rawValue]  as? [String : Any],
+           let notification = PlaceNotification(from: notificationDict) {
+            self.notification = notification
+            self.allowNotification = true
+        }
     }
     
     func toDictionary() -> [String: Any] {
@@ -52,6 +72,10 @@ struct Place {
         
         dictionary[CodingKeys.arrive.rawValue] = dateFormatter.string(from: arrive)
         dictionary[CodingKeys.depart.rawValue] = dateFormatter.string(from: depart)
+        if let notification {
+            dictionary[CodingKeys.notification.rawValue] = notification.toDictionary()
+        }
+        
         return dictionary
     }
     
@@ -59,6 +83,7 @@ struct Place {
         case location
         case arrive
         case depart
+        case notification
     }
 }
 
