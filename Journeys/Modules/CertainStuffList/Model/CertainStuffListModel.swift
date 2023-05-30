@@ -53,6 +53,13 @@ extension CertainStuffListModel: CertainStuffListModelInput {
             if self?.didReceiveErrorWhileObtainingData == true {
                 self?.output?.didReceiveError(Errors.obtainDataError)
             }
+            var sortedStuff: [Stuff] = []
+            for id in ids {
+                if let curStuff = stuff.first(where: { $0.id == id }) {
+                    sortedStuff.append(curStuff)
+                }
+            }
+            stuff.sort(by: { $0.name ?? "" < $1.name ?? "" })
             self?.output?.didReceiveStuff(stuff)
         }
     }
@@ -71,7 +78,8 @@ extension CertainStuffListModel: CertainStuffListModelInput {
                         if self?.didReceiveErrorWhileSavingData == true {
                             self?.output?.didReceiveError(Errors.saveDataError)
                         }
-                        self?.output?.didSaveStuffList(stuffList: savedStuffList, stuff: savedStuff)
+                        let sortedStuff = savedStuff.sorted(by: { $0.name ?? "" < $1.name ?? "" })
+                        self?.output?.didSaveStuffList(stuffList: savedStuffList, stuff: sortedStuff)
                     }
                 }
             }

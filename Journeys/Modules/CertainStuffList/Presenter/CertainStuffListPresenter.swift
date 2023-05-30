@@ -227,7 +227,7 @@ extension CertainStuffListPresenter: CertainStuffListModelOutput {
     
     func didSaveStuffList(stuffList: StuffList, stuff: [Stuff]) {
         self.stuffList = stuffList
-        self.stuff = stuff
+//        self.stuff = stuff
         view?.reloadData()
         showAlert(error: .custom(title: nil, message: L10n.Alerts.Messages.saveSuccessful))
     }
