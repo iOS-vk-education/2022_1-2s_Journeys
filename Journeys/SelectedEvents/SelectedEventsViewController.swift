@@ -5,6 +5,13 @@
 //  Created by Ангелина Решетникова on 22.05.2023.
 //
 
+//
+//  SelectedEventsViewController.swift
+//  Journeys
+//
+//  Created by Ангелина Решетникова on 22.05.2023.
+//
+
 import Foundation
 import UIKit
 
@@ -14,6 +21,7 @@ final class SelectedEventsViewController: UIViewController {
     lazy var segmentControl:  UISegmentedControl =  {
         let segmentControl = UISegmentedControl(items: [L10n.favorites, L10n.created])
         segmentControl.layer.cornerRadius = 10
+        segmentControl.isHidden = true
         segmentControl.backgroundColor = UIColor(asset: Asset.Colors.BaseColors.similarToThemeColor)
         segmentControl.selectedSegmentIndex = 0
         segmentControl.addTarget(self, action: #selector(switchValueDidChange(sender:)), for: .valueChanged)
@@ -55,7 +63,7 @@ final class SelectedEventsViewController: UIViewController {
         collectionViewCreated.isHidden = true
         segmentControl.selectedSegmentIndex = 0
         setupCollectionView(collectionView: collectionViewFavorites)
-        segmentControl.frame = CGRect(x: 50.0, y: 70.0, width: view.bounds.width, height: 30.0)
+        segmentControl.frame = CGRect(x: 50.0, y: 55.0, width: view.bounds.width, height: 0)
         collectionViewCreated.addSubview(placeHolder2)
         collectionViewFavorites.addSubview(placeHolder1)
         makeConstraints()
@@ -88,12 +96,10 @@ final class SelectedEventsViewController: UIViewController {
     }
 
     private func makeConstraints() {
-        
-        segmentControl.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(10)
-            make.leading.equalToSuperview().inset(20)
-            make.trailing.equalToSuperview().inset(20)
+        placeHolder1.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
+
     }
 
     private func setupTapGestureRecognizer() {

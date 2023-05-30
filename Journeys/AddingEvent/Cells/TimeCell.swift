@@ -88,12 +88,8 @@ final class TimeCell: UICollectionViewCell {
         inputField.autoAlignAxis(toSuperviewAxis: .horizontal)
         inputField.autoPinEdge(toSuperviewSafeArea: .left, withInset: TimeCellConstants.horisontalIndentForAllSubviews)
     }
-    func configure(data: TimeCellDisplayData, date: String) {
+    func configure(data: TimeCellDisplayData) {
         inputField.text = data.text
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
-        guard let date = dateFormatter.date(from: date) else { return }
-        datePicker.setDate(date, animated: false)
     }
 }
     private extension TimeCell {

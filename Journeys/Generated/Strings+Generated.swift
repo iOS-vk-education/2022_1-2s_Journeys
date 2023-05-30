@@ -58,8 +58,12 @@ public enum L10n {
   public static var currency: String { return L10n.tr("Localizable", "Currency") }
   /// Удалить
   public static var delete: String { return L10n.tr("Localizable", "Delete") }
+  /// Удалить мероприятие
+  public static var deleteAnEvent: String { return L10n.tr("Localizable", "Delete an event") }
   /// Удалить аккаунт
   public static var deleteAccount: String { return L10n.tr("Localizable", "DeleteAccount") }
+  /// Вы уверены, что хотите удалиь мкроприятие?
+  public static var deleteAgree: String { return L10n.tr("Localizable", "deleteAgree") }
   /// Город отправления
   public static var departureTown: String { return L10n.tr("Localizable", "DepartureTown") }
   /// Описание отсутствует
@@ -74,6 +78,8 @@ public enum L10n {
   public static var duration: String { return L10n.tr("Localizable", "Duration:") }
   /// Редактировать
   public static var edit: String { return L10n.tr("Localizable", "Edit") }
+  /// Редактирование мероприятия
+  public static var editingAnEvent: String { return L10n.tr("Localizable", "Editing an event") }
   /// Email
   public static var email: String { return L10n.tr("Localizable", "Email") }
   /// Возникли проблемы с вашим Email адресом, перезайдите в аккаунт
@@ -134,6 +140,8 @@ public enum L10n {
   public static var newStuffList: String { return L10n.tr("Localizable", "NewStuffList") }
   /// Дальше
   public static var next: String { return L10n.tr("Localizable", "Next") }
+  /// Адрес отсутствует
+  public static var noAddress: String { return L10n.tr("Localizable", "No address") }
   /// Нет метео данных для выбранных городов или дат
   public static var noMeteoDataForPlacesOrDates: String { return L10n.tr("Localizable", "NoMeteoDataForPlacesOrDates") }
   /// Не выбрано мест пребывания

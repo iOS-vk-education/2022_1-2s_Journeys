@@ -18,6 +18,27 @@ final class AddingModel {
 }
 
 extension AddingModel: AddingModelInput {
+    func deleteLike(event: Event) {
+        service.deleteFavoritesData(eventId: event.userID) { [weak self]  error in
+            guard let self else { return }
+            if error != nil {
+                self.output?.didRecieveError(error: .deleteDataError)
+            }
+        }
+    }
+    
+    func deleteEvent(event: Event) {
+        service.deleteEventData(eventId: event.userID) { [weak self]  error in
+            guard let self else { return }
+            if error != nil {
+                self.output?.didRecieveError(error: .deleteDataError)
+            } else {
+                self.output?.didDeleteEvent()
+            }
+            
+        }
+    }
+    
     func storeEditing(event: Event, eventImage: UIImage) {
         service.storeAddingImage(image: eventImage) { result in
             switch result {
@@ -41,7 +62,7 @@ extension AddingModel: AddingModelInput {
                              room: event.room,
                              description: event.description,
                              isLiked: false,
-                             userID: "")
+                             userID: event.userID)
         service.storeEditingData(event: newEvent) { result in
             switch result {
             case .failure:
@@ -51,6 +72,7 @@ extension AddingModel: AddingModelInput {
             }
         }
     }
+    
 
     
 //MARK: - private functions

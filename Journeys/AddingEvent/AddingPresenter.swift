@@ -23,6 +23,7 @@ final class AddingPresenter {
     var eventImage: UIImage?
     var image: UIImage?
     var event: Event?
+    var post: Event?
     private var moduleType: ModuleType
     private let model: AddingModelInput
     init(view: AddingViewInput, model: AddingModelInput, coordinates: GeoPoint?, address: String?, event: Event?, moduleType: ModuleType, image: UIImage?) {
@@ -59,7 +60,7 @@ extension AddingPresenter: AddingViewOutput {
         case .adding:
             return L10n.createEvent
         case .editing:
-            return "Редактирование мероприятия"
+            return L10n.editingAnEvent
         }
     }
     
@@ -69,13 +70,17 @@ extension AddingPresenter: AddingViewOutput {
     func saveData(post: Event) {
         switch moduleType {
         case .adding:
+            self.post = post
             guard let coordinates = coordinates else { return }
             let eventCoordinates = Address.init(id: "", coordinates: coordinates)
             guard let placeholderImage =  UIImage(asset: Asset.Assets.noPhotoPlaceholder) else { return }
             model.createStory(coordinates: eventCoordinates, event: post, eventImage: eventImage ?? placeholderImage)
-        case .editing: return
+        case .editing:
+            self.post = post
             guard let placeholderImage =  UIImage(asset: Asset.Assets.noPhotoPlaceholder) else { return }
-            model.storeEditing(event: post, eventImage: eventImage ?? placeholderImage)
+            guard let event else { return }
+            model.deleteEvent(event: event)
+            model.deleteLike(event: event)
         }
     }
     func backToSuggestionVC() {
@@ -84,6 +89,12 @@ extension AddingPresenter: AddingViewOutput {
 }
 
 extension AddingPresenter: AddingModelOutput {
+    func didDeleteEvent() {
+        guard let post else { return }
+        guard let image else { return }
+        model.storeEditing(event: post, eventImage: image)
+    }
+    
     func didStoreImageData(url: String, event: Event, coordinatesId: String) {
     }
     

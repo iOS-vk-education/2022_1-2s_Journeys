@@ -85,7 +85,7 @@ final class EventsService: EventsServiceDescription {
         }
         var eventWithUserID = event
         eventWithUserID.userID = userID
-        ref = FBManager.firestore.collection("events").document(event.userID)
+        ref = FBManager.firestore.collection("events").document(userID)
         ref?.setData(eventWithUserID.toDictionary(userID: userID)) { error in
             if let error = error {
                 completion(.failure(error))

@@ -142,3 +142,33 @@
 
 "Alerts.Messages.DeleteSuccessful" = "Deleted successfully";
 "Alerts.Messages.SaveSuccessful" = "Saved successfully";
+
+"AddressSearch" = "Address Search";
+"CreateEvent" = "Creare Event";
+"To create an event you need to specify a more precise address" = "To create an event you need to specify a more precise address";
+"Apartment/office" = "Apartment/office";
+"Floor" = "Floor";
+"Photo" = "Photo";
+"Begin" = "Begin";
+"End" = "End";
+"Event Name" = "Event Name";
+"Type of event" = "Type of event";
+"Description of the event" = "Description of the event";
+"Link to the source" = "Link to the source";
+"Error" = "Error";
+"The date or time is incorrect" = "The date or time is incorrect";
+"DONE" = "DONE";
+"Sourse" = "Sourse";
+"Enter the address" = "Enter the address";
+"Tripple the address" = "Tripple the address";
+"Fill in: office, floor, name, type" = "Fill in: office, floor, name, type";
+"Not all required fields are filled" = "Not all required fields are filled";
+"Description is missing" = "Description is missing";
+"Created" = "Created";
+"Favorites" = "Favorites";
+"Duration:" = "Duration:";
+"From/to:" = "From/to:";
+"No address" = "No address";
+"Editing an event" = "Editing an event";
+"Delete an event" = "Delete an event";
+"deleteAgree" = "Are you sure you want to delete an event?";

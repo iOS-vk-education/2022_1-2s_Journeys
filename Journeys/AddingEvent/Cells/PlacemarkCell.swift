@@ -11,12 +11,12 @@ import SnapKit
 
 struct PlacemarkCellDisplayData {
     let placeholder: String
-    let text: String
 }
 
 final class PlacemarkCell: UICollectionViewCell {
+    var newText : String?
     
-    private let inputField: UITextField = {
+    private var inputField: UITextField = {
         let inpField = UITextField()
         return inpField
     }()
@@ -59,7 +59,7 @@ final class PlacemarkCell: UICollectionViewCell {
         
         setupColors()
         makeConstraints()
-        inputField.addTarget(self, action: #selector(editingBegan(_:)), for: .editingDidBegin)
+        inputField.addTarget(self, action: #selector(didFinistEditing), for: .editingDidEnd)
     }
     
     
@@ -79,13 +79,12 @@ final class PlacemarkCell: UICollectionViewCell {
         
     }
     
-    @objc func editingBegan(_ searchBar: UITextField) {
-        inputField.text = returnText()
+    @objc func didFinistEditing() {
+        newText = returnText()
     }
         
         func configure(data: PlacemarkCellDisplayData) {
             inputField.placeholder = data.placeholder
-            inputField.text = data.text
         }
     
     func returnText() -> String {

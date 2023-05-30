@@ -200,7 +200,7 @@ extension SelectedEventsPresenter: SelectedEventsViewOutput {
     }
     
     func didTapDeleteButton(at: IndexPath) {
-        view?.showChoiceAlert(title: "Удалить маршрут", message: "Вы уверены, что хотите удалиь маршрут?", agreeActionTitle: "Да", disagreeActionTitle: "Нет", cellIndexPath: at)
+        view?.showChoiceAlert(title: L10n.deleteAnEvent, message: L10n.deleteAgree, agreeActionTitle: "Да", disagreeActionTitle: "Нет", cellIndexPath: at)
     }
     
     func didTapCloseButton() {

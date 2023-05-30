@@ -135,6 +135,10 @@
 "Favorites" = "Избранные";
 "Duration:" = "Длительность:";
 "From/to:" = "С/до:";
+"No address" = "Адрес отсутствует";
+"Editing an event" = "Редактирование мероприятия";
+"Delete an event" = "Удалить мероприятие";
+"deleteAgree" = "Вы уверены, что хотите удалиь мкроприятие?";
 
 // MARK: FirebaseAuth errors
 "FirebaseAuth.Errors.EmailAlreadyInUse" = "Данный Email уже используется";
