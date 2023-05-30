@@ -59,11 +59,10 @@ extension RouteModel: RouteModelInput {
     
     func saveNotifications(for route: Route, completion: @escaping (Route) -> Void) {
         var newRoute: Route = route
+        let notificationCenterQueue = DispatchQueue.global()
+        let notificationCenterDispatchGroup = DispatchGroup()
         for (index, place) in newRoute.places.enumerated() {
             // Schedule the request with the system.
-            let notificationCenterQueue = DispatchQueue.global()
-            let notificationCenterDispatchGroup = DispatchGroup()
-            
             if let notification = place.notification {
                 
                 notificationCenterDispatchGroup.enter()
@@ -76,10 +75,9 @@ extension RouteModel: RouteModelInput {
                     }
                 }
             }
-            
-            notificationCenterDispatchGroup.notify(queue: notificationCenterQueue) {
-                completion(newRoute)
-            }
+        }
+        notificationCenterDispatchGroup.notify(queue: notificationCenterQueue) {
+            completion(newRoute)
         }
     }
     

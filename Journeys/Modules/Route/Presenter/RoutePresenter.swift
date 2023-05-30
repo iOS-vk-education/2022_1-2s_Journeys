@@ -22,8 +22,6 @@ final class RoutePresenter {
     let addNewCityCellsCount: Int = 1
     var arrivalCellsCount: Int = 0
     
-    private var didOpenTripInfo: Bool = false
-    
     var route: Route?
     var trip: TripWithRouteAndImage?
     var tripImage: UIImage?
@@ -220,11 +218,8 @@ extension RoutePresenter: RouteModelOutput {
             showAlert(error: .obtainDataError)
             return
         }
-        if !didOpenTripInfo {
-            didOpenTripInfo = true
-            moduleOutput.routeModuleWantsToOpenTripInfoModule(trip: Trip(tripWithOtherData: trip),
-                                                              route: route)
-        }
+        moduleOutput.routeModuleWantsToOpenTripInfoModule(trip: Trip(tripWithOtherData: trip),
+                                                          route: route)
         hideLoadingView()
     }
     
