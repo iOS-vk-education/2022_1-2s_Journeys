@@ -14,8 +14,9 @@ struct PlacemarkCellDisplayData {
 }
 
 final class PlacemarkCell: UICollectionViewCell {
+    var newText : String?
     
-    private let inputField: UITextField = {
+    private var inputField: UITextField = {
         let inpField = UITextField()
         return inpField
     }()
@@ -58,7 +59,7 @@ final class PlacemarkCell: UICollectionViewCell {
         
         setupColors()
         makeConstraints()
-        inputField.addTarget(self, action: #selector(editingBegan(_:)), for: .editingDidBegin)
+        inputField.addTarget(self, action: #selector(didFinistEditing), for: .editingDidEnd)
     }
     
     
@@ -78,10 +79,8 @@ final class PlacemarkCell: UICollectionViewCell {
         
     }
     
-    @objc func editingBegan(_ searchBar: UITextField) {
-        if isInFavourites == true {
-            
-        }
+    @objc func didFinistEditing() {
+        newText = returnText()
     }
         
         func configure(data: PlacemarkCellDisplayData) {

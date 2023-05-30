@@ -167,7 +167,7 @@ extension SettingsViewController: SettingsViewInput {
     }
     
     func openMailView() {
-        let recipientEmail = "nastyaisc@gmail.com"
+        let recipientEmail = "journeys.userhelp@gmail.com"
         let subject = L10n.Message.theme
         let body = L10n.Message.text
         

@@ -17,7 +17,9 @@ protocol AddingViewInput: AnyObject {
 protocol AddingViewOutput: AnyObject {
     func imageFromView(image: UIImage?)
     func saveData(post: Event)
-    func openEventsVC()
     func backToSuggestionVC()
     func displayAddress() -> String?
+    func displayEvent() -> Event?
+    func getTitle() -> String
+    func getImage() -> UIImage?
 }

@@ -83,7 +83,8 @@ extension AccountCoordinator: AccountModuleOutput {
     // TODO: accountModuleWantsToOpenStuffListsModule
     func accountModuleWantsToOpenStuffListsModule() {
         let builder = StuffListsModuleBuilder()
-        let stuffListsViewController = builder.build(firebaseService: firebaseService,
+        let stuffListsViewController = builder.build(moduleType: .usual,
+                                                     firebaseService: firebaseService,
                                                      moduleOutput: self)
         navigationController.pushViewController(stuffListsViewController, animated: true)
     }

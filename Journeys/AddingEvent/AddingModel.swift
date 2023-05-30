@@ -18,6 +18,63 @@ final class AddingModel {
 }
 
 extension AddingModel: AddingModelInput {
+    func deleteLike(event: Event) {
+        service.deleteFavoritesData(eventId: event.userID) { [weak self]  error in
+            guard let self else { return }
+            if error != nil {
+                self.output?.didRecieveError(error: .deleteDataError)
+            }
+        }
+    }
+    
+    func deleteEvent(event: Event) {
+        service.deleteEventData(eventId: event.userID) { [weak self]  error in
+            guard let self else { return }
+            if error != nil {
+                self.output?.didRecieveError(error: .deleteDataError)
+            } else {
+                self.output?.didDeleteEvent()
+            }
+            
+        }
+    }
+    
+    func storeEditing(event: Event, eventImage: UIImage) {
+        service.storeAddingImage(image: eventImage) { result in
+            switch result {
+            case .failure:
+                self.output?.didRecieveError(error: Errors.saveDataError)
+            case .success(let url):
+                self.didStoreImageDataCreated(url: url, event: event)
+            }
+        }
+    }
+    
+    func didStoreImageDataCreated(url: String, event: Event) {
+        let newEvent = Event(address: event.address,
+                             startDate: event.startDate,
+                             finishDate: event.finishDate,
+                             type: event.type,
+                             name: event.name,
+                             link: event.link,
+                             photoURL: url,
+                             floor: event.floor,
+                             room: event.room,
+                             description: event.description,
+                             isLiked: false,
+                             userID: event.userID)
+        service.storeEditingData(event: newEvent) { result in
+            switch result {
+            case .failure:
+                self.output?.didRecieveError(error: Errors.saveDataError)
+            case .success(let eventModel):
+                self.output?.didSaveAddingData(event: eventModel)
+            }
+        }
+    }
+    
+
+    
 //MARK: - private functions
 //MARK: - functions
     func storeAddingData(event: Event, eventImage: UIImage, coordinatesId: String) {
@@ -42,14 +99,14 @@ extension AddingModel: AddingModelInput {
                              floor: event.floor,
                              room: event.room,
                              description: event.description,
-                            isLiked: false)
-        service.storeAddingData(event: newEvent, coordinatesId: coordinatesId) { [weak self] result in
-            guard let strongSelf = self else { return }
+                             isLiked: false,
+                             userID: "")
+        service.storeAddingData(event: newEvent, coordinatesId: coordinatesId) { result in
             switch result {
             case .failure:
-                strongSelf.output?.didRecieveError(error: Errors.saveDataError)
-            case .success(let event):
-                strongSelf.output?.didSaveAddingData(event: event)
+                self.output?.didRecieveError(error: Errors.saveDataError)
+            case .success(let eventModel):
+                self.output?.didSaveAddingData(event: eventModel)
             }
         }
     }

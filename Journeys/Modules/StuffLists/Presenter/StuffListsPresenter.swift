@@ -12,17 +12,38 @@ import UIKit
 
 final class StuffListsPresenter {
     // MARK: - Public Properties
+    
+    enum ModuleType {
+        case usual
+        case stuffListsAdding(_ bagagge: Baggage, _ stuffModuleInput: StuffModuleInput)
+    }
 
     weak var view: StuffListsViewInput?
     weak var moduleOutput: StuffListsModuleOutput?
     private let model: StuffListsModelInput
     
-    private var stuffLists: [StuffList] = []
+    private let moduleType: ModuleType
     
+    private var stuffLists: [StuffList] = []
+    private var baggage: Baggage?
     private var isDataLoaded: Bool = false
+    
+    private var stuffModuleInput: StuffModuleInput?
 
-    init(model: StuffListsModelInput) {
+    init(model: StuffListsModelInput, moduleType: ModuleType) {
         self.model = model
+        self.moduleType = moduleType
+        switch moduleType {
+        case let .stuffListsAdding(baggage, stuffModuleInput):
+            self.baggage = baggage
+            self.stuffModuleInput = stuffModuleInput
+        default: break
+        }
+    }
+    
+    private func showAlert(error: Errors) {
+        guard let alertShowingVC = view as? AlertShowingViewController else { return }
+        askToShowErrorAlert(error, alertShowingVC: alertShowingVC)
     }
 }
 
@@ -31,6 +52,10 @@ extension StuffListsPresenter: StuffListsModuleInput {
 
 extension StuffListsPresenter: StuffListsViewOutput {
     func viewWillAppear() {
+        switch moduleType {
+        case .usual: view?.showNewStuffListButton()
+        default: break
+        }
         view?.reloadData()
         model.obtainStuffLists()
     }
@@ -41,7 +66,46 @@ extension StuffListsPresenter: StuffListsViewOutput {
     
     func didSelectCell(at indexPath: IndexPath) {
         guard stuffLists.count > indexPath.row else { return }
-        moduleOutput?.openCertainStuffListModule(for: stuffLists[indexPath.row])
+        switch moduleType {
+        case .usual:
+            moduleOutput?.openCertainStuffListModule(for: stuffLists[indexPath.row])
+        case .stuffListsAdding:
+            addOrDeleteStuffListFromBaggage(at: indexPath)
+        }
+    }
+    
+    private func addOrDeleteStuffListFromBaggage(at indexPath: IndexPath) {
+        guard let baggage else { return }
+        view?.setCollectionViewAllowsSelection(to: false)
+        if let stuffListId = stuffLists[indexPath.row].id,
+            baggage.addedStuffListsIDs.contains(stuffListId) {
+            deleteStuffListFromBagagge(baggage: baggage, stuffList: stuffLists[indexPath.row]) { [weak self] in
+                self?.view?.setCheckmarkVisibility(to: false, at: indexPath)
+                self?.view?.setCollectionViewAllowsSelection(to: true)
+                self?.stuffModuleInput?.didChangeBaggage()
+            }
+        } else {
+            addStuffListToBagagge(baggage: baggage, stuffList: stuffLists[indexPath.row]) { [weak self] in
+                self?.view?.setCheckmarkVisibility(to: true, at: indexPath)
+                self?.view?.setCollectionViewAllowsSelection(to: true)
+                self?.stuffModuleInput?.didChangeBaggage()
+            }
+        }
+    }
+    
+    private func addStuffListToBagagge(baggage: Baggage, stuffList: StuffList, completion: @escaping () -> Void) {
+        model.addStuffListToBaggage(baggage: baggage,
+                                    stuffList: stuffList) { [weak self] baggage in
+            self?.baggage = baggage
+            completion()
+        }
+    }
+    
+    private func deleteStuffListFromBagagge(baggage: Baggage, stuffList: StuffList, completion: @escaping () -> Void) {
+        model.deleteStuffListFromBaggage(baggage: baggage, stuffList: stuffList) { [weak self] baggage in
+            self?.baggage = baggage
+            completion()
+        }
     }
     
     func cellsCount(for section: Int) -> Int {
@@ -53,9 +117,20 @@ extension StuffListsPresenter: StuffListsViewOutput {
     
     func cellData(for indexPath: IndexPath) -> StuffListCell.Displaydata? {
         guard stuffLists.count > indexPath.row else { return nil }
+        var showCheckmark: Bool = false
+        switch moduleType {
+        case .stuffListsAdding:
+            guard let baggage else { return nil }
+            if let curStuffListId = stuffLists[indexPath.row].id,
+               baggage.addedStuffListsIDs.contains(curStuffListId) {
+                showCheckmark = true
+            }
+        default: break
+        }
         return StuffListCell.Displaydata(stuffListData: StuffListCell.StuffListData(title: stuffLists[indexPath.row].name,
                                          roundColor: stuffLists[indexPath.row].color.toUIColor()),
-                                         cellType: .usual)
+                                         cellType: .usual,
+                                         showCheckmark: showCheckmark)
     }
     
     func didTapNewStuffListButton() {
@@ -75,11 +150,21 @@ extension StuffListsPresenter: StuffListsModelOutput {
         }
     }
     
-    func didReceiveError(_ error: Error) {
+    func didReceiveError(_ error: Errors) {
+        view?.setCollectionViewAllowsSelection(to: true)
         if stuffLists.isEmpty {
             view?.embedPlaceholder()
         } else {
             view?.hidePlaceholder()
         }
+        showAlert(error: error)
     }
+    
+    func nothingToAdd() {
+        view?.setCollectionViewAllowsSelection(to: true)
+        showAlert(error: .custom(title: nil, message: L10n.nothingToAdd))
+    }
+}
+
+extension StuffListsPresenter: AskToShowAlertProtocol {
 }

@@ -86,6 +86,8 @@ final class TripCell: UICollectionViewCell {
         routeLabel.text = nil
         
         setAllSubviewsAlphaToZero()
+        
+        setupSkeleton()
     }
 
 
@@ -118,7 +120,7 @@ final class TripCell: UICollectionViewCell {
         setAllSubviewsAlphaToZero()
     }
     
-    func makeSkeletonConstraints() {
+    private func makeSkeletonConstraints() {
         contentView.addSubview(pictureEmptyViewForSkeletonLayer)
         pictureEmptyViewForSkeletonLayer.snp.makeConstraints { make in
             make.edges.equalTo(picture.snp.edges)

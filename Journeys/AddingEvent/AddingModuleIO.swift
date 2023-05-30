@@ -4,7 +4,6 @@
 //
 //  Created by Ангелина Решетникова on 25.04.2023.
 //
-
 protocol AddingModuleInput: AnyObject {
 }
 
@@ -13,4 +12,6 @@ protocol AddingModuleInput: AnyObject {
 protocol AddingModuleOutput: AnyObject {
     func wantsToOpenEventsVC()
     func backToSuggestionVC()
+    func closeOpenSingleEventVCIfExists()
+    func wantsToOpenCreatedVC()
 }

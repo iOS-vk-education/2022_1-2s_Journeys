@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 
 final class JourneysCoordinator: CoordinatorProtocol {
+    
 
     // MARK: Private Properties
 
@@ -22,7 +23,8 @@ final class JourneysCoordinator: CoordinatorProtocol {
 
     let lock = NSLock()
     private let loadingViewGroup = DispatchGroup()
-    init(rootTabBarController: UITabBarController, firebaseService: FirebaseServiceProtocol) {
+    init(rootTabBarController: UITabBarController,
+         firebaseService: FirebaseServiceProtocol) {
         self.rootTabBarController = rootTabBarController
         self.firebaseService = firebaseService
         tabBarItemFactory = TabBarItemFactory()
@@ -32,9 +34,9 @@ final class JourneysCoordinator: CoordinatorProtocol {
 
     func start() {
         let builder = TripsModuleBuilder()
-        let viewController = builder.build(firebaseService: self.firebaseService, output: self)
+        let viewController = builder.build(firebaseService: firebaseService, output: self)
         
-        self.navigationController.setViewControllers([viewController], animated: false)
+        navigationController.setViewControllers([viewController], animated: false)
         navigationController.tabBarItem = tabBarItemFactory.getTabBarItem(from: TabBarPage.journeys)
         
         var controllers = rootTabBarController.viewControllers
@@ -139,11 +141,67 @@ extension JourneysCoordinator: PlaceModuleOutput {
 }
 
 extension JourneysCoordinator: TripInfoModuleOutput {
+    func openAddStuffListModule(baggage: Baggage, stuffModuleInput: StuffModuleInput) {
+        let builder = StuffListsModuleBuilder()
+        let stuffListsViewController = builder.build(moduleType: .stuffListsAdding(baggage, stuffModuleInput),
+                                                     firebaseService: firebaseService,
+                                                     moduleOutput: self)
+        if let sheet = stuffListsViewController.sheetPresentationController {
+            sheet.detents = [.medium(), .large()]
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+            sheet.prefersGrabberVisible = true
+            sheet.preferredCornerRadius = 28
+        }
+        navigationController.present(stuffListsViewController, animated: true)
+    }
     // TODO: openEventsModule func after pull request #30 merge
     func openEventsModule(with coordinates: Coordinates) {
+        let eventsModuleBuilder = EventsModuleBuilder()
+
+        let eventsViewController = eventsModuleBuilder.build(output: self, latitude: coordinates.latitude, longitude: coordinates.longitude, zoom: 10, showSaveButton: false)
+        navigationController.pushViewController(eventsViewController, animated: true)
     }
     
     func tripInfoModuleWantsToClose() {
         navigationController.popToViewController(navigationController.viewControllers[0], animated: true)
     }
+}
+
+extension JourneysCoordinator: StuffListsModuleOutput {
+    func closeStuffListsModule() {
+        navigationController.popViewController(animated: true)
+    }
+    
+    func openCertainStuffListModule(for stuffList: StuffList?) {
+        return
+    }
+}
+
+extension JourneysCoordinator: EventsModuleOutput {
+    func wantsToOpenSelectedEvents() {
+    }
+    
+    func wantsToOpenAddEventVC() {
+    }
+    
+    func wantsToOpenSingleEventVC(id: String) {
+        let builder = SingleEventModuleBuilder()
+
+        let viewController = builder.build(output: self, id: id)
+        if let sheet = viewController.sheetPresentationController {
+            sheet.detents = [.medium(), .large()]
+            sheet.largestUndimmedDetentIdentifier = .medium
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = true
+            sheet.prefersGrabberVisible = true
+        }
+        
+        navigationController.present(viewController, animated: true, completion: nil)
+    }
+    
+    func closeOpenSingleEventVCIfExists() {
+        navigationController.dismiss(animated: true)
+    }
+}
+
+extension JourneysCoordinator: SingleEventModuleOutput {
 }

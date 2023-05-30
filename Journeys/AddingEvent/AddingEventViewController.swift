@@ -1,4 +1,5 @@
 
+
 import UIKit
 import FirebaseFirestore
 
@@ -24,6 +25,8 @@ final class AddingEventViewController: UIViewController {
         setupFloatingAddButton()
         makeConstraints()
     }
+    
+    private let loadingView = LoadingView()
     
     private func setupNavBar() {
         navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
@@ -52,6 +55,17 @@ final class AddingEventViewController: UIViewController {
         let date2 = formatter.string(from: endDate)
         return (date1, date2)
     }
+    
+    func showLoadingView() {
+         view.addSubview(loadingView)
+         loadingView.snp.makeConstraints { make in
+             make.top.equalToSuperview()
+             make.bottom.equalToSuperview()
+             make.leading.equalToSuperview()
+             make.trailing.equalToSuperview()
+         }
+         view.bringSubviewToFront(loadingView)
+     }
 
     @objc
     func didTapReadyButton() {
@@ -67,13 +81,13 @@ final class AddingEventViewController: UIViewController {
         let eventTypeCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 4)) as? PlacemarkCell
         let eventType = eventTypeCell?.returnText()
 
-        guard let calendarCellBegin = collectionView.cellForItem(at: IndexPath(row: 0, section: 5)) as? TimeCell else {
+        guard let calendarCellBegin = collectionView.cellForItem(at: IndexPath(row: 0, section: 6)) as? TimeCell else {
             assertionFailure("Error while getting time")
             return
         }
         let startDate = calendarCellBegin.selectedDate()
 
-        guard let calendarCellEnd = collectionView.cellForItem(at: IndexPath(row: 0, section: 6)) as? TimeCell else {
+        guard let calendarCellEnd = collectionView.cellForItem(at: IndexPath(row: 0, section: 7)) as? TimeCell else {
             assertionFailure("Error while getting time")
             return
         }
@@ -86,10 +100,10 @@ final class AddingEventViewController: UIViewController {
         }
         let (startDateStr, endDateStr) = formatDate(startDate: startDate, endDate: endDate)
 
-        let eventDescriptionCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 7)) as? DescriptionCell
+        let eventDescriptionCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 8)) as? DescriptionCell
         let eventDescription = eventDescriptionCell?.returnText()
 
-        let eventUrlCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 9)) as? PlacemarkCell
+        let eventUrlCell = collectionView.cellForItem(at: IndexPath(row: 0, section: 5)) as? PlacemarkCell
         let eventUrl = eventUrlCell?.returnText()
         
         if floor == "" || ofice == "" || eventName == "" || eventType == "" {
@@ -98,6 +112,7 @@ final class AddingEventViewController: UIViewController {
             present(alert, animated: true, completion: nil)
             return
         }
+        showLoadingView()
         let post: Event = Event.init(address: self.address(),
                                      startDate: startDateStr,
                                      finishDate: endDateStr,
@@ -108,10 +123,9 @@ final class AddingEventViewController: UIViewController {
                                      floor: floor ?? " ",
                                      room: ofice ?? " ",
                                      description: eventDescription ?? " ",
-                                     isLiked: false)
+                                     isLiked: false, userID: "")
 
         output?.saveData(post: post)
-        output?.openEventsVC()
     }
 
     private func setupCollectionView() {
@@ -170,7 +184,7 @@ extension AddingEventViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if indexPath.section == 7 || indexPath.section == 8 {
+        if indexPath.section == 8 || indexPath.section == 9 {
             return AddingConstants.photoCellSize
         } else {
             return AddingConstants.tripCellSize
@@ -262,7 +276,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
                 placeholder: L10n.typeOfEvent))
             cell = placemarkCell
         }
-        if indexPath.section == 5 {
+        if indexPath.section == 6 {
             guard let placemarkCell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "TimeCell",
                 for: indexPath
@@ -272,7 +286,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
             placemarkCell.configure(data: TimeCellDisplayData(text: L10n.begin))
             cell = placemarkCell
         }
-        if indexPath.section == 6 {
+        if indexPath.section == 7 {
             guard let placemarkCell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "TimeCell",
                 for: indexPath
@@ -283,7 +297,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
             cell = placemarkCell
         }
 
-        if indexPath.section == 8 {
+        if indexPath.section == 9 {
             guard let placemarkCell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "ImageEventCell",
                 for: indexPath
@@ -293,7 +307,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
             placemarkCell.configure(delegate: self)
             cell = placemarkCell
         }
-        if indexPath.section == 7 {
+        if indexPath.section == 8 {
             guard let placemarkCell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "DescriptionCell",
                 for: indexPath
@@ -303,7 +317,7 @@ extension AddingEventViewController: UICollectionViewDataSource {
             placemarkCell.configure(isEditable: true, cornerRadius: 10, text: "")
             cell = placemarkCell
         }
-        if indexPath.section == 9 {
+        if indexPath.section == 5 {
             guard let placemarkCell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "PlacemarkCell",
                 for: indexPath
@@ -339,7 +353,7 @@ extension AddingEventViewController: ImageEventCellDelegate {
 extension AddingEventViewController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 8)) as? ImageEventCell
+            let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 9)) as? ImageEventCell
             
             cell?.configureAddPhotoButton(image: editedImage)
             output?.imageFromView(image: editedImage)

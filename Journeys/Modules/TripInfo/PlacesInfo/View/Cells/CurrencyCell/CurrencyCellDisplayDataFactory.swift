@@ -14,7 +14,7 @@ protocol CurrencyCellDisplayDataFactoryProtocol: AnyObject {
 final class CurrencyCellDisplayDataFactory: CurrencyCellDisplayDataFactoryProtocol {
     func displayData(locationsWithCurrencyRate: LocationsWithCurrencyRate) -> CurrencyCell.DisplayData {
         let title = locationsWithCurrencyRate.locations
-            .compactMap( { $0.city } ).joined(separator: ", ")
+            .compactMap({ $0.city }).joined(separator: ", ")
         return CurrencyCell.DisplayData(title: title,
                                         currentCurrencyAmount: String(locationsWithCurrencyRate.currencyRate.oldAmount)
             .replacingOccurrences(of: ".", with: ","),

@@ -120,6 +120,10 @@ final class StuffCell: UITableViewCell {
         isPacked.toggle()
         configureButton()
     }
+    
+    func setCellIndexPath(_ indexPath: IndexPath) {
+        self.indexPath = indexPath
+    }
 
     func configure(data: DisplayData, indexPath: IndexPath, delegate: StuffCellDelegate? = nil) {
         emojiTextField.text = data.stuffData.emoji

@@ -9,7 +9,7 @@ import UIKit
 
 // MARK: - StuffListsViewController
 
-final class StuffListsViewController: UIViewController {
+final class StuffListsViewController: AlertShowingViewController {
     
     // MARK: Private properties
     private lazy var collectionView: UICollectionView = {
@@ -21,7 +21,7 @@ final class StuffListsViewController: UIViewController {
     private lazy var newStuffListFloatingButton: FloatingButton = {
         let button = FloatingButton()
         button.backgroundColor = UIColor(asset: Asset.Colors.BaseColors.contrastToThemeColor)
-        button.configure(title: L10n.addStuffList)
+        button.configure(title: L10n.newStuffList)
         button.addTarget(self, action: #selector(didTapNewStuffListButton), for: .touchUpInside)
         view.addSubview(button)
         return button
@@ -43,6 +43,7 @@ final class StuffListsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        newStuffListFloatingButton.isHidden = true
         output?.viewWillAppear()
     }
 
@@ -141,6 +142,19 @@ extension StuffListsViewController: StuffListsViewInput {
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.reloadData()
         }
+    }
+    
+    func setCollectionViewAllowsSelection(to value: Bool) {
+        collectionView.allowsSelection = value
+    }
+    
+    func showNewStuffListButton() {
+        newStuffListFloatingButton.isHidden = false
+    }
+    
+    func setCheckmarkVisibility(to value: Bool, at indexPath: IndexPath) {
+        guard let stuffListCell = collectionView.cellForItem(at: indexPath) as? StuffListCell else { return }
+        stuffListCell.setCheckmarkVisibility(to: value)
     }
 }
 

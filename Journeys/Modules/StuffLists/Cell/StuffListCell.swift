@@ -22,6 +22,15 @@ final class StuffListCell: UICollectionViewCell {
     struct Displaydata {
         let stuffListData: StuffListData
         let cellType: CellType
+        let showCheckmark: Bool
+        
+        internal init(stuffListData: StuffListCell.StuffListData,
+                      cellType: StuffListCell.CellType,
+                      showCheckmark: Bool = false) {
+            self.stuffListData = stuffListData
+            self.cellType = cellType
+            self.showCheckmark = showCheckmark
+        }
     }
     
     struct StuffListData {
@@ -41,6 +50,13 @@ final class StuffListCell: UICollectionViewCell {
     private let titleTextFieldEmptyViewForSkeletonLayer = UIView()
     private let titleTextFieldLayer = CAGradientLayer()
     
+    private let checkmarkImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "checkmark")
+        imageView.tintColor = UIColor(asset: Asset.Colors.BaseColors.contrastToThemeColor)
+        return imageView
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupCell()
@@ -59,6 +75,7 @@ final class StuffListCell: UICollectionViewCell {
         coloredRoundView.backgroundColor = nil
         titleTextFieldLayer.isHidden = false
         titleTextFieldEmptyViewForSkeletonLayer.isHidden = false
+        checkmarkImageView.isHidden = true
         setAllSubviewsAlphaToZero()
     }
     
@@ -86,6 +103,10 @@ final class StuffListCell: UICollectionViewCell {
         titleTextFieldLayer.cornerRadius = titleTextFieldLayer.bounds.height / 2
     }
     
+    func setCheckmarkVisibility(to value: Bool) {
+        checkmarkImageView.isHidden = !value
+    }
+    
     func changeColoredViewColor(to color: UIColor) {
         coloredRoundView.backgroundColor = color
     }
@@ -108,6 +129,8 @@ final class StuffListCell: UICollectionViewCell {
             titleTextField.isUserInteractionEnabled = true
             addColorRoundViewInteractions()
         }
+        
+        checkmarkImageView.isHidden = !data.showCheckmark
         
         titleTextFieldLayer.isHidden = true
         titleTextFieldEmptyViewForSkeletonLayer.isHidden = true
@@ -133,6 +156,7 @@ final class StuffListCell: UICollectionViewCell {
     private func setupSubviews() {
         setAllSubviewsAlphaToZero()
         titleTextField.autocorrectionType = .no
+        checkmarkImageView.isHidden = true
         
         makeConstraints()
         setupSkeletons()
@@ -152,6 +176,7 @@ final class StuffListCell: UICollectionViewCell {
         contentView.addSubview(titleTextField)
         contentView.addSubview(titleTextFieldEmptyViewForSkeletonLayer)
         titleTextFieldEmptyViewForSkeletonLayer.layer.addSublayer(titleTextFieldLayer)
+        contentView.addSubview(checkmarkImageView)
         
         coloredRoundView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
@@ -165,6 +190,13 @@ final class StuffListCell: UICollectionViewCell {
             make.leading.equalTo(coloredRoundView.snp.trailing).offset(Constants.TitleTextField.leadingInset)
             make.trailing.lessThanOrEqualToSuperview().inset(Constants.TitleTextField.trailingInset)
         }
+        
+        checkmarkImageView.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.equalToSuperview().inset(Constants.CheckmarkImageView.trailingInset)
+            make.height.equalTo(Constants.CheckmarkImageView.height)
+            make.width.equalTo(Constants.CheckmarkImageView.width)
+        }
     }
     
     private func addColorRoundViewInteractions() {
@@ -177,11 +209,13 @@ final class StuffListCell: UICollectionViewCell {
     private func setAllSubviewsAlphaToZero() {
         coloredRoundView.alpha = 0
         titleTextField.alpha = 0
+        checkmarkImageView.alpha = 0
     }
     
     private func setSubviewsAlphaToOne() {
         coloredRoundView.alpha = 1
         titleTextField.alpha = 1
+        checkmarkImageView.alpha = 1
     }
     
     @objc
@@ -205,6 +239,12 @@ private extension StuffListCell {
         enum TitleTextField {
             static let leadingInset: CGFloat = 16
             static let trailingInset: CGFloat = 16
+        }
+        
+        enum CheckmarkImageView {
+            static let trailingInset: CGFloat = RoundView.leadingInset
+            static let height: CGFloat = 20
+            static let width: CGFloat = 20
         }
     }
 }

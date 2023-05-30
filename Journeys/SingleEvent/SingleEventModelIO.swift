@@ -12,6 +12,9 @@ import UIKit
 
 protocol SingleEventModelInput: AnyObject {
     func loadEvent(eventId: String)
+    func setLike(eventId: String, event: Event)
+    func removeLike(eventId: String)
+    func checkLike(completion: @escaping (Result<[Event], Error>) -> Void)
 }
 
 // MARK: - Place ModuleOutput
@@ -20,4 +23,5 @@ protocol SingleEventModelOutput: AnyObject {
     func didRecieveError(error: Errors)
     func didRecieveData(event: Event)
     func didReciveImage(image: UIImage)
+    func didResiveLikeTrue()
 }

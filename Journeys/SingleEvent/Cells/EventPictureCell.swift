@@ -25,7 +25,7 @@ final class EventPictureCell: UICollectionViewCell {
     }()
     
     private let pictureEmptyViewForSkeletonLayer = UIView()
-        private let pictureLayer = CAGradientLayer()
+    private let pictureLayer = CAGradientLayer()
     
     private var indexPath: IndexPath?
 

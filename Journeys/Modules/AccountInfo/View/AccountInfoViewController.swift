@@ -12,6 +12,7 @@ import UIKit
 final class AccountInfoViewController: ViewControllerWithDimBackground {
     
     // MARK: Private properties
+    
     private lazy var tableView: UITableView = .init(frame: CGRect.zero, style: .insetGrouped)
     
     private lazy var saveFloatingButton: FloatingButton = {
@@ -37,6 +38,16 @@ final class AccountInfoViewController: ViewControllerWithDimBackground {
         button.setTitleColor(.red, for: .normal)
         button.setTitle(L10n.deleteAccount, for: .normal)
         button.addTarget(self, action: #selector(didTapDeleteAccountButton), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var resetPasswordButton: UIButton = {
+        let button = UIButton()
+        button.tintColor = .none
+        button.setTitleColor(.red, for: .normal)
+        button.setTitle(L10n.resetPassword, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 12)
+        button.addTarget(self, action: #selector(didTapResetPasswordButton), for: .touchUpInside)
         return button
     }()
     
@@ -67,7 +78,6 @@ final class AccountInfoViewController: ViewControllerWithDimBackground {
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
-
         
         setupNavBar()
         setupTableView()
@@ -89,7 +99,7 @@ final class AccountInfoViewController: ViewControllerWithDimBackground {
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-
+        
         tableView.allowsSelection = false
         tableView.backgroundColor = backgroundView.backgroundColor
         tableView.separatorColor = tableView.backgroundColor
@@ -106,9 +116,10 @@ final class AccountInfoViewController: ViewControllerWithDimBackground {
     private func registerCell() {
         tableView.register(AccountInfoCell.self, forCellReuseIdentifier: "AccountInfoCell")
     }
-
+    
     private func makeConstraints() {
         view.addSubview(tableView)
+        view.addSubview(resetPasswordButton)
         view.addSubview(saveFloatingButton)
         view.addSubview(exitButton)
         view.addSubview(deleteAccountButton)
@@ -125,9 +136,14 @@ final class AccountInfoViewController: ViewControllerWithDimBackground {
             make.height.equalTo(tableViewHeight)
         }
         
+        resetPasswordButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(20)
+            make.top.equalTo(tableView.snp.bottom).offset(10)
+        }
+        
         exitButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(tableView.snp.bottom).offset(Constants.ExitButton.topOffsetFromTableView)
+            make.top.equalTo(resetPasswordButton.snp.bottom).offset(10)
             make.width.equalTo(Constants.ExitButton.width)
             make.height.equalTo(Constants.ExitButton.height)
         }
@@ -160,6 +176,11 @@ final class AccountInfoViewController: ViewControllerWithDimBackground {
     @objc
     private func didTapSaveButton() {
         output?.didTapSaveButton()
+    }
+    
+    @objc
+    private func didTapResetPasswordButton() {
+        output?.didTapResetPasswordButton()
     }
     
     @objc
@@ -221,28 +242,25 @@ extension AccountInfoViewController: AccountInfoViewInput {
         }
     }
     
-    func showAlert(title: String,
-                   message: String,
-                   textFieldPlaceholder: String?) {
+    func showPasswordAlert(title: String?,
+                           message: String,
+                           textFieldPlaceholder: String) {
         let alert = UIAlertController(title: title,
                                       message: message,
                                       preferredStyle: .alert)
-        if let textFieldPlaceholder {
-            alert.addTextField { (textField) in
-                textField.placeholder = textFieldPlaceholder
-                textField.isSecureTextEntry = true
-            }
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-            alert.addAction(UIAlertAction(title: "Delete", style: .destructive){ [weak self, weak alert] (_) in
-                guard let textField = alert?.textFields?[0],
-                      let self else { return }
-                self.output?.deleteAccount(with: textField.text ?? "")
-            })
-        } else {
-            alert.addAction(UIAlertAction(title: "Ok", style: .default))
+        alert.addTextField { (textField) in
+            textField.placeholder = textFieldPlaceholder
+            textField.isSecureTextEntry = true
         }
+        alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
+        alert.addAction(UIAlertAction(title: L10n.delete, style: .destructive){ [weak self, weak alert] (_) in
+            guard let textField = alert?.textFields?[0],
+                  let self else { return }
+            self.output?.deleteAccount(with: textField.text ?? "")
+        })
         present(alert, animated: true)
     }
+    
     func cellValue(for indexPath: IndexPath) -> String? {
         guard let cell = tableView.cellForRow(at: indexPath) as? AccountInfoCell
         else { return nil }

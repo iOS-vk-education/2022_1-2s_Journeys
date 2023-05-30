@@ -37,10 +37,6 @@ final class EventsPresenter {
     func didLoadView() {
         loadData()
     }
-    
-    func didTapFavouritesButton() {
-        print("Favourites button was tapped")
-    }
 
 }
 
@@ -78,6 +74,10 @@ extension EventsPresenter: EventsViewOutput {
     
     func didTapOnPlacemark(id: String) {
         moduleOutput?.wantsToOpenSingleEventVC(id: id)
+    }
+
+    func didTapFavouritesButton() {
+        moduleOutput?.wantsToOpenSelectedEvents()
     }
 }
 

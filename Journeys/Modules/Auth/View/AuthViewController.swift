@@ -230,9 +230,10 @@ extension AuthViewController: AuthViewInput {
         tabBarController?.tabBar.items?.forEach { $0.isEnabled = true }
     }
     
-    func showAlert(title: String,
-                   message: String,
-                   textFieldPlaceholder: String? = nil) {
+    func showAlert(title: String?,
+                   message: String?,
+                   textFieldPlaceholder: String? = nil,
+                   autoClose: Bool) {
         let alert = UIAlertController(title: title,
                                       message: message,
                                       preferredStyle: .alert)
@@ -240,16 +241,31 @@ extension AuthViewController: AuthViewInput {
             alert.addTextField { (textField) in
                 textField.placeholder = textFieldPlaceholder
             }
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-            alert.addAction(UIAlertAction(title: "Next", style: .default){ [weak self, weak alert] (_) in
+            alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel))
+            alert.addAction(UIAlertAction(title: L10n.next, style: .default) { [weak self, weak alert] (_) in
                 guard let textField = alert?.textFields?[0],
                       let self else { return }
                 self.output?.emailForReset(textField.text)
             })
-        } else {
+        } else if !autoClose {
             alert.addAction(UIAlertAction(title: "Ok", style: .default))
         }
         present(alert, animated: true)
+        
+        if autoClose {
+            // Кол-во секунд необходимое для прочтения текста
+            let words = "\(title ?? "") \(message ?? "")".components(separatedBy: " ").filter { !$0.isEmpty }
+            var timeToShow: Double = Double(words.count) * 0.35
+            if timeToShow < 1.0 {
+                timeToShow = 1.0
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + timeToShow) { [weak self] in
+                UIView.animate(withDuration: 0.5) {
+                    self?.dismiss(animated: true)
+                }
+            }
+        }
     }
     
     func cellsValues() {

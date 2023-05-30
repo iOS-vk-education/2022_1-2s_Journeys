@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class ViewControllerWithDimBackground: UIViewController {
+class ViewControllerWithDimBackground: AlertShowingViewController {
     // MARK: Public properties
     
     let backgroundView: UIView = {

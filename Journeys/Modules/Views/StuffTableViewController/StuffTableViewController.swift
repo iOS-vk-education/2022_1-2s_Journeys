@@ -59,7 +59,7 @@ final class StuffTableViewController: UITableViewController {
     }
     
     @objc
-    private func keyboardWillShow(_ notification:Notification) {
+    private func keyboardWillShow(_ notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             guard let cellIndexPath = output?.editingCellIndexPath() else { return }
             guard let cellFrame = tableView.cellForRow(at: cellIndexPath)?.frame else { return }
@@ -67,25 +67,28 @@ final class StuffTableViewController: UITableViewController {
             var keyboardHeight: CGFloat = keyboardSize.height
             // система неверно распознает размеры emoji клавиатуры, поэтому накостылила
             if output?.keyBoardToShowType() == .emoji {
-                keyboardHeight = 800
+                keyboardHeight = 900
             }
             
             var aRect: CGRect = tableView.bounds
             aRect.size.height -= keyboardHeight
-            var keyboardMinY: CGFloat = tableView.bounds.maxY - keyboardHeight
 
-            if !aRect.contains(CGPoint(x: cellFrame.origin.x, y: cellFrame.maxY)) {
-                tableView.setContentOffset(CGPoint(x:0, y: cellFrame.maxY - keyboardHeight), animated: true)
-            }
-            aRect = tableView.bounds
-            aRect.size.height -= keyboardHeight
-            
-            keyboardMinY = tableView.bounds.maxY - keyboardHeight
-            if !aRect.contains(CGPoint(x: cellFrame.origin.x, y: cellFrame.maxY)) {
-                tableView.contentInset = UIEdgeInsets(top: 0,
-                                                      left: 0,
-                                                      bottom: 60 + (cellFrame.maxY + 10 - keyboardMinY),
-                                                      right: 0)
+            if !aRect.contains(CGPoint(x: cellFrame.origin.x, y: cellFrame.maxY)),
+                tableView.contentInset.bottom == 60 {
+                UIView.animate(withDuration: 0.5) {
+                    self.tableView.contentInset = UIEdgeInsets(top: .zero,
+                                                          left: .zero,
+                                                          bottom: keyboardHeight,
+                                                          right: .zero)
+                    self.tableView.scrollToRow(at: cellIndexPath, at: .middle, animated: true)
+                }
+            } else if tableView.contentInset.bottom != 60 {
+                UIView.animate(withDuration: 0.3) {
+                    self.tableView.contentInset = UIEdgeInsets(top: .zero,
+                                                          left: .zero,
+                                                               bottom: self.tableView.contentInset.bottom - 40,
+                                                          right: .zero)
+                }
             }
         }
     }

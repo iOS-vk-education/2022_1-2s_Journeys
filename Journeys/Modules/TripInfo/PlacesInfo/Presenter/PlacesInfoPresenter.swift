@@ -40,6 +40,15 @@ final class PlacesInfoPresenter {
         self.route = route
     }
     
+    private func loadData() {
+        embedPlaceholder()
+        view?.setTasksCount(3)
+        if route.places.isEmpty {
+            noPlacesInRoute()
+            return
+        }
+        interactor.loadData(for: route)
+    }
     private func reloadView() {
         view?.reloadData()
         hidePlaceholder()
@@ -60,7 +69,9 @@ final class PlacesInfoPresenter {
     private func showNoCoordinatesAlert() {
         let locationsWithoutCoordinatesString: String = locationsWithoutCoordinatesList
             .compactMap( { $0.toString() } ).joined(separator: ", ")
-        view?.showAlert(title: "Неизвестное место", message: "К сожалению, мы не смогли найти места из вашего маршрута: \(locationsWithoutCoordinatesString)")
+        showAlert(error: .custom(title: L10n.unknownPlace,
+                                 message: "\(L10n.didntFindPlaces): \(locationsWithoutCoordinatesString)"),
+                  withOkAction: true)
     }
     
     private func embedPlaceholder() {
@@ -81,6 +92,16 @@ final class PlacesInfoPresenter {
         }
     }
     
+    private func showAlert(error: Errors, withOkAction: Bool = false) {
+        DispatchQueue.main.async { [weak self] in
+            guard let alertShowingVC = self?.view as? AlertShowingViewController else { return }
+            if withOkAction {
+                self?.askToShowAlertWithOKAction(error, alertShowingVC: alertShowingVC, handler: nil)
+            } else {
+                self?.askToShowErrorAlert(error, alertShowingVC: alertShowingVC)
+            }
+        }
+    }
 }
 
 extension PlacesInfoPresenter: PlacesInfoModuleInput {
@@ -88,9 +109,7 @@ extension PlacesInfoPresenter: PlacesInfoModuleInput {
 
 extension PlacesInfoPresenter: PlacesInfoViewOutput {
     func viewDidLoad() {
-        embedPlaceholder()
-        view?.setTasksCount(3)
-        interactor.loadData(for: route)
+        loadData()
     }
     
     func refreshView() {
@@ -99,8 +118,7 @@ extension PlacesInfoPresenter: PlacesInfoViewOutput {
         placesWithGeoData = []
         locationsWithCurrencyRate = []
         
-        showPlaceholder()
-        interactor.loadData(for: route)
+        loadData()
     }
     
     func didTapExitButton() {
@@ -159,6 +177,9 @@ extension PlacesInfoPresenter {
     
     func routeCellDisplayData() -> ShortRouteCell.DisplayData? {
         let arrow: String = " → "
+        if route.places.isEmpty {
+            return ShortRouteCell.DisplayData(route: route.departureLocation.city)
+        }
         var routeString: String = route.departureLocation.city + arrow
         routeString += route.places.compactMap( { $0.location.city } )
             .joined(separator: arrow)
@@ -272,17 +293,20 @@ extension PlacesInfoPresenter: PlacesInfoInteractorOutput {
     }
     
     func noWeatherForPlace(_ place: Place) {
+        view?.setTaskIsDone()
     }
     
     func noPlacesInRoute() {
         view?.setAllTasksDone()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            guard let self else { return }
-            self.reloadView()
-            if !self.locationsWithoutCoordinatesList.isEmpty {
-                self.showNoCoordinatesAlert()
-            }
-        }
+        didFetchAllData()
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+//            guard let self else { return }
+//            self.reloadView()
+//            self.hidePlaceholder()
+//            if !self.locationsWithoutCoordinatesList.isEmpty {
+//                self.showNoCoordinatesAlert()
+//            }
+//        }
     }
     
     func noCoordinates(for location: Location) {
@@ -294,11 +318,14 @@ extension PlacesInfoPresenter: PlacesInfoInteractorOutput {
             guard let self else { return }
             self.reloadView()
             self.hidePlaceholder()
+            if !self.locationsWithoutCoordinatesList.isEmpty {
+                self.showNoCoordinatesAlert()
+            }
         }
     }
     
     func didRecieveError(error: Error) {
-        view?.showAlert(title: "Ошибка", message: "Возникла ошибка при загрузке данных")
+        showAlert(error: .obtainDataError)
     }
 }
 
@@ -345,4 +372,7 @@ extension PlacesInfoPresenter: CurrencyCellDelegate {
                                       to: String(format: "%.2f", result).replacingOccurrences(of: ".",
                                                                                               with: ","))
     }
+}
+
+extension PlacesInfoPresenter: AskToShowAlertProtocol {
 }

@@ -370,9 +370,8 @@ extension PlacesInfoInteractor {
     
     private func sortGeoData(_ placesWithGeoData: [PlaceWithGeoData],
                              route: Route,
-                             completion: @escaping ([PlaceWithGeoData]) -> ()) {
+                             completion: @escaping ([PlaceWithGeoData]) -> Void) {
         DispatchQueue.global().async { [weak self] in
-            guard let self else { return }
             var sortedGeoData: [PlaceWithGeoData] = []
             for place in route.places {
                 for placeWithGeoData in placesWithGeoData {
@@ -388,9 +387,8 @@ extension PlacesInfoInteractor {
     
     private func sortCurrencyRate(_ locationsWithCurrencyRate: [LocationsWithCurrencyRate],
                                   route: Route,
-                                  completion: @escaping ([LocationsWithCurrencyRate]) -> ()) {
+                                  completion: @escaping ([LocationsWithCurrencyRate]) -> Void) {
         DispatchQueue.global().async { [weak self] in
-            guard let self else { return }
             var sortedCurrencyRate: [LocationsWithCurrencyRate] = []
             for place in route.places {
                 for currencyRate in locationsWithCurrencyRate {

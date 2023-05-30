@@ -34,6 +34,10 @@ final class PlacePresenter {
         self.routeModule = routeModuleInput
     }
 
+    private func showAlert(error: Errors) {
+        guard let alertShowingVC = view as? AlertShowingViewController else { return }
+        askToShowErrorAlert(error, alertShowingVC: alertShowingVC)
+    }
 }
 
 extension PlacePresenter: PlaceModuleInput {
@@ -73,7 +77,7 @@ extension PlacePresenter: PlaceViewOutput {
               }
         guard let country = countryCell.getTextFieldValue(),
               let city = cityCell.getTextFieldValue() else {
-            view.showAlert(title: L10n.blanckFields, message: L10n.fillTheCountryAndTownFields)
+            showAlert(error: .custom(title: nil, message: L10n.fillTheCountryAndTownFields))
             return
         }
         
@@ -84,7 +88,7 @@ extension PlacePresenter: PlaceViewOutput {
         let dates = calendarCell.getDates()
         guard let arrivaleDate = dates?.first,
               let departDate = dates?.last else {
-            view.showAlert(title: L10n.blanckFields, message: L10n.selectDates)
+            showAlert(error: .custom(title: nil, message: L10n.selectDates))
             return
         }
         
@@ -94,15 +98,11 @@ extension PlacePresenter: PlaceViewOutput {
                       depart: departDate)
         // TODO: finish save
         guard let place = place else {
-            view.showAlert(title: "Ошибка", message: "Ошибка при сохранении данных")
+            showAlert(error: .obtainDataError)
             return
         }
         routeModule?.updateRoutePlaces(place: place, placeIndex: placeIndex)
         moduleOutput.placeModuleWantsToClose()
-    }
-    
-    func didSelectCell(at indexpath: IndexPath) {
-        return
     }
     
     func userSelectedDateRange(range: [Date]) {
@@ -112,5 +112,7 @@ extension PlacePresenter: PlaceViewOutput {
 }
 
 extension PlacePresenter: PlaceModelOutput {
-    
+}
+
+extension PlacePresenter: AskToShowAlertProtocol {
 }

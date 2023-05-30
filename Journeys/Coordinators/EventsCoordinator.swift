@@ -10,7 +10,6 @@ import UIKit
 import FirebaseFirestore
 import SafariServices
 
-
 final class EventsCoordinator: CoordinatorProtocol, SingleEventModuleOutput {
     
     
@@ -32,10 +31,8 @@ final class EventsCoordinator: CoordinatorProtocol, SingleEventModuleOutput {
     // MARK: Public Methods
     func start() {
         let eventsModuleBuilder = EventsModuleBuilder()
-        
         let eventsViewController = eventsModuleBuilder.build(output: self, latitude: 55, longitude: 37, zoom: 1)
-        navigationController.pushViewController(eventsViewController, animated: true)
-        
+        navigationController.setViewControllers([eventsViewController], animated: false)
         navigationController.tabBarItem = tabBarItemFactory.getTabBarItem(from: TabBarPage.events)
         
         var controllers = rootTabBarController.viewControllers
@@ -71,10 +68,9 @@ extension EventsCoordinator: EventsModuleOutput {
         navigationController.pushViewController(eventsViewController, animated: true)
     }
     
-    func openAddingEventViewController(coordinates: GeoPoint?, address: String?) {
+    func openAddingEventViewController(coordinates: GeoPoint?, address: String?, event: Event?) {
         let builder = AddingModuleBuilder()
-
-        let viewController = builder.build(output: self, coordinates: coordinates, address: address)
+        let viewController = builder.build(output: self, coordinates: coordinates, address: address, event: event, moduleType: .adding, image: nil)
         navigationController.pushViewController(viewController, animated: true)
     }
     
@@ -91,11 +87,32 @@ extension EventsCoordinator: EventsModuleOutput {
         
         navigationController.present(viewController, animated: true, completion: nil)
     }
+    
+    func wantsToOpenSelectedEvents() {
+        let builder = SelectedEventsModuleBuilder()
+        let viewController = builder.build(output: self)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+}
+
+extension EventsCoordinator: SelectedEventsModuleOutput {
+    func wantsToOpenEditingVC(event: Event, image: UIImage?) {
+        let builder = AddingModuleBuilder()
+        let viewController = builder.build(output: self, coordinates: nil, address: event.address, event: event, moduleType: .editing, image: image)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+    
+    func closeSelectedEvents() {
+        navigationController.popToRootViewController(animated: false)
+    }
 }
 
 
-
 extension EventsCoordinator: AddingModuleOutput {
+    func wantsToOpenCreatedVC() {
+        navigationController.popViewController(animated: true)
+    }
+    
     func wantsToOpenEventsVC() {
         navigationController.popToRootViewController(animated: false)
     }
