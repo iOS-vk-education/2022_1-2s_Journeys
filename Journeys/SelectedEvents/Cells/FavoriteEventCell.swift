@@ -16,7 +16,7 @@ final class FavoriteEventCell: UICollectionViewCell {
         let endDate: String
         let name: String
         let address: String
-        let isInFavourites: Bool
+        var isInFavourites: Bool
         let cellType: CellType
     }
     
@@ -44,6 +44,9 @@ final class FavoriteEventCell: UICollectionViewCell {
         button.imageView?.contentMode = .scaleAspectFill
         return button
     }()
+    
+    private let pictureEmptyViewForSkeletonLayer = UIView()
+    private let pictureLayer = CAGradientLayer()
 
     private let nameField: UILabel = {
         let inpField = UILabel()
@@ -104,6 +107,7 @@ final class FavoriteEventCell: UICollectionViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
+        pictureLayer.isHidden = false
         picture.image = nil
         nameField.text = nil
         endDate.text = nil
@@ -129,6 +133,30 @@ final class FavoriteEventCell: UICollectionViewCell {
         layer.shadowOffset = CGSize(width: 0, height: 2)
     }
 
+    func makeSkeletonConstraints() {
+        contentView.addSubview(pictureEmptyViewForSkeletonLayer)
+        pictureEmptyViewForSkeletonLayer.snp.makeConstraints { make in
+            make.edges.equalTo(picture.snp.edges)
+        }
+        pictureEmptyViewForSkeletonLayer.layer.addSublayer(pictureLayer)
+        pictureLayer.frame = CGRect(x: 0, y: 0, width: 311.0, height: 180.0)
+        pictureLayer.cornerRadius = picture.layer.cornerRadius
+    }
+    
+    private func setupSkeleton() {
+        pictureLayer.startPoint = CGPoint(x: 0, y: 0.5)
+        pictureLayer.endPoint = CGPoint(x: 1, y: 0.5)
+        
+        let pictureGroup = CAAnimationGroup()
+        pictureGroup.beginTime = 0.0
+        pictureLayer.add(pictureGroup, forKey: "backgroundColor")
+    }
+    
+    private func setAllSubviewsAlphaToZero() {
+        picture.alpha = 0
+    }
+
+
     private func setupSubviews() {
         contentView.addSubview(picture)
         contentView.addSubview(nameField)
@@ -139,6 +167,9 @@ final class FavoriteEventCell: UICollectionViewCell {
         contentView.addSubview(likeButton)
         contentView.addSubview(address)
         contentView.addSubview(datesOfTteEvent)
+        
+        makeConstraints()
+        setupSkeleton()
 
         likeButton.addTarget(self, action: #selector(didTapLikeButton), for: .touchUpInside)
         editButton.addTarget(self, action: #selector(didTapEditButton), for: .touchUpInside)
@@ -146,6 +177,8 @@ final class FavoriteEventCell: UICollectionViewCell {
         setupColors()
         setupFonts()
         makeConstraints()
+        
+        setAllSubviewsAlphaToZero()
     }
 
     private func setupFonts() {
@@ -284,7 +317,7 @@ final class FavoriteEventCell: UICollectionViewCell {
     }
     
     func setupImageCre(_ image: UIImage) {
-        //self.pictureLayer.isHidden = true
+        self.pictureLayer.isHidden = true
         self.picture.image = image
         UIView.animate(
             withDuration: 0.5,
@@ -294,7 +327,7 @@ final class FavoriteEventCell: UICollectionViewCell {
     }
     
     func setupImageFav(_ image: UIImage) {
-        //self.pictureLayer.isHidden = true
+        self.pictureLayer.isHidden = true
         self.picture.image = image
         UIView.animate(
             withDuration: 0.5,

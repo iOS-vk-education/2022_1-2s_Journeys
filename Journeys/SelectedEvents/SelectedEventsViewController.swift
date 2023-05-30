@@ -26,17 +26,25 @@ final class SelectedEventsViewController: UIViewController {
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
     
-    private lazy var collectionViewCreated: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        
-        return UICollectionView(frame: .zero, collectionViewLayout: layout)
+    private lazy var placeHolder1: UILabel = {
+        let label = UILabel()
+        label.text = "Здесь пока пусто :("
+        label.font = .boldSystemFont(ofSize: 30)
+        label.textColor = .white
+        return label
     }()
     
-    private lazy var refreshControl: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
-        refreshControl.attributedTitle = NSAttributedString(string: "Идет обновление...")
-        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        return refreshControl
+    private lazy var placeHolder2: UILabel = {
+        let label = UILabel()
+        label.text = "Здесь пока пусто :("
+        label.font = .boldSystemFont(ofSize: 30)
+        label.textColor = .white
+        return label
+    }()
+    
+    private lazy var collectionViewCreated: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
     
     override func viewDidLoad() {
@@ -44,10 +52,12 @@ final class SelectedEventsViewController: UIViewController {
         self.view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         setupNavBar()
         view.addSubview(segmentControl)
-        collectionViewFavorites.addSubview(refreshControl)
-        collectionViewCreated.addSubview(refreshControl)
+        collectionViewCreated.isHidden = true
+        segmentControl.selectedSegmentIndex = 0
         setupCollectionView(collectionView: collectionViewFavorites)
         segmentControl.frame = CGRect(x: 50.0, y: 70.0, width: view.bounds.width, height: 30.0)
+        collectionViewCreated.addSubview(placeHolder2)
+        collectionViewFavorites.addSubview(placeHolder1)
         makeConstraints()
         setupTapGestureRecognizer()
     }
@@ -123,23 +133,20 @@ final class SelectedEventsViewController: UIViewController {
             make.trailing.equalToSuperview()
         }
     }
-
-    
-    @objc
-    private func refresh() {
-        output?.refreshView()
-    }
     
     @objc
     func switchValueDidChange(sender: Any) {
         switch segmentControl.selectedSegmentIndex {
         case 0:
             title = L10n.favorites
+            setupCollectionView(collectionView: collectionViewFavorites)
+            output?.didswitshOnFavoretes()
             collectionViewCreated.isHidden = true
             collectionViewFavorites.isHidden = false
         case 1:
             title = L10n.created
             setupCollectionView(collectionView: collectionViewCreated)
+            output?.didSwitshOnCreated()
             collectionViewFavorites.isHidden = true
             collectionViewCreated.isHidden = false
         default:
@@ -183,8 +190,26 @@ extension SelectedEventsViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         switch segmentControl.selectedSegmentIndex {
         case 0:
+            if let countOfSection = output?.countOfFavorites() {
+                if countOfSection == 0 {
+                    placeHolder1.isHidden = false
+                } else {
+                    placeHolder1.isHidden = true
+                }
+            } else {
+                placeHolder1.isHidden = false
+            }
             return output?.countOfFavorites() ?? 0
         case 1:
+            if let countOfSection = output?.countOfFavorites() {
+                if countOfSection == 0 {
+                    placeHolder2.isHidden = false
+                } else {
+                    placeHolder2.isHidden = true
+                }
+            } else {
+                placeHolder2.isHidden = false
+            }
             return output?.countOfCreated() ?? 0
         default:
             return 0
@@ -248,6 +273,7 @@ extension SelectedEventsViewController: UICollectionViewDataSource {
 }
 
 extension SelectedEventsViewController: SelectedEventsViewInput {
+    
     func setupFavoriteCellImage(at indexPath: IndexPath, image: UIImage) {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
@@ -282,10 +308,6 @@ extension SelectedEventsViewController: SelectedEventsViewInput {
     
     func reloadCreated() {
         self.obtainCreated()
-    }
-    
-    func endRefresh() {
-        refreshControl.endRefreshing()
     }
     
 }

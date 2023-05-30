@@ -13,4 +13,5 @@ protocol AddingModuleOutput: AnyObject {
     func wantsToOpenEventsVC()
     func backToSuggestionVC()
     func closeOpenSingleEventVCIfExists()
+    func wantsToOpenCreatedVC()
 }

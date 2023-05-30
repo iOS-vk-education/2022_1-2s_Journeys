@@ -19,7 +19,6 @@ protocol SelectedEventsViewInput: AnyObject {
                          agreeActionTitle: String,
                          disagreeActionTitle: String,
                          cellIndexPath: IndexPath)
-    func endRefresh()
     func setupCreatedCellImage(at indexPath: IndexPath, image: UIImage)
     func setupFavoriteCellImage(at indexPath: IndexPath, image: UIImage)
 }
@@ -34,9 +33,10 @@ protocol SelectedEventsViewOutput: AnyObject {
     func didSelectAgreeAlertAction(cellIndexPath: IndexPath)
     func countOfFavorites() -> Int
     func countOfCreated() -> Int
-    func refreshView()
     func didTapFavoriteCell(at: IndexPath)
     func didTapCreatedCell(at: IndexPath)
     func didTapScreen()
     func didTapEditingButton(at: IndexPath)
+    func didswitshOnFavoretes()
+    func didSwitshOnCreated()
 }

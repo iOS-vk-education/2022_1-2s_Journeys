@@ -24,6 +24,8 @@ protocol EventsServiceDescription {
     func checkLike(completion: @escaping (Result<[Event], Error>) -> Void)
     func loadLikedEvents(identifiers: [String], events: [Event], completion: @escaping (Result<[Event], Error>) -> Void)
     func deleteFavoritesData(eventId: String, completion: @escaping (Error?) -> Void)
+    func storeEditingData(event: Event, completion: @escaping (Result<Event, Error>) -> Void)
+    
 }
 
 enum EventsServiceError: Error {
@@ -65,16 +67,36 @@ final class EventsService: EventsServiceDescription {
         var eventWithUserID = event
         eventWithUserID.userID = userID
         ref = FBManager.firestore.collection("events").document(coordinatesId)
-        ref?.setData(eventWithUserID.toDictionary()) { error in
+        ref?.setData(eventWithUserID.toDictionary(userID: userID)) { error in
             if let error = error {
                 completion(.failure(error))
-            } else if let eventService = Event(dictionary: event.toDictionary(), userID: userID) {
+            } else if let eventService = Event(dictionary: event.toDictionary(userID: userID), userID: userID) {
                 completion(.success(eventService))
             } else {
                 completion(.failure(FBError.noData))
             }
         }
     }
+    
+    func storeEditingData(event: Event, completion: @escaping (Result<Event, Error>) -> Void) {
+        var ref: DocumentReference?
+        guard let userID = FBManager.auth.currentUser?.uid else {
+            return
+        }
+        var eventWithUserID = event
+        eventWithUserID.userID = userID
+        ref = FBManager.firestore.collection("events").document(event.userID)
+        ref?.setData(eventWithUserID.toDictionary(userID: userID)) { error in
+            if let error = error {
+                completion(.failure(error))
+            } else if let eventService = Event(dictionary: event.toDictionary(userID: userID), userID: userID) {
+                completion(.success(eventService))
+            } else {
+                completion(.failure(FBError.noData))
+            }
+        }
+    }
+    
     func loadPlacemarks(completion: @escaping (Result<[Address], Error>) -> Void) {
         db.collection("address").getDocuments { querySnapshot, error in
             if let error = error {
@@ -179,23 +201,27 @@ final class EventsService: EventsServiceDescription {
     }
     
     func deleteFavoritesData(eventId: String, completion: @escaping (Error?) -> Void) {
-        FBManager.firestore.collection("user_liked").document().collection("likes").document(eventId).delete() { error in
+        var ref: DocumentReference?
+        guard let userID = FBManager.auth.currentUser?.uid else {
+            return
+        }
+        db.collection("user_liked").document(userID).collection("likes").document(eventId).delete() { error in
             if let error = error {
                 completion(error)
             } else {
                 completion(nil)
             }
         }
-
     }
     
     func setLike(eventId: String, event: Event, completion: @escaping (Error?) -> Void) {
         var ref: DocumentReference?
+        
         guard let userID = FBManager.auth.currentUser?.uid else {
             return
         }
         ref = db.collection("user_liked").document(userID).collection("likes").document(eventId)
-        ref?.setData(event.toDictionary()) { error in
+        ref?.setData(event.toDictionary(userID: eventId)) { error in
             if let error = error {
                 completion(error)
             } else {

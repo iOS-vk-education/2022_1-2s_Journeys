@@ -74,6 +74,8 @@ extension AddingPresenter: AddingViewOutput {
             guard let placeholderImage =  UIImage(asset: Asset.Assets.noPhotoPlaceholder) else { return }
             model.createStory(coordinates: eventCoordinates, event: post, eventImage: eventImage ?? placeholderImage)
         case .editing: return
+            guard let placeholderImage =  UIImage(asset: Asset.Assets.noPhotoPlaceholder) else { return }
+            model.storeEditing(event: post, eventImage: eventImage ?? placeholderImage)
         }
     }
     func backToSuggestionVC() {
@@ -90,7 +92,7 @@ extension AddingPresenter: AddingModelOutput {
         case .adding:
             moduleOutput?.wantsToOpenEventsVC()
         case .editing:
-            moduleOutput?.backToSuggestionVC()
+            moduleOutput?.wantsToOpenCreatedVC()
         }
         
     }

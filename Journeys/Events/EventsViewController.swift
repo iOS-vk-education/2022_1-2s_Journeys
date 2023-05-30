@@ -83,7 +83,7 @@ class EventsViewController: UIViewController, YMKUserLocationObjectListener {
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         addSubviews()
         setupTapGestureRecognizer()
-        
+        setupUserLocationButton()
         setupConstraints()
         setupAddingButton()
         output?.didLoadView()
@@ -303,7 +303,6 @@ extension EventsViewController: YMKMapObjectTapListener {
         guard let id = data as? String else { return false}
         map.mapWindow.map.move(with:
                                 YMKCameraPosition(target: point, zoom: 5, azimuth: 0, tilt: 0))
-        //map.mapWindow.map.move(with: <#YMKCameraPosition#>)
         output?.didTapOnPlacemark(id: id)
         return true
     }

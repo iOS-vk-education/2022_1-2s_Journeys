@@ -80,9 +80,7 @@ final class PlacemarkCell: UICollectionViewCell {
     }
     
     @objc func editingBegan(_ searchBar: UITextField) {
-        if isInFavourites == true {
-            
-        }
+        inputField.text = returnText()
     }
         
         func configure(data: PlacemarkCellDisplayData) {

@@ -12,6 +12,7 @@ import FirebaseFirestore
 protocol AddingModelInput: AnyObject {
     func storeAddingData(event: Event, eventImage: UIImage, coordinatesId: String)
     func createStory(coordinates: Address, event: Event, eventImage: UIImage)
+    func storeEditing(event: Event, eventImage: UIImage)
 }
 
 protocol AddingModelOutput: AnyObject {

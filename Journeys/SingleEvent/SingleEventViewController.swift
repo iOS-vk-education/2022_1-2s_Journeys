@@ -26,6 +26,14 @@ class SingleEventViewController: UIViewController {
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
     
+    private lazy var placeHolder: UILabel = {
+        let label = UILabel()
+        label.text = "Здесь пока пусто"
+        label.font = .boldSystemFont(ofSize: 30)
+        label.textColor = UIColor(asset: Asset.Colors.BaseColors.contrastToThemeColor)
+        return label
+    }()
+    
     override func viewDidLoad() {
         output?.didLoadView()
         super.viewDidLoad()

@@ -18,6 +18,41 @@ final class AddingModel {
 }
 
 extension AddingModel: AddingModelInput {
+    func storeEditing(event: Event, eventImage: UIImage) {
+        service.storeAddingImage(image: eventImage) { result in
+            switch result {
+            case .failure:
+                self.output?.didRecieveError(error: Errors.saveDataError)
+            case .success(let url):
+                self.didStoreImageDataCreated(url: url, event: event)
+            }
+        }
+    }
+    
+    func didStoreImageDataCreated(url: String, event: Event) {
+        let newEvent = Event(address: event.address,
+                             startDate: event.startDate,
+                             finishDate: event.finishDate,
+                             type: event.type,
+                             name: event.name,
+                             link: event.link,
+                             photoURL: url,
+                             floor: event.floor,
+                             room: event.room,
+                             description: event.description,
+                             isLiked: false,
+                             userID: "")
+        service.storeEditingData(event: newEvent) { result in
+            switch result {
+            case .failure:
+                self.output?.didRecieveError(error: Errors.saveDataError)
+            case .success(let eventModel):
+                self.output?.didSaveAddingData(event: eventModel)
+            }
+        }
+    }
+
+    
 //MARK: - private functions
 //MARK: - functions
     func storeAddingData(event: Event, eventImage: UIImage, coordinatesId: String) {

@@ -1984,7 +1984,7 @@
 				EE30C7262943E89200A9DCF6 /* FirebaseServiceDataObtain.swift in Sources */,
 				C4FC37CF0BB9C880525BA82D /* TripsInteractorIO.swift in Sources */,
 				56B9F0972A1BFCC80058121B /* SelectedEventsViewIO.swift in Sources */,
-				EEAC1D35295271E400237331 /* Coordinates.swift in Sources */,
+				EEAC1D35295271E400237331 /* GeoData.swift in Sources */,
 				EEAC1D35295271E400237331 /* GeoData.swift in Sources */,
 				EE7819B5295A8629008F607E /* PlaceholderDisplayData.swift in Sources */,
 				EEFF30EC29CA0D5800D9F907 /* TripsViewController.swift in Sources */,
@@ -2015,7 +2015,7 @@
 				EE00AC002955E0D900FAFDCD /* LocationModelIO.swift in Sources */,
 				EEFA76D9292C4EF300A0B8CA /* LocationCell.swift in Sources */,
 				56172A4E2A2303CA00F2A150 /* FavoritesEvent.swift in Sources */,
-				CE4CCCA72958F9080057455D /* TimeCell.swift in Sources */,
+				CE4CCCA72958F9080057455D /* DateCell.swift in Sources */,
 				CE4CCCA72958F9080057455D /* DateCell.swift in Sources */,
 				EE7968F629B92F5B00F777FE /* NotificationManager.swift in Sources */,
 				CE4CCCA72958F9080057455D /* DateCell.swift in Sources */,
@@ -2038,7 +2038,7 @@
 				F92CACD193BE48A33A52A5DC /* TripsRouterInput.swift in Sources */,
 				EE29EBFA29191558008ECFF8 /* CoordinatorProtocol.swift in Sources */,
 				56B9F09D2A1BFD5D0058121B /* SelectedEventsBuilder.swift in Sources */,
-				EEAC1D2C295260CB00237331 /* PlacesInfoModelIO.swift in Sources */,
+				EEAC1D2C295260CB00237331 /* PlacesInfoInteractorIO.swift in Sources */,
 				EEAC1D2C295260CB00237331 /* PlacesInfoInteractorIO.swift in Sources */,
 				EE9DDF8D29E47306002781C7 /* PlacesInfoLoadingPlaceholderViewController.swift in Sources */,
 				0D551CF12951739C00A4151E /* Trip.swift in Sources */,
@@ -2087,7 +2087,7 @@
 				EE7968F229B92DEE00F777FE /* SettingsRouter.swift in Sources */,
 				B0CD597403B67CE15E6F43EA /* AccountInfoViewIO.swift in Sources */,
 				EE02E54D2950D9EA002BE87E /* Route.swift in Sources */,
-				19DF7BAC373C54E8FB115888 /* AccountViewController.swift in Sources */,
+				19DF7BAC373C54E8FB115888 /* AccountInfoViewController.swift in Sources */,
 				56B9F09F2A1C27EA0058121B /* FavoriteEventCell.swift in Sources */,
 				19DF7BAC373C54E8FB115888 /* AccountInfoViewController.swift in Sources */,
 				EEAC1D3C29527A7000237331 /* WeatherForecast.swift in Sources */,
@@ -2138,7 +2138,7 @@
 				A9DD1DEF7782DE6C939585EA /* TripInfoModel.swift in Sources */,
 				56A1ABF029CF54B30073618C /* DescriptionCell.swift in Sources */,
 				56B9F0922A1BFC680058121B /* SelectedEventsModel.swift in Sources */,
-				EE910DCD295913860094F5C8 /* NoPlacesForWeatherCell.swift in Sources */,
+				EE910DCD295913860094F5C8 /* PlacesInfoPlaceholderCell.swift in Sources */,
 				EE910DCD295913860094F5C8 /* PlacesInfoPlaceholderCell.swift in Sources */,
 				EEA76C642951325E00250B06 /* WeatherCollection.swift in Sources */,
 				A4F278F34637C60C2ED5A34D /* TripInfoBuilder.swift in Sources */,
@@ -2351,7 +2351,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7PH9Q6K5X2;
+				DEVELOPMENT_TEAM = 679LK938K2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Journeys/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
@@ -2381,7 +2381,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7PH9Q6K5X2;
+				DEVELOPMENT_TEAM = 679LK938K2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Journeys/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";

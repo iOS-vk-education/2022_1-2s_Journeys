@@ -23,6 +23,7 @@ final class AddingEventViewController: UIViewController {
         view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
         setupNavBar()
         setupCollectionView()
+        collectionView.allowsSelection = false
         setupFloatingAddButton()
         makeConstraints()
     }
@@ -112,7 +113,7 @@ final class AddingEventViewController: UIViewController {
                                      room: ofice ?? " ",
                                      description: eventDescription ?? " ",
                                      isLiked: false,
-                                     userID: "22")
+                                     userID: "")
         output?.saveData(post: post)
     }
 

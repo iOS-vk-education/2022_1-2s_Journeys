@@ -109,6 +109,10 @@ extension EventsCoordinator: SelectedEventsModuleOutput {
 
 
 extension EventsCoordinator: AddingModuleOutput {
+    func wantsToOpenCreatedVC() {
+        navigationController.popViewController(animated: true)
+    }
+    
     func wantsToOpenEventsVC() {
         navigationController.popToRootViewController(animated: false)
     }

@@ -24,7 +24,6 @@ final class SelectedEventsPresenter {
     }
     
     private func loadData() {
-        loadCreatedEvents()
         loadLikedEvents()
     }
     
@@ -125,6 +124,15 @@ private extension SelectedEventsPresenter {
 }
 
 extension SelectedEventsPresenter: SelectedEventsViewOutput {
+    
+    func didswitshOnFavoretes() {
+        loadLikedEvents()
+    }
+    
+    func didSwitshOnCreated() {
+        loadCreatedEvents()
+    }
+    
     func loadImagesCreated() {
         for index in 0..<createdData.count {
             model.loadImage(for: eventViewObjects[index]) { [weak self] image in
@@ -161,20 +169,16 @@ extension SelectedEventsPresenter: SelectedEventsViewOutput {
         moduleOutput?.wantsToOpenSingleEventVC(id: eventId)
     }
     
-    func refreshView() {
-        didLoadView()
-        view?.endRefresh()
-    }
-    
     func didTapLikeButton(at: IndexPath) {
         let eventId = likesDataObjects[at.section].userID
-        switch likesDataObjects[at.section].isLiked {
+        switch favoritesData[at.section].isInFavourites {
         case true:
             model.deleteLike(eventId: eventId)
+            loadLikedEvents()
         case false:
             model.setLike(eventId: eventId, event: likesDataObjects[at.section])
         }
-        likesDataObjects[at.section].isLiked = !likesDataObjects[at.section].isLiked
+        favoritesData[at.section].isInFavourites = !favoritesData[at.section].isInFavourites
         model.deleteLike(eventId: eventId)
     }
     
@@ -226,6 +230,6 @@ extension SelectedEventsPresenter: SelectedEventsModelOutput {
     }
 
     func didDeleteEvent() {
-        didLoadView()
+        loadCreatedEvents()
     }
 }
