@@ -164,7 +164,7 @@ final class PlaceViewController: AlertShowingViewController {
         datePicker.snp.makeConstraints { make in
             make.top.equalTo(addNotificationSwitch.snp.bottom).offset(20)
             make.trailing.equalTo(tableView.snp.trailing)
-            make.width.equalTo(200)
+            make.width.equalTo(300)
             make.height.equalTo(60)
         }
     }

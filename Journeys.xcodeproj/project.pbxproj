@@ -230,11 +230,11 @@
 		EED2A75E294FB874003A9A1A /* StuffCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED2A75D294FB874003A9A1A /* StuffCell.swift */; };
 		EED2A760294FCAF9003A9A1A /* StuffTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED2A75F294FCAF9003A9A1A /* StuffTableViewHeader.swift */; };
 		EED2A762294FCE4E003A9A1A /* AddStuffCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED2A761294FCE4E003A9A1A /* AddStuffCell.swift */; };
-		EED7AF172A200CE900A86464 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED7AF162A200CE900A86464 /* Calendar.swift */; };
-		EED7AF192A2027B300A86464 /* PlaceNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED7AF182A2027B300A86464 /* PlaceNotification.swift */; };
 		EED65F1E2A1E8D0700E7867A /* StuffRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED65F1D2A1E8D0700E7867A /* StuffRouter.swift */; };
 		EED65F202A1E8D1300E7867A /* StuffRouterInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED65F1F2A1E8D1300E7867A /* StuffRouterInput.swift */; };
 		EED7AF132A1EE3A900A86464 /* StoreBaseStuffList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED7AF122A1EE3A900A86464 /* StoreBaseStuffList.swift */; };
+		EED7AF172A200CE900A86464 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED7AF162A200CE900A86464 /* Calendar.swift */; };
+		EED7AF192A2027B300A86464 /* PlaceNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED7AF182A2027B300A86464 /* PlaceNotification.swift */; };
 		EEDAF553291C05B300E6DDB9 /* JourneysCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDAF552291C05B300E6DDB9 /* JourneysCoordinator.swift */; };
 		EEDAF555291C0F2200E6DDB9 /* AddTripCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDAF554291C0F2200E6DDB9 /* AddTripCell.swift */; };
 		EEDAF557291C302500E6DDB9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDAF556291C302500E6DDB9 /* SceneDelegate.swift */; };
@@ -495,12 +495,12 @@
 		EED2A75D294FB874003A9A1A /* StuffCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffCell.swift; sourceTree = "<group>"; };
 		EED2A75F294FCAF9003A9A1A /* StuffTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffTableViewHeader.swift; sourceTree = "<group>"; };
 		EED2A761294FCE4E003A9A1A /* AddStuffCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStuffCell.swift; sourceTree = "<group>"; };
-		EED7AF142A1FD5AA00A86464 /* Journeys.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Journeys.entitlements; sourceTree = "<group>"; };
-		EED7AF162A200CE900A86464 /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
-		EED7AF182A2027B300A86464 /* PlaceNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceNotification.swift; sourceTree = "<group>"; };
 		EED65F1D2A1E8D0700E7867A /* StuffRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffRouter.swift; sourceTree = "<group>"; };
 		EED65F1F2A1E8D1300E7867A /* StuffRouterInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffRouterInput.swift; sourceTree = "<group>"; };
 		EED7AF122A1EE3A900A86464 /* StoreBaseStuffList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreBaseStuffList.swift; sourceTree = "<group>"; };
+		EED7AF142A1FD5AA00A86464 /* Journeys.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Journeys.entitlements; sourceTree = "<group>"; };
+		EED7AF162A200CE900A86464 /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
+		EED7AF182A2027B300A86464 /* PlaceNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceNotification.swift; sourceTree = "<group>"; };
 		EEDAF552291C05B300E6DDB9 /* JourneysCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JourneysCoordinator.swift; sourceTree = "<group>"; };
 		EEDAF554291C0F2200E6DDB9 /* AddTripCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTripCell.swift; sourceTree = "<group>"; };
 		EEDAF556291C302500E6DDB9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -2302,7 +2302,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7PH9Q6K5X2;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Journeys/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
@@ -2336,7 +2336,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7PH9Q6K5X2;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Journeys/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";

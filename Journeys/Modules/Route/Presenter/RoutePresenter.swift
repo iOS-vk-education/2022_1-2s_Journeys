@@ -22,6 +22,8 @@ final class RoutePresenter {
     let addNewCityCellsCount: Int = 1
     var arrivalCellsCount: Int = 0
     
+    private var didOpenTripInfo: Bool = false
+    
     var route: Route?
     var trip: TripWithRouteAndImage?
     var tripImage: UIImage?
@@ -150,17 +152,16 @@ extension RoutePresenter: RouteViewOutput {
         if route.id != nil {
             for index in 0..<route.places.count {
                 if !route.places[index].allowNotification,
-                    let notification = route.places[index].notification,
-                    notification.id != nil {
+                   let notification = route.places[index].notification,
+                   notification.id != nil {
                     model.deleteNotification(notification)
                     route.places[index].notification = nil
                 }
             }
-        }
-        self.route = route
-        model.saveNotifications(for: route) { [weak self] newRoute in
-            self?.route = newRoute
-            self?.model.storeRouteData(route: newRoute, tripImage: tripImage, tripId: tripId)
+            model.saveNotifications(for: route) { [weak self] newRoute in
+                self?.route = newRoute
+                self?.model.storeRouteData(route: newRoute, tripImage: tripImage, tripId: tripId)
+            }
         }
     }
     
@@ -219,8 +220,11 @@ extension RoutePresenter: RouteModelOutput {
             showAlert(error: .obtainDataError)
             return
         }
-        moduleOutput.routeModuleWantsToOpenTripInfoModule(trip: Trip(tripWithOtherData: trip),
-                                                          route: route)
+        if !didOpenTripInfo {
+            didOpenTripInfo = true
+            moduleOutput.routeModuleWantsToOpenTripInfoModule(trip: Trip(tripWithOtherData: trip),
+                                                              route: route)
+        }
         hideLoadingView()
     }
     
