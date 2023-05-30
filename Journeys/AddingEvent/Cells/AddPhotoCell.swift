@@ -15,7 +15,6 @@ struct ImageEventCellDisplayData {
 }
 
 final class ImageEventCell: UICollectionViewCell {
-    var editImage: UIImage?
     private var delegate: ImageEventCellDelegate?
 
     private let photoLabel: UILabel = {

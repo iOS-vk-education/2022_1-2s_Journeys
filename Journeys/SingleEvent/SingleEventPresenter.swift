@@ -33,12 +33,6 @@ final class SingleEventPresenter {
         loadData(id: id)
         isLiked()
     }
-    
-    func userTapLink() {
-        guard let link = data?.link else { return }
-        guard let url = URL(string: link) else { return }
-        moduleOutput?.wantsToOpenLink(link: url)
-    }
 
 }
 
@@ -49,7 +43,6 @@ private extension SingleEventPresenter {
 }
 
 extension SingleEventPresenter: SingleEventViewOutput {
-    
     func isLiked() {
         model.checkLike { [weak self] result in
             switch result {
@@ -97,7 +90,7 @@ extension SingleEventPresenter: SingleEventViewOutput {
     }
     
     func displayImage() -> UIImage? {
-        return image
+        image
     }
     
     func checkLike() {

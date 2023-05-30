@@ -1,0 +1,173 @@
+/*
+  Localizable.strings
+  Journeys
+
+  Created by Сергей Адольевич on 18.11.2022.
+  
+*/
+
+// MARK: Main screen
+"NoTrips" = "Пока что маршрутов нет";
+
+"Add" = "Добавить";
+"Trips" = "Поездки";
+"Edit" = "Редактировать";
+"Saved" = "Избранное";
+
+// MARK: Route creation
+"Country" = "Страна";
+"Town" = "Город";
+"DepartureTown" = "Город отправления";
+"ArrivalTown" = "Город прибытия";
+"AddTown" = "Добавить город";
+"BlanckFields" = "Некоторые поля не заполнены";
+"FillTheCountryAndTownFields" = "Заполните поля страны и города";
+"SelectDates" = "Выберите даты";
+"NewRoute" = "Новый маршрут";
+"BuildRoute" = "Построить маршрут";
+"Delete" = "Удалить";
+"AddingTown" = "Добавление маршрута";
+
+// MARK: Tabbar
+"Journeys" = "Путешествия";
+"Events" = "Мероприятия";
+"Settings" = "Настройки";
+"Account" = "Аккаунт";
+
+// MARK: Trip info
+"PlaceInfo" = "Общая информация";
+"Stuff" = "Вещи";
+"StuffList" = "Список вещей";
+"Packed" = "Собрано";
+"Unpacked" = "Не собрано";
+"Weather" = "Погода";
+"Route" = "Маршрут";
+"NoSelectedPlaces" = "Не выбрано мест пребывания";
+"NoMeteoDataForPlacesOrDates" = "Нет метео данных для выбранных городов или дат";
+"Currency" = "Валюта";
+"UnknownPlace" = "Неизвестное место";
+"DidntFindPlaces" = "К сожалению, мы не смогли найти места из вашего маршрута";
+
+// MARK: Account
+"AccountInfo" = "Данные аккаунта";
+"StuffLists" = "Списки вещей";
+"Exit" = "Выход";
+"DeleteAccount" = "Удалить аккаунт";
+"Save" = "Сохранить";
+"PersonalInfo" = "Личная информация";
+"LoginInfo" = "Информация для входа";
+"Email" = "Email";
+"Password" = "Пароль";
+"NewPassword" = "Новый пароль";
+"FirstName" = "Имя";
+"LastName" = "Фамилия";
+"ConfirmPassword" = "Подствердите пароль";
+"ResetPassword" = "Сбросить пароль";
+"Continue" = "Продолжить";
+"ResetingPassword" = "Сброс пароля";
+"EnterEmail" = "Введите свой Email";
+"PasswordsDontMatch" = "Пароли не совпадают";
+"EmailProblems" = "Возникли проблемы с вашим Email адресом, перезайдите в аккаунт";
+"EnterPasswordToChangeAuthInfo" = "Для смены информации для авторизации необходимо ввести пароль";
+"AccountWasntDeleted" = "Аккаунт не был удален, попробуйте позднее";
+"NothingToSave" = "Нет изменений для сохранения";
+"SentPasswordReset" = "Письмо со ссылкой для сброса пароля отправлено на";
+
+// MARK: Settings
+"Notifications" = "Уведомления";
+"Style" = "Оформление";
+"Language" = "Язык";
+"Help" = "Поддержка";
+"RateApp" = "Оценить приложение";
+"Information" = "Информация";
+"Mail" = "Почта";
+"Telegram" = "Телеграм";
+"style.system" = "Как в системе";
+"style.light" = "Светлая тема";
+"style.dark" = "Темная тема";
+"YouNeetToTurnTheApplicationNotificationOn" = "Чтобы включить уведомления, разрешите их для приложения Journeys в настройках устройства (Настройки → Journeys → Уведомления → Допуск уведомлений)";
+
+// MARK: Help
+"Message.Theme" = "Проблема с IOS приложением Journeys";
+"Message.Text" = "Здравствуйте, ";
+
+// MARK: Auth
+"Auth" = "Авторизация";
+"Registration" = "Регистрация";
+"Next" = "Дальше";
+"Cancel" = "Отмена";
+
+// MARK: Stuff
+"StuffList" = "Список вещей";
+"StuffLists" = "Списки вещей";
+"NoStuffLists" = "Нет списков вещей";
+"NewStuff" = "Новая вещь";
+"NewStuffList" = "Новый список";
+"AddStuffList" = "Добавить список вещей";
+"Name" = "Название";
+"BaseStuffList" = "Базовый список вещей";
+"AutoAddToTrips" = "Добавлять ко всем поездкам";
+"NothingToAdd" = "Нечего добавить";
+
+// MARK: Events
+"AddressSearch" = "Поиск адреса";
+"CreateEvent" = "Создание мероприятия";
+"To create an event you need to specify a more precise address" = "Для создания мероприятия нужно указать более точный адрес";
+"Apartment/office" = "Кв/офис";
+"Floor" = "Этаж";
+"Photo" = "Фотография";
+"Begin" = "Начало";
+"End" = "Конец";
+"Event Name" = "Название мероприятия";
+"Type of event" = "Тип мероприятия";
+"Description of the event" = "Описание мероприятия";
+"Link to the source" = "Ссылка на источник";
+"Error" = "Ошибка";
+"The date or time is incorrect" = "Неверно указана дата или время";
+"DONE" = "ГОТОВО";
+"Sourse" = "Источник";
+"Enter the address" = "Введите адрес";
+"Tripple the address" = "Уточните адрес";
+"Fill in: office, floor, name, type" = "Заполните: офис, этаж, название, тип";
+"Not all required fields are filled" = "Не все обязательные поля заполнены";
+"Description is missing" = "Описание отсутствует";
+"Created" = "Созданные";
+"Favorites" = "Избранные";
+"Duration:" = "Длительность:";
+"From/to:" = "С/до:";
+
+// MARK: FirebaseAuth errors
+"FirebaseAuth.Errors.EmailAlreadyInUse" = "Данный Email уже используется";
+"FirebaseAuth.Errors.UserDisabled" = "Аккаунт отключен";
+"FirebaseAuth.Errors.OperationNotAllowed" = "Авторизация недоступна, попробуйте позднее";
+"FirebaseAuth.Errors.InvalidEmail" = "Неверный Email";
+"FirebaseAuth.Errors.WrongPassword" = "Неверный пароль";
+"FirebaseAuth.Errors.UserNotFound" = "Пользователь с таким Email не найден";
+"FirebaseAuth.Errors.NetworkError" = "Ошибка подключения";
+"FirebaseAuth.Errors.WeakPassword" = "Слабый или недействительный пароль";
+"FirebaseAuth.Errors.MissingEmail" = "Вам необходимо зарегистрировать адрес электронной почты";
+"FirebaseAuth.Errors.InternalError" = "Внутренняя ошибка, попробуйте позднее";
+"FirebaseAuth.Errors.InvalidCustomToken" = "Недопустимый пользовательский токен, попробуйте позднее";
+"FirebaseAuth.Errors.TooManyRequests" = "Отправлено слишком много запросов, попробуйте позднее";
+
+// MARK: Alerts
+"Alerts.Titles.Success" = "Успех";
+"Alerts.Messages.PasswordResetDone" = "Письмо для сброса пароля было направлено на указанный адрес электронной почты";
+"Alerts.Actions.Ok" = "Ок";
+"Alerts.Actions.Next" = "Далее";
+"Alerts.Actions.Delete" = "Удалить";
+"Alerts.Titles.DeleteAccount" = "Удалить аккаунт";
+"Alerts.Messages.DeleteAccount" = "Чтобы подтвердить удаление аккаунта, введите пароль";
+"Alerts.Messages.AccountWasDeleted" = "Аккаунт успешно удален";
+"Alerts.Messages.EnterYourPassword" = "Введите пароль";
+
+"Alerts.Messages.ErrorWhileObtainingData" = "При получении данных возникла ошибка, попробуйте снова позднее";
+"Alerts.Messages.ErrorWhileDeletingData" = "При удалении данных возникла ошибка, попробуйте снова позднее";
+"Alerts.Messages.ErrorWhileSavingData" = "При сохранении данных возникла ошибка, попробуйте снова позднее";
+"Alerts.Messages.Route.EnterDepartureTown" = "Введите город отправления";
+
+"Alerts.Messages.Route.EnterAtleastOneTown" = "Введите хотя бы один город";
+"Alerts.Messages.Route.AddTripPhoto" = "Добавьте фото для поездки";
+
+"Alerts.Messages.DeleteSuccessful" = "Успешно удалено";
+"Alerts.Messages.SaveSuccessful" = "Успешно сохранено";

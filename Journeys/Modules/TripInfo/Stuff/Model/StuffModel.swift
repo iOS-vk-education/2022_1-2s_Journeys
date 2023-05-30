@@ -67,7 +67,6 @@ extension StuffModel: StuffModelInput {
                let savedStuffId = savedStuff.id {
                 var newBagagge = baggage
                 newBagagge.stuffIDs.append(savedStuffId)
-                print(savedStuffId)
                 self.saveBaggage(newBagagge) { savedBagagge in
                     self.output.didSaveStuff(stuff: savedStuff, baggage: savedBagagge, indexPath: indexPath)
                 }

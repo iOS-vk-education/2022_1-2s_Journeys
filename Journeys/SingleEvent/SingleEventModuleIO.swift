@@ -7,11 +7,7 @@
 
 import Foundation
 
-protocol SingleEventModuleInput: AnyObject {
-}
-
 // MARK: - Events ModuleOutput
 
 protocol SingleEventModuleOutput: AnyObject {
-    func wantsToOpenLink(link: URL)
 }

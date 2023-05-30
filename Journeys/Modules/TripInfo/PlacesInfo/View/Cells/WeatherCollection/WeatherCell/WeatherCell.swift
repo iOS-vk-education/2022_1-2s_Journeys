@@ -50,6 +50,8 @@ final class WeatherCell: UICollectionViewCell {
     // MARK: Private functions
 
     private func setupSubviews() {
+        backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
+        
         contentView.addSubview(icon)
         contentView.addSubview(dateLabel)
         contentView.addSubview(temperatureLabel)
@@ -98,6 +100,7 @@ final class WeatherCell: UICollectionViewCell {
         dateLabel.text = data.date
         temperatureLabel.text = data.temperature
     }
+    
 }
 
 private extension WeatherCell {

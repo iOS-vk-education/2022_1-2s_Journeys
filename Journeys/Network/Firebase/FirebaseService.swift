@@ -7,6 +7,12 @@
 
 import Foundation
 
+enum FirebaseStoreageImageType {
+    case trip
+    case avatar
+}
+
+
 protocol FirebaseServiceProtocol: AnyObject,
                                   FirebaseServiceStoreProtocol,
                                   FirebaseServiceDeleteProtocol,
@@ -16,5 +22,6 @@ protocol FirebaseServiceProtocol: AnyObject,
 }
 
 class FirebaseService: FirebaseServiceProtocol {
-    let FBManager = FirebaseManager.shared
+    let firebaseManager = FirebaseManager.shared
+    
 }

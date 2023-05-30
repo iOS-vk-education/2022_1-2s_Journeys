@@ -2,28 +2,30 @@
 //  AccountViewIO.swift
 //  Journeys
 //
-//  Created by Nastya Ischenko on 07/12/2022.
+//  Created by Nastya Ischenko on 18/03/2023.
 //
 
 import Foundation
+import UIKit
 
 
 // MARK: - Account ViewInput
 
 protocol AccountViewInput: AnyObject {
-    func getCellsValues()
-    func showAlert(title: String, message: String)
+    func deselectCell(_ indexPath: IndexPath)
+    func reloadView()
+    func setImageView(image: UIImage?, didFinishLoading: Bool)
 }
 
 // MARK: - Account ViewOutput
 
 protocol AccountViewOutput: AnyObject {
-    func getCellsCount() -> Int
-    func getCellsDisplaydata(for indexPath: IndexPath) -> AccountCell.Displaydata?
-    func getUserEmail() -> String?
+    func viewWillAppear()
+    func displayData(for indexPath: IndexPath) -> SettingsCell.DisplayData?
+    func didSelectCell(at indexPath: IndexPath)
+    func numberOfRows(in section: Int) -> Int
+    func username() -> String
+    func setAvatar(_ image: UIImage)
     
-    func didTapSaveButton()
-    func didTapExitButton()
-    
-    func setCellsValues(newEmail: String?, password: String?, newPassword: String?)
+    func deleteAvatar()
 }

@@ -13,13 +13,11 @@ import UIKit
 
 protocol PlaceViewInput: AnyObject {
     func getCell(at indexPath: IndexPath) -> UITableViewCell?
-    func showAlert(title: String, message: String)
 }
 
 // MARK: - Place ViewOutput
 
 protocol PlaceViewOutput: AnyObject {
-    func didSelectCell(at indexpath: IndexPath)
     func didTapExitButton()
     func didTapDoneButton()
     

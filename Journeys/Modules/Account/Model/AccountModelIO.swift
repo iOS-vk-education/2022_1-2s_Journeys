@@ -2,20 +2,21 @@
 //  AccountModelIO.swift
 //  Journeys
 //
-//  Created by Сергей Адольевич on 25.12.2022.
+//  Created by Сергей Адольевич on 20.05.2023.
 //
 
 import Foundation
+import UIKit
 
 protocol AccountModelInput: AnyObject {
-    func saveEmail(email: String, newEmail: String, password: String)
-    func savePassword(email: String, password: String, newPassword: String)
-    func saveEmailAndPassword(email: String, newEmail: String, password: String, newPassword: String)
-    func signOut()
-    func getUserData() -> User?
+    func getUserData()
+    func obtainAvatar(completion: @escaping (UIImage?) -> Void)
+    func storeAvatar(_ avatar: UIImage, completion: @escaping (UIImage) -> Void)
+    func deleteAvatar()
 }
 
 protocol AccountModelOutput: AnyObject {
-    func didRecieveError(error: Error)
-    func saveSuccesfull()
+    func didObtainUserData(data: User)
+    func didRecieveError(error: Errors)
+    func didDeleteImage()
 }

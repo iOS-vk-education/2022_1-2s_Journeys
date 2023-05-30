@@ -31,7 +31,7 @@ final class EventsPresenter {
     }
     
     func displayMap() -> (Double?, Double?, Float?) {
-        return (lalitude, longitude, zoom)
+        (lalitude, longitude, zoom)
     }
     
     func didLoadView() {
@@ -64,7 +64,9 @@ private extension EventsPresenter {
 }
 
 extension EventsPresenter: EventsViewOutput {
-    
+    func didTapScreen() {
+        moduleOutput?.closeOpenSingleEventVCIfExists()
+    }
     
     func didTapAddingButton() {
         moduleOutput?.wantsToOpenAddEventVC()

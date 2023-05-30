@@ -9,7 +9,7 @@ import UIKit
 
 // MARK: - DepartureLocationViewController
 
-final class DepartureLocationViewController: UIViewController {
+final class DepartureLocationViewController: AlertShowingViewController {
     
     // MARK: Public properties
 
@@ -164,19 +164,11 @@ extension DepartureLocationViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        output.didSelectCell(at: indexPath)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
 extension DepartureLocationViewController: DepartureLocationViewInput {
-    func showAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title,
-                          message: message,
-                          preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
-    
     func getCell(at indexPath: IndexPath) -> UITableViewCell? {
         return tableView.cellForRow(at: indexPath)
     }

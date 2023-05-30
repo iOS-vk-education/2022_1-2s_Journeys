@@ -9,7 +9,7 @@ import UIKit
 
 // MARK: - RouteViewController
 
-final class RouteViewController: UIViewController {
+final class RouteViewController: AlertShowingViewController {
 
     // MARK: Private properties
     private var floatingRouteBuildButton = FloatingButton()
@@ -66,6 +66,8 @@ final class RouteViewController: UIViewController {
                            forCellReuseIdentifier: "ImageRouteCell")
         
         tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
+        
+        tableView.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
     }
 
     private func makeConstraints() {
@@ -89,7 +91,7 @@ final class RouteViewController: UIViewController {
     private func didTapFloatingSaveButton() {
         output.didTapFloatingSaveButton()
     }
-    
+
     @objc
     private func didTapExitButton() {
         output.didTapExitButton()
@@ -104,7 +106,7 @@ extension RouteViewController: UITableViewDelegate {
         }
         return closure(tableView, indexPath)
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         guard let closure = output.didSelectRow(at: indexPath) else {
@@ -112,7 +114,7 @@ extension RouteViewController: UITableViewDelegate {
         }
         closure(self, tableView)
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
             return 140
@@ -172,14 +174,6 @@ extension RouteViewController: RouteViewInput {
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
         }
-    }
-    
-    func showAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title,
-                                      message: message,
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
     }
     
     func showLoadingView() {

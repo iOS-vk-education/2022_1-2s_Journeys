@@ -14,6 +14,10 @@ class EventsViewController: UIViewController, YMKUserLocationObjectListener {
     
     var output: EventsViewOutput?
     let mapKit = YMKMapKit.sharedInstance()
+    
+    var showSaveButton: Bool?
+    
+    private var theme: Theme?
 
     lazy var addingButton: UIButton = {
         let button = UIButton()
@@ -29,11 +33,10 @@ class EventsViewController: UIViewController, YMKUserLocationObjectListener {
         
         return button
     }()
-    lazy var map: YMKMapView = {
+    private lazy var map: YMKMapView = {
         
         let map1 = YMKMapView()
         map1.mapWindow.map.isRotateGesturesEnabled = false
-        map1.mapWindow.map.isNightModeEnabled = true
         guard let (latitude, longitude, zoom) = output?.displayMap() else { return map1}
         map1.mapWindow.map.move(
             with: YMKCameraPosition.init(target: YMKPoint(latitude: latitude ?? AddingButtonConstants.Coordinates.latitude,
@@ -41,8 +44,10 @@ class EventsViewController: UIViewController, YMKUserLocationObjectListener {
                                                           zoom: zoom ?? AddingButtonConstants.Coordinates.zoom,
                                                           azimuth: 0,
                                                           tilt: 0),
-            animationType: YMKAnimation(type: YMKAnimationType.smooth, duration: 1),
+            animationType: YMKAnimation(type: YMKAnimationType.smooth, duration: 3),
             cameraCallback: nil)
+        map1.autoSetDimension(.height, toSize: 1000)
+        map1.alpha = 0
         return map1
     }()
     
@@ -75,21 +80,53 @@ class EventsViewController: UIViewController, YMKUserLocationObjectListener {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
-        self.view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
-        self.addSubviews()
-        self.setupConstraints()
+        view.backgroundColor = UIColor(asset: Asset.Colors.Background.brightColor)
+        addSubviews()
+        setupTapGestureRecognizer()
+        
+        setupConstraints()
         setupAddingButton()
-        setupUserLocationButton()
         output?.didLoadView()
+        setupAddingButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         output?.didLoadView()
+
+        var theme = Theme.current
+        if theme == .system {
+            switch UIScreen.main.traitCollection.userInterfaceStyle {
+            case .light, .unspecified:
+                self.theme = .light
+                theme = .light
+            case .dark:
+                self.theme = .dark
+                theme = .dark
+            @unknown default: break
+            }
+        }
+        var isNightModeEnabled: Bool = false
         
+        switch theme {
+        case .dark:
+            map.mapWindow.map.isNightModeEnabled = true
+            self.theme = theme
+        case .light:
+            map.mapWindow.map.isNightModeEnabled = false
+            self.theme = theme
+        default: break
+        }
+        
+        UIView.animate(withDuration: 0.7) { [weak self] in
+            self?.map.alpha = 1
+        }
     }
     
     private func setupNavBar() {
+        if showSaveButton == false {
+            return
+        }
         navigationController?.navigationBar.tintColor = UIColor(asset: Asset.Colors.Text.mainTextColor)
         let favouritesButtonItem = UIBarButtonItem(image: UIImage(systemName: "bookmark"),
                                                    style: .plain,
@@ -98,11 +135,22 @@ class EventsViewController: UIViewController, YMKUserLocationObjectListener {
         navigationItem.rightBarButtonItem = favouritesButtonItem
         title = L10n.events
     }
-
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        map.alpha = 0
+    }
+    
     private func addSubviews() {
         self.view.addSubview(map)
         self.view.addSubview(addingButton)
         self.view.addSubview(userLocationButton)
+    }
+    
+    private func setupTapGestureRecognizer() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapScreen))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
 
     private func setupConstraints() {
@@ -132,8 +180,12 @@ class EventsViewController: UIViewController, YMKUserLocationObjectListener {
             placemark.opacity = 1
             placemark.direction = 10
             placemark.isDraggable = false
-            guard let placemarkImage = UIImage(asset: Asset.Assets.PlacemarkIcons.defaultPlacemark) else { return }
-            placemark.setIconWith(placemarkImage)
+            
+            if theme == .light, let placemarkImage = UIImage(asset: Asset.Assets.PlacemarkIcons.defaultPlacemarkLight) {
+                placemark.setIconWith(placemarkImage)
+            } else if theme == .dark, let placemarkImage = UIImage(asset: Asset.Assets.PlacemarkIcons.defaultPlacemarkDark) {
+                placemark.setIconWith(placemarkImage)
+            }
             placemark.addTapListener(with: self)
             placemark.userData = String(place.id)
             
@@ -186,6 +238,11 @@ class EventsViewController: UIViewController, YMKUserLocationObjectListener {
 
     func onObjectUpdated(with view: YMKUserLocationView, event: YMKObjectEvent) {
     }
+    
+    @objc
+    private func didTapScreen() {
+        output?.didTapScreen()
+    }
 }
 private extension EventsViewController {
 
@@ -222,6 +279,22 @@ extension EventsViewController: EventsViewInput {
         present(alertViewController, animated: true)
     }
 }
+
+extension EventsViewController {
+    func setCoordinates(_ coordinates: Coordinates) {
+        DispatchQueue.main.async { [weak self] in
+            self?.map.mapWindow.map.move(
+                with: YMKCameraPosition.init(target: YMKPoint(latitude: coordinates.latitude,
+                                                              longitude: coordinates.longitude),
+                                             zoom: 14,
+                                             azimuth: 0,
+                                             tilt: 0),
+                animationType: YMKAnimation(type: YMKAnimationType.smooth, duration: 3),
+                cameraCallback: nil)
+        }
+    }
+}
+
 
 extension EventsViewController: YMKMapObjectTapListener {
     func onMapObjectTap(with mapObject: YMKMapObject, point: YMKPoint) -> Bool {

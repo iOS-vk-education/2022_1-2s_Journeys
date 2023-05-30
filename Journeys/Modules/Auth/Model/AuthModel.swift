@@ -9,10 +9,12 @@
 
 final class AuthModel {
     private let firebaseService: FirebaseServiceProtocol
-    weak var output: AuthModelOutput!
+    weak var output: AuthModelOutput?
+    private let baseStuffListHelper: StoreBaseStuffList
     
     init(firebaseService: FirebaseServiceProtocol) {
         self.firebaseService = firebaseService
+        baseStuffListHelper = StoreBaseStuffList(firebaseService: firebaseService)
     }
 }
 
@@ -22,11 +24,29 @@ extension AuthModel: AuthModelInput {
             guard let self else { return }
             switch result {
             case .failure(let error):
-                self.output.didRecieveError(error: error)
+                self.output?.didRecieveError(error: error)
             case .success:
-                self.output.authSuccesfull()
+                self.output?.authSuccesfull()
+                let user = User(email: email)
+                self.saveUserData(user)
+                self.createBaseStuffList()
             }
         }
+    }
+    
+    func saveUserData(_ data: User) {
+        firebaseService.storeUserData(data) { [weak self] result in
+            switch result {
+            case .failure(let error):
+                self?.output?.didRecieveError(error: error)
+            case .success:
+                break
+            }
+        }
+    }
+    
+    private func createBaseStuffList() {
+        baseStuffListHelper.start()
     }
     
     func login(email: String, password: String) {
@@ -34,10 +54,20 @@ extension AuthModel: AuthModelInput {
             guard let self else { return }
             switch result {
             case .failure(let error):
-                self.output.didRecieveError(error: error)
+                self.output?.didRecieveError(error: error)
             case .success:
-                self.output.authSuccesfull()
+                self.output?.authSuccesfull()
             }
+        }
+    }
+    
+    func resetPassword(for email: String) {
+        firebaseService.resetPassword(for: email) { [weak self] error in
+            guard let error else {
+                self?.output?.resetSuccesfull(for: email)
+                return
+            }
+            self?.output?.didRecieveError(error: error)
         }
     }
 }

@@ -16,4 +16,6 @@ protocol EventsModuleOutput: AnyObject {
     func wantsToOpenAddEventVC()
     func wantsToOpenSingleEventVC(id: String)
     func wantsToOpenSelectedEvents()
+    func closeOpenSingleEventVCIfExists()
 }
+

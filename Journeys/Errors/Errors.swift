@@ -13,6 +13,7 @@ enum Errors: Error {
     case deleteDataError
     case authError
     case signOutError
+    case custom(title: String?, message: String)
 }
 
 enum FBError: Error {
@@ -20,4 +21,8 @@ enum FBError: Error {
     case error
     case authError
     case signOutError
+}
+
+enum NetworkError: Error {
+    case badResponse
 }

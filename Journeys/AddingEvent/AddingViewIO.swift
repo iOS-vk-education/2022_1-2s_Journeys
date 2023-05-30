@@ -11,7 +11,6 @@ import FirebaseFirestore
 
 // MARK: - Events ViewInput
 protocol AddingViewInput: AnyObject {
-    
 }
 
 // MARK: - Events ViewOutput

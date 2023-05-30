@@ -20,4 +20,5 @@ protocol EventsViewOutput: AnyObject {
     func didTapOnPlacemark(id: String)
     func displayMap() -> (Double?, Double?, Float?)
     func didTapFavouritesButton()
+    func didTapScreen()
 }
